@@ -4,7 +4,7 @@ Donate link: http://w4dev.com/
 Tags: tabset, shortcode, post/page
 Requires at least: 3.0
 Tested up to: 3.0.2
-Stable tag: 1.3
+Stable tag: 1.3.1
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
 
@@ -32,10 +32,15 @@ As much as you want.
 == Changelog ==
 = 1.3 =
 * Added shortcode "custom" to show custom field value inside post although inside tabset.
+= 1.3.1 =
+* Added important notes and schreenshots.
 
 == Upgrade Notice ==
 = 1.3 =
 * Upgrade to Version .1.3 to get opprtunity to use shortcodes for previewing custom field value inside post.
+= 1.3.1 =
+* Added important notes and schreenshots.
+
 
 == How to use ==
     * For inserting a tabset, use shortcode "tabset". example:[tabset][/tabset]
