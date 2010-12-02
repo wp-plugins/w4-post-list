@@ -4,42 +4,43 @@ Donate link: http://w4dev.com/
 Tags: tabset, shortcode, post/page
 Requires at least: 3.0
 Tested up to: 3.0.2
-Stable tag: 1.3.1
-
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Stable tag: 1.3.2
 
 == Description ==
-Post/Page Tabset is a nice plugin to arrange your content inside a page with flexible navigation. Although you can show your post custom field value inside your post or page with this tabset plugin.
-
-With this you can easily embed tabs content in your post or page content area. The tabset will act like an anchor to each tab content area. Every tab content area will start with the tab navigation area. So, it doesn't matter which content area you are in, you can navigate easily.
-
-This plugin also contains another short code "custom" for displaying a custom field content in post content area. This shortcode will be very usefull where you want your content to be shown as it is written, with any touch of wordpress migration
+W4 development's Post/Page Tabset is a nice plugin to arrange your content inside a page with flexible navigation. Although you can show your post custom field value inside your post or page with this tabset plugin. With tabset, you can easily embed tabs content in your post or page content area. The tabset comes with 2 style. one tabset will act like an anchor to each tab content area, another will work as like ui tabs hiding the inactive tabs. Every tab content area will start with the tab navigation area. So, it doesn't matter which content area you are in, you can navigate easily.This plugin also contains another short code "custom" for displaying a custom field content in post content area. This shortcode will be very usefull where you want your content to be shown as it is written, with any touch of wordpress migration
 
 == Installation ==
 1. Upload `tabset.zip` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Make sure the tabset.php file exists in the plugin dir inside the tabset folder. ex: `/wp-content/plugins/tabset/tabset.php`
 
 == Frequently Asked Questions ==
 = Is this work on pages also ? =
 Yap. It works same on both posts or pages.
 
-= How many tabset i can use in a Post/Page ?
+= How many tabset i can use in a Post/Page ? =
 As much as you want.
 
 == Screenshots ==
-1. tabset.gif.
+1. screenshot.png .
 
 == Changelog ==
 = 1.3 =
 * Added shortcode "custom" to show custom field value inside post although inside tabset.
 = 1.3.1 =
 * Added important notes and schreenshots.
+= 1.3.2 =
+* Added a new tabset style - the ui-style.
+
 
 == Upgrade Notice ==
 = 1.3 =
 * Upgrade to Version .1.3 to get opprtunity to use shortcodes for previewing custom field value inside post.
 = 1.3.1 =
 * Added important notes and schreenshots.
+= 1.3.2 =
+* Handled the directory error.
+* Added a new tabset style - the ui-style.
 
 
 == How to use ==
