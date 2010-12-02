@@ -12,7 +12,6 @@ W4 development's Post/Page Tabset is a nice plugin to arrange your content insid
 == Installation ==
 1. Upload `tabset.zip` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Make sure the tabset.php file exists in the plugin dir inside the tabset folder. ex: `/wp-content/plugins/tabset/tabset.php`
 
 == Frequently Asked Questions ==
 = Is this work on pages also ? =
