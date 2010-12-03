@@ -21,7 +21,7 @@ Yap. It works same on both posts or pages.
 As much as you want.
 
 == Screenshots ==
-1. screenshot.png .
+1. Tabset screenshot .
 
 == Changelog ==
 = 1.3 =
