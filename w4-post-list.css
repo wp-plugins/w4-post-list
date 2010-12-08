@@ -1,0 +1,74 @@
+#w4pl_widget_admin ul.children {
+	margin-left:18px;
+}
+
+#w4pl_widget_admin ul, #w4pl_widget_admin li {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+/**/
+#w4pl_sidebar a {
+	text-decoration: none ;
+	}
+
+#w4pl_sidebar li.w4pl_list {
+	list-style-type: none ;
+	margin: 0px 0px 10px 0px;
+	display: block;
+	border: none ;
+	}
+
+#w4pl_sidebar h3 {
+	border-bottom: 1px solid #DDDDDD ;
+	margin: 0px 0px 5px 0px;
+	padding: 0px 0px 2px 5px;
+	display:block;
+	background-color:#2583AD;
+	}
+
+#w4pl_sidebar h3 a {
+	font-weight: bold ;
+	font-size: 13px;
+	color: #FFFFFF;
+	}
+
+#w4pl_sidebar span.item_count {
+	font-size: 10px;
+	padding: 0px 0px 0px 10px;
+	font-weight: normal;
+	color: #EEE;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	}
+
+#w4pl_sidebar ul.w4pl_parent, #w4pl_sidebar ul.w4pl_sub {
+	margin: 0px ;
+	padding: 0px ;
+	}
+
+#w4pl_sidebar small {
+	font-size: 10px ;
+	font-style: italic;
+	}
+
+#w4pl_sidebar li.w4pl_post_list {
+	list-style-type: none ;
+	list-style-position: outside ;
+	margin: 1px 0px ;
+	}
+
+#w4pl_sidebar div.w4pl_post_title a {
+	font-size: 11px ;
+	font-weight: bold ;
+}
+
+#w4pl_sidebar div.w4pl_post_content {
+	padding: 3px 3px 5px 3px;
+	font-size: 11px;
+	margin-bottom: 10px;
+	font-size: 11px;
+	border-bottom: 1px solid #DDD;
+	}
