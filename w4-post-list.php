@@ -3,14 +3,14 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: List your wordpress posts as you like in post or page or in sidebar widgets. !!
-Version: 1.1
+Version: 1.2
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.1' ) ;
+define( 'W4PL_VERSION', '1.2' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
@@ -146,8 +146,14 @@ class W4PL_Widget extends WP_Widget {
 			return ;
 		}
 
+		if( $instance['post_content'] == '1' ){
+			$new_excerpt_length = create_function('$length', "return " . $instance["excerpt_length"] . ";");
+			add_filter('excerpt_length', $new_excerpt_length);
+		}
+
 		$category_ids = (array) $category_ids;
 		echo "<ul class=\"w4pl_parent\">";
+		
 		foreach($category_ids as $category_id){
 			$category = get_category($category_id) ;
 			$category_name = $category->name ;
@@ -194,11 +200,6 @@ class W4PL_Widget extends WP_Widget {
 
 					//Excerpt
 					if( $instance['post_content'] == '1' ){
-						$new_excerpt_length = create_function('$length', "return " . $instance["excerpt_length"] . ";");
-						add_filter('excerpt_length', $new_excerpt_length);
-					
-					
-						//add_filter( 'excerpt_length', array(&$this, 'excerpt_length'));
 						echo "<div class=\"w4pl_post_content\">".get_the_excerpt()."</div>" ;
 					}
 					
@@ -215,8 +216,9 @@ class W4PL_Widget extends WP_Widget {
 			endif;
 			echo "</li>" ;
 		}
-		remove_filter( 'excerpt_length', $new_excerpt_length);
 		echo "</ul>" ;
+		//Remove the filter so that other content gets the real excerpt
+		remove_filter( 'excerpt_length', $new_excerpt_length);
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -247,38 +249,38 @@ class W4PL_Widget extends WP_Widget {
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" 
             value="<?php echo $title; ?>" /></p>
             
-            <p>Select category:<br />
+            <p>Select category:<br /><small style="color:#AAA;">Manage the post inclsion/exclusion from the post edit page.</small><br />
 			<?php echo $this->post_categories_checklist($this->get_field_name('categories'),$this->get_field_id('categories'),$categories); ?></p>
             
-			<p><label for="<?php echo $this->get_field_id('show_category_posts_count'); ?>"><?php _e( 'Show category post count based on your selecton ?' ); ?></label>
-            <select name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" id="<?php echo $this->get_field_id('show_category_posts_count'); ?>" class="widefat">
-            	<option value="0"<?php selected( $show_category_posts_count, '0' ); ?>><?php _e('Do not show'); ?></option>
-                <option value="1"<?php selected( $show_category_posts_count, '1' ); ?>><?php _e('Show only included post count'); ?></option>
-                <option value="2"<?php selected( $show_category_posts_count, '2' ); ?>><?php _e('Show the actual category count'); ?></option>
-            </select></p>
+			<p><?php _e( 'Show posts count ?' ); ?><br /><small style="color:#AAA;">After the category name.</small>
+			<br /><label><input type="radio" <?php checked( $show_category_posts_count, '0' ); ?> name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" value="0"  /> <?php _e( 'Do not show' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $show_category_posts_count, '1' ); ?> name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" value="1"  /> <?php _e( 'Show only included post count.' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $show_category_posts_count, '2' ); ?> name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" value="2"  /> <?php _e( 'Show the actual category count.' ); ?></label>
+            </p>
             
-            <p><label for="<?php echo $this->get_field_id('show_post_list'); ?>"><?php _e( 'Show post list ?' ); ?></label>
-            <select name="<?php echo $this->get_field_name('show_post_list'); ?>" id="<?php echo $this->get_field_id('show_post_list'); ?>" class="widefat">
-            	<option value="0"<?php selected( $show_post_list, false ); ?>><?php _e('No'); ?></option>
-                <option value="1"<?php selected( $show_post_list, true ); ?>><?php _e('Yes'); ?></option>
-            </select></p>
+            <p><?php _e( 'Show post list ?' ); ?><br /><small style="color:#AAA;">List post under its category name.</small>
+            <br /><label><input type="radio" <?php checked( $show_post_list, false ); ?> name="<?php echo $this->get_field_name('show_post_list'); ?>" value="0"  /> <?php _e( 'No.' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $show_post_list, true ); ?> name="<?php echo $this->get_field_name('show_post_list'); ?>" value="1"  /> <?php _e( 'Yes.' ); ?></label>
+            </p>
 
-			<p><label for="<?php echo $this->get_field_id('show_post_date'); ?>"><?php _e( 'Show date appending post title ?' ); ?></label>
-            <select name="<?php echo $this->get_field_name('show_post_date'); ?>" id="<?php echo $this->get_field_id('show_post_date'); ?>" class="widefat">
-            	<option value="0"<?php selected( $show_post_date, false ); ?>><?php _e('No'); ?></option>
-                <option value="1"<?php selected( $show_post_date, true ); ?>><?php _e('Yes'); ?></option>
-            </select></p>
+            <p><?php _e( 'Show date appending post title ?' ); ?>
+            <br /><label><input type="radio" <?php checked( $show_post_date, false ); ?> name="<?php echo $this->get_field_name('show_post_date'); ?>" value="0"  /> <?php _e( 'No.' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $show_post_date, true ); ?> name="<?php echo $this->get_field_name('show_post_date'); ?>" value="1"  /> <?php _e( 'Yes.' ); ?></label>
+            </p>
             
-            <p><label for="<?php echo $this->get_field_id('post_content'); ?>"><?php _e( 'Show post content ?' ); ?></label>
-            <select name="<?php echo $this->get_field_name('post_content'); ?>" id="<?php echo $this->get_field_id('post_content'); ?>" class="widefat">
-            	<option value="0"<?php selected( $post_content, '0' ); ?>><?php _e('Do not show content'); ?></option>
-                <option value="1"<?php selected( $post_content, '1' ); ?>><?php _e('Show only excerpt'); ?></option>
-                <option value="2"<?php selected( $post_content, '2' ); ?>><?php _e('Show full content'); ?></option>
-            </select></p>
+            <p><?php _e( 'Show post content ?' ); ?><br /><small style="color:#AAA;">Under the post title.</small>
+            <br /><label><input type="radio" <?php checked( $post_content, '0' ); ?> name="<?php echo $this->get_field_name('post_content'); ?>" value="0"  /> <?php _e( 'Do not show content' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $post_content, '1' ); ?> name="<?php echo $this->get_field_name('post_content'); ?>" value="1"  /> <?php _e( 'Show only excerpt.' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $post_content, '2' ); ?> name="<?php echo $this->get_field_name('post_content'); ?>" value="2"  /> <?php _e( 'Show full content.' ); ?></label>
+            </p>
 
-            <p><label for="<?php echo $this->get_field_id('excerpt_length'); ?>"><?php _e('Excerpt length for posts/pages:'); ?></label>
+            <p><label for="<?php echo $this->get_field_id('excerpt_length'); ?>"><?php _e('Excerpt length:'); ?></label>
+            <br /><small style="color:#AAA;">The content word limit.</small>
 			<input type="text" value="<?php echo( $excerpt_length) ; ?>" name="<?php echo $this->get_field_name('excerpt_length'); ?>" 
 			id="<?php echo $this->get_field_id('excerpt_length'); ?>" class="widefat"/></p>
+            
+            <div class="w4-post-list-support">Please support us by letting us know what problem you face or what additional functions you want from this plugin.
+            <br /><a target="_blank" href="http://w4dev.com/w4-plugin/w4-post-list">Post a comment on plugin page</a></div>
 		</div>
 		<?php
 	}
