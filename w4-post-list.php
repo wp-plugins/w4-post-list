@@ -248,7 +248,7 @@ class W4PL_Widget extends WP_Widget {
 			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" 
             value="<?php echo $title; ?>" /></p>
-            
+
             <p>Select category:<br /><small style="color:#AAA;">Manage the post inclsion/exclusion from the post edit page.</small><br />
 			<?php echo $this->post_categories_checklist($this->get_field_name('categories'),$this->get_field_id('categories'),$categories); ?></p>
             
@@ -288,8 +288,8 @@ class W4PL_Widget extends WP_Widget {
 	function post_categories_checklist( $field_name = null, $field_id = null, $cat_array = array()){
 		$categories = get_categories(array('hide_empty' => false));
 		foreach( $categories as $category ){
-			if(in_array($category->cat_ID, $cat_array))
-				$checked = in_array($category->cat_ID, $cat_array) ? ' checked="checked" ' : '' ;
+			$checked = in_array($category->cat_ID, $cat_array) ? ' checked="checked" ' : '' ;
+				//$checked = array_keys( $cat_array, $category->cat_ID) ? ' checked="checked" ' : '' ;
 			$checklists[] = "<label><input name=\"".$field_name."[]\" type=\"checkbox\" $checked value=\"$category->cat_ID\" /> $category->cat_name</label><br />" ;
 		}
 		$checklists = implode( "\n", $checklists );
