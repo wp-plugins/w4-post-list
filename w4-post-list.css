@@ -26,7 +26,7 @@
 	background-color:#2583AD;
 	}
 
-.w4_post_list h3 a {
+.w4_post_list h3.w4pl_cat_title a {
 	font-weight: bold ;
 	font-size: 13px;
 	color: #FFFFFF;
