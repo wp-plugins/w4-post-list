@@ -18,7 +18,7 @@
 	border: none ;
 	}
 
-.w4_post_list h3 {
+.w4_post_list h3.w4pl_cat_title {
 	border-bottom: 1px solid #DDDDDD ;
 	margin: 0px 0px 5px 0px;
 	padding: 0px 0px 2px 5px;
