@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: sajib1223, Shazzad Hossain Khan
 Donate link: http://w4dev.com/
-Tags: tabset, shortcode, post/page
+Tags: tabset,shortcode,post,page
 Requires at least: 3.0
 Tested up to: 3.0.3
 Stable tag: 1.3.3
