@@ -7,8 +7,16 @@ Tested up to: 3.0.2
 Stable tag: 1.2.1
 
 == Description ==
-Fixed the excerpt bugs on Version 1.2.1.
-With W4 development's W4 post list, you can show your category/post list in your themes widget area. After activating plugin, you can Visit the widget area for showing the list in sidebar widget. You can include or exclude posts from inside the post edit page or from the wp-admin post page( From the hover flying menu.ex: edit | quick edit | trash | view | include in W4 post. See Screenshots) .Listings pages and more customizable options will be available through later version. Feel free to <a href="http://w4dev.com/w4-plugin/w4-post-list/">Contact us</a>, if you found any bugs or you have a wonderful suggestion.
+**Fixed the excerpt bugs on Version 1.2.1.**
+
+With W4 development's W4 post list, you can show your category/post list in your themes widget area.
+
+**Usage**
+
+After activating plugin, visit the your wordpress sites widget area for showing the list in sidebar widget.
+You can include or exclude posts from inside the post edit page or from the wp-admin post page( From the hover flying menu.ex: edit | quick edit | trash | view | include in W4 post. See Screenshots) .Listings pages and more customizable options will be available through later version.
+
+*Feel free to <a href="http://w4dev.com/w4-plugin/w4-post-list/">Contact us</a>, if you found any bugs or you have a wonderful suggestion.*
 
 == Installation ==
 1. Upload zip to the `/wp-content/plugins/` directory
