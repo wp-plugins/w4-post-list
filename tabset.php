@@ -3,8 +3,8 @@
 Plugin Name: Post/Page content tabset
 Plugin URI: http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode
 Description: Lets you embed tabset in your post/page area and also show your desired custom field values in a post/page area
-Version: 1.3.2
-Author: Shazzad Hossain Khan
+Version: 1.3.3
+Author: sajib1223, Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'TABSET_DIR', WP_PLUGIN_DIR.'/postpage-content-anchor-tabset' ) ;

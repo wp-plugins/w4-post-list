@@ -27,15 +27,9 @@ function tabset_help(){
 	'<li>' . __('Shortcode "custom" receive one parameter "key". "key" is your custom field id/key name for current post/page you are creating or editing.') . '</li>' .
 	
 	'<li>' . __('For farther documentation contact <a href="mailto:sajib1223@gmail.com" rel="tabset_author_mail">Shazzad</a> or visit plugin site <a href="http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode" class="us" rel="developer" title="Web and wordpress development...">W4 development</a>..') . '</li>' .
-	
 	'</ul>' ;
-	
-	
-	
-	
 	return $tabset_help ;
 }
-
 
 //Add amin page
 add_action( 'admin_menu', 'post_tab_admin_menu' ) ;
@@ -48,7 +42,7 @@ function post_tab_admin_menu(){
 						'tabset_content_bg_color'			=> 'none',
 						'tabset_active_content_bg_color'	=> '#E5EECC',
 						'tabset_active_content_border_color'=> '#00FF00',
-						'tabset_style'						=> '1'
+						'tabset_style'						=> '2'
 						) ;
 
 	foreach( $tabset_options as $key => $default ){
@@ -236,6 +230,4 @@ function tabset_stylesheet_update(){
 	fclose( $fp ) ;
 	$_SESSION['counter'] = 1 ;
 }
-
-
 ?>
