@@ -4,15 +4,18 @@ Donate link: http://w4dev.com/
 Tags: tabset,shortcode,post,page
 Requires at least: 3.0
 Tested up to: 3.0.3
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 
 == Description ==
+= Note: The Anchor tabser has been removed from this version also the style. Now it is taking a new option, "effect". =
+
 With W4 development's Post/Page Tabset you can arrange your content inside a page with flexible navigation.
 
-= The tabset comes with 2 style =
+= The tabset comes with 3 Effects =
 
-1. First tabset will act like an anchor to each tab content area.(every tab content area will start with a new the tab navigation area).
-2. Second will work as like "ui tabs" hiding the inactive tabs.
+1. Normal Show/Hide.
+2. Slide (Up/Down)
+3. Fade effect.
 
 = Extra =
 
@@ -57,6 +60,9 @@ As much as you want.
 * Added a new tabset style - the ui-style.
 = 1.3.3
 * Changed the default tabset style
+= 1.3.4
+* The Anchor tabser has been removed
+* Added a new option, "effect".
 
 == Upgrade Notice ==
 = 1.3 =
@@ -68,3 +74,5 @@ As much as you want.
 * Added a new tabset style - the ui-style.
 = 1.3.3
 * Changed the default tabset style
+= 1.3.4
+* Fully compatible with wordpress 3.0.3

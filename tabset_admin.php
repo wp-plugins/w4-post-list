@@ -1,18 +1,30 @@
 <?php
+function w4_tabset_get_option($key = null){
+	$setting = 'w4_tabset_options';
+	$options = get_option($setting);
+	if(!$options)
+		return false;
+
+	if(!$key)
+		return $options ;
+
+	if($options[$key] == '' || !$options[$key] || empty($options[$key]))
+		return false ;
+
+	return $options[$key];
+}
 //Load our script and css file
 add_action( 'init', 'load_tabset_scripts' ) ;
 function load_tabset_scripts(){
-	if( !is_admin()){
-		wp_enqueue_script( 'tabset_js', TABSET_URL . '/tabset.js', array( 'jquery' , 'jquery-ui-core', 'jquery-ui-tabs' ),'',false ) ;
-		wp_enqueue_style( 'tabset_css', TABSET_URL . '/tabset.css' ) ;
-
-	}else{
-		wp_enqueue_script( 'tabset_admin_js', TABSET_URL . '/tabset_admin.js', array( 'jquery' , 'jquery-ui-core' ),'',false ) ;
-		wp_enqueue_script( 'color_picker', TABSET_URL . '/colorpicker/jscolor.js' ) ;
+	//script
+		wp_enqueue_script( 'tabset_js', TABSET_URL . '/tabset.js', array( 'jquery' , 'jquery-ui-core', 'jquery-ui-tabs' ),'',true ) ;
+		wp_enqueue_style( 'tabset_rewrite', TABSET_URL . '/rewrite.css' ) ;
+		wp_enqueue_style( 'tabset_style', TABSET_URL . '/tabset.css' ) ;
+		//for admin
+		wp_enqueue_script( 'color_picker', TABSET_URL . '/colorpicker/jscolor.js', array( 'jquery' , 'jquery-ui-core' ),'',true ) ;
 		
-		if( $_GET['page'] == 'post-tabs' )
+		if(is_admin() && $_GET['page'] == 'post-tabs' )
 			add_filter( 'contextual_help', 'tabset_help' ) ;
-	}
 }
 
 function tabset_help(){
@@ -34,39 +46,49 @@ function tabset_help(){
 //Add amin page
 add_action( 'admin_menu', 'post_tab_admin_menu' ) ;
 function post_tab_admin_menu(){
-	$tabset_options = array(
-						'tabset_menu_bg_color' 				=> '#efefef',
-						'tabset_menu_text_color'			=> '#5e5e5e',
-						'tabset_menu_hover_bg_color'		=> '#5e5e5e',
-						'tabset_menu_text_hover_color' 		=> '#FFFFFF',
+	$tabset_default_options = array(
+						'tabset_menu_bg_color' 				=> '#EFEFEF',
+						'tabset_menu_text_color'			=> '#5E5E5E',
+						'tabset_menu_font_size'				=> '13px',
+						'tabset_menu_bg_color_hover'		=> '#5E5E5E',
+						'tabset_menu_text_color_hover' 		=> '#FFFFFF',
 						'tabset_content_bg_color'			=> 'none',
-						'tabset_active_content_bg_color'	=> '#E5EECC',
-						'tabset_active_content_border_color'=> '#00FF00',
-						'tabset_style'						=> '2'
+						'tabset_content_border_color'		=> '#5E5E5E',
+						'tabset_effect'						=> '1'
 						) ;
-
-	foreach( $tabset_options as $key => $default ){
-		if( false == get_option( $key )){
-			update_option( $key, $default ) ;
-		}
-	}
 	
-	if( isset( $_POST['save-tabset-options'] )){
-		foreach( $tabset_options as $key => $default ){
-				update_option( $key, $_REQUEST[$key]) ;
+	
+	if( !get_option( 'w4_tabset_options' )){
+		register_setting( 'w4_tabset_options', 'w4_tabset_options' );
+		//removing old databse format
+		foreach( $tabset_default_options as $key => $default ){
+			if( get_option( $key )){
+				$tabset_default_options[$key] = get_option( $key );
+				delete_option( $key ) ;
+			}
 		}
+		//Adding default
+		add_option( 'w4_tabset_options', $tabset_default_options );
+	}
+	//Remover completely
+	delete_option('tabset_style');
+
+	if( isset( $_POST['save-tabset-options'] )){
+		update_option( 'w4_tabset_options', $tabset_default_options );
+		foreach( $tabset_default_options as $key => $default ){
+			$tabset_default_options[$key] = $_REQUEST[$key];
+		}
+		update_option( 'w4_tabset_options', $tabset_default_options );
 		tabset_stylesheet_update() ;
 		header("Location: edit.php?page=post-tabs&saved=true") ;
-		die;
+		die();
 	}
 
 	if ( isset( $_POST['reset-tabset-options'] )) {
-		foreach( $tabset_options as $key => $default ){
-			delete_option( $key );
-		}
+		update_option( 'w4_tabset_options', $tabset_default_options );
 		tabset_stylesheet_update() ;
 		header("Location: edit.php?page=post-tabs&reset=true") ;
-		die;
+		die();
 	}
 
 	add_posts_page( "Post/Page Tabs", "Post/Page tabset", 'publish_posts', 'post-tabs', 'post_tab_admin_page' ) ;
@@ -78,60 +100,64 @@ function post_tab_admin_page(){
 ?>
 	<div id="tabset_wrapper" class="wrap">
     	<div class="icon32" id="icon-post"><br/></div>
-        <h2>Post/page Tabset <?php echo "V-".TABSET_VERSION ; ?> options<span style="font-size:12px; padding-left: 20px ;"><a href="http://w4dev.com" class="us" rel="developer" title="Web and wordpress development...">Developed by &raquo; W4 development</a> <a id="tabset_help" href="javascript:joiv(0);" title="Tabset documentation">&raquo; Need help ?</a> <a href="http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode" title="Visit Plugin Site">&raquo; Visit Plugin Site</a> <a href="mailto:sajib1223@gmail.com" rel="tabset_author_mail">&raquo; Mailto:Contact</a></span></h2>
+        <h2>Post/page Tabset <?php echo "V-".TABSET_VERSION ; ?> options
+        <p class="info">Developed by &raquo;<a href="http://w4dev.com" class="us" rel="developer" title="Web and wordpress development...">W4 development</a> &raquo;<a id="tabset_help" href="javascript:void(0);" title="Tabset documentation"> Need help ?</a> &raquo;<a href="http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode" title="Visit Plugin Site"> Visit Plugin Site</a> &raquo;<a href="mailto:sajib1223@gmail.com" rel="tabset_author_mail"> Mailto:Contact</a></p></h2>
+        <p><span class="notice">Note: The Anchor tabser has been removed from this version also the style. Now it is taking a new option, "effect".</span></p>
         <form action="<?php echo admin_url("edit.php?page=post-tabs") ; ?>" method="post" id="tabset-form" enctype="multipart/form-data">
 		<input type="hidden" value="save" name="action"/>
 	<table class="form-table">
         <tbody>
 			<tr valign="top">
-                <th scope="row">Tabset style</th>
+                <th scope="row">Tabset Effects</th>
                 <td>
-                <label><input type="radio" name="tabset_style" <?php if( '1' == get_option( 'tabset_style')) echo 'checked="checked"' ; ?> value="1" id="tabset_style1" />Normal anchor Tabset</label>
+                <label><input type="radio" name="tabset_effect" <?php checked( w4_tabset_get_option( 'tabset_effect'),1 ) ; ?> value="1" id="tabset_effect1" />Show/Hide</label>
                 <br />
-                <label><input type="radio" name="tabset_style" <?php if( '2' == get_option( 'tabset_style')) echo 'checked="checked"' ; ?> value="2" id="tabset_style2" />Hide inactive tabs (ui-style)</label>
+                <label><input type="radio" name="tabset_effect" <?php checked( w4_tabset_get_option( 'tabset_effect'),2 ) ; ?> value="2" id="tabset_effect2" />Slide (Up/Down)</label>
+                <br />
+                <label><input type="radio" name="tabset_effect" <?php checked( w4_tabset_get_option( 'tabset_effect'),3 ) ; ?> value="3" id="tabset_effect3" />Fade</label>
 				</td>
                 <td>&nbsp;</td>
 			</tr>
             
             <tr valign="top">
                 <th scope="row">Tabset menu background color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo  get_option( 'tabset_menu_bg_color', '#efefef' ) ; ?>" id="tabset_menu_bg_color" name="tabset_menu_bg_color"/></td>
+                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo  w4_tabset_get_option( 'tabset_menu_bg_color' ) ; ?>" id="tabset_menu_bg_color" name="tabset_menu_bg_color"/></td>
                 <td>&nbsp;</td>
 			</tr>
 
         	<tr valign="top">
 				<th scope="row">Tabset menu text color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo get_option( 'tabset_menu_text_color', '#5e5e5e' ) ; ?>" id="tabset_menu_text_color" name="tabset_menu_text_color"/></td>
+                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo w4_tabset_get_option( 'tabset_menu_text_color' ) ; ?>" id="tabset_menu_text_color" name="tabset_menu_text_color"/></td>
 				<td>&nbsp;</td>
 			</tr>
             
 			<tr valign="top">
+                <th scope="row">Tabset menu font-size(write in css style. Like: 13px or 13pt.)</th>
+                <td><input type="text" value="<?php echo w4_tabset_get_option( 'tabset_menu_font_size' ) ; ?>" id="tabset_menu_font_size" name="tabset_menu_font_size"/></td>
+                <td>&nbsp;</td>
+			</tr>
+            
+            <tr valign="top">
                 <th scope="row">Tabset menu hover/active background color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo get_option( 'tabset_menu_hover_bg_color', '#5e5e5e' ) ; ?>" id="tabset_menu_hover_bg_color" name="tabset_menu_hover_bg_color"/></td>
+                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo w4_tabset_get_option( 'tabset_menu_bg_color_hover' ) ; ?>" id="tabset_menu_bg_color_hover" name="tabset_menu_bg_color_hover"/></td>
                 <td>&nbsp;</td>
 			</tr>
             
             <tr valign="top">
                 <th scope="row">Tabset menu hover/active text color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo get_option( 'tabset_menu_text_hover_color', '#FFFFFF' ) ; ?>" id="tabset_menu_text_hover_color" name="tabset_menu_text_hover_color"/></td>
+                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo w4_tabset_get_option( 'tabset_menu_text_color_hover' ) ; ?>" id="tabset_menu_text_color_hover" name="tabset_menu_text_color_hover"/></td>
                 <td>&nbsp;</td>
 			</tr>
             
             <tr valign="top">
                 <th scope="row">Tabset content backgroung color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo get_option( 'tabset_content_bg_color', 'none' ) ; ?>" id="tabset_content_bg_color" name="tabset_content_bg_color"/></td>
-                <td>&nbsp;</td>
-			</tr>
-            
-            <tr valign="top">
-                <th scope="row">Tabset active content background color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo get_option( 'tabset_active_content_bg_color', '#E5EECC' ) ; ?>" id="tabset_active_content_bg_color" name="tabset_active_content_bg_color"/></td>
+                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo w4_tabset_get_option( 'tabset_content_bg_color' ) ; ?>" id="tabset_content_bg_color" name="tabset_content_bg_color"/></td>
                 <td>&nbsp;</td>
 			</tr>
             
             <tr valign="top">
                 <th scope="row">Tabset active content border color</th>
-                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo get_option( 'tabset_active_content_border_color', '#00FF00' ) ; ?>" id="tabset_active_content_border_color" name="tabset_active_content_border_color"/></td>
+                <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo w4_tabset_get_option( 'tabset_content_border_color' ) ; ?>" id="tabset_content_border_color" name="tabset_content_border_color"/></td>
                 <td>&nbsp;</td>
 			</tr>
             
@@ -148,84 +174,20 @@ function post_tab_admin_page(){
 
 
 function tabset_stylesheet_update(){
-	$style = "#tab_area {
-		margin: 10px 0px ;
-		}
-#tab_area .tab_links {
-	background-color: " .get_option('tabset_menu_bg_color') . " ;
-	border: 1px solid #CCCCCC ;
-	margin: 0px 0px 0px 0px ;
-	padding: 0px 0px 0px 0px ;
-}
-.tab_links li{
-	display: inline ;
-	position: relative ;
-	list-style-type: none ;
-	}
-.tab_links li a {
-	color: ".get_option( 'tabset_menu_text_color' ). " ;
-	text-decoration: none ;
-	font-family: Geneva, Arial, Helvetica, sans-serif ;
-	font-size: 13px ;
-	font-weight: bold ;
-	padding: 5px 15px ;
-	display: inline-block ;
-	position: relative ;
-	}
-.tab_links li a:hover, .tab_links li a.active, .tab_links li.ui-tabs-selected a {
-	background-color: ".get_option( 'tabset_menu_hover_bg_color' )." ;
-	color: ".get_option( 'tabset_menu_text_hover_color' ). " ;
-	}
-.tab_links li.ui-tabs-selected a span{
-	width: 100% ;
-	height: 2px;
-	background-color: ".get_option( 'tabset_menu_hover_bg_color' )." ;
-	position: absolute ;
-	left: 0 ;
-	bottom: -2px ;
-	z-index: 10 ;
-}
-.tab_links a.active span, .tabset_style_1 .tab_links a:hover span {
-	background: url(tabset.gif) no-repeat bottom ;
-	width: 8px ;
-	height: 5px ;
-	position: absolute ;
-	left: 40% ;
-	bottom: -4px ;
-	}
-.tabset_style_1 div.tab_container {
-	margin: 10px 0px ;
-	background-color: ".get_option( 'tabset_content_bg_color')." ;
-	}
-.tabset_style_1 div.active {
-	border-style: solid ;
-	border-width: 1px;
-	border-color: ". get_option( 'tabset_active_content_border_color') ." ;
-	background-color: " . get_option( 'tabset_active_content_bg_color' ) . " ;
-	}
-.tabset_style_2 div.ui-tabs-hide {
-	display: none ;
-	}
-.tabset_style_2 div.tab_container {
-	margin: 0px;
-	border-style: solid ;
-	border-width: 1px;
-	border-color: ". get_option( 'tabset_active_content_border_color') ." ;
-	background-color: " . get_option( 'tabset_active_content_bg_color' ) . " ;
-	}
+	extract(w4_tabset_get_option());
 
-.tabset_style_2 #tab_content_wrapper {
-	position: relative ;
-	overflow: auto ;
-	}
+$style = "#tab_area{margin:10px 0px;}
+#tab_area .tab_content{margin:10px;}
+#tab_content_wrapper{position:relative;overflow:auto;}
+#tab_area div.tab_container{margin:10px 0px;border-bottom:1px solid {$tabset_content_border_color};backgroung-color:{$tabset_content_bg_color};}
+#tab_area div.ui-tabs-hide{display:none;}
+#tab_area ul.tab_links{border-bottom:3px solid {$tabset_menu_bg_color_hover};padding:0;margin:0;}
+#tab_area ul.tab_links li{display:inline-block;position:relative;list-style-type:none;}
+#tab_area ul.tab_links li a{color:{$tabset_menu_text_color};text-decoration:none;font-family:Geneva, Arial, Helvetica, sans-serif;font-size:{$tabset_menu_font_size};line-height:normal;font-weight:bold;padding:7px 15px 5px 15px;display:inline-block;position:relative;background-color:{$tabset_menu_bg_color};-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px;}
+#tab_area ul.tab_links li a:hover, #tab_area ul.tab_links li a.active, #tab_area ul.tab_links li.ui-tabs-selected a{background-color:{$tabset_menu_bg_color_hover};color:{$tabset_menu_text_color_hover};}" ;
 
 
-#tab_area .tab_content {
-	margin: 10px ;
-	}" ;
-
-
-	$fp = fopen( TABSET_DIR . '/tabset.css' ,"w" ) ;
+	$fp = fopen( TABSET_DIR . '/rewrite.css' ,"w" ) ;
 	fwrite( $fp, $style ) ;
 	fclose( $fp ) ;
 	$_SESSION['counter'] = 1 ;
