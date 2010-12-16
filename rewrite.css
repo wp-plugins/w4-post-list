@@ -1,0 +1,9 @@
+#tab_area{margin:10px 0px;}
+#tab_area .tab_content{margin:10px;}
+#tab_content_wrapper{position:relative;overflow:auto;}
+#tab_area div.tab_container{margin:10px 0px;border-bottom:1px solid #EDEDED;backgroung-color:#FFFFFF;}
+#tab_area div.ui-tabs-hide{display:none;}
+#tab_area ul.tab_links{border-bottom:3px solid #5E5E5E;padding:0;margin:0;}
+#tab_area ul.tab_links li{display:inline-block;position:relative;list-style-type:none;}
+#tab_area ul.tab_links li a{color:#5E5E5E;text-decoration:none;font-family:Geneva, Arial, Helvetica, sans-serif;font-size:13px;line-height:normal;font-weight:bold;padding:7px 15px 5px 15px;display:inline-block;position:relative;background-color:#EFEFEF;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px;}
+#tab_area ul.tab_links li a:hover, #tab_area ul.tab_links li a.active, #tab_area ul.tab_links li.ui-tabs-selected a{background-color:#5E5E5E;color:#22E335;}
