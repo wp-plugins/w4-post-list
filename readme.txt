@@ -1,15 +1,22 @@
-=== Plugin Name ===
+=== W4 Content tabset ===
+Plugin Name: W4 Content tabset
 Contributors: sajib1223, Shazzad Hossain Khan
 Donate link: http://w4dev.com/
-Tags: tabset,shortcode,post,page
+Tags: tabset,shortcode,jquery
 Requires at least: 3.0
 Tested up to: 3.0.3
 Stable tag: 1.3.4
 
+Wordpress plugin for creating jquery tabs with shorcode inside posts and pages.
+
 == Description ==
-= Note: The Anchor tabser has been removed from this version also the style. Now it is taking a new option, "effect". =
+
+= Upgrade Notice =
+
+The Anchor tabser has been removed from Version 1.3.4, also the style. It has beem replaced by a new option, "effect".
 
 With W4 development's Post/Page Tabset you can arrange your content inside a page with flexible navigation.
+
 
 = The tabset comes with 3 Effects =
 
@@ -17,9 +24,11 @@ With W4 development's Post/Page Tabset you can arrange your content inside a pag
 2. Slide (Up/Down)
 3. Fade effect.
 
+
 = Extra =
 
 Although you can show your post custom field value inside your post or page with this tabset plugin. Use short code "custom" for displaying a custom field content in post content area. This shortcode will be very usefull where you want your content to be shown as it is written, without any touch of wordpress migration.
+
 
 = Usage =
 
@@ -34,7 +43,16 @@ Although you can show your post custom field value inside your post or page with
 [/tabset]
 </pre>
 
-= Please make sure you have written and checked the shortcodes appropriately. =
+* For displaying custom field value use shortcode custom.
+Example:
+
+<pre>
+[custom key="your custom key name"]
+</pre>
+
+Please make sure you have written and checked the shortcodes appropriately.
+
+
 
 
 == Installation ==
@@ -58,9 +76,9 @@ As much as you want.
 * Added important notes and schreenshots.
 = 1.3.2 =
 * Added a new tabset style - the ui-style.
-= 1.3.3
+= 1.3.3 =
 * Changed the default tabset style
-= 1.3.4
+= 1.3.4 =
 * The Anchor tabser has been removed
 * Added a new option, "effect".
 
@@ -72,7 +90,7 @@ As much as you want.
 = 1.3.2 =
 * Handled the directory error.
 * Added a new tabset style - the ui-style.
-= 1.3.3
+= 1.3.3 =
 * Changed the default tabset style
-= 1.3.4
+= 1.3.4 =
 * Fully compatible with wordpress 3.0.3
