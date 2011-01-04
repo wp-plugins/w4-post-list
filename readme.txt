@@ -5,15 +5,16 @@ Donate link: http://w4dev.com/
 Tags: tabset,shortcode,jquery
 Requires at least: 3.0
 Tested up to: 3.0.3
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 
-Wordpress plugin for creating jquery tabs with shorcode inside posts and pages.
+Wordpress plugin for creating jquery tabs with shorcode inside posts and pages content.
 
 == Description ==
 
 = Upgrade Notice =
+* Fixed some Css issue (Recommend by Matt Mansfield).
+* The Anchor tabser has been removed from Version 1.3.4, also the style. It has beem replaced by a new option, "effect".
 
-The Anchor tabser has been removed from Version 1.3.4, also the style. It has beem replaced by a new option, "effect".
 
 With W4 development's Post/Page Tabset you can arrange your content inside a page with flexible navigation.
 
@@ -81,6 +82,9 @@ As much as you want.
 = 1.3.4 =
 * The Anchor tabser has been removed
 * Added a new option, "effect".
+= 1.3.5 =
+* Fixed some Css issue.
+
 
 == Upgrade Notice ==
 = 1.3 =
@@ -94,3 +98,5 @@ As much as you want.
 * Changed the default tabset style
 = 1.3.4 =
 * Fully compatible with wordpress 3.0.3
+= 1.3.5 =
+* Fixed some Css issue (Recommend by Matt Mansfield).

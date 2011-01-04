@@ -17,11 +17,11 @@ function w4_tabset_get_option($key = null){
 add_action( 'init', 'load_tabset_scripts' ) ;
 function load_tabset_scripts(){
 	//script
-		wp_enqueue_script( 'tabset_js', TABSET_URL . '/tabset.js', array( 'jquery' , 'jquery-ui-core', 'jquery-ui-tabs' ),'',true ) ;
-		wp_enqueue_style( 'tabset_rewrite', TABSET_URL . '/rewrite.css' ) ;
-		wp_enqueue_style( 'tabset_style', TABSET_URL . '/tabset.css' ) ;
+		wp_enqueue_script( 'tabset_js', TABSET_URL . 'tabset.js', array( 'jquery' , 'jquery-ui-core', 'jquery-ui-tabs' ), TABSET_VERSION, true ) ;
+		wp_enqueue_style( 'tabset_rewrite', TABSET_URL . 'rewrite.css', '', TABSET_VERSION ) ;
+		wp_enqueue_style( 'tabset_style', TABSET_URL . 'tabset.css', '', TABSET_VERSION ) ;
 		//for admin
-		wp_enqueue_script( 'color_picker', TABSET_URL . '/colorpicker/jscolor.js', array( 'jquery' , 'jquery-ui-core' ),'',true ) ;
+		wp_enqueue_script( 'color_picker', TABSET_URL . 'colorpicker/jscolor.js', array( 'jquery' , 'jquery-ui-core' ),TABSET_VERSION,true ) ;
 		
 		if(is_admin() && $_GET['page'] == 'post-tabs' )
 			add_filter( 'contextual_help', 'tabset_help' ) ;
@@ -150,7 +150,7 @@ function post_tab_admin_page(){
 			</tr>
             
             <tr valign="top">
-                <th scope="row">Tabset content backgroung color</th>
+                <th scope="row">Tabset content background color</th>
                 <td><input type="text" class="color {pickerMode:'HVS', hash: true}" value="<?php echo w4_tabset_get_option( 'tabset_content_bg_color' ) ; ?>" id="tabset_content_bg_color" name="tabset_content_bg_color"/></td>
                 <td>&nbsp;</td>
 			</tr>
@@ -179,10 +179,10 @@ function tabset_stylesheet_update(){
 $style = "#tab_area{margin:10px 0px;}
 #tab_area .tab_content{margin:10px;}
 #tab_content_wrapper{position:relative;overflow:auto;}
-#tab_area div.tab_container{margin:10px 0px;border-bottom:1px solid {$tabset_content_border_color};backgroung-color:{$tabset_content_bg_color};}
+#tab_area div.tab_container{margin:10px 0px;border-bottom:1px solid {$tabset_content_border_color};background-color:{$tabset_content_bg_color};}
 #tab_area div.ui-tabs-hide{display:none;}
 #tab_area ul.tab_links{border-bottom:3px solid {$tabset_menu_bg_color_hover};padding:0;margin:0;}
-#tab_area ul.tab_links li{display:inline-block;position:relative;list-style-type:none;}
+#tab_area ul.tab_links li{display:inline-block;position:relative;list-style-type:none;padding:0;margin:0;}
 #tab_area ul.tab_links li a{color:{$tabset_menu_text_color};text-decoration:none;font-family:Geneva, Arial, Helvetica, sans-serif;font-size:{$tabset_menu_font_size};line-height:normal;font-weight:bold;padding:7px 15px 5px 15px;display:inline-block;position:relative;background-color:{$tabset_menu_bg_color};-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px;}
 #tab_area ul.tab_links li a:hover, #tab_area ul.tab_links li a.active, #tab_area ul.tab_links li.ui-tabs-selected a{background-color:{$tabset_menu_bg_color_hover};color:{$tabset_menu_text_color_hover};}" ;
 
@@ -191,5 +191,76 @@ $style = "#tab_area{margin:10px 0px;}
 	fwrite( $fp, $style ) ;
 	fclose( $fp ) ;
 	$_SESSION['counter'] = 1 ;
+}
+
+//Setup themes primary widget=========================
+add_action( 'widgets_init', 'tabset_widgets_init' );
+function tabset_widgets_init() {
+	register_sidebar( array(
+		'name' => 'Tabset widget one',
+		'id' => 'tabset-widget-one',
+		'description' => 'Tabset widget one',
+		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+		'after_widget' => '</li>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>'
+	)) ;
+	register_sidebar( array(
+		'name' => 'Tabset widget two',
+		'id' => 'tabset-widget-two',
+		'description' => 'Tabset widget two',
+		'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
+		'after_widget' => '</li>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>'
+	)) ;
+}
+
+//Define widget======================
+class TABSET_Widget extends WP_Widget {
+
+	function TABSET_Widget() {
+		$widget_ops = array(
+					'classname' => 'w4_tabset',
+					'description' => __( "W4 tabset")
+				);
+		$control_ops = array('width' => 200, 'height' => 400);
+		$this->WP_Widget('w4_tabset', __('W4 tabset'), $widget_ops,$control_ops );
+	}
+
+	function widget($args, $instance){
+		extract($args);
+		echo $before_widget;
+		$this->_widget($instance);
+        echo $after_widget;
+	}
+	
+	function _widget($instance){
+		echo "<div id=\"w4_tabset_widget\">";
+			echo "<ul>";
+			echo "<li><a href=\"#w4_tabset_widget_container_1\">One</a></li><li><a href=\"#w4_tabset_widget_container_2\">Two</a></li>";
+			echo "</ul>";
+			echo '<div id="w4_tabset_widget_container_1" class="w4_tabset_widget_container">';
+				dynamic_sidebar( 'tabset-widget-one' ) ;
+			echo "</div>";
+			echo '<div id="w4_tabset_widget_container_2" class="w4_tabset_widget_container">';
+				dynamic_sidebar( 'tabset-widget-two' ) ;
+			echo "</div>";
+
+		echo "</div>";
+	}
+
+	function update( $new_instance, $old_instance ) {
+	}
+
+
+	function form( $instance ){
+	}
+	
+}
+//load Widget==============================
+add_action('widgets_init', 'TABSET_Widget_Init');
+function TABSET_Widget_Init() {
+  register_widget('TABSET_Widget');
 }
 ?>
