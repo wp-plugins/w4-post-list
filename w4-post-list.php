@@ -24,8 +24,6 @@ class W4PL_CORE {
 
 	//Load scripts
 	function load_w4pl_scripts(){
-		//wp_register_script( 'jtools', W4PL_URL . 'jquery.tools.min.js' ) ;
-		//if(is_admin())
 		wp_enqueue_script( 'w4pl_js', W4PL_URL . 'w4-post-list.js', array( 'jquery' ), W4PL_VERSION ,true ) ;
 		wp_enqueue_style( 'w4pl_css', W4PL_URL . 'w4-post-list.css', '', W4PL_VERSION ) ;
 	}
@@ -35,70 +33,9 @@ class W4PL_CORE {
 		return array_merge( $links, $readme_link );
 	}
 
-	function post_row_actions($actions){
-		global $post;
-		$w4pl_post = array();
-		$w4pl_post_status = get_post_meta( $post->ID, '_w4pl_post', true );
-
-		if($w4pl_post_status == 0){
-			$w4pl_post['w4pl_include'] = '<a href="'.admin_url(sprintf('plugins.php?page=%1$s&amp;action=include&amp;id=%2$d',W4PL_SLUG,$post->ID )).'">' 
-			. __('Include in W4 post list') . '</a>' ;
-		}else{
-			$w4pl_post['w4pl_exclude'] = '<a href="'.admin_url(sprintf('plugins.php?page=%1$s&amp;action=exclude&amp;id=%2$d',W4PL_SLUG,$post->ID )).'">' 
-			. __('Exclude from W4 post list') . '</a>' ;
-		}
-
-		return array_merge($actions, $w4pl_post);
-	}
-
-	function add_post_meta(){
-		add_meta_box( "_w4pl_post", "Include in W4 post list ?", array(&$this, 'meta_box'), "post", "normal", "high") ;
-	}
-
-	function meta_box() {
-		global $post;
-		$w4pl_post_status = get_post_meta( $post->ID, '_w4pl_post', true );
-		?>
-		<p>
-		<label><input type="radio" name="_w4pl_post" value="0" <?php if($w4pl_post_status == 0) echo 'checked="checked"'; ?> /> No</label><br />
-		<label><input type="radio" name="_w4pl_post" value="1" <?php if($w4pl_post_status == 1) echo 'checked="checked"'; ?> /> Yes</label>
-		</p>
-		<?php
-	}
-
-	
-	function save_details( $post_id ){
-		global $post;
-		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
-			return $post_id ;
-		if ( isset( $_POST["_w4pl_post"])){
-			update_post_meta( $post->ID, "_w4pl_post", $_POST["_w4pl_post"] );
-		}
-	}
-	
 	//Add amin page
 	function admin_menu(){
 		add_plugins_page( W4PL_NAME, W4PL_NAME, 'activate_plugins', W4PL_SLUG, array(&$this, 'admin_page'));
-
-		if($_GET['page'] == W4PL_SLUG){
-			$update = false ;
-			
-			$action = $_GET['action'];
-			if($action == 'include'){
-				update_post_meta(  $_GET['id'], "_w4pl_post", '1' );
-				$update = true ;
-			}
-			
-			if($action == 'exclude'){
-				update_post_meta(  $_GET['id'], "_w4pl_post", '0' );
-				$update = true ;
-			}
-			
-			if($update){
-				wp_redirect(admin_url( 'edit.php' ));
-				return ;
-			}
-		}
 	}
 
 	function admin_page(){ ?>
@@ -108,7 +45,6 @@ class W4PL_CORE {
 		<ul style="width:60%; margin-left:30px; padding:25px; line-height:24px; font-size:16px; font-family:Georgia, 'Times New Roman', Times, serif;">
         <li>With <a href="http://w4dev.com/w4-plugin/w4-post-list/">W4 development's post list plugin</a>, you can show your category/post list in your <a href="<?php _e(admin_url('widgets.php')); ?>">themes widget area</a>.</li><hr />
         <li>After activating it from <a href="<?php _e(admin_url('plugins.php')); ?>">plugin page</a>, you can Visit the <a href="<?php _e(admin_url('widgets.php')); ?>">widget area</a> for showing or customizing the list in sidebar widget.</li><hr />
-        <li>You can include or exclude posts from inside the post edit page or from the <a href="<?php _e(admin_url('edit.php')); ?>">wp-admin post page</a>.<span class="description"> ( From the hover flying menu.ex: edit | quick edit | trash | view | include in W4 post. See Screenshots)</span>.</li><hr />
         <li>Listings pages and more customizable options will be available through later version. Feel free to <a href="http://w4dev.com/w4-plugin/w4-post-list/">contact us</a>, if you found any bugs or you have a wonderful suggestion.</li><hr />
         </ul>
 	</div>
@@ -280,7 +216,7 @@ class W4PL_Widget extends WP_Widget {
 		
 		?>
 		<div id="w4pl_widget_admin">
-            <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('<strong>Title:</strong>'); ?></label>
+            <p><?php _e('<strong>Title:</strong>'); ?>
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" 
             value="<?php echo $title; ?>" /></p>
 
@@ -324,7 +260,7 @@ class W4PL_Widget extends WP_Widget {
             <div class="w4-post-list-support">
             <a target="_blank" href="http://w4dev.com/w4-plugin/w4-post-list">Reply on plugin page</a>
             Please support us by letting us know what problem you face or what additional functions you want from this plugin.
-            <a target="_blank" href="http://www.facebook.com/w4dev">Find us on face book</a>
+            <a target="_blank" href="http://www.facebook.com/w4dev">Find us on facebook</a>
             </div>
 		</div>
 		<?php
