@@ -3,15 +3,15 @@
 Plugin Name: Post/Page content tabset
 Plugin URI: http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode
 Description: Lets you embed tabset in your post/page area and also show your desired custom field values in a post/page area
-Version: 1.3.5
+Version: 1.3.6
 Author: sajib1223, Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'TABSET_DIR', plugin_dir_path(__FILE__)) ;
 define( 'TABSET_URL', plugin_dir_url(__FILE__)) ;
-define( 'TABSET_VERSION', '1.3.5' ) ;
+define( 'TABSET_VERSION', '1.3.6' ) ;
 define( 'TABSET_BASENAME', plugin_basename( __FILE__ )) ;
-require( TABSET_DIR . '/tabset_admin.php' ) ;
+require( TABSET_DIR . 'tabset_admin.php' ) ;
 
 //Retrive and replace the tabs
 function tabset_replace( $matches ){
@@ -24,7 +24,7 @@ function tabset_replace( $matches ){
 		$i++ ;
 		$tab_name = $tab[1] ;
 		$tab_id = sanitize_title( $tab_name."-".$i ) ;
-		$tab_links .= "<li><a title=\"$tab_name\" class=\"$tab_id\" href=\"#$tab_id\">$tab_name<span></span></a></li>\n" ;
+		$tab_links .= "\t<li><a title=\"$tab_name\" class=\"$tab_id\" href=\"#$tab_id\">$tab_name</a></li>\n" ;
 		$tabs_content[$tab_id] = $tab[2] ;
 	}
 
@@ -35,14 +35,15 @@ function tabset_replace( $matches ){
 	}
 	
 	if( !$content )
-		return ;
+		return false;
 	
-	$tabset_effect = w4_tabset_get_option( 'tabset_effect') ;
-	
-	$links = "<ul class=\"tab_links\">$tab_links</ul>\n" ;
-	$content = "<div id=\"tab_area\" class=\"tabset_effect_$tabset_effect\">$links<div id=\"tab_content_wrapper\">$content</div>\n</div>" ;
-	
-	return $content ;
+	$class = ' tabset_effect_'. w4_tabset_get_option( 'tabset_effect');
+	$class .= ' '. w4_tabset_get_option( 'tabset_event');
+	$links = "<ul class=\"tab_links\">$tab_links</ul>\n";
+	$content = "<div id=\"tab_area\" class=\"$class\">$links<div id=\"tab_content_wrapper\">$content</div>\n</div>";
+
+	return $content;
+	return false;
 }
 
 //Retrive and Replace the tabset shortcode

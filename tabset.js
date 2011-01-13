@@ -2,6 +2,7 @@
 $(document).ready(function(){
 	//var w4tabs = $('#tab_area' ).tabs() ;
 	//mytabs.tabs( "rotate" , 3000 , true ) ;
+	$('#w4_tabset_widget').tabs({ spinner: 'Loading...' });
 	var effect1 = $('.tabset_effect_1' ).tabs() ;
 	var effect2 = $('.tabset_effect_2' ).tabs() ;
 	var effect3 = $('.tabset_effect_3' ).tabs() ;
@@ -9,6 +10,11 @@ $(document).ready(function(){
 	effect2.tabs( "option", "fx", { height: 'toggle', duration : 300 }) ;
 	effect3.tabs( "option", "fx", { opacity : 'toggle', duration : 400 }) ;
 	
+	var events1 = $('.on_click' ).tabs() ;
+	var events2 = $('.on_hover' ).tabs() ;
+	
+	$( ".on_click" ).tabs( "option", "event", 'click' );
+	$( ".on_hover" ).tabs( "option", "event", 'mouseover' );
 	//Make the tabset colapsible on click
 	//effect1.tabs("option", "collapsible", true);
 	
@@ -25,7 +31,7 @@ $(document).ready(function(){
 	});
 	
 	$('#reset-tabset-options').click(function(){
-		if( confirm( "Are you sure you want to reset Tabber option to default ??" )){
+		if( confirm( "Are you sure you want to reset \"W4 content tabset\" option to default ??" )){
 			return true ;
 		}
 		return false ;

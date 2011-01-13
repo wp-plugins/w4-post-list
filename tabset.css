@@ -1,3 +1,4 @@
+/*Admin section*/
 #tabset_wrapper p.info {
 	-moz-border-radius-bottomleft:6px;
 	-moz-border-radius-bottomright:6px;
@@ -5,17 +6,20 @@
 	-moz-border-radius-topright:6px;
 	background:#DCF3DB none repeat scroll 0 0;
 	border:1px solid #C9E6C8;
-	font-size:17px;
+	font-size:13px;
 	font-style:normal;
 	padding:10px 15px;
-	font-weight:bold;
 	}
 #tabset_wrapper p.info a {
 	font-weight:normal;
+	border-left:1px solid #666666;
+	padding:0 0 0 10px;
+	margin:0 10px 0 0;
+	text-decoration:none;
 	}
 #tabset_wrapper .notice {
-	background:#FFFFFF;
 	color: #FF0000;
+	font-size:11px;
 	}
 #tabset_wrapper span.advice {
 	background-color:#FFFFE0;
@@ -23,3 +27,10 @@
 	padding:5px 10px;
 	font-weight:bold;
 }
+/*For the main tabset preview page*/
+.ui-tabs-hide, ui-tabs-panel{
+	display:none;
+	}
+.ui-widget-content{
+	display:block;
+	}

@@ -5,13 +5,15 @@ Donate link: http://w4dev.com/
 Tags: tabset,shortcode,jquery
 Requires at least: 3.0
 Tested up to: 3.0.3
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 
 Wordpress plugin for creating jquery tabs with shorcode inside posts and pages content.
 
 == Description ==
 
 = Upgrade Notice =
+* Added tabset menu event (V 1.4.6).
+* Fixed menu li Css issue (V 1.4.6).
 * Fixed some Css issue (Recommend by Matt Mansfield).
 * The Anchor tabser has been removed from Version 1.3.4, also the style. It has beem replaced by a new option, "effect".
 
@@ -84,6 +86,9 @@ As much as you want.
 * Added a new option, "effect".
 = 1.3.5 =
 * Fixed some Css issue.
+= 1.3.6 =
+* Added tabset menu event.
+* Fixed menu li Css issue.
 
 
 == Upgrade Notice ==
@@ -100,3 +105,6 @@ As much as you want.
 * Fully compatible with wordpress 3.0.3
 = 1.3.5 =
 * Fixed some Css issue (Recommend by Matt Mansfield).
+= 1.3.6 =
+* Added tabset menu event.
+* Fixed menu li Css issue.
