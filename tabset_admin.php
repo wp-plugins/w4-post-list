@@ -17,11 +17,11 @@ function w4_tabset_get_option($key = null){
 add_action( 'init', 'load_tabset_scripts' ) ;
 function load_tabset_scripts(){
 	//script
-		wp_enqueue_script( 'tabset_js', TABSET_URL . 'tabset.js', array( 'jquery' , 'jquery-ui-core', 'jquery-ui-tabs' ), TABSET_VERSION, false ) ;
+		wp_enqueue_script( 'tabset_js', TABSET_URL . 'tabset.js', array( 'jquery' , 'jquery-ui-core', 'jquery-ui-tabs' ), TABSET_VERSION, true );
 		wp_enqueue_style( 'tabset_rewrite', TABSET_URL . 'rewrite.css', '', TABSET_VERSION ) ;
 		wp_enqueue_style( 'tabset_style', TABSET_URL . 'tabset.css', '', TABSET_VERSION ) ;
 		//for admin
-		wp_enqueue_script( 'color_picker', TABSET_URL . 'colorpicker/jscolor.js', array( 'jquery' , 'jquery-ui-core' ),TABSET_VERSION,true ) ;
+		wp_enqueue_script( 'color_picker', TABSET_URL . 'colorpicker/jscolor.js', array( 'jquery' , 'jquery-ui-core' ),TABSET_VERSION,true );
 		
 		if(is_admin() && $_GET['page'] == 'w4-content-tabset' )
 			add_filter( 'contextual_help', 'tabset_help' ) ;
