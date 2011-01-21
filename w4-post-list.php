@@ -3,14 +3,14 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: List your wordpress posts as you like in post or page or in sidebar widgets. !!
-Version: 1.2.3
+Version: 1.2.4
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.2.3' ) ;
+define( 'W4PL_VERSION', '1.2.4' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
@@ -102,11 +102,6 @@ class W4PL_Widget extends WP_Widget {
 			//print_r($max_show);
 			$args = array('post__in' => $selected_posts_ids, 'showposts' => $max_show, 'posts_per_page' => $max_show, 'post_status' => 'publish');
 
-			
-
-
-
-
 			$category = get_category($category_id) ;
 			$category_name = $category->name ;
 			$category_title = "<a href=\"".get_category_link($category_id)."\" title=\"View all in $category_name\">$category_name &raquo;</a>";
@@ -115,6 +110,8 @@ class W4PL_Widget extends WP_Widget {
 			//print_r($selected_posts_ids);
 			if($instance['show_category_posts_count'] == '1'){
 				$items = count($selected_posts_ids) > 0 ? count($selected_posts_ids) : false ;
+				if($max_show != '-1')
+					$items = $items > $max_show ? $max_show: $items;
 			
 			}elseif($instance['show_category_posts_count'] == '2'){
 				$items = count($category_posts_ids) > 0 ? count($category_posts_ids) : false ;
@@ -123,7 +120,7 @@ class W4PL_Widget extends WP_Widget {
 			$items = $items ? " <span class=\"item_count\">$items items</span>" : '' ;
 			
 			if($instance['show_category_posts_count'] != '0')
-				$category_title .= $items ;
+				$category_title .= $items;
 
 			//$category_title = "<a href=\"javascript:void(0);\" class=\"showhide_w4pl\"></a>".$category_title ;
 			$_content .= "<li class=\"w4pl_list\">";
@@ -149,7 +146,7 @@ class W4PL_Widget extends WP_Widget {
 			add_filter('excerpt_length', $new_excerpt_length);
 		endif;
 		
-		$defaults = array('post_status' => 'publish');
+		$defaults = array('post_status' => 'publish', 'showposts' => '-1', 'posts_per_page' => '-1');
 		$args = wp_parse_args( $args, $defaults );
 
 		
@@ -227,21 +224,16 @@ class W4PL_Widget extends WP_Widget {
             </p>
 
 
-            <p><strong>Select category:</strong><br /><small style="color:#AAA;">Manage the post inclsion/exclusion from the post edit page.</small></p>
+            <p><strong>Select category:</strong><br /><small style="color:#AAA;">Hit save after selecting a category to make the category inside post show up below.</small></p>
 			<?php echo $this->post_categories_checklist($instance); ?>
             
-			<p><?php _e( '<strong>Show posts count ?</strong>' ); ?><br /><small style="color:#AAA;">After the category name.</small>
+			<br /><p><?php _e( '<strong>Show posts count appending to category name ?</strong>' ); ?><br /><small style="color:#AAA;">Will appear after the category name.</small>
 			<br /><label><input type="radio" <?php checked( $show_category_posts_count, '0' ); ?> name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" value="0"  /> <?php _e( 'Do not show' ); ?></label>
             <br /><label><input type="radio" <?php checked( $show_category_posts_count, '1' ); ?> name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" value="1"  /> <?php _e( 'Show only included post count.' ); ?></label>
             <br /><label><input type="radio" <?php checked( $show_category_posts_count, '2' ); ?> name="<?php echo $this->get_field_name('show_category_posts_count'); ?>" value="2"  /> <?php _e( 'Show the actual category count.' ); ?></label>
             </p>
             
-            <!--<p><?php #_e( '<strong>Show post list ?</strong>' ); ?><br /><small style="color:#AAA;">List post under its category name.</small>
-            <br /><label><input type="radio" <?php #checked( $show_post_list, false ); ?> name="<?php #echo $this->get_field_name('show_post_list'); ?>" value="0"  /> <?php #_e( 'No.' ); ?></label>
-            <br /><label><input type="radio" <?php #checked( $show_post_list, true ); ?> name="<?php #echo $this->get_field_name('show_post_list'); ?>" value="1"  /> <?php #_e( 'Yes.' ); ?></label>
-            </p>-->
-
-            <p><?php _e( '<strong>Show date appending post title ?</strong>' ); ?>
+            <p><?php _e( '<strong>Show published date appending to post title ?</strong>' ); ?>
             <br /><label><input type="radio" <?php checked( $show_post_date, false ); ?> name="<?php echo $this->get_field_name('show_post_date'); ?>" value="0"  /> <?php _e( 'No.' ); ?></label>
             <br /><label><input type="radio" <?php checked( $show_post_date, true ); ?> name="<?php echo $this->get_field_name('show_post_date'); ?>" value="1"  /> <?php _e( 'Yes.' ); ?></label>
             </p>
@@ -286,7 +278,7 @@ class W4PL_Widget extends WP_Widget {
 			$class = ('' == $checked) ? 'hide_box' : '';
 			$checklists[] .= "<div id=\"w4pl_postbox\" class=\"w4pl_postbox $class\">";
 			//Maximum number of posts to show for the selected category
-			$checklists[] .= "<label><input size=\"3\" name=\"".$this->get_field_name('max')."[$category->cat_ID]\" type=\"text\" value=\"".$cat_max[$category->cat_ID]."\" /> Maximum posts to show.</label><br />" ;
+			$checklists[] .= "<label><input size=\"3\" name=\"".$this->get_field_name('max')."[$category->cat_ID]\" type=\"text\" value=\"".$cat_max[$category->cat_ID]."\" /> Maximum posts to show on front.</label><br />" ;
 			
 			$checklists[] .= "<span class=\"w4pl_select_posts\">Select posts:</span><br />";
 			while(have_posts()): the_post();
@@ -298,7 +290,7 @@ class W4PL_Widget extends WP_Widget {
 			
 			
 			else:
-			$checklists[] .= "No posts in his cat";
+			$checklists[] .= "No posts in this cat";
 			endif;
 			
 		}

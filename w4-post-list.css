@@ -45,6 +45,7 @@
 #w4pl_widget_admin p {
 	padding: 2px 0px;
 	border-bottom: 1px solid #e5e5e5;
+	font-size:11px;
 }
 #w4pl_widget_admin p.cat_title{
 	margin:0 0 0 0;

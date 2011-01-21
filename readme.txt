@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 
 Lists wordpress posts, categories and posts with categories with customization
 
@@ -14,9 +14,10 @@ With W4 development's W4 post list plugin, you can show your posts, categories a
 
 
 = Upgrade Notice =
-* Changed the posts selection method on Version 1.2.3.
-* Changed the preview style on Version 1.2.3.
-* Fixed the excerpt bugs on Version 1.2.1.
+* Fixed post list bugs (Vs-1.2.4).
+* Changed the posts selection method (Vs-1.2.3).
+* Changed the preview style (Vs-1.2.3).
+* Fixed the excerpt bugs (Vs-1.2.1).
 
 = Usage =
 After activating plugin, visit the your wordpress sites widget area to configure and use w4 post list widget. You can use multiple widget at once.
@@ -37,7 +38,6 @@ Yes.
 As much as you have.
 
 == Screenshots ==
-2. Wp-admin Widget page and Frontpage preview.
 
 == Changelog ==
 = 1.0 =
@@ -55,6 +55,8 @@ Begin.
 = 1.2.3 =
 * Changed the posts selection method on Version 1.2.3.
 * Changed the preview style on Version 1.2.3.
+= 1.2.4 =
+* Fixed post list bugs.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -69,6 +71,8 @@ Begin.
 = 1.2.3 =
 * Changed the posts selection method on Version 1.2.3.
 * Changed the preview style on Version 1.2.3.
+= 1.2.4 =
+* Fixed post list bugs.
 
 == How to use ==
 As easy as maintaining other widgets.
