@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode/#comme
 Tags: tabset,shortcode,jquery
 Requires at least: 3.0
 Tested up to: 3.0.3
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 
 Wordpress plugin for creating jquery tabs with shorcode inside posts and pages content.
 
