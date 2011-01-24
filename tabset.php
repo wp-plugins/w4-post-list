@@ -1,29 +1,48 @@
 <?php
 /*
-Plugin Name: Post/Page content tabset
+Plugin Name: W4 content tabset
 Plugin URI: http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode
-Description: Lets you embed tabset in your post/page area and also show your desired custom field values in a post/page area
-Version: 1.3.7
+Description: Lets you embed tabset in your post or page content area. Also capable to show your custom field values in a post or page content area by your selection.
+Version: 1.3.8
 Author: sajib1223, Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'TABSET_DIR', plugin_dir_path(__FILE__)) ;
 define( 'TABSET_URL', plugin_dir_url(__FILE__)) ;
-define( 'TABSET_VERSION', '1.3.7' ) ;
+define( 'TABSET_VERSION', '1.3.8' ) ;
 define( 'TABSET_BASENAME', plugin_basename( __FILE__ )) ;
-require( TABSET_DIR . 'tabset_admin.php' ) ;
+
+register_activation_hook( TABSET_BASENAME,'tabset_activated');
+function tabset_activated(){
+	tabset_stylesheet_update();
+}
+
+require( TABSET_DIR .'tabset_admin.php');
 
 //Retrive and replace the tabs
-function tabset_replace( $matches ){
+function tabset_replace($matches){
 	$pattern = '/\[\s*tabs\s*tabname\s*=\s*[\'\"](.*?)[\'\"]\s*\]?(.*?)\[\s*\/\s*tabs\s*\]/sm' ;
-	if( !preg_match_all( $pattern, $matches[1], $tabs, PREG_SET_ORDER ))
+	if( !preg_match_all( $pattern, $matches[2], $tabs, PREG_SET_ORDER ))
 		return false ;
 
+	$tabset = '';
+	if($matches[1]){
+		extract(shortcode_parse_atts($matches[1]), EXTR_SKIP);
+		if($id)	$tabset_id = $id;
+		if($Id)	$tabset_id = $Id;
+		if($iD)	$tabset_id = $iD;
+		if($ID)	$tabset_id = $ID;
+		
+		if($tabset_id) $tabset = 'tabset_'.$tabset_id.'-';
+		
+	}
+
 	$i = 0 ;
-	foreach( $tabs as $tab ){
-		$i++ ;
+	foreach( $tabs as $tab){
+		$i++;
 		$tab_name = $tab[1] ;
-		$tab_id = sanitize_title( $tab_name."-".$i ) ;
+		$tab_id = $tabset . sanitize_title( $tab_name."-".$i ) ;
+		
 		$tab_links .= "\t<li><a title=\"$tab_name\" class=\"$tab_id\" href=\"#$tab_id\">$tab_name</a></li>\n" ;
 		$tabs_content[$tab_id] = $tab[2] ;
 	}
@@ -48,8 +67,8 @@ function tabset_replace( $matches ){
 
 //Retrive and Replace the tabset shortcode
 function tabset_replace_callback($text){
-	$pattern = '/\[\s*tabset\s*\](.*?)\[\s*\/\s*tabset\s*\]/sm' ;
-	return preg_replace_callback( $pattern, 'tabset_replace', $text ) ;
+	$pattern = '/\[\s*tabset(.*?)\](.*?)\[\s*\/\s*tabset\s*\]/sm';
+	return preg_replace_callback($pattern,'tabset_replace',$text);
 }
 
 //Show your custom field value in post/page
@@ -74,10 +93,8 @@ function tabset_custom_field_replace_callback($text){
 	return preg_replace_callback( $pattern, 'tabset_custom_field_replace', $text ) ;
 }
 
-
-add_filter('the_content', 'tabset_replace_callback' ) ;
-add_filter('the_excerpt', 'tabset_replace_callback' ) ;
-add_filter('the_content', 'tabset_custom_field_replace_callback' ) ;
-add_filter('the_excerpt', 'tabset_custom_field_replace_callback' ) ;
-
+add_filter('the_content', 'tabset_replace_callback' );
+add_filter('the_excerpt', 'tabset_replace_callback' );
+add_filter('the_content', 'tabset_custom_field_replace_callback' );
+add_filter('the_excerpt', 'tabset_custom_field_replace_callback' );
 ?>
