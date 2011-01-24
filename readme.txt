@@ -11,6 +11,9 @@ Wordpress plugin for creating jquery tabs with shorcode inside posts and pages c
 
 == Description ==
 
+ Visit <a href="http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode/">Plugin page</a> for full documentation, usage and walk-through.
+
+
 = Upgrade Notice =
 * Added a preview box on the wp admin tabset page (V 1.3.8).
 * Added multi tabset capabilities on a single post or page with same tabname (V 1.3.8).
@@ -39,11 +42,17 @@ Although you can show your post custom field value inside your post or page with
 = Usage =
 
 * For inserting a tabset, use shortcode "tabset". example:[tabset][/tabset]
+* For inserting multiple tabset on same page or post, give your tabset an unique id. example:[tabset id="1"][/tabset] or [tabset id="abc"][/tabset].
 * For inserting a tab in a tabset, use shortcode "tabs" and its attribute "tabname". example:[tabs tabname="Your tab name"]Tab inside content[/tabs]
 * Tabs should be in a Tabset area. So the structure should look like:
 
 <pre>
 [tabset]
+[tabs tabname="Tab1"]Tab1 content[/tabs]
+[tabs tabname="Tab2"]Tab2 content[/tabs]
+[/tabset]
+
+[tabset id="second"]
 [tabs tabname="Tab1"]Tab1 content[/tabs]
 [tabs tabname="Tab2"]Tab2 content[/tabs]
 [/tabset]
