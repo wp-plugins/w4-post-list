@@ -5,15 +5,17 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 
-Lists wordpress posts, categories and posts with categories with customization
+Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect.
 
 == Description ==
-With W4 development's W4 post list plugin, you can show your posts, categories and posts with categories by list order. Presently you can only show it in your themes widget area.
-
+Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for more information.
 
 = Upgrade Notice =
+* Show/hide post list with Sliding effect while showing posts with category (Vs-1.2.5).
+* Fixed bugs (Vs-1.2.5).
+* Added new option to show last post-modified time (Vs-1.2.5).
 * Fixed post list bugs (Vs-1.2.4).
 * Changed the posts selection method (Vs-1.2.3).
 * Changed the preview style (Vs-1.2.3).
@@ -22,8 +24,7 @@ With W4 development's W4 post list plugin, you can show your posts, categories a
 = Usage =
 After activating plugin, visit the your wordpress sites widget area to configure and use w4 post list widget. You can use multiple widget at once.
 
-Feel free to <a href="http://w4dev.com/w4-plugin/w4-post-list/">Contact us</a>, if you found any bugs or you have a wonderful suggestion.
-
+We are open to hear your <a href="http://w4dev.com/w4-plugin/w4-post-list/#comments">Claims and Comments</a>.
 
 
 == Installation ==
@@ -57,6 +58,11 @@ Begin.
 * Changed the preview style on Version 1.2.3.
 = 1.2.4 =
 * Fixed post list bugs.
+= 1.2.5 =
+* Show/hide post list with Sliding effect while showing posts with category
+* Bug Fixed.
+* Added new option to show last post-modified time.
+
 
 == Upgrade Notice ==
 = 1.0 =
@@ -73,6 +79,10 @@ Begin.
 * Changed the preview style on Version 1.2.3.
 = 1.2.4 =
 * Fixed post list bugs.
+= 1.2.5 =
+* Show/hide post list with Sliding effect while showing posts with category
+* Bug Fixed.
+* Added new option to show last post-modified time.
 
 == How to use ==
-As easy as maintaining other widgets.
+As easy as maintaining other widgets. Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> if you need more information.
