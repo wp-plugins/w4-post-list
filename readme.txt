@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 
 Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect.
 
@@ -13,6 +13,7 @@ Lists wordpress posts, categories and posts with categories by W4 post list plug
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for more information.
 
 = Upgrade Notice =
+* Solved simple bugs (Vs-1.2.6).
 * Show/hide post list with Sliding effect while showing posts with category (Vs-1.2.5).
 * Fixed bugs (Vs-1.2.5).
 * Added new option to show last post-modified time (Vs-1.2.5).

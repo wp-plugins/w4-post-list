@@ -3,14 +3,14 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: List your wordpress posts as you like in post or page or in sidebar widgets. !!
-Version: 1.2.5
+Version: 1.2.6
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.2.5' ) ;
+define( 'W4PL_VERSION', '1.2.6' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
@@ -131,20 +131,16 @@ class W4PL_Widget extends WP_Widget {
 			if($instance['show_category_posts_count'] != '0')
 				$category_title .= $items;
 
-			if($instance['list_effect'] != '0')
-				
-			
-			if($instance['list_effect'] == '0'):
-				$category_li_class = "w4pl_list";
-			
-			elseif($instance['list_effect'] == '1'):
+			$category_li_class = "w4pl_list";
+
+			if($instance['list_effect'] == '1'):
 				$category_li_class = "w4pl_list list_effect open";
 				$category_title = "<span class=\"showhide_w4pl\" title=\"Hide list\"></span>" . $category_title;
 			
 			elseif($instance['list_effect'] == '2'):
 				$category_li_class = "w4pl_list list_effect close";
 				$category_title = "<span class=\"showhide_w4pl\" title=\"Show list\"></span>" . $category_title;
-			
+
 			endif;
 			
 			$_content .= "<li class=\"$category_li_class\">";
@@ -323,7 +319,7 @@ class W4PL_Widget extends WP_Widget {
 			if(have_posts()):
 
 			//Maximum number of posts to show for the selected category
-			$checklists[] .= "<label><input size=\"3\" name=\"".$this->get_field_name('max')."[$category->cat_ID]\" type=\"text\" value=\"".$cat_max[$category->cat_ID]."\" /> Maximum posts to show on front.</label><br />" ;
+			$checklists[] = "<label><input size=\"3\" name=\"".$this->get_field_name('max')."[$category->cat_ID]\" type=\"text\" value=\"".$cat_max[$category->cat_ID]."\" /> Maximum posts to show on front.</label><br />" ;
 			
 			$checklists[] .= "<span class=\"w4pl_select_posts\">Select posts:</span><br />";
 			while(have_posts()): the_post();
@@ -332,11 +328,14 @@ class W4PL_Widget extends WP_Widget {
 			endwhile;
 			
 			else:
-			$checklists[] .= "No posts in this cat";
+			$checklists[] = "No posts in this cat";
 			endif;
 
-			$checklists[] .= "</div>";
+			$checklists[] = "</div>";
 		}
+		if(!is_array($checklists))
+			$checklists = (array) $checklists ;
+		
 		$checklists = implode( "\n", $checklists );
 		return $checklists ;
 	}
