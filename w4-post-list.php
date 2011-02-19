@@ -26,7 +26,7 @@ class W4PL_CORE {
 	function load_w4pl_scripts(){
 		wp_enqueue_script( 'w4pl_js', W4PL_URL . 'w4-post-list.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true ) ;
 		wp_enqueue_style( 'w4pl_css', W4PL_URL . 'w4-post-list.css', '', W4PL_VERSION ) ;
-		load_plugin_textdomain( 'w4-post-list', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		#load_plugin_textdomain( 'w4-post-list', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	function plugin_action_links( $links ){
