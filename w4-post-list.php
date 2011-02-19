@@ -2,15 +2,15 @@
 /*
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
-Description: List your wordpress posts as you like in post or page or in sidebar widgets. !!
-Version: 1.2.6
+Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
+Version: 1.2.7
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.2.6' ) ;
+define( 'W4PL_VERSION', '1.2.7' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
@@ -26,7 +26,7 @@ class W4PL_CORE {
 	function load_w4pl_scripts(){
 		wp_enqueue_script( 'w4pl_js', W4PL_URL . 'w4-post-list.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true ) ;
 		wp_enqueue_style( 'w4pl_css', W4PL_URL . 'w4-post-list.css', '', W4PL_VERSION ) ;
-		#load_plugin_textdomain( 'w4-post-list', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'w4-post-list', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	function plugin_action_links( $links ){

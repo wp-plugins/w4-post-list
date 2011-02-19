@@ -5,14 +5,15 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 
-Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect.
+Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
 
 == Description ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for more information.
 
 = Upgrade Notice =
+* Enabled multi-lingual functionality (Vs-1.2.7).
 * Solved simple bugs (Vs-1.2.6).
 * Show/hide post list with Sliding effect while showing posts with category (Vs-1.2.5).
 * Fixed bugs (Vs-1.2.5).
@@ -26,7 +27,6 @@ Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for mor
 After activating plugin, visit the your wordpress sites widget area to configure and use w4 post list widget. You can use multiple widget at once.
 
 We are open to hear your <a href="http://w4dev.com/w4-plugin/w4-post-list/#comments">Claims and Comments</a>.
-
 
 == Installation ==
 1. Upload zip to the `/wp-content/plugins/` directory
@@ -43,7 +43,7 @@ As much as you have.
 
 == Changelog ==
 = 1.0 =
-Begin.
+* Begin.
 = 1.1 =
 * Added multi widget functionality. So now you can use it multiple time on the widgets section.
 * Added more options.
@@ -63,7 +63,8 @@ Begin.
 * Show/hide post list with Sliding effect while showing posts with category
 * Bug Fixed.
 * Added new option to show last post-modified time.
-
+= 1.2.7 =
+* Enabled multi-lingual functionality (Vs-1.2.7).
 
 == Upgrade Notice ==
 = 1.0 =
@@ -84,6 +85,8 @@ Begin.
 * Show/hide post list with Sliding effect while showing posts with category
 * Bug Fixed.
 * Added new option to show last post-modified time.
+= 1.2.7 =
+* Enabled multi-lingual functionality (Vs-1.2.7).
 
 == How to use ==
 As easy as maintaining other widgets. Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> if you need more information.

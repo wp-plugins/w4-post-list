@@ -1,0 +1,265 @@
+# Copyright (C) 2010 W4 post list
+# This file is distributed under the same license as the W4 post list package.
+msgid ""
+msgstr ""
+"Project-Id-Version: W4 post list 1.2.6\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/w4-post-list\n"
+"POT-Creation-Date: 2011-02-19 11:26:25+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: w4-post-list.php:33
+msgid "How to use"
+msgstr ""
+
+#: w4-post-list.php:45
+msgid "Web and wordpress development..."
+msgstr ""
+
+#: w4-post-list.php:45
+msgid "Visit Plugin Site"
+msgstr ""
+
+#: w4-post-list.php:45
+msgid "Mailto:Contact"
+msgstr ""
+
+#: w4-post-list.php:47
+msgid "With w4 post list plugin"
+msgstr ""
+
+#: w4-post-list.php:47
+msgid "you can show your category/post list in your"
+msgstr ""
+
+#: w4-post-list.php:47
+msgid "themes widget area."
+msgstr ""
+
+#: w4-post-list.php:48
+msgid "After activating it from"
+msgstr ""
+
+#: w4-post-list.php:48
+msgid "plugin page"
+msgstr ""
+
+#: w4-post-list.php:48
+msgid "you can Visit the"
+msgstr ""
+
+#: w4-post-list.php:48
+msgid "widget area"
+msgstr ""
+
+#: w4-post-list.php:48
+msgid "for showing or customizing the list in sidebar widget."
+msgstr ""
+
+#: w4-post-list.php:49
+msgid ""
+"Listings pages and more customizable options will be available through later "
+"version. Feel free to"
+msgstr ""
+
+#: w4-post-list.php:49
+msgid "contact us"
+msgstr ""
+
+#: w4-post-list.php:49
+msgid "if you found any bugs or you have a wonderful suggestion."
+msgstr ""
+
+#: w4-post-list.php:61
+msgid "List your selected posts or categories or both of them together..."
+msgstr ""
+
+#: w4-post-list.php:88
+msgid "No category or post selected. Please select one to show here."
+msgstr ""
+
+#: w4-post-list.php:116
+msgid "View all in"
+msgstr ""
+
+#: w4-post-list.php:129
+msgid "no post"
+msgstr ""
+
+#: w4-post-list.php:130
+msgid "listed under"
+msgstr ""
+
+#: w4-post-list.php:184
+msgid "Published:"
+msgstr ""
+
+#: w4-post-list.php:187
+msgid "Updated:"
+msgstr ""
+
+#: w4-post-list.php:247
+msgid "Title:"
+msgstr ""
+
+#: w4-post-list.php:251
+msgid "List type:"
+msgstr ""
+
+#: w4-post-list.php:252
+msgid "Kind of list you need."
+msgstr ""
+
+#: w4-post-list.php:253
+msgid "Posts with categories"
+msgstr ""
+
+#: w4-post-list.php:254
+msgid "Only posts"
+msgstr ""
+
+#: w4-post-list.php:255
+msgid "Only categories"
+msgstr ""
+
+#: w4-post-list.php:258
+msgid "Show posts in category with a jquery slide effect ?"
+msgstr ""
+
+#: w4-post-list.php:259
+msgid "Under the post title."
+msgstr ""
+
+#: w4-post-list.php:260
+msgid "Not neccessary"
+msgstr ""
+
+#: w4-post-list.php:261
+msgid "Yap, do it"
+msgstr ""
+
+#: w4-post-list.php:262
+msgid "Do it. Also make the posts invisible at primary position"
+msgstr ""
+
+#: w4-post-list.php:266
+msgid "Select category:"
+msgstr ""
+
+#: w4-post-list.php:267
+msgid ""
+"Hit save after selecting a category to make the category inside post show up "
+"below."
+msgstr ""
+
+#: w4-post-list.php:270
+msgid "Show posts count appending to category name ?"
+msgstr ""
+
+#: w4-post-list.php:271
+msgid "Will appear after the category name."
+msgstr ""
+
+#: w4-post-list.php:272
+msgid "Do not show"
+msgstr ""
+
+#: w4-post-list.php:273
+msgid "Show only included post count"
+msgstr ""
+
+#: w4-post-list.php:274
+msgid "Show the actual category count"
+msgstr ""
+
+#: w4-post-list.php:277
+msgid "Show published date appending to post title ?"
+msgstr ""
+
+#: w4-post-list.php:278 w4-post-list.php:283
+msgid "No"
+msgstr ""
+
+#: w4-post-list.php:279 w4-post-list.php:284
+msgid "Yes"
+msgstr ""
+
+#: w4-post-list.php:282
+msgid "Show last post-update time appending to post title ?"
+msgstr ""
+
+#: w4-post-list.php:287
+msgid "Show post content ?"
+msgstr ""
+
+#: w4-post-list.php:289
+msgid "Do not show content"
+msgstr ""
+
+#: w4-post-list.php:290
+msgid "Show only excerpt"
+msgstr ""
+
+#: w4-post-list.php:291
+msgid "Show full content"
+msgstr ""
+
+#: w4-post-list.php:294
+msgid "Excerpt length:"
+msgstr ""
+
+#: w4-post-list.php:295
+msgid "The content word limit."
+msgstr ""
+
+#: w4-post-list.php:300
+msgid "Reply on plugin page"
+msgstr ""
+
+#: w4-post-list.php:301
+msgid ""
+"Please support us by letting us know what problem you face or what "
+"additional functions you want from this plugin."
+msgstr ""
+
+#: w4-post-list.php:302
+msgid "Find us on facebook"
+msgstr ""
+
+#: w4-post-list.php:329
+msgid "Maximum posts to show on front."
+msgstr ""
+
+#: w4-post-list.php:331
+msgid "Select posts:"
+msgstr ""
+
+#: w4-post-list.php:338
+msgid "No posts in this cat"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "W4 post list"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://w4dev.com/w4-plugin/w4-post-list"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"List your wordpress posts as you like in post or page or in sidebar "
+"widgets. !!"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Shazzad Hossain Khan"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://w4dev.com/"
+msgstr ""
