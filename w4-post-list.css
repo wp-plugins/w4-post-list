@@ -5,18 +5,65 @@
 #w4_post_list li.close ul.w4pl_sub{display:none;}
 #w4_post_list li.open span.showhide_w4pl{background-position:0 -10px;}
 #w4_post_list li.w4pl_list .item_count{font-size:10px;margin:0px 0px 0px 10px;font-weight:normal;font-family:Verdana, Arial, Helvetica, sans-serif;border:none;}
-#w4_post_list .small{font-size:10px;font-style:italic;border:none;}
-#w4_post_list li.w4pl_post_list{list-style-type:square;list-style-position:outside;margin:1px 0px 5px 0px;border-bottom:1px dotted #DDD;}
-#w4_post_list div.w4pl_post_title a{}
-#w4_post_list div.w4pl_post_content, #w4_post_list div.w4pl_post_content p{margin:3px 0;font-size:11px;}
+#w4_post_list .w4pl_post_title small{font-size:80%; color:#AAA;}
+#w4_post_list .w4pl_post_title a{}
+
+#w4_post_list li.w4pl_post_list{list-style-type:square;list-style-position:outside;margin:1px 0px 5px 0px;}
+#w4_post_list div.w4pl_post_content, #w4_post_list div.w4pl_post_content p{margin:3px 0;}
 /*W4 post list admin*/
-#w4pl_widget_admin, #w4pl_widget_admin label{font-size:11px;}
-#w4pl_widget_admin p{padding:2px 0px;border-bottom:1px solid #e5e5e5;font-size:11px;}
-#w4pl_widget_admin p.cat_title{margin:0 0 0 0;}
-#w4pl_widget_admin small{font-style:italic;line-height:normal;}
-#w4pl_widget_admin .w4pl_postbox{margin:0 0 5px 0;font-size:10px;padding:5px 5px 5px 10px;border:1px solid #e5e5e5;background:#EEE;}
-#w4pl_widget_admin .hide_box{display:none;}
-.w4pl_select_posts{color:#FF0000;}
-#w4pl_widget_admin .w4-post-list-support{padding:4px 6px;background:#00ADEF;color:#FFFFFF;border:2px solid #8DD8F8;}
-#w4pl_widget_admin .w4-post-list-support a{padding:5px;background:#FFF;color:#00ADEF;margin:0;display:block;text-decoration:none;text-align:center;}
-#w4pl_widget_admin .w4-post-list-support a:hover{background:#EEE;}
+.w4-post-list-support{padding:4px 6px;background:#00ADEF;color:#FFFFFF;border:2px solid #8DD8F8;}
+.w4-post-list-support a{padding:5px;background:#FFF;color:#00ADEF;margin:0 0 2px 0;display:block;text-decoration:none;text-align:center;}
+.w4-post-list-support a:hover{background:#EEE;}
+
+/*W4 post list admin*/
+#w4pl_admin{font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;font-size:11px;};
+#w4pl_admin, #w4pl_admin label{font-size:11px;}
+#w4pl_admin p{padding:2px 0px;font-size:11px;}
+#w4pl_admin p.cat_title{margin:0;}
+#w4pl_admin small{line-height:normal; font-size:11px; font-weight:normal; color:#999;}
+#w4pl_admin .hide_box{display:none;}
+#w4pl_admin h3{margin:10px 0; font-size:22px; color:#333; font-family:Georgia, "Times New Roman", Times, serif, Pristina, Garamond;}
+span.red{color:#FF0000;}
+.del{ font-size:11px; text-decoration:none;}
+.desc{
+    font-size: 11px;
+    padding: 5px 5px 5px 25px;
+    background-color: #666;
+    border: 1px solid #437A2B;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+
+
+#w4pl_admin ul.help{line-height:24px; font-size:13px; margin:20px 0 0 20px;}
+#w4pl_admin ul.help li{list-style-type:square; list-style-position:outside; font-size:11px;}
+
+#post_list_form .w4c_inside{margin:0 0 5px 0;font-size:10px;padding:0 5px 0 10px; margin:0 0 0 30px; border-left:3px solid #DDD;}
+#post_list_form .w4c_inside ul.post_list{ max-height:150px; overflow:auto;}
+#post_list_form ul.post_list li{margin:0; padding:0; font-size:11px;}
+#post_list_form .option{width:500px; padding:0 0 25px 0; margin:0 0 10px 0; position:relative;}
+#post_list_form .option .save_list_option{position:absolute; left:0px; bottom:0px; display:block;}
+
+ul.post_list_menu{padding:10px; background-color:#DDD; border-top:1px solid #AAA;}
+ul.post_list_menu li{display:inline; margin:0 3px 5px 3px; padding:0;}
+ul.post_list_menu li a, #w4pl_admin input.save_list_option{
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    border-color: #999999 #999999 #888888;
+	border-style:solid;
+	padding: 2px 5px;
+	font-family:Georgia, "Times New Roman", Times, serif, Pristina, Garamond;
+	font-size: 11px ;
+	font-weight: bold ;
+	color: #444;
+	text-decoration: none;
+	background-color: #00adef;
+	color:#FFFFFF;
+	border-width:1px;
+	cursor:pointer;
+	}
+ul.post_list_menu li a.current{
+	background-color:#0394cb;
+	}
+ul.post_list_menu li a.create, #w4pl_admin input.save_list_option{
+	background-color:#67A54B;
+	}
