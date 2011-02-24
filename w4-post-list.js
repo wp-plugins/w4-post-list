@@ -19,10 +19,6 @@ function w4pl_toogle(){
 	}
 }
 
-$(function() {
-		$("ul.sortable").sortable({ opacity: 0.6, cursor: 'move'});
-	});
-
 $(document).ready(function($){
 	$(".w4pl_cat_checkbox").click(w4pl_admin_toogle);
 	$('span.showhide_w4pl').click(w4pl_toogle);
@@ -36,5 +32,14 @@ $(document).ready(function($){
 		//	$(this).children("input.save_list_option").remove();
 		}
 	});
+	
+	$('a#delete_list').click(function(){
+		var name = $(this).attr('rel');
+		if( confirm( "Are you sure you want to delete '" + name + "' ?" )){
+			return true ;
+		}
+		return false ;
+	});
+	
 });
 })(jQuery) ;

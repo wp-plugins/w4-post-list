@@ -3,23 +3,22 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
-Version: 1.2.7
+Version: 1.3
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.2.7' ) ;
+define( 'W4PL_VERSION', '1.3' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
 //Load our script and css file
 class W4PL_CORE {
-	var $default_options = array();
-	var $table = '';
-	
-	var $list_id = '';
+	private $default_options = array();
+	private $table = '';
+	private $list_id = '';
 
 	function W4PL_CORE(){
 		global $wpdb;
@@ -41,23 +40,24 @@ class W4PL_CORE {
 			'excerpt_length' 			=> (int) 10
 		);
 
-		add_action( 'init', array(&$this, 'load_w4pl_scripts')) ;
+		add_action( 'init', array(&$this, 'load_scripts')) ;
 		add_shortcode( 'postlist', array(&$this, 'do_shortcode'));
-
-		add_action( 'admin_menu', array(&$this, 'admin_menu')) ;
+		
+		add_action( 'admin_init', array(&$this, 'db_install'));
+		add_action( 'admin_menu', array(&$this, 'admin_menu'));
 		add_action( 'plugin_action_links_'.W4PL_BASENAME, array(&$this, 'plugin_action_links' ));
-		add_action( 'activate_' . W4PL_BASENAME, array(&$this, 'db_install' ));
+		add_action( 'activate_' . W4PL_BASENAME, array(&$this, 'activated' ));
 	}
 
 	//Load scripts
-	function load_w4pl_scripts(){
+	function load_scripts(){
 		wp_enqueue_script( 'w4pl_js', W4PL_URL . 'w4-post-list.js', array( 'jquery', 'jquery-ui-core','jquery-ui-tabs','jquery-ui-sortable' ), W4PL_VERSION ,true );
 		wp_enqueue_style( 'w4pl_css', W4PL_URL . 'w4-post-list.css', '', W4PL_VERSION ) ;
 		load_plugin_textdomain( 'w4-post-list', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	function plugin_action_links( $links ){
-		$readme_link['readme'] = '<a href="'.esc_attr(admin_url('edit.php?page='.W4PL_SLUG)).'">' . __( 'How to use', 'w4-post-list' ).'</a>';
+		$readme_link['readme'] = '<a href="'.esc_attr(admin_url('edit.php?page='.W4PL_SLUG)).'">' . __( 'Settings', 'w4-post-list' ).'</a>';
 		return array_merge( $links, $readme_link );
 	}
 	
@@ -72,33 +72,37 @@ class W4PL_CORE {
 	}
 	
 	function w4_post_list($list_id){
-		if(!$this->get_options( $list_id)){
+		if(!$this->get_list( $list_id)){
 			if(is_user_logged_in() && current_user_can('edit_plugins'))
 				return __( 'No post list found with given id in shortcode. Please make sure a post list exists with the given id.', 'w4-post-list' );
 			
 			else
 				return false;
-
 		}
 	
-		$options = $this->get_options($list_id, 'list_option');
-		return $this->create_list($options);
+		$options = $this->get_list($list_id, 'list_option');
+		return $this->_generate_list($options);
 	}
 	
-	function create_list($options){
+	private function _generate_list($options){
 		$category_ids = $options['categories'] ;
 		
 		if($options['list_type'] != '1' && (empty($category_ids) || !is_array($category_ids))){
 			if(is_user_logged_in() && current_user_can('edit_plugins'))
-				return __( 'No category or post selected. Please select one to show here.', 'w4-post-list' );
+				return __( 'No category selected. Please select one to show here.', 'w4-post-list' );
 			
 			else
 				return false;
 		}
 		
-		if( $options['list_type'] == '1')
-			return $this->_post_list($options, array('post__in' => $options['posts'], 'order' => $options['post_order'], 'orderby' => $options['post_orderby']));
-
+		if( $options['list_type'] == '1'){
+			$post_ids = $options['posts'];
+			
+			if(!is_array($post_ids) || '1' > count($post_ids))
+				return __( 'No post selected. Please select one to show here.', 'w4-post-list' );
+		
+			return $this->_generate_post_list($options, array('post__in' => $options['posts'], 'order' => $options['post_order'], 'orderby' => $options['post_orderby']));
+		}
 		
 		$_content = "<div id=\"w4_post_list\">";
 		$_content .= "<ul class=\"w4pl_parent\">";
@@ -156,7 +160,7 @@ class W4PL_CORE {
 			$_content .= "<li class=\"$category_li_class\">";
 				$_content .= "$category_title";
 				if(count($selected_posts_ids) != 0)
-					$_content .=  $this->_post_list($options, $args);
+					$_content .=  $this->_generate_post_list($options, $args);
 
 			$_content .= "</li>";
 		}
@@ -166,7 +170,7 @@ class W4PL_CORE {
 		return $_content;
 	}
 
-	function _post_list($options, $args){
+	private function _generate_post_list($options, $args){
 		#print_r($args);
 		if( $options['list_type'] == '2')
 			return;
@@ -223,7 +227,10 @@ class W4PL_CORE {
 
 	function db_install() {
 		global $wpdb;
-	
+		
+		if($this->table_exists())
+			return true;
+		
 		$charset_collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
 			if ( ! empty( $wpdb->charset ) )
@@ -239,12 +246,16 @@ class W4PL_CORE {
 			) {$charset_collate};";
 		
 		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' ) ;
-		dbDelta( $sql ) ;
+		dbDelta( $sql );
+		
+		if(!$this->table_exists())
+			return false;
+
 	}
 
 	//Plugin page add
 	function admin_menu(){
-		$this->saving_list_option();
+		$this->_save_list_option();
 		add_posts_page( W4PL_NAME, W4PL_NAME, 'edit_plugins', W4PL_SLUG, array(&$this, 'admin_page'));
 	}
 	
@@ -253,20 +264,23 @@ class W4PL_CORE {
 	<div id="w4pl_admin" class="wrap">
     	<div class="icon32" id="icon-post"><br/></div>
         <h2><?php echo W4PL_NAME. " V:" . W4PL_VERSION ; ?>
-        	<span style="font-size:12px; padding-left: 20px ;"><a href="http://w4dev.com" class="us" rel="developer" title="<?php 
+        	<span style="font-size:12px; padding-left: 20px ;"><a href="http://w4dev.com" target="_blank" class="us" rel="developer" title="<?php 
 			_e( 'Web and wordpress development...', 'w4-post-list' ); ?>"> by &raquo; W4 development</a> 
-            <a href="http://w4dev.com/w4-plugin/w4-post-list/" title="<?php _e( 'Visit Plugin Site', 'w4-post-list' ); ?>">&raquo; <?php 
+            <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank" title="<?php _e( 'Visit Plugin Site', 'w4-post-list' ); ?>">&raquo; <?php 
 			_e( 'Visit Plugin Site', 'w4-post-list' ); ?></a> <a href="mailto:sajib1223@gmail.com" rel="tabset_author_mail">&raquo; <?php 
-			_e( 'Mailto:Contact', 'w4-post-list' ); ?></a></span>
+			_e( 'Mailto:Author', 'w4-post-list' ); ?></a> <a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank" rel="wordpress">&raquo; <?php 
+			_e( 'Vote on wordpress', 'w4-post-list' ); ?></a></span>
 		</h2>
         <div class="desc"><?php _e( 'With w4 post list plugin you can show your selected post list, selected category list or making list with both of them in woedpress site.', 'w4-post-list' ); ?></div>
         
 		<?php $this->post_list_menu(); ?>
 		<?php
 		$list_msgs = array(
-						'saved'				=> __( 'Option saved.', 'w4-post-list'),
-						'new_list_created' 	=> __( 'New post list Created.', 'w4-post-list'),
-						'list_deleted'		=> __( 'One post list has been deleted.', 'w4-post-list')
+						'list_saved'		=> __( 'Option saved.', 'w4-post-list'),
+						'list_not_saved'	=> __( 'Unable to save. There may be a database connection error or this list may not have been exists or you do not have capabilities to manage this list.'),
+						'list_created' 	=> __( 'New post list Created.', 'w4-post-list'),
+						'list_deleted'		=> __( 'One post list has been deleted.', 'w4-post-list'),
+						'list_not_deleted'	=> __( 'Unable to delete this list now. There may be a database connection error or this list may not have been exists or you do not have capabilities to delete this.')
 					);
 		if (isset( $_GET['message'])){
 			$msg = $_GET['message'];
@@ -283,29 +297,31 @@ class W4PL_CORE {
 	}
 
 	//Plugin page option saving
-	function saving_list_option(){
+	function _save_list_option(){
 		global $wpdb;
-		
-		if($_GET['page'] == W4PL_SLUG && isset( $_GET['delete'])){
-			$list_id = $_GET['list_id'];
-			$wpdb->query( $wpdb->prepare( "DELETE FROM $this->table WHERE list_id = %d", $list_id ));
-			header("Location: edit.php?page=" . W4PL_SLUG . "&message=list_deleted");
+		if($_GET['page'] != W4PL_SLUG)
+			return;
+
+		//Delete a list
+		if(isset( $_GET['delete'])){
+			if($this->delete_list( $_GET['list_id']))
+				header("Location: edit.php?page=" . W4PL_SLUG . "&message=list_deleted");
+			
+			else
+				header("Location: edit.php?page=" . W4PL_SLUG . "&message=list_not_deleted");
 			die();
 		}
-	
-		if($_GET['page'] == W4PL_SLUG && isset( $_GET['new_list'])){
-			$data = array(
-				'list_title' => '',
-				'list_option' => false
-			);
-			$list_id = $this->save_options();
 		
-			header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=".$list_id."&message=new_list_created");
+		//Create new list
+		if(isset( $_GET['new_list'])){
+			$list_id = $this->save_list();
+			header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=".$list_id."&message=list_created");
 			die();
 		}
-	
-		if( !isset( $_POST['save_w4_post_list_options'] ))
-			return ;
+		
+		//Save an existing list
+		if( !isset( $_POST['save_w4_post_list_options'] ) && !isset( $_POST['list_id']))
+			return;
 		
 		$list_id = (int) $_POST['list_id'];
 			
@@ -315,18 +331,18 @@ class W4PL_CORE {
 		
 		foreach( $this->default_options as $key => $default ){
 			if(!is_array($default))
-				$_default_options[$key] = $_REQUEST[$key];
+				$list_option[$key] = $_REQUEST[$key];
 		}
 			
 		$_w4_cat_ids = (array) $_REQUEST['_w4_cat_ids'];
-		$_cat = array();
+		$categories = array();
 		foreach( $_w4_cat_ids as $_w4_cat_id){
 			$_w4_cat_max = (!$_REQUEST['_w4_cat_max_'.$_w4_cat_id]) ? '' : $_REQUEST['_w4_cat_max_'.$_w4_cat_id];
 			$_w4_cat_posts = !is_array($_REQUEST['_w4_cat_posts_'.$_w4_cat_id]) ? array() : $_REQUEST['_w4_cat_posts_'.$_w4_cat_id];
 			$_w4_cat_post_order = (!$_REQUEST['_w4_cat_post_order_'.$_w4_cat_id]) ? 'ASC' : $_REQUEST['_w4_cat_post_order_'.$_w4_cat_id];
 			$_w4_cat_post_orderby = (!$_REQUEST['_w4_cat_post_orderby_'.$_w4_cat_id]) ? 'date' : $_REQUEST['_w4_cat_post_orderby_'.$_w4_cat_id];
 			
-			$cat[$_w4_cat_id] = array( 
+			$categories[$_w4_cat_id] = array( 
 				'position' 		=> 0,
 				'max' 			=> $_w4_cat_max,
 				'post_ids' 		=> $_w4_cat_posts,
@@ -334,21 +350,14 @@ class W4PL_CORE {
 				'post_orderby'	=> $_w4_cat_post_orderby
 			);
 		}
-		$_default_options['categories'] = $cat;
+		$list_option['categories'] = $categories;
+		$list_option['posts'] = $_REQUEST['_w4_post_ids'];
 		
-		$_default_options['posts'] = $_REQUEST['_w4_post_ids'];
-		
-		$list_option = $_default_options;
-		
-		$data = array(
-			'list_id' => (int) $list_id, 
-			'list_title' => $list_title, 
-			'list_option' => $list_option
-		);
+		$data = compact('list_id', 'list_title', 'list_option');
 
-		$list_id = $this->save_options($data);
+		$list_id = $this->save_list($data);
 		
-		header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=".$list_id."&message=saved");
+		header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=".$list_id."&message=list_saved");
 		die();
 	}
 	
@@ -359,10 +368,10 @@ class W4PL_CORE {
 		if(!$list_id & isset($_GET['list_id']))
 			$list_id = (int) $_GET['list_id'];
 		
-		if(!$this->get_options( $list_id ))
+		if(!$this->get_list( $list_id ))
 			return false;
 	
-		$all_option = $this->get_options( $list_id );
+		$all_option = $this->get_list( $list_id );
 		
 		$list_option = (array) $all_option['list_option'];
 		$list_title = $all_option['list_title'];
@@ -387,7 +396,7 @@ class W4PL_CORE {
 		<h3><?php
         	_e( 'List id: ', 'w4-post-list');
 			echo '<span class="red">'. $list_id . '</span>';
-			echo ' <a class="del" href="'. admin_url( "edit.php?page=" . W4PL_SLUG . "&list_id=" . $list_id . '&delete=true'). '">deleted this ?</a>';
+			echo ' <a id="delete_list" rel="'.$list_title.'" href="'. admin_url( "edit.php?page=" . W4PL_SLUG . "&list_id=" . $list_id . '&delete=true'). '">deleted this ?</a>';
 			?>
 		</h3>
 		<?php #echo '<pre>'; print_r($all_option); echo '</pre>'; ?>
@@ -420,6 +429,10 @@ class W4PL_CORE {
             <br /><label><input type="radio" <?php checked( $post_orderby, 'comment_count' ); ?> name="post_orderby" value="comment_count"  /> <?php _e( 'Comments count', 'w4-post-list' ); ?></label>
             </div>
             
+            <div class="option <?php echo $list_effect_po_hide; ?>"><strong><?php _e( 'Select category:', 'w4-post-list'); ?></strong>
+            <small><?php _e( 'Hit save after selecting a category to make the category inside post show up below.', 'w4-post-list'); ?></small></p>
+			<?php echo $this->categories_checklist($form_options); ?></div>
+            
             <div class="option <?php echo $list_effect_pc_show; ?>"><strong><?php _e( 'Show posts in category with a jquery slide effect ?', 'w4-post-list' ); ?></strong>
             <small><?php _e( 'Under the post title.', 'w4-post-list' ); ?></small>
             <br /><label><input type="radio" <?php checked( $list_effect, '0' ); ?> name="list_effect" value="0"  /> <?php _e( 'Not neccessary', 'w4-post-list' ); ?></label>
@@ -427,11 +440,6 @@ class W4PL_CORE {
             <br /><label><input type="radio" <?php checked( $list_effect, '2' ); ?> name="list_effect" value="2"  /> <?php _e( 'Do it. Also make the posts invisible at primary position', 'w4-post-list' ); ?></label>
             </div>
 
-
-            <div class="option <?php echo $list_effect_po_hide; ?>"><strong><?php _e( 'Select category:', 'w4-post-list'); ?></strong>
-            <small><?php _e( 'Hit save after selecting a category to make the category inside post show up below.', 'w4-post-list'); ?></small></p>
-			<?php echo $this->categories_checklist($form_options); ?></div>
-            
             <div class="option <?php echo $list_effect_co_hide; ?> <?php echo $list_effect_pc_hide; ?>"><strong><?php _e( 'Select posts:', 'w4-post-list'); ?></strong>
             <small><?php _e( 'Posts.', 'w4-post-list'); ?></small></p>
             <?php echo $this->posts_checklist($form_options); ?></div>
@@ -479,9 +487,27 @@ class W4PL_CORE {
 	</form>
 <?php
 	}
-
+	
+	function delete_list($list_id){
+		$list_id = (int) $list_id;
+		
+		if(!$list_id)
+			return false;
+		
+		if(!$this->get_list($list_id))
+			return false;
+		
+		global $wpdb;
+		$del = $wpdb->query( $wpdb->prepare( "DELETE FROM $this->table WHERE list_id = %d", $list_id ));
+		
+		if(!$del)
+			return false;
+		
+		return $list_id;
+	}
+	
 	//Save options
-	function save_options($options = array()){
+	function save_list($options = array()){
 		global $wpdb;
 		
 		if(!is_array($options))
@@ -492,31 +518,38 @@ class W4PL_CORE {
 		
 		if($list_id){
 			$update = true;
-			$old_options = $this->get_options($list_id, 'list_option');
+			$old_options = $this->get_list($list_id, 'list_option');
 			$options['list_option'] = maybe_serialize( stripslashes_deep( $list_option ));
 
 			$result = $wpdb->update( $this->table, $options, array( 'list_id' => $list_id));
 		}
 		else{
 			$options['list_option'] = maybe_serialize( stripslashes_deep( $this->default_options));
+
 			$result = $wpdb->insert( $this->table, $options );
 			$list_id = $wpdb->insert_id;
+		}
+		
+		$list_title = $this->get_list($list_id, 'list_title');
+		if( empty( $list_title)){
+			$options['list_title'] = 'List-' .$list_id;
+			$wpdb->update( $this->table, $options, array( 'list_id' => $list_id));
 		}
 
 		return $list_id;
 	}
 
-	function get_options($id = '', $col = null){
+	function get_list($list_id = '', $col = null){
 		global $wpdb;
 		
-		$id = (int) $id;
+		$list_id = (int) $list_id;
 		
-		if(!$id)
+		if(!$list_id)
 			return false;
 		
-		$query = $wpdb->prepare( "SELECT * FROM  $this->table WHERE list_id = %d", $id );
+		$query = $wpdb->prepare( "SELECT * FROM  $this->table WHERE list_id = %d", $list_id );
 		
-		if ( ! $row = $wpdb->get_row( $query ))
+		if ( !$row = $wpdb->get_row( $query ))
 			return false;
 		
 		$row->list_option = maybe_unserialize( $row->list_option);
@@ -528,7 +561,7 @@ class W4PL_CORE {
 		return $row;
 	}
 
-	function post_list_menu($current = 0){
+	private function post_list_menu($current = 0){
 		global $wpdb;
 		
 		$query = $wpdb->prepare( "SELECT * FROM  $this->table ORDER BY list_id ASC" );
@@ -559,7 +592,7 @@ class W4PL_CORE {
 		echo $all_post_list;
 	}
 	
-	function categories_checklist($options = array()){
+	private function categories_checklist($options = array()){
 		$categories = get_categories(array('hide_empty' => false));
 		$w4pl_cats = (array) $options['categories'];
 		//$w4pl_cat_max = $w4pl_cats['max'];
@@ -641,7 +674,7 @@ class W4PL_CORE {
 		return $checklist;
 	}
 	
-	function posts_checklist($options = array()){
+	private function posts_checklist($options = array()){
 		$posts = (array) $options['posts'];
 
 		query_posts(array('showposts' => '-1', 'posts_per_page' => '-1', 'post_status' => 'publish', 'order' => $options['post_order'], 'orderby' => $options['post_orderby']));
@@ -662,7 +695,7 @@ class W4PL_CORE {
 		return $checklist ;
 	}
 	
-	function dropdown_list_selector($name, $id, $selected = 0){
+	function dropdown_list_selector($select_name, $select_id, $selected = 0){
 		global $wpdb;
 		
 		$query = $wpdb->prepare( "SELECT * FROM  $this->table" );
@@ -672,7 +705,7 @@ class W4PL_CORE {
 		
 		$selected = (int) $selected;
 		
-		$all_post_list = "<select name=\"$name\" id=\"$id\">\n";
+		$all_post_list = "<select name=\"$select_name\" id=\"$select_id\">\n";
 		foreach($lists as $list){
 			$sel = ($selected == $list->list_id) ? 'selected="selected"' : '';
 			$title = empty($list->list_title) ? 'List#' . $list->list_id : $list->list_title;
@@ -700,6 +733,11 @@ class W4PL_CORE {
         
         <p><?php _e( 'Feel free to', 'w4-post-list' ); ?> <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank"><?php _e( 'contact us', 'w4-post-list' ); ?></a>, <?php _e( 'if you found any bugs or you have a wonderful suggestion.', 'w4-post-list' ); ?></p>
 <?php
+	}
+	
+	function table_exists(){
+		global $wpdb;
+		return strtolower( $wpdb->get_var( "SHOW TABLES LIKE '$this->table'" )) == strtolower( $this->table );
 	}
 }
 //Define widget======================
