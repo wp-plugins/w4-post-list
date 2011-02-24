@@ -107,4 +107,4 @@ As much as you have.
 * Show list also on inside post content, page content (Vs-1.2.7).
 
 == How to use ==
-As easy as maintaining other widgets. Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> if you need more information.
+Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.
