@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: W4 post list 1.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/w4-post-list\n"
-"POT-Creation-Date: 2011-02-22 20:18:45+00:00\n"
+"POT-Creation-Date: 2011-02-24 12:58:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,386 +12,407 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: w4-post-list.php:60
-msgid "How to use"
+#: w4-post-list.php:79
+msgid "Settings"
 msgstr ""
 
-#: w4-post-list.php:77
+#: w4-post-list.php:96
 msgid ""
 "No post list found with given id in shortcode. Please make sure a post list "
 "exists with the given id."
 msgstr ""
 
-#: w4-post-list.php:93
-msgid "No category or post selected. Please select one to show here."
+#: w4-post-list.php:111
+msgid "No category selected. Please select one to show here."
 msgstr ""
 
-#: w4-post-list.php:122
+#: w4-post-list.php:121
+msgid "No post selected. Please select one to show here."
+msgstr ""
+
+#: w4-post-list.php:145
 msgid "View all in"
 msgstr ""
 
-#: w4-post-list.php:135
+#: w4-post-list.php:158
 msgid "no post"
 msgstr ""
 
-#: w4-post-list.php:136
+#: w4-post-list.php:159
 msgid "listed under"
 msgstr ""
 
-#: w4-post-list.php:192
+#: w4-post-list.php:215
 msgid "Published:"
 msgstr ""
 
-#: w4-post-list.php:195
+#: w4-post-list.php:218
 msgid "Updated:"
 msgstr ""
 
-#: w4-post-list.php:257
+#: w4-post-list.php:287
 msgid "Web and wordpress development..."
 msgstr ""
 
-#: w4-post-list.php:258 w4-post-list.php:259
+#: w4-post-list.php:288 w4-post-list.php:289
 msgid "Visit Plugin Site"
 msgstr ""
 
-#: w4-post-list.php:260
+#: w4-post-list.php:290
 msgid "Mailto:Author"
 msgstr ""
 
-#: w4-post-list.php:262
+#: w4-post-list.php:291
+msgid "Vote on wordpress"
+msgstr ""
+
+#: w4-post-list.php:293
 msgid ""
 "With w4 post list plugin you can show your selected post list, selected "
 "category list or making list with both of them in woedpress site."
 msgstr ""
 
-#: w4-post-list.php:267
+#: w4-post-list.php:298
 msgid "Option saved."
 msgstr ""
 
-#: w4-post-list.php:268
+#: w4-post-list.php:299
+msgid ""
+"Unable to save. There may be a database connection error or this list may "
+"not have been exists or you do not have capabilities to manage this list."
+msgstr ""
+
+#: w4-post-list.php:300
 msgid "New post list Created."
 msgstr ""
 
-#: w4-post-list.php:269
+#: w4-post-list.php:301
 msgid "One post list has been deleted."
 msgstr ""
 
-#: w4-post-list.php:388
+#: w4-post-list.php:302
+msgid ""
+"Unable to delete this list now. There may be a database connection error or "
+"this list may not have been exists or you do not have capabilities to delete "
+"this."
+msgstr ""
+
+#: w4-post-list.php:416
 msgid "List id: "
 msgstr ""
 
-#: w4-post-list.php:396 w4-post-list.php:690
+#: w4-post-list.php:424 w4-post-list.php:742
 msgid "List name:"
 msgstr ""
 
-#: w4-post-list.php:397
+#: w4-post-list.php:425
 msgid "Give this post list a name, so that you can find it easily."
 msgstr ""
 
-#: w4-post-list.php:401 w4-post-list.php:691
+#: w4-post-list.php:429 w4-post-list.php:743
 msgid "List type:"
 msgstr ""
 
-#: w4-post-list.php:402
+#: w4-post-list.php:430
 msgid "Kind of list you need."
 msgstr ""
 
-#: w4-post-list.php:403
+#: w4-post-list.php:431
 msgid "Posts with categories"
 msgstr ""
 
-#: w4-post-list.php:404
+#: w4-post-list.php:432
 msgid "Only posts"
 msgstr ""
 
-#: w4-post-list.php:405
+#: w4-post-list.php:433
 msgid "Only categories"
 msgstr ""
 
-#: w4-post-list.php:408 w4-post-list.php:597 w4-post-list.php:693
+#: w4-post-list.php:436 w4-post-list.php:649 w4-post-list.php:745
 msgid "Post order:"
 msgstr ""
 
-#: w4-post-list.php:409 w4-post-list.php:601
+#: w4-post-list.php:437 w4-post-list.php:653
 msgid "ASC"
 msgstr ""
 
-#: w4-post-list.php:410 w4-post-list.php:602
+#: w4-post-list.php:438 w4-post-list.php:654
 msgid "DESC"
 msgstr ""
 
-#: w4-post-list.php:413 w4-post-list.php:604 w4-post-list.php:694
+#: w4-post-list.php:441 w4-post-list.php:656 w4-post-list.php:746
 msgid "Post order by:"
 msgstr ""
 
-#: w4-post-list.php:414 w4-post-list.php:605
+#: w4-post-list.php:442 w4-post-list.php:657
 msgid "Date"
 msgstr ""
 
-#: w4-post-list.php:415 w4-post-list.php:606
+#: w4-post-list.php:443 w4-post-list.php:658
 msgid "Author"
 msgstr ""
 
-#: w4-post-list.php:416 w4-post-list.php:607
+#: w4-post-list.php:444 w4-post-list.php:659
 msgid "Title"
 msgstr ""
 
-#: w4-post-list.php:417 w4-post-list.php:608
+#: w4-post-list.php:445 w4-post-list.php:660
 msgid "Modified date"
 msgstr ""
 
-#: w4-post-list.php:418 w4-post-list.php:609
+#: w4-post-list.php:446 w4-post-list.php:661
 msgid "Post ID"
 msgstr ""
 
-#: w4-post-list.php:419 w4-post-list.php:610
+#: w4-post-list.php:447 w4-post-list.php:662
 msgid "Randomize"
 msgstr ""
 
-#: w4-post-list.php:420 w4-post-list.php:611
+#: w4-post-list.php:448 w4-post-list.php:663
 msgid "Comments count"
 msgstr ""
 
-#: w4-post-list.php:423
-msgid "Show posts in category with a jquery slide effect ?"
-msgstr ""
-
-#: w4-post-list.php:424
-msgid "Under the post title."
-msgstr ""
-
-#: w4-post-list.php:425
-msgid "Not neccessary"
-msgstr ""
-
-#: w4-post-list.php:426
-msgid "Yap, do it"
-msgstr ""
-
-#: w4-post-list.php:427
-msgid "Do it. Also make the posts invisible at primary position"
-msgstr ""
-
-#: w4-post-list.php:431
+#: w4-post-list.php:451
 msgid "Select category:"
 msgstr ""
 
-#: w4-post-list.php:432
+#: w4-post-list.php:452
 msgid ""
 "Hit save after selecting a category to make the category inside post show up "
 "below."
 msgstr ""
 
-#: w4-post-list.php:435 w4-post-list.php:622
-msgid "Select posts:"
+#: w4-post-list.php:455
+msgid "Show posts in category with a jquery slide effect ?"
 msgstr ""
 
-#: w4-post-list.php:436
-msgid "Posts."
+#: w4-post-list.php:456
+msgid "Under the post title."
 msgstr ""
 
-#: w4-post-list.php:439
-msgid "Show item count appending to category name ?"
-msgstr ""
-
-#: w4-post-list.php:440
-msgid "Will appear after the category name."
-msgstr ""
-
-#: w4-post-list.php:441
-msgid "Do not show"
-msgstr ""
-
-#: w4-post-list.php:444
-msgid "Show only included post count"
-msgstr ""
-
-#: w4-post-list.php:450
-msgid "Show the actual category count"
-msgstr ""
-
-#: w4-post-list.php:453
-msgid "Show published date appending to post title ?"
-msgstr ""
-
-#: w4-post-list.php:454 w4-post-list.php:459
-msgid "No"
-msgstr ""
-
-#: w4-post-list.php:455 w4-post-list.php:463
-msgid "Yes"
+#: w4-post-list.php:457
+msgid "Not neccessary"
 msgstr ""
 
 #: w4-post-list.php:458
-msgid "Show last post-update time appending to post title ?"
+msgid "Yap, do it"
+msgstr ""
+
+#: w4-post-list.php:459
+msgid "Do it. Also make the posts invisible at primary position"
+msgstr ""
+
+#: w4-post-list.php:462 w4-post-list.php:674
+msgid "Select posts:"
+msgstr ""
+
+#: w4-post-list.php:463
+msgid "Posts."
 msgstr ""
 
 #: w4-post-list.php:466
-msgid "Show post content ?"
+msgid "Show item count appending to category name ?"
+msgstr ""
+
+#: w4-post-list.php:467
+msgid "Will appear after the category name."
 msgstr ""
 
 #: w4-post-list.php:468
+msgid "Do not show"
+msgstr ""
+
+#: w4-post-list.php:471
+msgid "Show only included post count"
+msgstr ""
+
+#: w4-post-list.php:477
+msgid "Show the actual category count"
+msgstr ""
+
+#: w4-post-list.php:480
+msgid "Show published date appending to post title ?"
+msgstr ""
+
+#: w4-post-list.php:481 w4-post-list.php:486
+msgid "No"
+msgstr ""
+
+#: w4-post-list.php:482 w4-post-list.php:490
+msgid "Yes"
+msgstr ""
+
+#: w4-post-list.php:485
+msgid "Show last post-update time appending to post title ?"
+msgstr ""
+
+#: w4-post-list.php:493
+msgid "Show post content ?"
+msgstr ""
+
+#: w4-post-list.php:495
 msgid "Do not show content"
 msgstr ""
 
-#: w4-post-list.php:469
+#: w4-post-list.php:496
 msgid "Show only excerpt"
 msgstr ""
 
-#: w4-post-list.php:470
+#: w4-post-list.php:497
 msgid "Show full content"
 msgstr ""
 
-#: w4-post-list.php:473
+#: w4-post-list.php:500
 msgid "Excerpt length:"
 msgstr ""
 
-#: w4-post-list.php:474
+#: w4-post-list.php:501
 msgid "The content word limit."
 msgstr ""
 
-#: w4-post-list.php:614
+#: w4-post-list.php:666
 msgid "Maximum posts to show on front."
 msgstr ""
 
-#: w4-post-list.php:632
+#: w4-post-list.php:684
 msgid "No posts in this cat"
 msgstr ""
 
-#: w4-post-list.php:659
+#: w4-post-list.php:711
 msgid "No posts"
 msgstr ""
 
-#: w4-post-list.php:689
+#: w4-post-list.php:741
 msgid "List ID:"
 msgstr ""
 
-#: w4-post-list.php:689
+#: w4-post-list.php:741
 msgid ""
 "Current list id. This id is necessary for showing list with shortcode. You "
 "can show a post list on your post or page by list id."
 msgstr ""
 
-#: w4-post-list.php:689
+#: w4-post-list.php:741
 msgid "Example: [postlist 1]"
 msgstr ""
 
-#: w4-post-list.php:689
+#: w4-post-list.php:741
 msgid "will show the list having id 1."
 msgstr ""
 
-#: w4-post-list.php:690
+#: w4-post-list.php:742
 msgid ""
 "This is not very essential now. Just for finding a list with this name on "
 "post list page menu."
 msgstr ""
 
-#: w4-post-list.php:691
+#: w4-post-list.php:743
 msgid ""
 "List type chooser. Only post list, only category list and both them together "
 "are available."
 msgstr ""
 
-#: w4-post-list.php:691
+#: w4-post-list.php:743
 msgid "Note:"
 msgstr ""
 
-#: w4-post-list.php:691
+#: w4-post-list.php:743
 msgid ""
 "Selecting and saving this option will hide or reveal related options. So we "
 "recommend you do make a save after choosing your list type."
 msgstr ""
 
-#: w4-post-list.php:692
+#: w4-post-list.php:744
 msgid "Show posts in category with a jquery slide effect:"
 msgstr ""
 
-#: w4-post-list.php:692
+#: w4-post-list.php:744
 msgid ""
 "This is only for \"Posts with categories\" list type. Possitive selection "
 "will create a show/hide effect with jQuery to your list."
 msgstr ""
 
-#: w4-post-list.php:693
+#: w4-post-list.php:745
 msgid "Basic order type for posts."
 msgstr ""
 
-#: w4-post-list.php:694
+#: w4-post-list.php:746
 msgid ""
 "In Which base the post will be orderby. Available oprions are \"author\", "
 "\"date\", \"title\", \"modified\", \"menu_order\", \"parent\", \"ID\", \"rand"
 "\", \"comment_count\"."
 msgstr ""
 
-#: w4-post-list.php:695
+#: w4-post-list.php:747
 msgid "Show item count appending to category name:"
 msgstr ""
 
-#: w4-post-list.php:695
+#: w4-post-list.php:747
 msgid ""
 "\"Show only included post count\" will show post selected for the category "
 "for this list. \"Show the actual category count\" will show the actual "
 "published posts count for the category."
 msgstr ""
 
-#: w4-post-list.php:696
+#: w4-post-list.php:748
 msgid "Show published date appending to post title:"
 msgstr ""
 
-#: w4-post-list.php:696
+#: w4-post-list.php:748
 msgid "Show post publishing date."
 msgstr ""
 
-#: w4-post-list.php:697
+#: w4-post-list.php:749
 msgid "Show last post-update time appending to post title:"
 msgstr ""
 
-#: w4-post-list.php:697
+#: w4-post-list.php:749
 msgid "Post mpdified time."
 msgstr ""
 
-#: w4-post-list.php:698
+#: w4-post-list.php:750
 msgid ""
 "Show post content:</strong><br />Display post content or post excerpt under "
 "the post title. You have to set the excerpt length to show post excerpt. "
 "This won't effect your sites other excerpt length."
 msgstr ""
 
-#: w4-post-list.php:701
+#: w4-post-list.php:753
 msgid "Feel free to"
 msgstr ""
 
-#: w4-post-list.php:701
+#: w4-post-list.php:753
 msgid "contact us"
 msgstr ""
 
-#: w4-post-list.php:701
+#: w4-post-list.php:753
 msgid "if you found any bugs or you have a wonderful suggestion."
 msgstr ""
 
-#: w4-post-list.php:711
+#: w4-post-list.php:768
 msgid "List your selected posts or categories or both of them together..."
 msgstr ""
 
-#: w4-post-list.php:747
+#: w4-post-list.php:804
 msgid "Title:"
 msgstr ""
 
-#: w4-post-list.php:751
+#: w4-post-list.php:808
 msgid "Select a post list:"
 msgstr ""
 
-#: w4-post-list.php:755
+#: w4-post-list.php:812
 msgid ""
 "Please support us by letting us know what problem you face or what "
 "additional functions you want from this plugin."
 msgstr ""
 
-#: w4-post-list.php:756
+#: w4-post-list.php:813
 msgid "Reply on plugin page"
 msgstr ""
 
-#: w4-post-list.php:757
+#: w4-post-list.php:814
 msgid "Find us on facebook"
 msgstr ""
 
