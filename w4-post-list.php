@@ -46,7 +46,7 @@ class W4PL_CORE {
 		add_action( 'admin_init', array(&$this, 'db_install'));
 		add_action( 'admin_menu', array(&$this, 'admin_menu'));
 		add_action( 'plugin_action_links_'.W4PL_BASENAME, array(&$this, 'plugin_action_links' ));
-		add_action( 'activate_' . W4PL_BASENAME, array(&$this, 'activated' ));
+		#add_action( 'activate_' . W4PL_BASENAME, array(&$this, 'activated' ));
 	}
 
 	//Load scripts

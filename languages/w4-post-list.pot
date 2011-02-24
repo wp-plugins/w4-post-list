@@ -55,7 +55,7 @@ msgid "Visit Plugin Site"
 msgstr ""
 
 #: w4-post-list.php:260
-msgid "Mailto:Contact"
+msgid "Mailto:Author"
 msgstr ""
 
 #: w4-post-list.php:262
