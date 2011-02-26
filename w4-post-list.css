@@ -1,6 +1,6 @@
 #w4_post_list ul.w4pl_parent, #w4_post_list ul.w4pl_sub {
 	padding:0 0 0 15px;
-	margin:5px 0 0 0;
+	margin:5px 0 15px 0;
 }
 #w4_post_list li.w4pl_list {
 	list-style-type:none;
@@ -96,7 +96,7 @@
 	display:none;
 }
 #w4pl_admin h3 {
-	margin:10px 0;
+	margin:0 0 10px 0;
 	font-size:22px;
 	color:#333;
 	font-family:Georgia, "Times New Roman", Times, serif, Pristina, Garamond;
@@ -109,13 +109,27 @@ span.red {
 	text-decoration:none;
 }
 #w4pl_admin .desc {
-	font-size: 11px;
-	padding: 5px 5px 5px 25px;
-	background-color: #666;
-	border: 1px solid #437A2B;
-	color: #FFFFFF;
+	font-size: 13px;
 	font-weight: normal;
+	color:#AAA;
 }
+#w4pl_admin .menu {
+	border-bottom: 1px solid #437A2B;
+	border-left:1px solid #999;
+	overflow:hidden;
+	width:100%;
+}
+#w4pl_admin .menu a{
+	background-color: #666;
+	border-left:1px solid #333;
+	border-right:1px solid #999;
+	display:inline-block;
+	padding:3px 7px;
+	color:#FFF;
+	text-decoration:none;
+	float:left;
+}
+
 #w4pl_admin ul.help {
 	line-height:24px;
 	font-size:13px;
@@ -157,6 +171,7 @@ span.red {
 }
 ul.post_list_menu {
 	padding:10px;
+	margin-bottom:10px;
 	background-color:#DDD;
 	border-top:1px solid #AAA;
 	overflow:hidden;

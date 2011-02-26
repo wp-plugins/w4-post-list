@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 1.3
+Stable tag: 1.3.1
 
 Lists wordpress posts, categories and posts with categories. Show/Hide post list with jquery slide effect. Multi-lingual supported.
 
@@ -17,6 +17,8 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 = Upgrade Notice =
+* Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem (Vs-1.3.1).
+* Added template tag to show a specific post list at any place of your theme (Vs-1.3.1).
 * Enabled multi-lingual functionality (Vs-1.2.7).
 * Solved simple bugs (Vs-1.2.6).
 * Show/hide post list with Sliding effect while showing posts with category (Vs-1.2.5).
@@ -80,6 +82,9 @@ As much as you have.
 * Enabled multi-lingual functionality (Vs-1.2.7).
 = 1.3 =
 * Show list also on inside post content, page content (Vs-1.2.7).
+= 1.3.1 =
+* Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem.
+* Added template tag to show a specific post list at any place of your theme.
 
 
 == Upgrade Notice ==
@@ -93,8 +98,8 @@ As much as you have.
 = 1.2.2 =
 * Changed past preview style. Upadate for using new listing style.
 = 1.2.3 =
-* Changed the posts selection method on Version 1.2.3.
-* Changed the preview style on Version 1.2.3.
+* Changed the posts selection method.
+* Changed the preview style.
 = 1.2.4 =
 * Fixed post list bugs.
 = 1.2.5 =
@@ -102,9 +107,12 @@ As much as you have.
 * Bug Fixed.
 * Added new option to show last post-modified time.
 = 1.2.7 =
-* Enabled multi-lingual functionality (Vs-1.2.7).
+* Enabled multi-lingual functionality.
 = 1.3 =
-* Show list also on inside post content, page content (Vs-1.2.7).
+* Show list also on inside post content, page content.
+= 1.3.1 =
+* Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem.
+* Added template tag to show a specific post list at any place of your theme.
 
 == How to use ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.
