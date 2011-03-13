@@ -4,19 +4,26 @@ Author: sajib1223, Shazzad Hossain Khan
 Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
-Tested up to: 3.0.4
-Stable tag: 1.3.1
+Tested up to: 3.1
+Stable tag: 1.3.2
 
 Lists wordpress posts, categories and posts with categories. Show/Hide post list with jquery slide effect. Multi-lingual supported.
 
 == Description ==
 Show list inside post/page content and widget area (enable from version 1.3). The list management page has been moved to its own page rather than the widget inside page. As for a wide change, you may face difficulties to manage it. Please Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> to tell us what problem u are facing with the latest Version or anything else.
 
+Now (Vs- 1.3.2) the name of a category will be used as a show/hide handler for the posts if you use list effect. Othewise it will work as a link to the category. Also we need your response to vote, rate and share our plugin if you are satisfied with it. Your response encourage us to update and continue our development of this free post listing plugin. Lets see what you have got :).
+
+Next(Vs- 1.3.3) we will add features to forcing a read more link while using excerpt.
+
+
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
 
 
 = Upgrade Notice =
+* Some visual change in admin panel (Vs-1.3.2).
+* Eiser post sorting options (Vs-1.3.2).
 * Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem (Vs-1.3.1).
 * Added template tag to show a specific post list at any place of your theme (Vs-1.3.1).
 * Enabled multi-lingual functionality (Vs-1.2.7).
@@ -85,7 +92,8 @@ As much as you have.
 = 1.3.1 =
 * Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem.
 * Added template tag to show a specific post list at any place of your theme.
-
+= 1.3.2 =
+* Eiser post sorting options.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -113,6 +121,8 @@ As much as you have.
 = 1.3.1 =
 * Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem.
 * Added template tag to show a specific post list at any place of your theme.
+= 1.3.2 =
+* Eiser post sorting options.
 
 == How to use ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.
