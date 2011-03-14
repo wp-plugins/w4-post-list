@@ -872,7 +872,7 @@ class W4PL_CORE {
 			$checklist_max = '<br /><br /><label><strong>'. __( 'Number of posts to show', 'w4-post-list') . '</strong><br /><input size="3" name="_w4_cat_max_'. $category->cat_ID .'" type="text" value="'. $w4pl_cat_max . '" /></label>';
 
 			// Posts by
-			$checklist_posts_by .= '<br /><br /><strong>'. __( 'Post by:', 'w4-post-list' ). '</strong>
+			$checklist_posts_by = '<br /><br /><strong>'. __( 'Post by:', 'w4-post-list' ). '</strong>
 				<br /><label><input type="radio" '. checked( $w4pl_cat_post_by, 'show_selected', false ).' name="_w4_cat_post_by_'. $category->cat_ID .
 				'" value="show_selected"  /> '. __( 'Show only selected posts.', 'w4-post-list'). '</label>
 
