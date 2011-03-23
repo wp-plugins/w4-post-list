@@ -3,7 +3,7 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
-Version: 1.3.2
+Version: 1.3.3
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -33,7 +33,7 @@ Author URI: http://w4dev.com/
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.3.2' ) ;
+define( 'W4PL_VERSION', '1.3.3' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
@@ -52,7 +52,7 @@ class W4PL_CORE {
 			
 		$this->db_version = get_option('_w4pl_db_version');
 		
-		if( $this->db_version != W4PL_VERSION)
+		if( $this->db_version != W4PL_VERSION )
 			$this->upgrade();
 
 		$this->table = $wpdb->prefix . 'post_list';
@@ -71,6 +71,7 @@ class W4PL_CORE {
 			'show_post_date' 			=> 'no',
 			'show_post_modified_time'	=> 'no',
 			'post_content' 				=> 'no',
+			'excerpt_more'				=> 'yes',
 			'excerpt_length' 			=> (int) 10
 		);
 
@@ -82,40 +83,27 @@ class W4PL_CORE {
 		add_action( 'plugin_action_links_'.W4PL_BASENAME, array(&$this, 'plugin_action_links' ));
 		add_action( 'activate_' . W4PL_BASENAME, array(&$this, 'upgrade' ));
 
-		add_filter( 'w4_post_list_option_save_pre', array(&$this, 'sanitize_list_option'));
+		add_filter( 'sanitize_list_option', array(&$this, 'sanitize_list_option'));
 	}
 	
 	function upgrade(){
 		$this->db_install( true );
-		
-		if( '1.3' == $this->db_version ){
-			global $wpdb;
-			$query = $wpdb->prepare( "SELECT * FROM  $this->table ORDER BY list_id ASC" );
-			if ( ! $lists = $wpdb->get_results( $query ))
-				$lists = array();
-	
-			foreach($lists as $list){
-				$opt = $this->get_list($list->list_id);
-				$this->save_list($opt);
-			}
-			update_option('_w4pl_db_version', '1.3.1');
-		}		
-
-		if( '1.3.1' == $this->db_version ){
-			global $wpdb;
-			$query = $wpdb->prepare( "SELECT * FROM  $this->table ORDER BY list_id ASC" );
-			if ( ! $lists = $wpdb->get_results( $query ))
-				$lists = array();
-	
-			foreach($lists as $list){
-				$opt = $this->get_list($list->list_id);
-				$this->save_list($opt);
-			}
-			update_option('_w4pl_db_version', '1.3.2');
-		}		
-
 		$curr_version = W4PL_VERSION;
-		update_option('_w4pl_db_version', $curr_version);
+
+		if( $this->db_version != W4PL_VERSION ){
+			global $wpdb;
+			$query = $wpdb->prepare( "SELECT * FROM  $this->table ORDER BY list_id ASC" );
+			if ( ! $lists = $wpdb->get_results( $query ))
+				$lists = array();
+	
+			foreach($lists as $list){
+				$opt = $this->get_list($list->list_id);
+				$this->save_list($opt);
+			}
+			update_option( '_w4pl_db_version', $curr_version);
+		}		
+
+		# update_option('_w4pl_db_version', $curr_version);
 	}
 	
 	function db_install( $force = false ) {
@@ -167,12 +155,15 @@ class W4PL_CORE {
 				return false;
 		}
 	
-		$options = $this->get_list($list_id, 'list_option');
-		return $this->_generate_list($options);
+		#$list_option = $this->get_list($list_id, 'list_option');
+		$list_options = $this->get_list($list_id);
+		
+		return $this->_generate_list( $list_options);
 	}
 	
-	private function _generate_list( $options ){
-		$category_ids = $options['categories'] ;
+	private function _generate_list( $list_options ){
+		$options = $list_options['list_option'];
+		$category_ids = $options['categories'];
 		
 		if( $options['list_type'] != 'op' && ( empty($category_ids) || !is_array( $category_ids))){
 			if(is_user_logged_in() && current_user_can('edit_plugins'))
@@ -189,7 +180,8 @@ class W4PL_CORE {
 				return __( 'No post selected. Please select one to show here.', 'w4-post-list' );
 			
 			$post_order = $this->sanitize_post_order_method( $options['post_order_method']);
-			return $this->_generate_post_list($options, array('post__in' => $options['post_ids'], 'order' => $post_order['order'], 'orderby' => $post_order['orderby']));
+			return $this->_generate_post_list( $list_options, array( 'post__in' => $options['post_ids'],
+			 'order' => $post_order['order'], 'orderby' => $post_order['orderby']));
 		}
 		
 		$_content = "<div id=\"w4_post_list\">";
@@ -202,9 +194,6 @@ class W4PL_CORE {
 			if($category_options["max"] != 0)
 				$showposts = intval($category_options["max"]);
 			
-#			elseif(count($category_options['post_ids']) == 0)
-#				$showposts = '0';
-			
 			else
 				$showposts = '-1';
 			
@@ -215,7 +204,6 @@ class W4PL_CORE {
 					'order' 		=> $post_order['order'],
 					'orderby' 		=> $post_order['orderby'],
 					'cat' 			=> $category_id,
-					//'post__in' 	=> $selected_posts_ids,
 					'showposts' 	=> $showposts,
 					);
 			
@@ -245,11 +233,13 @@ class W4PL_CORE {
 			if( 'pc' == $options['list_type']){
 				if($options['list_effect'] == 'extended'):
 					$category_li_class = "list_effect close";
-					$category_name_before = "<span class=\"marker\" title=\"Show list\"></span>";
+					$category_name_before = "<span class=\"marker\"></span>";
+#					$category_name_before = "<span class=\"marker\" title=\"Show list\"></span>";
 	
 				elseif( $options['list_effect'] == 'yes'):
 					$category_li_class = "list_effect open";
-					$category_name_before = "<span class=\"marker\" title=\"Hide list\"></span>";
+					$category_name_before = "<span class=\"marker\"></span>";
+#					$category_name_before = "<span class=\"marker\" title=\"Hide list\"></span>";
 				endif;
 			}
 
@@ -258,7 +248,7 @@ class W4PL_CORE {
 			. sprintf( __( 'View all in', 'w4-post-list') .' %s', $category_name ) .'">'. $category_name_before . $category_name.' &raquo;</a>';
 			
 			
-			if( in_array( $options['show_category_posts_count'], array('included', 'all')) && 'po' != $options['list_type']){
+			if( in_array( $options['show_category_posts_count'], array('included', 'all')) && 'op' != $options['list_type']){
 				//Show selected post count
 				if( 'included' == $options['show_category_posts_count'] ){
 					$items = count($category_options['post_ids']) > 0 ? count($category_options['post_ids']) : '0';
@@ -280,7 +270,7 @@ class W4PL_CORE {
 			$_content .= "<li class=\"$category_li_class\">";
 				$_content .= "$category_title";
 				if(!$no_posts)
-					$_content .=  $this->_generate_post_list($options, $args);
+					$_content .=  $this->_generate_post_list($list_options, $args);
 
 			$_content .= "</li>";
 		}
@@ -290,14 +280,19 @@ class W4PL_CORE {
 		return $_content;
 	}
 
-	private function _generate_post_list($options, $args){
-		#print_r($args);
+	private function _generate_post_list( $list_options, $args){
+		$options = $list_options['list_option'];
+		
 		if( $options['list_type'] == 'oc')
 			return;
 		
-		if( $options['post_content'] == 'excerpt' ):
+		if( 'excerpt' == $options['post_content']):
 			$new_excerpt_length = create_function('$length', "return " . $options["excerpt_length"] . ";");
 			add_filter('excerpt_length', $new_excerpt_length);
+			
+			$new_excerpt_more = create_function('$more', "return false;");
+			add_filter( 'excerpt_more', $new_excerpt_more);
+
 		endif;
 		
 		$defaults = array('post_status' => 'publish', 'showposts' => '-1');
@@ -307,11 +302,11 @@ class W4PL_CORE {
 		query_posts($args);
 		//Checking post
 		if( have_posts()):
-			$post_list = "<ul class=\"w4pl_post_list\">" ;
+			$post_list = "<ul class=\"w4pl_posts\">" ;
 			while(have_posts()):
 				the_post() ;
 
-				$post_title = __("<a href=\"".get_permalink()."\" title=\"View ".get_the_title()."\">".get_the_title()."</a>", 'w4-post-list') ;
+				$post_title = __("<a class=\"w4pl_post_title\" href=\"".get_permalink()."\" title=\"View ".get_the_title()."\">".get_the_title()."</a>", 'w4-post-list') ;
 				if( 'yes' == $options['show_post_date'])
 					$post_title .= sprintf(' <small><abbr class="" title="%2$s"><strong>' . __("Published:", "w4-post-list") . 
 					'</strong> %1$s</abbr></small>', get_the_time('j-m-Y'), get_the_time('g:i a')) ;
@@ -322,15 +317,26 @@ class W4PL_CORE {
 					
 
 				$post_list .= "<li class=\"\">" ;
-				$post_list .= "<div class=\"w4pl_post_title\">$post_title</div>" ;
+				#$post_list .= "<div class=\"w4pl_post_title\">$post_title</div>" ;
+				// Removed the dividion from the post title
+				$post_list .= "$post_title" ;
 
-				//Excerpt
-				if( 'excerpt' == $options['post_content'] ){
-					$post_list .= "<div class=\"w4pl_post_content\">".get_the_excerpt()."</div>" ;
-				
-				}elseif( 'content' == $options['post_content'] ){
-					$post_list .= "<div class=\"w4pl_post_content\">".get_the_content()."</div>" ;
-				}
+				// Pos content or Excerpt with/without readmore
+				if( 'no' != $options['post_content']):
+					$post_list .= "<div class=\"w4pl_post_content\">";
+
+					if( 'excerpt' == $options['post_content'] )
+						$post_list .= get_the_excerpt();
+					
+					elseif( 'content' == $options['post_content'] )
+						$post_list .= get_the_content();
+					
+					if( 'yes' == $options['excerpt_more'])
+						$post_list .= '&hellip;<a href="'. get_permalink().'">'. __( 'continue reading &raquo;','w4-post-list').'</a>';
+					
+					$post_list .= "</div>";
+
+				endif;
 
 				$post_list .= "</li>" ;
 			endwhile;
@@ -340,6 +346,7 @@ class W4PL_CORE {
 		
 		//Remove the filter so that other content gets the real excerpt
 		remove_filter( 'excerpt_length', $new_excerpt_length);
+		remove_filter( 'excerpt_more', $new_excerpt_more);
 		
 		if( $options['list_type'] == 'op')
 			$post_list = "<div id=\"w4_post_list\">" . $post_list ."</div>";
@@ -358,7 +365,7 @@ class W4PL_CORE {
 	<div id="w4pl_admin" class="wrap">
     	<div class="icon32" id="icon-post"><br/></div>
         <h2><?php echo W4PL_NAME. " V:" . W4PL_VERSION ; ?>
-        	<span class="desc"> - <?php _e( 'With w4 post list plugin you can show your selected post list, selected category list or making list with both of them in woedpress site.', 'w4-post-list' ); ?></span>
+        	<span class="desc"><?php _e( 'With w4 post list plugin you can show your selected post list, selected category list or<br /> making list with both of them in woedpress site.', 'w4-post-list' ); ?></span>
         	
 		</h2>
         <div class="menu">
@@ -386,7 +393,7 @@ class W4PL_CORE {
 			if(in_array($msg, array_keys($list_msgs)))
 				echo '<div id="message" class="updated fade">'.$list_msgs[$msg].'</div>';
 		}
-		if(!$_GET['list_id'])
+		if( !$_GET['list_id'])
 			echo $this->help_page();
 
         $this->list_form();
@@ -414,22 +421,22 @@ class W4PL_CORE {
 		//Create new list
 		if(isset( $_GET['new_list'])){
 			$list_id = $this->save_list();
-			header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=".$list_id."&message=list_created");
+			header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=". $list_id . "&message=list_created");
 			die();
 		}
-		
+
 		//Save an existing list
 		if( !isset( $_POST['save_w4_post_list_options'] ) && !isset( $_POST['list_id']))
 			return;
 		
 		$list_id = (int) $_POST['list_id'];
 			
-		if(isset($_POST['list_title']))
+		if( isset($_POST['list_title']))
 			$list_title = trim( stripslashes( $_POST['list_title']));
 
 		
 		foreach( $this->default_options as $key => $default ){
-			if(!is_array($default))
+			if( !is_array($default))
 				$list_option[$key] = $_REQUEST[$key];
 		}
 			
@@ -441,7 +448,7 @@ class W4PL_CORE {
 			
 			$_w4_cat_post_order_method = (!$_REQUEST['_w4_cat_post_order_method_'.$cat_id]) ? 'newest' : $_REQUEST['_w4_cat_post_order_method_'.$cat_id];
 			$_w4_cat_post_by = (!$_REQUEST['_w4_cat_post_by_'.$cat_id]) ? 'all' : $_REQUEST['_w4_cat_post_by_'.$cat_id];
-			//$_s_cat_post_order = $this->sanitize_post_order_method( $_w4_cat_post_order);
+
 			if( 'all_present' == $_w4_cat_post_by || 'all' == $_w4_cat_post_by )
 				$_w4_cat_posts = get_objects_in_term( $cat_id, 'category');
 
@@ -451,7 +458,6 @@ class W4PL_CORE {
 				'post_ids' 			=> $_w4_cat_posts,
 				'post_order_method'	=> $_w4_cat_post_order_method,
 				'post_by'			=> $_w4_cat_post_by
-//				'post_order'	=> $_s_cat_post_order['order']
 			);
 		}
 		$list_option['categories'] = $categories;
@@ -484,8 +490,9 @@ class W4PL_CORE {
 		$f_action = admin_url( "edit.php?page=" . W4PL_SLUG . "&list_id=" . $list_id);
 		$hidden = '<input type="hidden" value="'. $list_id . '" name="list_id"/>';
 
-		$form_options = $list_option;
-		extract( $form_options);
+		# $form_options = $list_option;
+		// unneccerary usage
+		extract( $list_option);
 		
 		$list_effect_pc_show = ( $list_type == 'pc' ) ? '' : 'hide_box';
 		$list_effect_pc_hide = ( $list_type == 'pc' ) ? 'hide_box' : '';
@@ -512,6 +519,7 @@ class W4PL_CORE {
 			<input type="text" value="<?php echo( $list_title) ; ?>" name="list_title" 
 			id="list_title" class=""/></div>
             
+            <!-- List type -->
             <div class="option"><strong><?php _e( 'List type:', 'w4-post-list' ); ?></strong>
             <small><?php _e( 'Kind of list you need.', 'w4-post-list'); ?></small>
 			<br /><label><input type="radio" <?php checked( $list_type, 'pc' ); ?> name="list_type" value="pc"  /> <?php _e( 'Posts with categories', 'w4-post-list' ); ?></label>
@@ -519,7 +527,8 @@ class W4PL_CORE {
             <br /><label><input type="radio" <?php checked( $list_type, 'oc' ); ?> name="list_type" value="oc"  /> <?php _e( 'Only categories', 'w4-post-list' ); ?></label>
             </div>
 			
-			<div class="option <?php echo $list_effect_co_hide; ?> <?php echo $list_effect_pc_hide; ?>"><strong><?php _e( 'Post order by:', 'w4-post-list' ); ?></strong>
+            <!-- Post order by -->
+			<div class="option <?php echo $list_effect_co_hide; ?> <?php echo $list_effect_pc_hide; ?> hide_if_pc hide_if_oc show_if_op"><strong><?php _e( 'Post order by:', 'w4-post-list' ); ?></strong>
 				<br /><label><input type="radio" <?php checked( $post_order_method, 'newest', true ); ?> name="post_order_method" value="newest"  /> 
 				<?php _e( 'Newest -<small>recent</small>', 'w4-post-list'  );?></label>
 
@@ -542,48 +551,46 @@ class W4PL_CORE {
 				<?php _e( 'Random -<small>anything can happen</small>', 'w4-post-list' ); ?></label>
 			</div>
             
-            <div class="option <?php echo $list_effect_po_hide; ?>"><strong><?php _e( 'Select categories and posts:', 'w4-post-list'); ?></strong></p>
-			<?php echo $this->categories_checklist($form_options); ?></div>
+            <!-- Categpry post -->
+            <div class="option <?php echo $list_effect_po_hide; ?> show_if_pc show_if_oc hide_if_op"><strong><?php _e( 'Select categories and posts:', 'w4-post-list'); ?></strong></p>
+			<?php echo $this->categories_checklist($list_option); ?></div>
             
-            <div class="option <?php echo $list_effect_pc_show; ?>"><strong><?php _e( 'Show category posts with a jquery slide Up/Down effect?', 'w4-post-list' ); ?></strong>
+            <!-- List effect -->
+            <div class="option <?php echo $list_effect_pc_show; ?> show_if_pc hide_if_oc hide_if_op"><strong><?php _e( 'Show category posts with a jquery slide Up/Down effect?', 'w4-post-list' ); ?></strong>
             <small><?php _e( 'Under the post title.', 'w4-post-list' ); ?></small>
             <br /><label><input type="radio" <?php checked( $list_effect, 'no' ); ?> name="list_effect" value="no"  /> <?php _e( 'Not neccessary', 'w4-post-list' ); ?></label>
             <br /><label><input type="radio" <?php checked( $list_effect, 'yes' ); ?> name="list_effect" value="yes"  /> <?php _e( 'Yap, do it', 'w4-post-list' ); ?></label>
             <br /><label><input type="radio" <?php checked( $list_effect, 'extended' ); ?> name="list_effect" value="extended"  /> <?php _e( 'Do it. Also make the posts invisible at primary position', 'w4-post-list' ); ?></label>
             </div>
-
-            <div class="option <?php echo $list_effect_co_hide; ?> <?php echo $list_effect_pc_hide; ?>"><strong><?php _e( 'Select posts:', 'w4-post-list'); ?></strong>
-            </p>
-            <?php echo $this->posts_checklist($form_options); ?></div>
-            
-			<div class="option <?php echo $list_effect_po_hide; ?>"><strong><?php _e( 'Show item count appending to category name ?', 'w4-post-list' ); ?></strong>
-            <small><?php _e( 'Will appear after the category name.', 'w4-post-list' ); ?></small>
-			<br /><label><input type="radio" <?php checked( $show_category_posts_count, 'no' ); ?> name="show_category_posts_count" value="no"  /> <?php _e( 'Do not show', 'w4-post-list' ); ?></label>
-            <?php if($list_type != 'oc'){ ?>
-            <br />
-            <label><input type="radio" <?php checked( $show_category_posts_count, 'included' ); ?> name="show_category_posts_count" value="included"  /> <?php _e( 'Show only included post count', 'w4-post-list' ); ?></label>
-            <?php }else{ ?>
-				<input style="display:none;" type="radio" <?php echo checked( $show_category_posts_count, 'included' ); ?> name="show_category_posts_count" value="included"  />
 			
-			<?php } ?>
+            <!-- Post select -->
+            <div class="option <?php echo $list_effect_co_hide; ?> <?php echo $list_effect_pc_hide; ?> hide_if_pc hide_if_oc show_if_op"><strong><?php _e( 'Select posts:', 'w4-post-list'); ?></strong>
+            </p>
+            <?php echo $this->posts_checklist($list_option); ?></div>
             
-            <br /><label><input type="radio" <?php checked( $show_category_posts_count, 'all' ); ?> name="show_category_posts_count" value="all"  /> <?php _e( 'Show the actual category count', 'w4-post-list' ); ?></label>
+            <!-- Categpry item count -->
+			<div class="option <?php echo $list_effect_po_hide; ?> show_if_pc show_if_oc hide_if_op"><strong><?php _e( 'Show item count appending to category name ?', 'w4-post-list' ); ?></strong>
+            <small><?php _e( 'Will appear after the category name.', 'w4-post-list' ); ?></small>
+			<br /><label><input type="radio" <?php checked( $show_category_posts_count, 'no' ); ?> name="show_category_posts_count" value="no"  /> <?php _e( 'No', 'w4-post-list' ); ?></label>
+            <br /><label><input type="radio" <?php checked( $show_category_posts_count, 'all' ); ?> name="show_category_posts_count" value="all"  /> <?php _e( 'Yes', 'w4-post-list' ); ?></label>
             </div>
             
-            <div class="option <?php echo $list_effect_co_hide; ?>"><strong><?php _e( 'Show published date appending to post title ?', 'w4-post-list' ); ?></strong><br />
-            <label><input type="radio" <?php checked( $show_post_date, 'no' ); ?> name="show_post_date" value="no"  /> <?php _e( 'No', 'w4-post-list' ); ?></label>
+            <!-- Post publish date -->
+            <div class="option <?php echo $list_effect_co_hide; ?> show_if_pc hide_if_oc show_if_op"><strong><?php _e( 'Show published date appending to post title ?', 'w4-post-list' ); ?></strong>
+            <br /><label><input type="radio" <?php checked( $show_post_date, 'no' ); ?> name="show_post_date" value="no"  /> <?php _e( 'No', 'w4-post-list' ); ?></label>
             <br /><label><input type="radio" <?php checked( $show_post_date, 'yes' ); ?> name="show_post_date" value="yes"  /> <?php _e( 'Yes', 'w4-post-list' ); ?></label>
             </div>
             
-            <div class="option <?php echo $list_effect_co_hide; ?>"><strong><?php _e( 'Show last post-update time appending to post title ?', 'w4-post-list' ); ?></strong><br />
-            	<label><input type="radio" <?php checked( $show_post_modified_time, 'no' ); ?> name="show_post_modified_time" value="no"  /> <?php _e( 'No', 'w4-post-list' ); ?>
+            <!-- Post update time -->
+            <div class="option <?php echo $list_effect_co_hide; ?> show_if_pc hide_if_oc show_if_op"><strong><?php _e( 'Show last post-update time appending to post title ?', 'w4-post-list' ); ?></strong>
+            <br /><label><input type="radio" <?php checked( $show_post_modified_time, 'no' ); ?> name="show_post_modified_time" value="no"  /> <?php _e( 'No', 'w4-post-list' ); ?>
             	</label>
-            <br />
-            	<label><input type="radio" <?php checked( $show_post_modified_time, 'yes' ); ?> name="show_post_modified_time" value="yes"  /> <?php _e( 'Yes', 'w4-post-list' ); ?>
+            <br /><label><input type="radio" <?php checked( $show_post_modified_time, 'yes' ); ?> name="show_post_modified_time" value="yes"  /> <?php _e( 'Yes', 'w4-post-list' ); ?>
                 </label>
             </div>
             
-            <div class="option <?php echo $list_effect_co_hide; ?>"><strong><?php _e( 'Show post content ?', 'w4-post-list' ); ?></strong>
+            <!-- Post content option -->
+            <div class="option <?php echo $list_effect_co_hide; ?> show_if_pc hide_if_oc show_if_op"><strong><?php _e( 'Show post content ?', 'w4-post-list' ); ?></strong>
             	<small>Under the post title.</small>
             	<br /><label><input type="radio" <?php checked( $post_content, 'no' ); ?> name="post_content" value="no"  /> <?php _e( 'Do not show content', 'w4-post-list' ); ?>
                 </label>
@@ -592,9 +599,17 @@ class W4PL_CORE {
             	<br /><label><input type="radio" <?php checked( $post_content, 'content' ); ?> name="post_content" value="content"  /> <?php _e( 'Show full content', 'w4-post-list' ); ?>
                 </label>
             </div>
-
-            <div class="option <?php echo $list_effect_co_hide; if('excerpt' != $post_content) echo 'hide_box'; ?>"><label for="excerpt_length"><strong><?php _e('Excerpt length:', 'w4-post-list'); ?></strong></label>
-            <small><?php _e( 'The content word limit.', 'w4-post-list'); ?></small><br />
+			
+            <!-- Post excerpt more -->
+            <div class="option <?php echo $list_effect_co_hide; if( 'no' == $post_content) echo 'hide_box'; ?> show_if_post_content_content show_if_post_content_excerpt hide_if_post_content_no"><label for="excerpt_length"><strong><?php _e('Show readmore link ?', 'w4-post-list'); ?></strong></label>
+            	<br /><label><input type="radio" <?php checked( $excerpt_more, 'no' ); ?> name="excerpt_more" value="no"  /> <?php _e( 'No', 'w4-post-list' ); ?>
+                </label>
+            	<br /><label><input type="radio" <?php checked( $excerpt_more, 'yes' ); ?> name="excerpt_more" value="yes"  /> <?php _e( 'Yes', 'w4-post-list' ); ?>
+           </div>
+			
+            <!-- Post excerpt length -->
+            <div class="option <?php echo $list_effect_co_hide; if( 'excerpt' != $post_content) echo ' hide_box'; ?> show_if_post_content_excerpt hide_if_post_content_no hide_if_post_content_content hide_if_oc"><label for="excerpt_length"><strong><?php _e('Excerpt length:', 'w4-post-list'); ?></strong></label>
+            <small><?php _e( 'The content word limit. This wll only be applied if there is no manual post excerpt entry.', 'w4-post-list'); ?></small><br />
 			<input type="text" value="<?php echo( $excerpt_length) ; ?>" name="excerpt_length" 
 			id="excerpt_length" class=""/></div>
             
@@ -635,9 +650,9 @@ class W4PL_CORE {
 		if($list_id){
 			$update = true;
 			$old_options = $this->get_list($list_id, 'list_option');
-			//handling options
-			#$list_option = compact( array_keys( $this->default_options));
-			$list_option = apply_filters( 'w4_post_list_option_save_pre', $list_option );
+			// handling options
+#			$list_option = apply_filters( 'w4_post_list_option_save_pre', $list_option );
+			$list_option = apply_filters( 'sanitize_list_option', $list_option );
 			$list_option = maybe_serialize( stripslashes_deep( $list_option ));
 
 			$options = compact( 'list_option', 'list_title');
@@ -650,7 +665,7 @@ class W4PL_CORE {
 			$list_id = $wpdb->insert_id;
 		}
 		
-		$list_title = $this->get_list($list_id, 'list_title');
+		$list_title = $this->get_list( $list_id, 'list_title');
 		if( empty( $list_title)){
 			$options['list_title'] = 'List-' .$list_id;
 			$wpdb->update( $this->table, $options, array( 'list_id' => $list_id));
@@ -659,7 +674,7 @@ class W4PL_CORE {
 		return $list_id;
 	}
 
-	function get_list($list_id = '', $col = null){
+	function get_list( $list_id = '', $col = null){
 		global $wpdb;
 		
 		$list_id = (int) $list_id;
@@ -672,7 +687,8 @@ class W4PL_CORE {
 		if ( !$row = $wpdb->get_row( $query ))
 			return false;
 		
-		$row->list_option = maybe_unserialize( $row->list_option);
+		$row->list_option = maybe_unserialize( $row->list_option );
+		$row->list_option = apply_filters( 'sanitize_list_option', $row->list_option );
 		$row = (array) $row;
 		
 		if(isset($col) && in_array($col, array_keys($row)))
@@ -686,20 +702,19 @@ class W4PL_CORE {
 		extract($list_option);
 		$yn_array = array( 'yes', 'no');
 		
-		if(!in_array($list_type, array('pc', 'op', 'oc'))){
-		//for change of parameter in current version
+		// Version 1.3.1 *****************************************************
+		if(!in_array( $list_type, array('pc', 'op', 'oc'))){
 			if( '1' == $list_type )
-				$list_type = 'po';
+				$list_type = 'op';
 			
 			elseif( '2' == $list_type)
-				$list_type = 'co';
+				$list_type = 'oc';
 			
 			else
 				$list_type = 'pc';
 		}
 			
 		if(!in_array($list_effect, array( 'yes', 'no', 'extended'))){
-			//for change of parameter in current version
 			if( '1' == $list_effect )
 				$list_effect = 'yes';
 			
@@ -711,7 +726,6 @@ class W4PL_CORE {
 		}
 		
 		if(!in_array($show_post_date, $yn_array)){
-			//for change of parameter in current version
 			if( '1' == $show_post_date)
 				$show_post_date = 'yes';
 			
@@ -721,7 +735,6 @@ class W4PL_CORE {
 		
 		
 		if(!in_array($show_post_modified_time, $yn_array)){
-			//for change of parameter in current version
 			if( '1' == $show_post_modified_time)
 				$show_post_modified_time = 'yes';
 			
@@ -730,7 +743,6 @@ class W4PL_CORE {
 		}			
 		
 		if(!in_array($show_category_posts_count, array('no', 'included', 'all'))){
-			//for change of parameter in current version
 			if( '1' == $show_category_posts_count)
 				$show_category_posts_count = 'included';
 			
@@ -740,9 +752,8 @@ class W4PL_CORE {
 			else
 				$show_category_posts_count = 'no';
 		}
-
-		if(!in_array($post_content, array('no', 'excerpt', 'content'))){
-			//for change of parameter in current version
+		
+		if(!in_array( $post_content, array('no', 'excerpt', 'content'))){
 			if( '1' == $post_content)
 				$post_content = 'excerpt';
 			
@@ -760,6 +771,21 @@ class W4PL_CORE {
 				$post_ids = array();
 
 		}
+
+		// Version 1.3.3 *****************************************************
+		if( !$post_order_method)
+			$post_order_method = 'newest';
+		
+		if( !$post_content)
+			$post_content = 'no';
+		
+		if( 'included' == $show_category_posts_count )
+			$show_category_posts_count = 'all';
+		
+		if(!in_array($excerpt_more, $yn_array)){
+			$excerpt_more = 'yes';
+		}
+
 		$list_option = compact(
 				'list_type',
 				'list_effect',
@@ -771,9 +797,182 @@ class W4PL_CORE {
 				'show_post_date',
 				'show_post_modified_time',
 				'post_content',
+				'excerpt_more',
 				'excerpt_length'
 			);
 		return $list_option;
+	}
+
+	private function categories_checklist( $options = array()){
+		$categories = get_categories( array('hide_empty' => false));
+		$w4pl_cats = (array) $options['categories'];
+		//$w4pl_cat_max = $w4pl_cats['max'];
+		//$w4pl_cat_posts = $w4pl_cats['post_ids'];
+		
+		foreach( $categories as $category ){
+			$cat_selected =  false;
+			$checked = '';
+			$w4pl_cat_max = '';
+			$w4pl_cat_posts = array();
+			$w4pl_cat_post_by = '';
+
+			if( in_array($category->cat_ID, array_keys($w4pl_cats))){
+				$cat_selected =  true;
+				$checked = ' checked="checked" ';
+				$w4pl_cat_max = $w4pl_cats[$category->cat_ID]["max"] ? $w4pl_cats[$category->cat_ID]["max"] : '';
+				$w4pl_cat_posts = !is_array( $w4pl_cats[$category->cat_ID]["post_ids"]) ? array() : $w4pl_cats[$category->cat_ID]["post_ids"];
+				$w4pl_cat_post_order_method = $w4pl_cats[$category->cat_ID]['post_order_method'] ? $w4pl_cats[$category->cat_ID]['post_order_method'] : 'date';
+				$w4pl_cat_post_by = $w4pl_cats[$category->cat_ID]['post_by'] ? $w4pl_cats[$category->cat_ID]['post_by'] : 'all';
+			
+			}
+			if( $category_container_class == 'first' ) $category_container_class = 'second';
+			else $category_container_class = 'first';
+
+			//Category name
+			$checklist .= "<div class=\"category $category_container_class\">";
+			
+			#if( $options['list_type'] != 'op'){
+				if( $options['list_type'] == 'oc')
+					$checklist .= "<p class=\"cat_title\"><label><input name=\"_w4_cat_ids[]\" type=\"checkbox\" $checked value=\"$category->cat_ID\" class=\"w4pl_cat_checkbox\" /> $category->cat_name</strong></label> <span class='hide_box category_post_handle hide_if_oc show_if_pc' rel='w4cat_{$category->cat_ID}'>manage posts</span></p>" ;
+			
+			//Post listin of this category
+				else
+					$checklist .= "<p class=\"cat_title\"><label><input name=\"_w4_cat_ids[]\" type=\"checkbox\" $checked value=\"$category->cat_ID\" class=\"w4pl_cat_checkbox\" /> $category->cat_name</strong></label> <span class='category_post_handle hide_if_oc show_if_pc' rel='w4cat_{$category->cat_ID}'>manage posts</span></p>" ;
+
+			//$class = ('' == $checked || $options['list_type'] != 'pc') ? 'hide_box' : '';
+			
+			$checklist .= "<div id='w4cat_{$category->cat_ID}' class=\"w4c_inside hide_if_oc\">";
+			$checklist .= $this->category_posts_checklist( $category->cat_ID, $w4pl_cat_posts, $w4pl_cat_post_order_method, $w4pl_cat_max, $w4pl_cat_post_by );
+			$checklist .= "</div><!--.w4c_inside close-->";
+			$checklist .= "</div><!--.category closed-->";
+			
+		}
+		return $checklist;
+	}
+	
+	private function category_posts_checklist( $cat_id, $selected_posts, $order_method, $max, $post_by ){
+		global $wp_query;
+
+		$post_order = $this->sanitize_post_order_method( $order_method);
+		query_posts( array(
+				'post_status' 	=> 'publish',
+				'order' 		=> $post_order['order'],
+				'orderby' 		=> $post_order['orderby'],
+				'cat' 			=> $cat_id,
+				'showposts' 	=> '-1',
+			));
+		// print_r($this->sanitize_post_order_method('most_popular'));
+		// query_posts( array('cat' => $category->cat_ID, 'showposts' => '-1', 'posts_per_page' => '-1', 'post_status' => 'publish'));
+		if( have_posts()):
+			$checklist .= $this->form_order_by( "_w4_cat_post_order_method_".$cat_id, $order_method );
+			$checklist .= '<br /><br />' . $this->form_max_posts( "_w4_cat_max_". $cat_id, $max) ;
+			$checklist .= '<br /><br />' . $this->form_posts_by( "_w4_cat_post_by_". $cat_id, $post_by );
+			$checklist .= "<br /><br /><strong>". __( 'Select posts:', 'w4-post-list' ) ."</strong><br />";
+
+			$checklist .= "<ul class=\"post_list\">";
+			while( have_posts()): the_post();
+				$checked2 = in_array( get_the_ID(), $selected_posts) ? ' checked="checked" ' : '';
+				$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"_w4_cat_posts_{$category->cat_ID}[]\" type=\"checkbox\" $checked2 
+				value=\"".get_the_ID()."\" /> ". get_the_title() .'</label></li>' ;
+			endwhile;
+			$checklist .= "</ul>";
+
+		else:
+			$checklist .= '<span class="red">' . __( 'No posts in this cat', 'w4-post-list' ) .'</span>';
+		endif;
+		
+		return $checklist;
+	}
+	
+	private function posts_checklist($options = array()){
+		$post_ids = (array) $options['post_ids'];
+		$post_order = $this->sanitize_post_order_method( $options['post_order_method']);
+		query_posts( array(
+					'post_status' 	=> 'publish',
+					'order' 		=> $post_order['order'],
+					'orderby' 		=> $post_order['orderby'],
+					'showposts' 	=> '-1',
+					));
+		
+		if( have_posts()):
+
+			$checklist .= "<ul class=\"post_list\">";
+			while( have_posts()): the_post();
+				$checked = in_array( get_the_ID(), $post_ids) ? ' checked="checked" ' : '';
+				$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"_w4_post_ids[]\" type=\"checkbox\" $checked value=\"". get_the_ID() ."\" /> " 
+				. get_the_title() .'</label>'. sprintf( __( ' &laquo; Categories: %s', 'w4-post-list' ), get_the_category_list( ', ' )) .'</li>';
+			endwhile;
+			$checklist .= "</ul>";
+
+		else:
+
+			$checklist .= __( 'No posts', 'w4-post-list' );
+
+		endif;
+		return $checklist ;
+	}
+
+	function form_order_by( $input_name, $selected){
+		return '<strong>'. __( 'Post order by:', 'w4-post-list' ). '</strong>
+				<br /><label><input type="radio" '. checked( $selected, 'newest', false ).' name="'.$input_name.'" 
+				value="newest"  /> '. __( 'Newest -<small>recent</small>', 'w4-post-list'  ). '</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'oldest', false ).' name="'.$input_name.'" 
+				value="oldest"  /> '. __( 'Oldest -<small>less recent</small>', 'w4-post-list'  ). '</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'most_popular', false ).' name="'.$input_name.'" 
+				value="most_popular"  /> '. __( 'Most popular -<small>maximum commented post will be shown first</small>', 'w4-post-list' ).'</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'less_popular', false ).' name="'.$input_name.'" 
+				value="less_popular"  /> '. __( 'Less popular -<small>minimum commented post will be shown first</small>', 'w4-post-list' ).'</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'a_title', false ).' name="'.$input_name.'" 
+				value="a_title"  /> '. __( 'Sort by post title -<small>A-Z</small>', 'w4-post-list'  ).'</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'z_title', false ).' name="'.$input_name.'" 
+				value="z_title"  /> '. __( 'Sort by post title -<small>Z-A</small>', 'w4-post-list'  ).'</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'random', false ).' name="'.$input_name.'" 
+				value="random"  /> '. __( 'Random -<small>anything can happen</small>', 'w4-post-list' ).'</label>
+			';
+	}
+	
+	function form_posts_by( $input_name, $selected){
+		return '<strong>'. __( 'Post by:', 'w4-post-list' ). '</strong>
+				<br /><label><input type="radio" '. checked( $selected, 'show_selected', false ).' name="'. $input_name .
+				'" value="show_selected"  /> '. __( 'Show only selected posts.', 'w4-post-list'). '</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'hide_selected', false ).' name="'. $input_name .
+				'" value="hide_selected"  /> '. __( 'Hide selected posts and show rest.', 'w4-post-list'). '</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'all', false ).' name="'. $input_name .
+				'" value="all"  /> '. __( 'Show All including future posts.', 'w4-post-list' ).'</label>
+
+				<br /><label><input type="radio" '. checked( $selected, 'all_present', false ).' name="'. $input_name .
+				'" value="all_present"  /> '. __( 'Show All excluding future posts.', 'w4-post-list' ).'</label>
+			';
+	}
+	
+	function form_max_posts( $input_name, $value){
+		return '<label><strong>'. __( 'Number of posts to show', 'w4-post-list') . '</strong>
+		<br /><input size="3" name="'. $input_name. '" type="text" value="'. $value . '" /></label>';
+	}
+	
+	function sanitize_post_order_method( $order = 'newest'){
+		$array = array(
+					'newest'		=> array( 'orderby' => 'date', 'order' => 'DESC'),
+					'oldest'		=> array( 'orderby' => 'date', 'order' => 'ASC'),
+					'most_popular'	=> array( 'orderby' => 'comment_count', 'order' => 'DESC'),
+					'less_popular'	=> array( 'orderby' => 'comment_count', 'order' => 'ASC'),
+					'a_title'		=> array( 'orderby' => 'title', 'order' => 'ASC'),
+					'z_title'		=> array( 'orderby' => 'title', 'order' => 'DESC'),
+					'random'		=> array( 'orderby' => 'rand', 'order' => 'ASC'),
+				);
+		// $default = array( 'orderby' => 'date', 'order' => 'DESC');
+		// if(!$order || !in_array($order, array_keys($array)))
+		// return $default;
+		
+		return $array[$order];
 	}
 
 	private function post_list_menu($current = 0){
@@ -806,152 +1005,9 @@ class W4PL_CORE {
 		
 		echo $all_post_list;
 	}
-	
-	private function categories_checklist($options = array()){
-		$categories = get_categories(array('hide_empty' => false));
-		$w4pl_cats = (array) $options['categories'];
-		//$w4pl_cat_max = $w4pl_cats['max'];
-		//$w4pl_cat_posts = $w4pl_cats['post_ids'];
-		
-		foreach( $categories as $category ){
-			$cat_selected =  false;
-			$checked = '';
-			$w4pl_cat_max = '';
-			$w4pl_cat_posts = array();
-			$w4pl_cat_post_by = '';
 
-			if(in_array($category->cat_ID, array_keys($w4pl_cats))){
-				$cat_selected =  true;
-				$checked = ' checked="checked" ';
-				$w4pl_cat_max = $w4pl_cats[$category->cat_ID]["max"] ? $w4pl_cats[$category->cat_ID]["max"] : '';
-				$w4pl_cat_posts = !is_array($w4pl_cats[$category->cat_ID]["post_ids"]) ? array() : $w4pl_cats[$category->cat_ID]["post_ids"];
-				$w4pl_cat_post_order_method = $w4pl_cats[$category->cat_ID]['post_order_method'] ? $w4pl_cats[$category->cat_ID]['post_order_method'] : 'date';
-				$w4pl_cat_post_by = $w4pl_cats[$category->cat_ID]['post_by'] ? $w4pl_cats[$category->cat_ID]['post_by'] : 'all';
-			
-			}
-			if( $category_container_class == 'first' )
-				$category_container_class = 'second';
-			else
-				$category_container_class = 'first';
-
-			//Category name
-			$checklist .= "<div class=\"category $category_container_class\">";
-			$checklist .= "<p class=\"cat_title\"><label><input name=\"_w4_cat_ids[]\" type=\"checkbox\" $checked value=\"$category->cat_ID\" class=\"w4pl_cat_checkbox\" /> $category->cat_name</strong></label></p>" ;
-			
-			//Post listin of this category
-			if($options['list_type'] == 'pc'){
-			$class = ('' == $checked) ? 'hide_box' : '';
-			
-			//print_r($this->sanitize_post_order_method('most_popular'));
-			
-			$checklist .= "<div id=\"\" class=\"w4c_inside $class\">";
-			$checklist_order_by = '<strong>'. __( 'Post order by:', 'w4-post-list' ). '</strong>
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'newest', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="newest"  /> '. __( 'Newest -<small>recent</small>', 'w4-post-list'  ). '</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'oldest', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="oldest"  /> '. __( 'Oldest -<small>less recent</small>', 'w4-post-list'  ). '</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'most_popular', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="most_popular"  /> '. __( 'Most popular -<small>maximum commented post will be shown first</small>', 'w4-post-list' ).'</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'less_popular', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="less_popular"  /> '. __( 'Less popular -<small>minimum commented post will be shown first</small>', 'w4-post-list' ).'</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'a_title', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="a_title"  /> '. __( 'Sort by post title -<small>A-Z</small>', 'w4-post-list'  ).'</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'z_title', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="z_title"  /> '. __( 'Sort by post title -<small>Z-A</small>', 'w4-post-list'  ).'</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_order_method, 'random', false ).' name="_w4_cat_post_order_method_'. $category->cat_ID .
-				'" value="random"  /> '. __( 'Random -<small>anything can happen</small>', 'w4-post-list' ).'</label>
-			';
-
-			//Maximum number of posts to show for the selected category
-			$checklist_max = '<br /><br /><label><strong>'. __( 'Number of posts to show', 'w4-post-list') . '</strong><br /><input size="3" name="_w4_cat_max_'. $category->cat_ID .'" type="text" value="'. $w4pl_cat_max . '" /></label>';
-
-			// Posts by
-			$checklist_posts_by = '<br /><br /><strong>'. __( 'Post by:', 'w4-post-list' ). '</strong>
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_by, 'show_selected', false ).' name="_w4_cat_post_by_'. $category->cat_ID .
-				'" value="show_selected"  /> '. __( 'Show only selected posts.', 'w4-post-list'). '</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_by, 'hide_selected', false ).' name="_w4_cat_post_by_'. $category->cat_ID .
-				'" value="hide_selected"  /> '. __( 'Hide selected posts and show rest.', 'w4-post-list'). '</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_by, 'all', false ).' name="_w4_cat_post_by_'. $category->cat_ID .
-				'" value="all"  /> '. __( 'Show All including future posts.', 'w4-post-list' ).'</label>
-
-				<br /><label><input type="radio" '. checked( $w4pl_cat_post_by, 'all_present', false ).' name="_w4_cat_post_by_'. $category->cat_ID .
-				'" value="all_present"  /> '. __( 'Show All excluding future posts.', 'w4-post-list' ).'</label>
-			';
-
-			query_posts( array('cat' => $category->cat_ID, 'showposts' => '-1', 'posts_per_page' => '-1', 'post_status' => 'publish'));
-			if(have_posts()):
-				$checklist .= $checklist_order_by . $checklist_max . $checklist_posts_by;
-				$checklist .= "<br /><br /><strong>". __( 'Select posts:', 'w4-post-list' ) ."</strong><br />";
-				$checklist .= "<ul class=\"post_list\">";
-
-				while(have_posts()): the_post();
-				$checked2 = in_array(get_the_ID(), $w4pl_cat_posts) ? ' checked="checked" ' : '' ;
-				$checklist .= "<li><label class=\"has_help\" title=\"Content Overview: ". wp_strip_all_tags( get_the_excerpt()) ."\"><input name=\"_w4_cat_posts_{$category->cat_ID}[]\" type=\"checkbox\" $checked2 value=\"".get_the_ID()."\" /> " 
-				. get_the_title().'</label></li>' ;
-
-				endwhile;
-				$checklist .= "</ul>";
-			else:
-				$checklist .= '<span class="red">' . __( 'No posts in this cat', 'w4-post-list' ) .'</span>';
-			endif;
-
-			$checklist .= "</div>";
-			
-			}
-			$checklist .= "</div>";
-			
-		}
-		return $checklist;
-	}
-	
-	private function posts_checklist($options = array()){
-		$post_ids = (array) $options['post_ids'];
-
-		query_posts(array('showposts' => '-1', 'posts_per_page' => '-1', 'post_status' => 'publish', 'order' => $options['post_order'], 'orderby' => $options['post_orderby']));
-		if(have_posts()):
-			$checklist .= "<ul class=\"post_list\">";
-
-			while(have_posts()): the_post();
-				$checked = in_array(get_the_ID(), $post_ids) ? ' checked="checked" ' : '' ;
-				$checklist .= "<li><label class=\"has_help\" title=\"Content Overview: ". wp_strip_all_tags( get_the_excerpt()) ."\"><input 
-				name=\"_w4_post_ids[]\" type=\"checkbox\" $checked value=\"".get_the_ID()."\" /> " 
-				. get_the_title().'</label>'. sprintf( __( ' &laquo; Categories: %s', 'w4-post-list' ), get_the_category_list( ', ' )) .'</li>';
-			endwhile;
-
-			$checklist .= "</ul>";
-		else:
-				$checklist .= __( 'No posts', 'w4-post-list' );
-		endif;
-
-		return $checklist ;
-	}
-
-	function sanitize_post_order_method( $order = ''){
-		$array = array(
-					'newest'		=> array( 'orderby' => 'date', 'order' => 'DESC'),
-					'oldest'		=> array( 'orderby' => 'date', 'order' => 'ASC'),
-					'most_popular'	=> array( 'orderby' => 'comment_count', 'order' => 'DESC'),
-					'less_popular'	=> array( 'orderby' => 'comment_count', 'order' => 'ASC'),
-					'a_title'		=> array( 'orderby' => 'title', 'order' => 'ASC'),
-					'z_title'		=> array( 'orderby' => 'title', 'order' => 'DESC'),
-					'random'		=> array( 'orderby' => 'rand', 'order' => 'ASC'),
-				);
-		// $default = array( 'orderby' => 'date', 'order' => 'DESC');
-		// if(!$order || !in_array($order, array_keys($array)))
-		// return $default;
-		
-		return $array[$order];
-	}
-	
-	function dropdown_post_list_selector($select_name, $select_id, $selected = 0){
+	// For widget
+	function dropdown_post_list_selector( $select_name, $select_id, $selected = 0){
 		global $wpdb;
 		
 		$query = $wpdb->prepare( "SELECT * FROM  $this->table" );
@@ -974,21 +1030,41 @@ class W4PL_CORE {
 
 	function help_page(){ ?>
 		<h3>New in this version</h3>
-        <p>Show a specific post list directly to your theme, use tempate tag "w4_post_list" with the list id. Example : 
-        <strong>w4_post_list( 'the_list_id' )</strong>.<br />For returning value instead of echoing, use <strong>w4_post_list( 'the_list_id', false )</strong>.</p>
+        <ul class="help">
+		<li><?php _e( 'Jquery effects to manage the list option more easily.', 'w4-post-list'); ?></li>
+		<li><?php _e( 'Changed post order by to an easier method.', 'w4-post-list'); ?></li>
+		<li><?php _e( 'A new "post select by" option.', 'w4-post-list'); ?></li>
+		</ul>
+
+
+		<p><?php _e( 'Show a specific post list directly to your theme, use tempate tag', 'w4-post-list' ); ?> "w4_post_list" 
+		<?php _e( 'with the list id. Example:', 'w4-post-list'); ?> 
+		<strong>w4_post_list( 'the_list_id' )</strong>.<br /><?php _e( 'For returning value instead of echoing, use '); ?>
+        <strong>w4_post_list( 'the_list_id', false )</strong>.</p>
 
 		<h3>Understanding options:</h3>
         <ul class="help">
         <li><strong><?php _e( 'List ID:', 'w4-post-list'); ?></strong><br /><?php _e( 'Current list id. This id is necessary for showing list with shortcode. You can show a post list on your post or page by list id.', 'w4-post-list'); ?><br /><span class="red"><?php _e( 'Example: [postlist 1]', 'w4-post-list'); ?></span> <?php _e( 'will show the list having id 1.', 'w4-post-list'); ?></li>
+
         <li><strong><?php _e( 'List name:', 'w4-post-list'); ?></strong><br /><?php _e( 'This is not very essential now. Just for finding a list with this name on post list page menu.', 'w4-post-list'); ?></li>
+
         <li><strong><?php _e( 'List type:', 'w4-post-list'); ?></strong><br /><?php _e( 'List type chooser. Only post list, only category list and both them together are available.', 'w4-post-list'); ?><br /><span class="red"><?php _e( 'Note:', 'w4-post-list'); ?></span> <?php _e( 'Selecting and saving this option will hide or reveal related options. So we recommend you do make a save after choosing your list type.', 'w4-post-list'); ?></li>
+
         <li><strong><?php _e( 'Show posts in category with a jquery slide effect:', 'w4-post-list'); ?></strong><br /><?php _e( 'This is only for "Posts with categories" list type. Possitive selection will create a show/hide effect with jQuery to your list.', 'w4-post-list'); ?></li>
-        <li><strong><?php _e( 'Post order:', 'w4-post-list'); ?></strong><br /><?php _e( 'Basic order type for posts.', 'w4-post-list'); ?></li>
-        <li><strong><?php _e( 'Post order by:', 'w4-post-list'); ?></strong><br /><?php _e( 'In Which base the post will be orderby. Available oprions are "author", "date", "title", "modified", "menu_order", "parent", "ID", "rand", "comment_count".', 'w4-post-list'); ?></li>
-        <li><strong><?php _e( 'Show item count appending to category name:', 'w4-post-list'); ?></strong><br /><?php _e( '"Show only included post count" will show post selected for the category for this list. "Show the actual category count" will show the actual published posts count for the category.', 'w4-post-list'); ?></li>
+
+        <li><strong><?php _e( 'Post order by:', 'w4-post-list'); ?></strong><br /><?php _e( 'In Which base the post will be orderby. Available options are newest, oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random.', 'w4-post-list'); ?></li>
+
+		<li><strong><?php _e( 'Posts by:', 'w4-post-list'); ?></strong><br /><?php _e( 'How the post will be observed. You may want to show selected posts or may be hide them. Also show with all future posts or without them.', 'w4-post-list'); ?></li>
+
+        <li><strong><?php _e( 'Show item count appending to category name:', 'w4-post-list'); ?></strong><br /><?php _e( 'Show the published posts number for the category.', 'w4-post-list'); ?></li>
+
         <li><strong><?php _e( 'Show published date appending to post title:', 'w4-post-list'); ?></strong><br /><?php _e( 'Show post publishing date.', 'w4-post-list'); ?></li>
+
         <li><strong><?php _e( 'Show last post-update time appending to post title:', 'w4-post-list'); ?></strong><br /><?php _e( 'Post mpdified time.', 'w4-post-list'); ?></li>
+
         <li><strong><?php _e( 'Show post content:</strong><br />Display post content or post excerpt under the post title. You have to set the excerpt length to show post excerpt. This won\'t effect your sites other excerpt length.', 'w4-post-list'); ?></li>
+        
+        <li><strong><?php _e( 'Show readmore link ? :</strong><br />Display a read more link after the post content.', 'w4-post-list'); ?></li>
         </ul>
         
         <p><?php _e( 'Feel free to', 'w4-post-list' ); ?> <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank"><?php _e( 'contact us', 'w4-post-list' ); ?></a>, <?php _e( 'if you found any bugs or you have a wonderful suggestion.', 'w4-post-list' ); ?></p>

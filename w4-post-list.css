@@ -1,4 +1,4 @@
-#w4_post_list ul.w4pl_cat_list, #w4_post_list ul.w4pl_post_list {
+#w4_post_list ul.w4pl_cat_list, #w4_post_list ul.w4pl_posts {
 	padding:0 0 0 15px;
 	margin:5px 0 15px 0;
 }
@@ -34,13 +34,11 @@
 	margin:0px 0px 0px 0px;
 	border:none;
 }
-#w4_post_list .w4pl_post_title small {
+.w4pl_posts small {
 	font-size:80%;
 	color:#AAA;
 }
-#w4_post_list .w4pl_post_title a {
-}
-#w4_post_list ul.w4pl_post_list li {
+#w4_post_list ul.w4pl_posts li {
 }
 #w4_post_list div.w4pl_post_content, #w4_post_list div.w4pl_post_content p {
 	padding:3px 0;
@@ -79,7 +77,23 @@
 }
 #w4pl_admin p.cat_title {
 	margin:0;
+	overflow:hidden;
+	position:relative;
+	line-height:20px;
 }
+#w4pl_admin p.cat_title .w4pl_cat_checkbox{
+	position:relative;
+	top:-1px;
+	margin-left:5px;
+	}
+#w4pl_admin p.cat_title span.category_post_handle{
+	float:right;
+	padding:0px 5px;
+	background-color:#FFF;
+	border:1px solid #AAA;
+	cursor:pointer;
+	font-size:11px;
+	}
 #w4pl_admin small {
 	font-size:11px;
 	font-weight:normal;
@@ -105,6 +119,9 @@ span.red {
 	font-size: 13px;
 	font-weight: normal;
 	color:#AAA;
+	line-height:normal;
+	display:block;
+	margin:10px 0 20px 50px;
 }
 #w4pl_admin .menu {
 	border-bottom: 1px solid #437A2B;
@@ -141,6 +158,7 @@ span.red {
 	margin-bottom:1px;
 	overflow:hidden;
 	border-bottom:1px solid #DDD;
+	min-height:28px;
 	}
 
 #post_list_form div.first{
@@ -154,6 +172,7 @@ span.red {
 	border:1px solid #DDD;
 	background-color:#FFF;
 	float:left;
+	display:none;
 }
 #post_list_form ul.post_list {
 	max-height:140px;
