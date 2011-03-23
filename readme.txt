@@ -39,17 +39,17 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 = Understanding options =
-    * List ID: Current list id. This id is necessary for showing list with shortcode. You can show a post list on your post or page by list id. Example: [postlist 1] will show the list having id 1.
-    * List name: This is not very essential now. Just for finding a list with this name on post list page menu.
-    * List type: List type chooser. Only post list, only category list and both them together are available. Note: Selecting and saving this option will hide or reveal related options. So we recommend you do make a save after choosing your list type.
-    * Show posts in category with a jquery slide effect: This is only for "Posts with categories" list type. Possitive selection will create a show/hide effect with jQuery to your list.
-    * Post order by: In Which base the post will be orderby. Available options are newest, oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random.
-    * Posts by: How the post will be observed. You may want to show selected posts or may be hide them. Also show with all future posts or without them.
-    * Show item count appending to category name: Show the published posts number for the category.
-    * Show published date appending to post title: Show post publishing date.
-    * Show last post-update time appending to post title: Post mpdified time.
-    * Show post content: Display post content or post excerpt under the post title. You have to set the excerpt length to show post excerpt. This won't effect your sites other excerpt length.
-    * Show readmore link ? : Display a read more link after the post content.
+* List ID: Current list id. This id is necessary for showing list with shortcode. You can show a post list on your post or page by list id. Example: [postlist 1] will show the list having id 1.
+* List name: This is not very essential now. Just for finding a list with this name on post list page menu.
+* List type: List type chooser. Only post list, only category list and both them together are available. Note: Selecting and saving this option will hide or reveal related options. So we recommend you do make a save after choosing your list type.
+* Show posts in category with a jquery slide effect: This is only for "Posts with categories" list type. Possitive selection will create a show/hide effect with jQuery to your list.
+* Post order by: In Which base the post will be orderby. Available options are newest, oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random.
+* Posts by: How the post will be observed. You may want to show selected posts or may be hide them. Also show with all future posts or without them.
+* Show item count appending to category name: Show the published posts number for the category.
+* Show published date appending to post title: Show post publishing date.
+* Show last post-update time appending to post title: Post mpdified time.
+* Show post content: Display post content or post excerpt under the post title. You have to set the excerpt length to show post excerpt. This won't effect your sites other excerpt length.
+* Show readmore link ? : Display a read more link after the post content.
 
 
 == Installation ==
