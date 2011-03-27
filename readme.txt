@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 
 Lists wordpress posts, categories and posts with categories. Show/Hide post list with jquery slide effect. Multi-lingual supported.
 
@@ -19,6 +19,7 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 = Upgrade Notice =
+* Saving problem fixed (Version -1.3.4).
 * Read more link after content (Version -1.3.3).
 * Jquery effects to manage the list option more easily (Version -1.3.3).
 * Changed post order by to an easier method (Version -1.3.3).
@@ -101,7 +102,8 @@ As much as you have.
 * Jquery effects to manage the list option more easily.
 * Changed post order by to an easier method.
 * A new "post select by" option.
-
+= 1.3.4 =
+Option Saving Bug fixed
 
 == Upgrade Notice ==
 = 1.0 =
@@ -136,6 +138,8 @@ As much as you have.
 * Jquery effects to manage the list option more easily.
 * Changed post order by to an easier method.
 * A new "post select by" option.
+= 1.3.4 =
+Option Saving Bug fixed
 
 == How to use ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.

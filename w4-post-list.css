@@ -139,10 +139,15 @@ span.red {
 	text-decoration:none;
 	float:left;
 }
+.w4-notice{
+	background-color:#FFF000;
+	color:#000;
+	padding:3px 5px;
+}
 #w4pl_admin .menu a.vote{
 	background-color:#FFF000;
 	color:#000;
-	}
+}
 #w4pl_admin ul.help {
 	line-height:24px;
 	font-size:13px;

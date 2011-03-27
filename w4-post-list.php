@@ -3,7 +3,7 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
-Version: 1.3.3
+Version: 1.3.4
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -33,7 +33,7 @@ Author URI: http://w4dev.com/
 define( 'W4PL_DIR', plugin_dir_path(__FILE__)) ;
 define( 'W4PL_URL', plugin_dir_url(__FILE__)) ;
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ )) ;
-define( 'W4PL_VERSION', '1.3.3' ) ;
+define( 'W4PL_VERSION', '1.3.4' ) ;
 define( 'W4PL_NAME', 'W4 post list' ) ;
 define( 'W4PL_SLUG', strtolower(str_replace(' ', '-', W4PL_NAME ))) ;
 
@@ -45,11 +45,11 @@ class W4PL_CORE {
 
 	function W4PL_CORE(){
 		global $wpdb;
-		
-		// Adding db version to last one
-		if(!get_option('_w4pl_db_version'))
-			add_option('_w4pl_db_version', '1.3');
-			
+
+		// Start from 1.3
+		if(! get_option( '_w4pl_db_version'))
+			add_option( '_w4pl_db_version', '1.3');
+
 		$this->db_version = get_option('_w4pl_db_version');
 		
 		if( $this->db_version != W4PL_VERSION )
@@ -63,7 +63,7 @@ class W4PL_CORE {
 			'categories'				=> array(),
 			'show_category_posts_count'	=> 'no',
 	
-			'post_order_method'				=> 'newest',
+			'post_order_method'			=> 'newest',
 			'max'						=> '',
 			'post_by'					=> 'all',
 			'post_ids'					=> array(),
@@ -75,9 +75,9 @@ class W4PL_CORE {
 			'excerpt_length' 			=> (int) 10
 		);
 
-		add_action( 'init', array(&$this, 'load_plugin')) ;
+		add_action( 'init', array(&$this, 'load_plugin'));
 		add_shortcode( 'postlist', array(&$this, 'do_shortcode'));
-		
+
 		add_action( 'admin_init', array(&$this, 'db_install'));
 		add_action( 'admin_menu', array(&$this, 'admin_menu'));
 		add_action( 'plugin_action_links_'.W4PL_BASENAME, array(&$this, 'plugin_action_links' ));
@@ -90,18 +90,18 @@ class W4PL_CORE {
 		$this->db_install( true );
 		$curr_version = W4PL_VERSION;
 
-		if( $this->db_version != W4PL_VERSION ){
+		if( $this->db_version != $curr_version ){
 			global $wpdb;
 			$query = $wpdb->prepare( "SELECT * FROM  $this->table ORDER BY list_id ASC" );
 			if ( ! $lists = $wpdb->get_results( $query ))
 				$lists = array();
 	
 			foreach($lists as $list){
-				$opt = $this->get_list($list->list_id);
-				$this->save_list($opt);
+				$opt = $this->get_list( $list->list_id);
+				$this->save_list( $opt);
 			}
 			update_option( '_w4pl_db_version', $curr_version);
-		}		
+		}
 
 		# update_option('_w4pl_db_version', $curr_version);
 	}
@@ -443,7 +443,7 @@ class W4PL_CORE {
 		$_w4_cat_ids = (array) $_REQUEST['_w4_cat_ids'];
 		$categories = array();
 		foreach( $_w4_cat_ids as $cat_id){
-			$_w4_cat_max = (!$_REQUEST['_w4_cat_max_'.$cat_id]) ? '' : $_REQUEST['_w4_cat_max_'.$cat_id];
+			$_w4_cat_max = (!$_REQUEST['_w4_cat_max_'. $cat_id]) ? '' : $_REQUEST['_w4_cat_max_'.$cat_id];
 			$_w4_cat_posts = !is_array($_REQUEST['_w4_cat_posts_'.$cat_id]) ? array() : $_REQUEST['_w4_cat_posts_'.$cat_id];
 			
 			$_w4_cat_post_order_method = (!$_REQUEST['_w4_cat_post_order_method_'.$cat_id]) ? 'newest' : $_REQUEST['_w4_cat_post_order_method_'.$cat_id];
@@ -464,9 +464,8 @@ class W4PL_CORE {
 		$list_option['post_ids'] = $_REQUEST['_w4_post_ids'];
 		
 		$data = compact('list_id', 'list_title', 'list_option');
+		$list_id = $this->save_list( $data);
 
-		$list_id = $this->save_list($data);
-		
 		header("Location: edit.php?page=" . W4PL_SLUG . "&list_id=".$list_id."&message=list_saved");
 		die();
 	}
@@ -482,7 +481,7 @@ class W4PL_CORE {
 			return false;
 	
 		$all_option = $this->get_list( $list_id );
-		#echo '<pre>'; print_r($all_option); echo '</pre>';
+		# echo '<pre>'; print_r($all_option); echo '</pre>';
 		
 		$list_option = (array) $all_option['list_option'];
 		$list_title = $all_option['list_title'];
@@ -872,7 +871,7 @@ class W4PL_CORE {
 			$checklist .= "<ul class=\"post_list\">";
 			while( have_posts()): the_post();
 				$checked2 = in_array( get_the_ID(), $selected_posts) ? ' checked="checked" ' : '';
-				$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"_w4_cat_posts_{$category->cat_ID}[]\" type=\"checkbox\" $checked2 
+				$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"_w4_cat_posts_{$cat_id}[]\" type=\"checkbox\" $checked2 
 				value=\"".get_the_ID()."\" /> ". get_the_title() .'</label></li>' ;
 			endwhile;
 			$checklist .= "</ul>";
@@ -1029,13 +1028,13 @@ class W4PL_CORE {
 	}
 
 	function help_page(){ ?>
-		<h3>New in this version</h3>
+		<p><span class="red">Version 1.3.4 - Bug fixed by Wolfgang Fischer.</span> <a href="mailto:sajib1223@gmail.com">report another bug &raquo;</a></p>
+		<h3><?php _e( 'New in version 1.3.3', 'w4-post-list'); ?></h3>
         <ul class="help">
 		<li><?php _e( 'Jquery effects to manage the list option more easily.', 'w4-post-list'); ?></li>
 		<li><?php _e( 'Changed post order by to an easier method.', 'w4-post-list'); ?></li>
 		<li><?php _e( 'A new "post select by" option.', 'w4-post-list'); ?></li>
 		</ul>
-
 
 		<p><?php _e( 'Show a specific post list directly to your theme, use tempate tag', 'w4-post-list' ); ?> "w4_post_list" 
 		<?php _e( 'with the list id. Example:', 'w4-post-list'); ?> 
@@ -1101,7 +1100,7 @@ class W4PL_Widget extends WP_Widget {
 
 		echo $before_widget;
 		if( $title ) echo $before_title . $title . $after_title;
-		w4_post_list($instance['PL_ID']);
+		w4_post_list( $instance['PL_ID']);
         echo $after_widget;
 	}
 
@@ -1145,17 +1144,17 @@ function W4PL_Widget_Init(){
 //use function w4_post_list() as template tag to show a post list anywhere in your theme
 $w4pl = new W4PL_CORE();
 
-if(!function_exists('w4_post_list')){
-	function w4_post_list($list_id = '0', $echo = true ){
-		global $w4pl;
-		if(!is_object( $w4pl ) || !is_a( $w4pl, 'W4PL_CORE' ))
-			$w4pl = new W4PL_CORE();
+if(!function_exists('w4_post_list')):
+function w4_post_list($list_id = '0', $echo = true ){
+	global $w4pl;
+	if(!is_object( $w4pl ) || !is_a( $w4pl, 'W4PL_CORE' ))
+		$w4pl = new W4PL_CORE();
+	
+	if(!$echo)
+		return $w4pl->w4_post_list( $list_id );
 		
-		if(!$echo)
-			return $w4pl->w4_post_list( $list_id );
-		
-		else
-			echo $w4pl->w4_post_list( $list_id );
-	}
+	else
+		echo $w4pl->w4_post_list( $list_id );
 }
+endif;
 ?>
