@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 
 Lists wordpress posts, categories and posts with categories. Show/Hide post list with jquery slide effect. Multi-lingual supported.
 
