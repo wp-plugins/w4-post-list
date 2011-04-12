@@ -36,25 +36,51 @@ function w4pl_toogle(){
 	//$(this).preventDefault();
 }
 
+function jqCheckAll(){
+	var name = $(this).val();
+	var box = $('input:checkbox[name="'+ name +'"]');
+	if($(this).is(':checked')){
+		box.attr('checked', true);
+	}
+	else{
+		box.attr('checked', false);
+	}
+	//$("input[name=" + name + "[]]").attr('checked', true);
+}
+
+function load_category_post(){
+	var update_div = $('.select_category_posts');
+	var list_id = $('input[name=list_id]').val();
+	
+	$.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		beforeSend: function( XMLHttpRequest){
+			update_div.html('Loading');
+		},
+		data: $("form#w4_post_list_form").serialize(),
+		success: function(data){
+			update_div.hide();
+			update_div.html(data).slideDown();
+			update_div.addClass('loaded');
+		}
+	});
+}
 $(document).ready(function($){
 	$('li.close ul.w4pl_posts').hide();
-	//$(".w4pl_cat_checkbox").click(w4pl_admin_toogle);
-	
 	$(".category_post_handle").click(function(){
-		$('#' + $(this).attr('rel')).slideToggle();
+		$(this).parent().parent().children("div.w4c_inside").slideToggle();
 	});
 	
 	$('.list_effect .w4pl_handler').click(w4pl_toogle);
+	$('input:checkbox[name="selector"]').change(jqCheckAll);
 	
-	$("#post_list_form .option").bind({
+	$("#w4_post_list_form .option").bind({
 		mouseover: function(){
-			$(".option input.save_list_option").remove();
-			$(this).append('<input type="submit" name="save_w4_post_list_options" class="save_list_option" value="Save option" />');
-			//$(".w4_help").remove();
-			//$(this).append('<div class="w4_help"></div>');
+			$(".option input.save_w4_post_list_options").remove();
+			$(this).append('<input type="submit" name="save_w4_post_list_options" class="save_w4_post_list_options" value="Save option" />');
 		}
 	});
-	
 	$('a#delete_list').click(function(){
 		var name = $(this).attr('rel');
 		if( confirm( "Are you sure you want to delete '" + name + "' ?" )){
@@ -62,15 +88,15 @@ $(document).ready(function($){
 		}
 		return false ;
 	});
-	
-	$("#post_list_form input[name='list_type']").change(function(){
-		var pre = $("#post_list_form input[name='list_type']:checked").val();
-		$('.hide_if_'+ pre).hide();
-		$('.show_if_'+ pre).show();
+	$("#w4_post_list_form input[name='list_type']").change(function(){
+		var list_type = $("#w4_post_list_form input[name='list_type']:checked").val();
+		$('.hide_if_'+ list_type).hide();
+		$('.show_if_'+ list_type).show();
+		//load_category_post();
+		
 	});
-	
-	$("#post_list_form input[name='post_content']").change(function(){
-		var post_content = $("#post_list_form input[name='post_content']:checked").val();
+	$("#w4_post_list_form input[name='post_content']").change(function(){
+		var post_content = $("#w4_post_list_form input[name='post_content']:checked").val();
 		$('.hide_if_post_content_' + post_content).slideUp();
 		$('.show_if_post_content_' + post_content).slideDown();
 		//alert(post_content);

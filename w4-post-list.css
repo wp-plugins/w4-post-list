@@ -63,12 +63,8 @@
 	background:#EEE;
 }
 /*W4 post list admin*/
-#w4pl_admin {
+#w4pl_admin, #w4pl_admin label, #w4pl_admin small, .option ul li {
 	font-family:"Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
-	font-size:11px;
-}
-;
-#w4pl_admin, #w4pl_admin label {
 	font-size:11px;
 }
 #w4pl_admin p {
@@ -89,13 +85,12 @@
 #w4pl_admin p.cat_title span.category_post_handle{
 	float:right;
 	padding:0px 5px;
-	background-color:#FFF;
+	background-color:#CCC;
 	border:1px solid #AAA;
 	cursor:pointer;
 	font-size:11px;
 	}
 #w4pl_admin small {
-	font-size:11px;
 	font-weight:normal;
 	color:#999;
 }
@@ -108,7 +103,7 @@
 	color:#333;
 	font-family:Georgia, "Times New Roman", Times, serif, Pristina, Garamond;
 }
-span.red {
+.red {
 	color:#FF0000;
 }
 #delete_list {
@@ -148,28 +143,34 @@ span.red {
 	background-color:#FFF000;
 	color:#000;
 }
-#w4pl_admin ul.help {
+#w4pl_admin ul.help, #w4pl_admin ul.whats_new {
 	line-height:24px;
 	font-size:13px;
-	margin:20px 0 0 20px;
+	margin:10px 0 0 20px;
 }
-#w4pl_admin ul.help li {
+#w4pl_admin ul.help li, #w4pl_admin ul.whats_new li {
 	list-style-type:square;
 	list-style-position:outside;
 	font-size:11px;
 }
-#post_list_form .category{
-	background-color:#EEE;
+
+/*List form*/
+#w4_post_list_form{
+	padding-bottom:10px;
+	margin-bottom:10px;
+	}
+#w4_post_list_form .category{
+	background-color:#DDD;
 	margin-bottom:1px;
 	overflow:hidden;
 	border-bottom:1px solid #DDD;
 	min-height:28px;
 	}
 
-#post_list_form div.first{
+#w4_post_list_form div.first{
 	background-color:#E8E8E8;
 	}
-#post_list_form .w4c_inside {
+#w4_post_list_form .w4c_inside {
 	margin:0 0 5px 0;
 	font-size:10px;
 	padding:5px;
@@ -179,40 +180,36 @@ span.red {
 	float:left;
 	display:none;
 }
-#post_list_form ul.post_list {
+#w4_post_list_form ul.post_list {
 	max-height:140px;
 	overflow:auto;
 	margin:3px 0;
 }
-#post_list_form ul.post_list li {
+#w4_post_list_form ul.post_list li, #w4pl_admin ul.whats_new li {
 	margin:0;
 	padding:0;
 	font-size:11px;
 }
-#post_list_form ul.post_list li:hover{
+#w4_post_list_form ul.post_list li:hover{
 	background:#CCC;
 	}
-#post_list_form .option {
+#w4_post_list_form .option {
 	width:500px;
 	padding:0 0 25px 0;
 	margin:0 0 10px 0;
 	position:relative;
 }
-.w4_help{
-	position:absolute;
-	width:200px;
-	left:520px;
-	top:0;
-	background-color: #FFFFE0;
-	border-color: #E6DB55;
-	padding:5px;
+#w4_post_list_form .option ul li{
+	margin:0;
+	padding:0;
 	}
-#post_list_form .option .save_list_option {
+#w4_post_list_form .option .save_w4_post_list_options {
 	position:absolute;
 	left:0px;
 	bottom:0px;
 	display:block;
 }
+/*List menu*/
 ul.post_list_menu {
 	padding:10px;
 	margin-bottom:10px;
@@ -226,7 +223,7 @@ ul.post_list_menu li {
 	padding:0;
 	float:left;
 }
-ul.post_list_menu li a, #w4pl_admin input.save_list_option {
+ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options {
 	display:block;
 	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 	border-color: #999999 #999999 #888888;
@@ -245,6 +242,6 @@ ul.post_list_menu li a, #w4pl_admin input.save_list_option {
 ul.post_list_menu li a.current {
 	background-color:#0394cb;
 }
-ul.post_list_menu li a.create, #w4pl_admin input.save_list_option {
+ul.post_list_menu li a.create, #w4pl_admin input.save_w4_post_list_options {
 	background-color:#67A54B;
 }

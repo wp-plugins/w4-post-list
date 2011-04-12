@@ -5,20 +5,24 @@ Donate link: http://w4dev.com/
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 
 Lists wordpress posts, categories and posts with categories. Show/Hide post list with jquery slide effect. Multi-lingual supported.
 
 == Description ==
 Show list inside post/page content and widget area (enable from version 1.3). The list management page has been moved to its own page rather than the widget inside page. As for a wide change, you may face difficulties to manage it. Please Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> to tell us what problem u are facing with the latest Version or anything else.
 
-Now (Version - 1.3.3) added features to show a read more link while showing post content or excerpt.
+Now (Version - 1.3.6) added new list type "Post lists by category".
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
 
 
 = Upgrade Notice =
+* List only posts by category (Version -1.3.6).
+* Show/Not show future posts (Version -1.3.6).
+* Post lists with maximum posts to show (Version -1.3.6).
+* One click select/deselect all posts (Version -1.3.6).
 * Saving problem fixed (Version -1.3.4).
 * Read more link after content (Version -1.3.3).
 * Jquery effects to manage the list option more easily (Version -1.3.3).
@@ -45,7 +49,7 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 * List type: List type chooser. Only post list, only category list and both them together are available. Note: Selecting and saving this option will hide or reveal related options. So we recommend you do make a save after choosing your list type.
 * Show posts in category with a jquery slide effect: This is only for "Posts with categories" list type. Possitive selection will create a show/hide effect with jQuery to your list.
 * Post order by: In Which base the post will be orderby. Available options are newest, oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random.
-* Posts by: How the post will be observed. You may want to show selected posts or may be hide them. Also show with all future posts or without them.
+* Show future Posts: Automatically add future posts to the category post/only posts/only posts by category list or remove.
 * Show item count appending to category name: Show the published posts number for the category.
 * Show published date appending to post title: Show post publishing date.
 * Show last post-update time appending to post title: Post mpdified time.
@@ -103,7 +107,12 @@ As much as you have.
 * Changed post order by to an easier method.
 * A new "post select by" option.
 = 1.3.4 =
-Option Saving Bug fixed
+* Option Saving Bug fixed
+= 1.3.6 =
+* List only posts by category.
+* Show/Not show future posts.
+* Post lists with maximum posts to show.
+* One click select/deselect all posts.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -139,7 +148,13 @@ Option Saving Bug fixed
 * Changed post order by to an easier method.
 * A new "post select by" option.
 = 1.3.4 =
-Option Saving Bug fixed
+* Option Saving Bug fixed
+= 1.3.6 =
+* List only posts by category.
+* Show/Not show future posts.
+* Post lists with maximum posts to show.
+* One click select/deselect all posts.
+
 
 == How to use ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.
