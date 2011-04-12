@@ -59,10 +59,10 @@ class W4PL_CORE {
 		$this->default_options 	= array(
 			'list_type'			 		=> 'pc',
 			'list_effect' 				=> 'no',
-			
+
 			'categories'				=> array(),
 			'show_category_posts_count'	=> 'no',
-	
+
 			'post_max'					=> '',
 			'posts_not_in'				=> array(),
 			'post_ids'					=> array(),
@@ -85,9 +85,6 @@ class W4PL_CORE {
 		add_action( 'activate_' . W4PL_BASENAME, array(&$this, 'upgrade' ));
 
 		add_filter( 'sanitize_list_option', array(&$this, 'sanitize_list_option'));
-		
-		add_action('wp_ajax_load_category_posts', array(&$this, 'load_category_posts'));
-		
 		add_action( 'admin_notices', array(&$this, 'update_notice'));
 	}
 	
@@ -100,14 +97,13 @@ class W4PL_CORE {
 			$query = $wpdb->prepare( "SELECT * FROM  $this->table ORDER BY list_id ASC" );
 			if ( ! $lists = $wpdb->get_results( $query ))
 				$lists = array();
-	
+
 			foreach($lists as $list){
-				$opt = $this->get_list( $list->list_id);
-				$this->save_list( $opt);
+				$options = $this->get_list( $list->list_id);
+				$this->save_list( $options);
 			}
 			update_option( '_w4pl_db_version', $curr_version);
 		}
-
 		# update_option('_w4pl_db_version', $curr_version);
 	}
 	
