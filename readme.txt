@@ -1,13 +1,13 @@
 === W4 Content tabset ===
 Plugin Name: W4 Content tabset
 Contributors: sajib1223, Shazzad Hossain Khan
-Donate link: http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode/#comment
-Tags: tabset,shortcode,jquery
+Donate link: http://w4dev.com/w4-plugin/post-page-custom-tabset-shortcode/?ref=wp_tabset
+Tags: tabset, shortcode, jquery
 Requires at least: 3.0
-Tested up to: 3.0.3
-Stable tag: 1.3.9
+Tested up to: 3.1.1
+Stable tag: 1.4
 
-Wordpress plugin for creating jquery tabs with shorcode inside posts and pages content.
+Wordpress plugin for creating jquery tabs with shorcode inside posts and pages content. Also capable to show your custom field values in a post or page content area by shortcode.
 
 == Description ==
 
@@ -15,13 +15,16 @@ Wordpress plugin for creating jquery tabs with shorcode inside posts and pages c
 
 
 = Upgrade Notice =
+* Multiple tabset style (V 1.4).
+* Removed preview box on the wp admin page (V 1.4).
+
 * Added a preview box on the wp admin tabset page (V 1.3.8).
 * Added multi tabset capabilities on a single post or page with same tabname (V 1.3.8).
 * Important fix(V 1.3.7).
 * Added tabset menu event (V 1.3.6).
 * Fixed menu li Css issue (V 1.3.6).
 * Fixed some Css issue (Recommend by Matt Mansfield).
-* The Anchor tabser has been removed from Version 1.3.4, also the style. It has beem replaced by a new option, "effect".
+* The Anchor tabset has been removed from Version 1.3.4, also the style. It has beem replaced by a new option, "effect".
 
 
 With W4 development's Post/Page Tabset you can arrange your content inside a page with flexible navigation.
@@ -53,6 +56,11 @@ Although you can show your post custom field value inside your post or page with
 [/tabset]
 
 [tabset id="second"]
+[tabs tabname="Tab1"]Tab1 content[/tabs]
+[tabs tabname="Tab2"]Tab2 content[/tabs]
+[/tabset]
+
+[tabset style="my-style"]
 [tabs tabname="Tab1"]Tab1 content[/tabs]
 [tabs tabname="Tab2"]Tab2 content[/tabs]
 [/tabset]
@@ -106,6 +114,10 @@ As much as you want.
 = 1.3.8 =
 * Added a preview box on the wp admin tabset page.
 * Added multi tabset capabilities on a single post or page with same tabname.
+= 1.4 =
+* Multiple tabset style.
+* Removed preview box on the wp admin page.
+
 
 == Upgrade Notice ==
 = 1.3 =
@@ -129,3 +141,6 @@ As much as you want.
 = 1.3.8 =
 * Added a preview box on the wp admin tabset page.
 * Added multi tabset capabilities on a single post or page with same tabname.
+= 1.4 =
+* Multiple tabset style.
+* Removed preview box on the wp admin page.
