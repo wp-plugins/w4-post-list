@@ -197,16 +197,21 @@ function w4pl_admin_option_page(){
         	<span class="desc"><?php _e( 'With w4 post list plugin you can show your selected post list, selected category list or<br /> making list with both of them in woedpress site.', 'w4-post-list' ); ?></span>
 		</h2>
         <div class="menu">
-        	<a style="background-color:#FFF000; color:#000000;" href="<?php echo w4pl_plugin_page_url(); ?>"><?php _e( 'Documentation', 'w4-post-list' ); ?></a>
-            <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank" title="<?php _e( 'Visit Plugin Page', 'w4-post-list' ); ?>"> <?php 
+            <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank" title="<?php _e( 'Plugin Page', 'w4-post-list' ); ?>"> <?php 
 			_e( 'Visit Plugin Page', 'w4-post-list' ); ?></a>
             <a href="mailto:sajib1223@gmail.com" rel="tabset_author_mail"> <?php 
 			_e( 'Mailto:Author', 'w4-post-list' ); ?></a>
+            <a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank" rel="wordpress" class="vote"> <?php 
+			_e( 'Vote on wordpress', 'w4-post-list' ); ?></a>
+
+			<a style="background-color:#FFFFE0; border:1px solid #E6DB55; border-left:none;" href="<?php w4pl_option_page_url( true); ?>"><?php _e( 'Manage Plugin Option/Database', 'w4-post-list' ); ?></a>
+        	<a style="background-color:#FFFFE0; border:1px solid #E6DB55;" href="<?php echo w4pl_plugin_page_url(); ?>"><?php _e( 'Documentation/Home', 'w4-post-list' ); ?></a>
+
 
             <?php if( w4pl_table_exists()): ?>
-        	<a style="background-color:#FF0000;" id="remove_w4ldb" href="<?php echo add_query_arg( 'databse', 'remove', w4pl_option_page_url()); ?>"><?php _e( 'Drop database table', 'w4-post-list' ); ?></a>
+        	<a style="background-color:#e23a3a; color:#FFF; font-weight:bold; border:1px solid #740909;" id="remove_w4ldb" href="<?php echo add_query_arg( 'databse', 'remove', w4pl_option_page_url()); ?>"><?php _e( 'Drop database table', 'w4-post-list' ); ?></a>
             <?php else: ?>
-            <a style="background-color:#00FF00; color:#000000;" href="<?php echo add_query_arg( 'databse', 'install', w4pl_option_page_url()); ?>"><?php _e( 'Install database table', 'w4-post-list' ); ?></a>
+            <a style="background-color:#67A54B; color:#FFF; font-weight:bold; border:1px solid #3c7123;" href="<?php echo add_query_arg( 'databse', 'install', w4pl_option_page_url()); ?>"><?php _e( 'Install database table', 'w4-post-list' ); ?></a>
             <?php endif; ?>
             
 		</div>
@@ -264,19 +269,22 @@ function w4pl_admin_page(){
         	
 		</h2>
         <div class="menu">
-        	<a style="background-color:#FFF000; color:#000000;" href="<?php echo w4pl_plugin_page_url(); ?>"><?php _e( 'Documentation', 'w4-post-list' ); ?></a>
             <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank" title="<?php _e( 'Visit Plugin Page', 'w4-post-list' ); ?>"> <?php 
 			_e( 'Visit Plugin Page', 'w4-post-list' ); ?></a>
             <a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank" rel="wordpress" class="vote"> <?php 
-			_e( 'Please rate and vote for this on wordpress', 'w4-post-list' ); ?></a>
-			<a style="background-color:#00FF00; color:#000000;" href="<?php w4pl_add_url( true); ?>"><?php _e( 'Add new', 'w4-post-list' ); ?></a>
+			_e( 'Vote on wordpress', 'w4-post-list' ); ?></a>
+			<?php if( current_user_can( 'manage_options' )): ?>
+			<a style="background-color:#FFFFE0; border:1px solid #E6DB55; border-left:none;" href="<?php w4pl_option_page_url( true); ?>"><?php _e( 'Manage Plugin Option/Database', 'w4-post-list' ); ?></a>
+			<?php endif; ?>
+        	<a style="background-color:#FFFFE0; border:1px solid #E6DB55;" href="<?php echo w4pl_plugin_page_url(); ?>"><?php _e( 'Documentation/Home', 'w4-post-list' ); ?></a>
+			<a style="background-color:#67A54B; color:#FFF; font-weight:bold; border-color:#3c7123; border-width:1px;" href="<?php w4pl_add_url( true); ?>"><?php _e( 'Add new', 'w4-post-list' ); ?></a>
 		</div>
         
 		<?php w4pl_item_menu(); ?>
 		<?php
 		$list_messages = array(
 			'list_saved'		=> __( 'Option saved.', 'w4-post-list'),
-			'list_created' 		=> __( 'New post list Created.', 'w4-post-list'),
+			'list_created' 		=> __( 'New post list Created. Now change options below and save to prepare your list.', 'w4-post-list'),
 			'list_deleted'		=> __( 'One post list has been deleted.', 'w4-post-list')
 		);
 
@@ -286,7 +294,7 @@ function w4pl_admin_page(){
 			'list_not_deleted'	=> __( 'Unable to delete this list now. There may be a database 
 			connection error or this list may not have been exists or you do not have capabilities to delete this.'),
 			'no_list_found'		=> __( 'List not found.'),
-			'no_permission'		=> __( 'You dont have no permission to manage others list.')
+			'no_permission'		=> __( 'You dont have no permission to manage other users list.')
 		);
 
 		if ( is_wp_error( $wp_error) && $wp_error->get_error_message())
@@ -366,25 +374,47 @@ function w4pl_get_list_form_data(){
 }
 
 function w4pl_help_page(){ ?>
-	<h4><?php _e( 'Click on the list item name above to edit an existing list. Click on add new to add a new one', 'w4-post-list'); ?></h4>
-	<div class="stuffbox"><h3><?php _e( 'To Contribute for this plugin development -  ', 'w4-post-list' ); ?></h3>
-	<div class="inside">
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-    <input type="hidden" name="business"
-        value="w4development@gmail.com">
- 
-    <input type="hidden" name="cmd" value="_donations">
-    <input type="hidden" name="item_name" value="W4 plugins">
-    <input type="hidden" name="item_number" value="w4-post-list">
-    <input type="hidden" name="currency_code" value="GBP">
- 
-    <input type="image" name="submit" border="0"
-        src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif"
-        alt="PayPal - The safer, easier way to pay online" style="border:none; background:none;">
-    <img alt="" border="0" width="1" height="1"
-        src="https://www.paypal.com/en_US/i/scr/pixel.gif" />
-</form>
+	<div class="has-right-sidebar">
+	<div class="inner-sidebar" id="side-info-column">
+
+	<div class="stuffbox"><h3><?php _e( 'New in version 1.4', 'w4-post-list'); ?></h3>
+	<div class="inside"><ul class="whats_new">
+		<li><?php _e( 'New option page. Admin can assign who can create/manage post list by existing capability. If a user has role to only create and manage his own list, he won\'t be able to see/edit/delete the rest of post list option management page.', 'w4-post-list'); ?></li>
+		<li><?php _e( 'Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install od database once if they have upgraded to V-1.4 from a old once. When dabase table is dropped, plugin keeps the old data and promp for synchronize it once after installation of plugin database table. Only admin can have this feature.', 'w4-post-list'); ?></li>
+		<li><?php _e( 'HTML Design template. You can design you list HTMl templte. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>', 'w4-post-list'); ?></li>
+	</ul>
 	</div></div>
+
+	<div class="stuffbox">
+	<h3><?php _e( 'Shortcode', 'w4-post-list' ); ?></h3>
+	<div class="inside"><?php _e( 'Use shortcode "postlist" with the list id to show a post list on a post or page content area.', 'w4-post-list' ); ?>	<?php _e( 'Example:', 'w4-post-list'); ?> <strong>[postlist 1]</strong>
+	</div></div>
+
+	<div class="stuffbox">
+	<h3><?php _e( 'Call Post list PHP function:', 'w4-post-list'); ?></h3>
+	<div class="inside"><?php _e( 'Show a specific post list directly to your theme, use tempate tag', 'w4-post-list' ); ?> <code>"w4_post_list"</code> 
+	<?php _e( 'with the list id. Example:', 'w4-post-list'); ?> 
+	<code>w4_post_list( 'the_list_id' )</code>.<br /><br /><?php _e( 'For returning value instead of echoing, use '); ?>
+    <code>w4_post_list( 'the_list_id', false )</code>.
+	</div></div>
+
+	<div class="stuffbox">
+	<h3><?php _e( 'Contact', 'w4-post-list' ); ?></h3>
+	<div class="inside">
+	<?php _e( 'Web: ', 'w4-post-list' ); ?> <a href="http://w4dev.com" target="_blank">w4 development</a><br />
+	<?php _e( 'Email: ', 'w4-post-list' ); ?> <a href="mailto:workonbd@gmail.com" target="_blank">workonbd@gmail.com</a>
+	</div></div>
+
+	<div class="stuffbox"><h3><?php _e( 'Contribution', 'w4-post-list' ); ?></h3>
+	<div class="inside">
+    Sorry, no PayPal.
+	</div></div>
+
+	</div><!--#side-info-column-->
+
+	<div id="post-body"><div id="post-body-content">
+
+	<h4 style="color:#FF0000;"><?php _e( 'Click on the list item name above to edit an existing list. Click on add new to add a new one', 'w4-post-list'); ?></h4>
 	<div class="stuffbox"><h3><?php _e( 'Understanding Plugin Options', 'w4-post-list'); ?>:</h3>
     <div class="inside">
     <ul class="help">
@@ -406,14 +436,6 @@ function w4pl_help_page(){ ?>
     </ul>
 	</div></div>
        
-	<div class="stuffbox"><h3><?php _e( 'New in version 1.4', 'w4-post-list'); ?></h3>
-	<div class="inside"><ul class="whats_new">
-		<li><?php _e( 'New option page. Admin can assign who can create/manage post list by existing capability. If a user has role to only create and manage his own list, he won\'t be able to see/edit/delete the rest of post list option management page.', 'w4-post-list'); ?></li>
-		<li><?php _e( 'Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install od database once if they have upgraded to V-1.4 from a old once. When dabase table is dropped, plugin keeps the old data and promp for synchronize it once after installation of plugin database table. Only admin can have this feature.', 'w4-post-list'); ?></li>
-		<li><?php _e( 'HTML Design template. You can design you list HTMl templte. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>', 'w4-post-list'); ?></li>
-	</ul>
-	</div></div>
-
 	<div class="stuffbox"><h3><?php _e( 'Html Design Template', 'w4-post-list'); ?></h3>
 	<div class="inside"><p><?php _e( 'Design your post list template to match your theme style. We have made <strong>teplate tag</strong> for each element of a post list.<br />
 <span style="color:#FF0000">Caution: If you are not little expert understanding Basic HTMl and PhP Loop algorithm, just leave the design field as it is.</span>', 'w4-post-list' ); ?></p>
@@ -441,19 +463,8 @@ function w4pl_help_page(){ ?>
 	<p><?php _e( 'So now, you can wrap a tag easily with your own html tags. Like:', 'w4-post-list' ); ?> <code>&lt;span class=&quot;my-time&quot;&gt;%%publish%%&lt;/span&gt;</code></p>
 	</div></div>
 
-	<div class="stuffbox"><h3><?php _e( 'For PHP function usage:', 'w4-post-list'); ?></h3>
-	<div class="inside"><p><?php _e( 'Show a specific post list directly to your theme, use tempate tag', 'w4-post-list' ); ?> <code>"w4_post_list"</code> 
-	<?php _e( 'with the list id. Example:', 'w4-post-list'); ?> 
-	<code>w4_post_list( 'the_list_id' )</code>.<br /><?php _e( 'For returning value instead of echoing, use '); ?>
-    <code>w4_post_list( 'the_list_id', false )</code>.
-	</p>
-	</div></div>
 
-	<div class="stuffbox"><h3><?php _e( 'Use shortcode "postlist" with the list id to show a post list on a post or page content area.', 'w4-post-list' ); ?>	<?php _e( 'Example:', 'w4-post-list'); ?> 
-	<strong>[postlist 1]</strong></h3>
-
-	<h3><?php _e( 'Web: ', 'w4-post-list' ); ?> <a href="http://w4dev.com" target="_blank">w4 development</a>,
-	<?php _e( 'Email: ', 'w4-post-list' ); ?> <a href="mailto:workonbd@gmail.com" target="_blank">workonbd@gmail.com</a></h3>
+	</div></div><!---->
 	</div>
 <?php
 }
@@ -477,15 +488,15 @@ function w4pl_item_menu( $current = 0){
 		$w4pl_caps = get_option( 'w4pl_options');
 	
 	$all_post_list = '<ul class="post_list_menu">';
-	foreach($lists as $list){
+	foreach( $lists as $list ){
 		if( $list->list_id){
 			if( w4pl_is_list_user( $list) || current_user_can( $w4pl_caps['manage_cap'])){
-			#	echo '1';
+
 				$class = ($current == $list->list_id) ? 'current' : '';
-				$title = empty($list->list_title) ? 'List#' . $list->list_id : $list->list_title;
+				$title = empty( $list->list_title ) ? 'List#' . $list->list_id : $list->list_title;
 				$url = add_query_arg( 'list_id', $list->list_id, w4pl_plugin_page_url());
 	
-				$all_post_list .= '<li><a href="'. $url . '" class="'.$class.'">'. $title .'</a></li>';
+				$all_post_list .= '<li><a title="Edit post list - '.$title.'" href="'. $url . '" class="'.$class.'">'. $title .'</a></li>';
 			}
 		}
 	}

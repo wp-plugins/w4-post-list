@@ -10,9 +10,7 @@
 	color:#00ADEF;
 	text-decoration:none;
 }
-.w4-post-list-support a:hover {
-}
-/*W4 post list admin*/
+
 #w4pl_admin{
 	color:#777;
 	margin-right:200px;
@@ -45,7 +43,8 @@
     padding: 7px 9px;
 }
 #w4pl_admin .stuffbox .inside{
-	padding:5px;
+	padding:15px;
+	line-height:normal;
 	}
 
 #w4pl_admin h4, #w4pl_admin h4 label{
@@ -59,7 +58,6 @@
 	}
 
 #w4pl_admin a{
-	font-style:italic;
 	}
 #w4pl_admin .side_notice{
 	position:absolute;
@@ -150,15 +148,16 @@
 #w4pl_admin .menu {
 	overflow:hidden;
 	width:100%;
+	border-right:1px solid #EEE;
 }
 #w4pl_admin .menu a{
-	background-color: #666;
-	border-width:1px;
+	background-color: #FFF;
+	border-width:1px 0px 1px 1px;
 	border-style: solid;
-	border-color:#BBB #999;
+	border-color:#DDD;
 	display:inline-block;
 	padding:3px 7px;
-	color:#FFF;
+	color:#333;
 	text-decoration:none;
 	float:right;
 }
@@ -184,6 +183,9 @@
 	padding-bottom:10px;
 	margin-bottom:10px;
 	position:relative;
+	}
+#w4pl_option_form{
+	margin:30px 0 0 100px;
 	}
 #w4_post_list_form .category{
 	background-color:#DDD;
@@ -260,8 +262,8 @@ ul.post_list_menu li {
 }
 ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options {
 	display:block;
-	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-	border-color: #999999 #999999 #888888;
+	-moz-box-shadow: 0 1px 2px #AAA;
+	border-color: #0488ba;
 	border-style:solid;
 	padding: 2px 5px;
 	font-family:Georgia, "Times New Roman", Times, serif, Pristina, Garamond;
@@ -274,16 +276,19 @@ ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options {
 	border-width:1px;
 	cursor:pointer;
 }
-ul.post_list_menu li a.current {
-	background-color:#67A54B;
-}
+.post_list_menu li a:hover, .post_list_menu li a.current{
+	background-color:#0488ba;
+	border-color:#047099;
+	}
 #w4pl_admin input.save_w4_post_list_options {
 	background-color:#67A54B;
+	border:1px solid #3C7123;
 }
 #w4pl_option_form .save_w4pl_option_form{
 	font-size:24px !important;
 	background: #0394cb;
 	padding:20px;
+	width:255px;
 	}
 #w4pl_option_form .option{
 	margin-bottom:20px;

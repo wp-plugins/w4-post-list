@@ -36,7 +36,7 @@ function w4ld_list_form( $list_id = 0){
 ?>
 	<form action="<?php echo $form_action ; ?>" method="post" id="w4_post_list_form" enctype="multipart/form-data">
 		<div class="side_notice">
-		<h3><?php _e( 'List id: ', 'w4-post-list');?> <span><?php echo $list_id; ?></span></h3>
+		<h2 style="padding-top:0px;"><?php _e( 'List id: ', 'w4-post-list');?> <span><?php echo $list_id; ?></span></h2>
 
 		<?php
         if( !w4pl_is_list_user( $list ) && current_user_can( $w4pl_caps['manage_cap'])):
@@ -47,10 +47,12 @@ function w4ld_list_form( $list_id = 0){
 
 		<?php
 		echo "<strong>" . __( "Copy this code", "w4-post-list"). " &rarr; </strong><input type='text' value='[intlink $list_id]' readonly='readonly' onfocus='this.select();'> " . __( "and paste it into your post, page or text widget content area to show this list.", 'w4-post-list');
-
-		echo '<p><a class="button" id="delete_list" rel="'. $list_title .'" title="Delete '. $list_title .' ?" 
-			href="'. add_query_arg( array( "list_id" => $list_id, 'delete' => 'true'), w4pl_plugin_page_url()). '">' .__( 'deleted this list?', 'w4-post-list' ) . '</a> 
-			<a class="button" title="Add new list" href="'. w4pl_add_url(). '">Add new list</a></p>';
+		?>
+   		<p><input type="submit" name="" class="save_w4_post_list_options" value="Save option" /><br />
+        <?php
+		echo '<a class="button" id="delete_list" rel="'. $list_title .'" title="Delete '. $list_title .' ?" 
+			href="'. add_query_arg( array( "list_id" => $list_id, 'delete' => 'true'), w4pl_plugin_page_url()). '">' .__( 'deleted this list', 'w4-post-list' ) . '</a> 
+			or <a class="button" title="Add new list" href="'. w4pl_add_url(). '">add new one</a></p>';
 			
 		?>
 		</div>
@@ -194,8 +196,8 @@ function w4ld_list_form( $list_id = 0){
         </div>
 		<textarea name="html_template[loop_post]" id="w4pl_post_template_loop"><?php echo $html_template['loop_post']; ?></textarea>
 		</div>
-
-		<input type="submit" name="save_w4_post_list_options" class="save_w4_post_list_options" value="Save option" />
+		<input type="hidden" name="save_w4_post_list_options" value="1" />
+		<input type="submit" name="" class="save_w4_post_list_options" value="Save option" />
 	</form>
 <?php
 	}

@@ -24,7 +24,7 @@
 		$("#w4_post_list_form .option").bind({
 			mouseover: function(){
 				$(".option input.save_w4_post_list_options").remove();
-				$(this).append('<input type="submit" name="save_w4_post_list_options" class="save_w4_post_list_options" value="Save option" />');
+				$(this).append('<input type="submit" class="save_w4_post_list_options" value="Save option" />');
 			}
 		});
 		$('a#delete_list').click(function(){
