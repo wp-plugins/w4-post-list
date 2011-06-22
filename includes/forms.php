@@ -269,8 +269,8 @@ function w4pl_category_posts_checklist( $category_option, $list_option ){
 	$category_option = wp_parse_args( $category_option, $default );
 	extract( $category_option);
 	
-	if( $list_type == 'op_by_cat')
-		$post_ids = $list_option['post_ids'];
+#	if( $list_type == 'op_by_cat')
+#		$post_ids = $list_option['post_ids'];
 	
 	$list_type_op_by_cat_hide = ( $list_type == 'op_by_cat' ) ? 'hide_box' : '';
 	$post_order = w4pl_sanitize_post_order_method( $post_order_method);
