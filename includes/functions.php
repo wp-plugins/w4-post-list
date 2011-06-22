@@ -270,7 +270,7 @@ function w4pl_do_shortcode( $attr){
 	$list_id = array_shift( $attr );
 	$list_id = (int) $list_id;
 	
-	return w4_post_list( $list_id);
+	return get_w4_post_list( $list_id);
 }
 
 /* Functions */
@@ -306,18 +306,9 @@ function w4pl_option_page_url( $echo = false ){
 function w4_post_list( $list_id, $echo = true ){
 	$output = get_w4_post_list( $list_id);
 
-	if( is_wp_error( $output )){
-		$w4pl_caps = get_option( 'w4pl_options');
-
-		if( current_user_can( $w4pl_caps['manage_cap']))
-			$output = $output->get_error_message();
-
-		return;
-	}
-	
 	if( $echo )
 		echo $output;
-	
+
 	else
 		return $output;
 }
@@ -327,8 +318,14 @@ function get_w4_post_list( $list_id ){
 
 	$list = $w4_post_list->prepare( $list_id );
 
-	if( is_wp_error( $list ))
-		return $list;
+	if( is_wp_error( $list )){
+		$w4pl_caps = get_option( 'w4pl_options');
+
+		if( current_user_can( $w4pl_caps['manage_cap']))
+			return $list->get_error_message();
+
+		return '';
+	}
 	
 	return $w4_post_list->display();
 }
