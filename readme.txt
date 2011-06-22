@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/_donations/business=w4development@gmail.com&
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.4
+Stable tag: 1.4.1
 
 Show wordpress posts, categories, posts with categories or posts by categories in a complete post template or in a list preview style. jQuery enabled with slide effect for subcategories. Design your post list template to match your site html and css.
 
