@@ -118,14 +118,14 @@ function w4pl_sanitize_list_option_default( $option){
 					$temp_post_ids = $category_option['post_ids'];
 					$temp_posts_not_in = $category_option['posts_not_in'];
 
-				if( intval( $category_option["max"]) > 0 && count( $temp_post_ids ) > 0)
-					$temp_post_ids = array_slice( $temp_post_ids, 0, $category_option["max"]);
+				if( intval( $category_option["max"] ) > 0 && count( $temp_post_ids ) > 0 )
+					$temp_post_ids = array_slice( $temp_post_ids, 0, $category_option["max"] );
 
-				$post_ids = wp_parse_args( $post_ids, $temp_post_ids);
-				$posts_not_in = wp_parse_args( $posts_not_in, $temp_posts_not_in);
+				$post_ids = wp_parse_args( $post_ids, $temp_post_ids );
+				$posts_not_in = wp_parse_args( $posts_not_in, $temp_posts_not_in );
 
-				$post_ids = array_unique( $post_ids);
-				$posts_not_in = array_unique( $posts_not_in);
+				$post_ids = array_unique( $post_ids );
+				$posts_not_in = array_unique( $posts_not_in );
 			}
 
 			$categories[$category_id] = $category_option;

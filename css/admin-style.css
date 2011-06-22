@@ -38,6 +38,16 @@
 	line-height:normal;
 }
 
+#w4pl_admin .stuffbox h3{
+    font-weight: normal;
+    line-height: 1;
+    margin: 0 0 0px 0;
+    padding: 7px 9px;
+}
+#w4pl_admin .stuffbox .inside{
+	padding:5px;
+	}
+
 #w4pl_admin h4, #w4pl_admin h4 label{
 	font-size:16px;
 	margin-top:0px;
@@ -160,7 +170,7 @@
 #w4pl_admin ul.help, #w4pl_admin ul.whats_new {
 	line-height:24px;
 	font-size:13px;
-	margin:10px 0 0 20px;
+	margin:5px 0 5px 20px;
 }
 #w4pl_admin ul.help li, #w4pl_admin ul.whats_new li {
 	list-style-type:square;

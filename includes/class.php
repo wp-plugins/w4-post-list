@@ -100,6 +100,7 @@ class W4_Post_list {
 		$post_order = w4pl_sanitize_post_order_method( $this->categories[$this->category_obj->term_id]['post_order_method']);
 		$this->query = array(
 			'post__in' 			=> $this->categories[$this->category_obj->term_id]['post_ids'],
+	#		'post__not_in' 		=> $this->categories[$this->category_obj->term_id]['posts_not_in'],
 			'cat' 				=> $this->category_obj->term_id,
 			'order' 			=> $post_order['order'],
 			'orderby' 			=> $post_order['orderby'],

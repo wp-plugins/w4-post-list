@@ -366,8 +366,9 @@ function w4pl_get_list_form_data(){
 }
 
 function w4pl_help_page(){ ?>
-	<h4><?php _e( 'To edit a list, click on the list item name above -', 'w4-post-list'); ?></h4>
-	<h4><?php _e( 'To Contribute for this plugin development -  ', 'w4-post-list' ); ?></h4>
+	<h4><?php _e( 'Click on the list item name above to edit an existing list. Click on add new to add a new one', 'w4-post-list'); ?></h4>
+	<div class="stuffbox"><h3><?php _e( 'To Contribute for this plugin development -  ', 'w4-post-list' ); ?></h3>
+	<div class="inside">
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
     <input type="hidden" name="business"
         value="w4development@gmail.com">
@@ -383,7 +384,9 @@ function w4pl_help_page(){ ?>
     <img alt="" border="0" width="1" height="1"
         src="https://www.paypal.com/en_US/i/scr/pixel.gif" />
 </form>
-	<h3><?php _e( 'Understanding options', 'w4-post-list'); ?>:</h3>
+	</div></div>
+	<div class="stuffbox"><h3><?php _e( 'Understanding Plugin Options', 'w4-post-list'); ?>:</h3>
+    <div class="inside">
     <ul class="help">
         <li><strong><?php _e( 'List ID:', 'w4-post-list'); ?></strong><br /><?php _e( 'Current list id. This id is necessary for showing list with shortcode. You can show a post list on your post or page by list id.', 'w4-post-list'); ?><br /><?php _e( 'Example:', 'w4-post-list'); ?> <code>[postlist 1]</code> <?php _e( 'will show the list having id 1.', 'w4-post-list'); ?></li>
 
@@ -399,53 +402,59 @@ function w4pl_help_page(){ ?>
 
         <li><strong><?php _e( 'Show item count appending to category name:', 'w4-post-list'); ?></strong><br /><?php _e( 'Show the published posts number for the category.', 'w4-post-list'); ?></li>
 
-        <li><strong><?php _e( 'Show readmore link ? :</strong><br />Display a read more link after the post content.', 'w4-post-list'); ?></li>
+        <li><strong><?php _e( 'Readmore text', 'w4-post-list'); ?>:</strong><br /><?php _e( 'Display a read more link after the post content.', 'w4-post-list'); ?></li>
     </ul>
+	</div></div>
        
-	<h3><?php _e( 'New in version 1.4', 'w4-post-list'); ?></h3>
-   <ul class="whats_new">
+	<div class="stuffbox"><h3><?php _e( 'New in version 1.4', 'w4-post-list'); ?></h3>
+	<div class="inside"><ul class="whats_new">
 		<li><?php _e( 'New option page. Admin can assign who can create/manage post list by existing capability. If a user has role to only create and manage his own list, he won\'t be able to see/edit/delete the rest of post list option management page.', 'w4-post-list'); ?></li>
 		<li><?php _e( 'Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install od database once if they have upgraded to V-1.4 from a old once. When dabase table is dropped, plugin keeps the old data and promp for synchronize it once after installation of plugin database table. Only admin can have this feature.', 'w4-post-list'); ?></li>
 		<li><?php _e( 'HTML Design template. You can design you list HTMl templte. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>', 'w4-post-list'); ?></li>
 	</ul>
+	</div></div>
 
-	<h3><?php _e( 'Html Design Template', 'w4-post-list'); ?></h3>
-	<p><?php _e( 'Design your post list template to match your theme style. We have made <strong>teplate tag</strong> for each element of a post list.<br />
+	<div class="stuffbox"><h3><?php _e( 'Html Design Template', 'w4-post-list'); ?></h3>
+	<div class="inside"><p><?php _e( 'Design your post list template to match your theme style. We have made <strong>teplate tag</strong> for each element of a post list.<br />
 <span style="color:#FF0000">Caution: If you are not little expert understanding Basic HTMl and PhP Loop algorithm, just leave the design field as it is.</span>', 'w4-post-list' ); ?></p>
 	<p><?php _e( 'Template <strong>Tags</strong> are placed in <code>"%%"</code> sign. Each tag has a repective value. Please make sure you understand them before you remove one.', 'w4-post-list' ); ?></p>
-	<h3><?php _e( 'Template Tags', 'w4-post-list'); ?></h3>
-	<ul class="help">
+	</div></div>
+
+	<div class="stuffbox"><h3><?php _e( 'Template Tags', 'w4-post-list'); ?></h3>
+	<div class="inside"><ul class="help">
 	<li><code>%%postlist%%</code> --  <?php _e( 'You complete post list html.', 'w4-post-list' ); ?></li>
 
-	<li><code>%%postloop%%</code> == <?php _e( 'Post Template Loop. If it is a list, use <code>ol</code> or <code>ul</code> to wrap the post loop.', 'w4-post-list' ); ?></li>
-	<li><code>%%title%%</code> --  <?php _e( 'Post title template.', 'w4-post-list' ); ?></li>
+	<li><code>%%postloop%%</code> == <?php _e( 'Post Template Loop. While displaying posts, every post go through the <code>postloop</code> once.', 'w4-post-list' ); ?></li>
+	<li><code>%%title%%</code> --  <?php _e( 'Post title template. Title will be linked to the post page.', 'w4-post-list' ); ?></li>
     <li><code>%%publish%%</code> --  <?php _e( 'Post publish date.', 'w4-post-list' ); ?></li>
-    <li><code>%%modified%%</code> --  <?php _e( 'Post last update date.', 'w4-post-list' ); ?></li>
+    <li><code>%%modified%%</code> --  <?php _e( 'Post last update date. (modified time)', 'w4-post-list' ); ?></li>
     <li><code>%%content%%</code> --  <?php _e( 'Post content.', 'w4-post-list' ); ?></li>
-    <li><code>%%excerpt%%</code> --  <?php _e( 'Post excerpt.', 'w4-post-list' ); ?></li>
+    <li><code>%%excerpt%%</code> --  <?php _e( 'Post excerpt. Excerpt lenght should be assigned.', 'w4-post-list' ); ?></li>
     <li><code>%%more%%</code> --  <?php _e( 'Read more link for post.', 'w4-post-list' ); ?></li>
 
-	<li><code>%%catloop%%</code> == <?php _e( 'Category Template Loop.', 'w4-post-list' ); ?></li>
+	<li><code>%%catloop%%</code> == <?php _e( 'Category Template Loop. While displaying categories, every category go through the <code>catloop</code> once', 'w4-post-list' ); ?></li>
 	<li><code>%%category_title%%</code> --  <?php _e( 'Title of this category, will be linked to the category url.', 'w4-post-list' ); ?></li>
 	<li><code>%%category_count%%</code> --  <?php _e( 'Published post item inside this category.', 'w4-post-list' ); ?></li>
-	<li><code>%%category_posts%%</code> ==  <?php _e( 'Posts of that category.', 'w4-post-list' ); ?></li>
+	<li><code>%%category_posts%%</code> ==  <?php _e( 'Posts of that category. In this position, the <code>postloop</code> tag will be parsed.', 'w4-post-list' ); ?></li>
 	</ul>
 
 	<p><?php _e( 'So now, you can wrap a tag easily with your own html tags. Like:', 'w4-post-list' ); ?> <code>&lt;span class=&quot;my-time&quot;&gt;%%publish%%&lt;/span&gt;</code></p>
+	</div></div>
 
-	<h3><?php _e( 'For PHP function usage:', 'w4-post-list'); ?></h3>
-	<p><?php _e( 'Show a specific post list directly to your theme, use tempate tag', 'w4-post-list' ); ?> <code>"w4_post_list"</code> 
+	<div class="stuffbox"><h3><?php _e( 'For PHP function usage:', 'w4-post-list'); ?></h3>
+	<div class="inside"><p><?php _e( 'Show a specific post list directly to your theme, use tempate tag', 'w4-post-list' ); ?> <code>"w4_post_list"</code> 
 	<?php _e( 'with the list id. Example:', 'w4-post-list'); ?> 
 	<code>w4_post_list( 'the_list_id' )</code>.<br /><?php _e( 'For returning value instead of echoing, use '); ?>
     <code>w4_post_list( 'the_list_id', false )</code>.
 	</p>
+	</div></div>
 
-	<h3><?php _e( 'Use shortcode "postlist" to show a post list on a post or page content area.', 'w4-post-list' ); ?>	<?php _e( 'Example:', 'w4-post-list'); ?> 
+	<div class="stuffbox"><h3><?php _e( 'Use shortcode "postlist" with the list id to show a post list on a post or page content area.', 'w4-post-list' ); ?>	<?php _e( 'Example:', 'w4-post-list'); ?> 
 	<strong>[postlist 1]</strong></h3>
 
-	<h3><?php _e( 'Web: ', 'w4-post-list' ); ?> <a href="http://w4dev.com" target="_blank">w4 development</a></h3>
-	<h3><?php _e( 'Email: ', 'w4-post-list' ); ?> <a href="mailto:workonbd@gmail.com" target="_blank">workonbd@gmail.com</a></h3>
-
+	<h3><?php _e( 'Web: ', 'w4-post-list' ); ?> <a href="http://w4dev.com" target="_blank">w4 development</a>,
+	<?php _e( 'Email: ', 'w4-post-list' ); ?> <a href="mailto:workonbd@gmail.com" target="_blank">workonbd@gmail.com</a></h3>
+	</div>
 <?php
 }
 

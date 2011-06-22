@@ -104,8 +104,9 @@ function w4ld_list_form( $list_id = 0){
 		<!--List effect-->
 		<div class="option <?php echo "$list_type_oc_hide $list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_oc hide_if_op hide_if_op_by_cat show_if_pc">
 		<h3><?php _e( 'Show category posts with a jquery slide Up/Down effect?', 'w4-post-list' ); ?></h3>
-		<div class="form_help"><?php _e( 'The effect triggered when you click on the category title. if you have customized your <strong>Category Template Loop</strong> design, the remember to put  both <code>%%category_title%%</code> and <code>%%category_posts%%</code> tags in same html element and without putting each one in separate html elements.', 'w4-post-list' ); ?><br /><br />
+		<div class="form_help"><?php _e( 'if you have customized your <strong>Category Template Loop</strong> design, the remember to put  both <code>%%category_title%%</code> and <code>%%category_posts%%</code> tags in same html element and without putting each one in separate html elements.', 'w4-post-list' ); ?><br /><br />
 		<strong><?php _e( 'Example:', 'w4-post-list' ); ?></strong><pre>&lt;div&gt;<br /><code>%%category_title%%</code><br /><code>%%category_posts%%</code><br />&lt;/div&gt;</pre>
+		<br />On-clicking on the category title, the selected posts under this category will appear. If a category doen have any selected posts, the category title link will take you to the category page.
 		</div>
 
 		<ul>
@@ -154,8 +155,8 @@ function w4ld_list_form( $list_id = 0){
 		</div>
 
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
-		<h3><label for="w4pl_category_template_wrapper"><?php _e( 'Category Template Wrapper:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle"><span><?php _e( 'Category list wrapper. This will be placed inside the Template wrapper if you are using "Posts with categories" or "Only categories" list type.', 'w4-post-list'); ?></span></span></h3>
+		<h4><label for="w4pl_category_template_wrapper"><?php _e( 'Category Template Wrapper:', 'w4-post-list'); ?></label>
+		<span class="w4pl_tip_handle"><span><?php _e( 'Category list wrapper. This will be placed inside the Template wrapper if you are using "Posts with categories" or "Only categories" list type.', 'w4-post-list'); ?></span></span></h4>
 		<div class="form_help"><code>%%</code>catloop<code>%%</code> --  Category loop container html.</div>
 		<textarea name="html_template[wrapper_category]" id="w4pl_category_template_wrapper"><?php echo $html_template['wrapper_category']; ?></textarea>
 		</div>
