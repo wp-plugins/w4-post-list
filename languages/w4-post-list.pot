@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the W4 post list package.
 msgid ""
 msgstr ""
-"Project-Id-Version: W4 post list 1.4\n"
+"Project-Id-Version: W4 post list 1.4.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/w4-post-list\n"
-"POT-Creation-Date: 2011-06-22 03:01:35+00:00\n"
+"POT-Creation-Date: 2011-06-22 21:04:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,263 +12,38 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/forms.php:39
-msgid "List id: "
-msgstr ""
-
-#: includes/forms.php:49
-msgid "Copy this code"
-msgstr ""
-
-#: includes/forms.php:49
+#: includes/class.php:13
 msgid ""
-"and paste it into your post, page or text widget content area to show this "
-"list."
+"List not found with [%1$s]. <a class=\"button\" href=\"%2$s\">Create a new "
+"list</a></p>"
 msgstr ""
 
-#: includes/forms.php:52
-msgid "deleted this list?"
+#: includes/class.php:25
+msgid "No category selected. Please select one to show here."
 msgstr ""
 
-#: includes/forms.php:60 includes/admin.php:390
-msgid "List name:"
+#: includes/class.php:28
+msgid "No post selected. Please select one to show here."
 msgstr ""
 
-#: includes/forms.php:61
-msgid "Give this post list a name, so that you can find it easily."
+#: includes/class.php:146
+msgid "View posts from %3$s"
 msgstr ""
 
-#: includes/forms.php:66 includes/admin.php:392
-msgid "List type:"
+#: includes/class.php:152
+msgid "Posts in"
 msgstr ""
 
-#: includes/forms.php:67
-msgid "Kind of list you need."
+#: includes/class.php:197
+msgid " Published:"
 msgstr ""
 
-#: includes/forms.php:70
-msgid "Posts with categories"
+#: includes/class.php:202
+msgid "Updated:"
 msgstr ""
 
-#: includes/forms.php:72
-msgid "Only categories"
-msgstr ""
-
-#: includes/forms.php:74
-msgid "Only posts"
-msgstr ""
-
-#: includes/forms.php:76
-msgid "Only posts - <small> select by category</small>"
-msgstr ""
-
-#: includes/forms.php:96
-msgid "Select categories/posts:"
-msgstr ""
-
-#: includes/forms.php:101 includes/forms.php:295
-msgid "Select posts:"
-msgstr ""
-
-#: includes/forms.php:106
-msgid "Show category posts with a jquery slide Up/Down effect?"
-msgstr ""
-
-#: includes/forms.php:107
-msgid ""
-"The effect triggered when you click on the category title. if you have "
-"customized your <strong>Category Template Loop</strong> design, the remember "
-"to put  both <code>%%category_title%%</code> and <code>%%category_posts%%</"
-"code> tags in same html element and without putting each one in separate "
-"html elements."
-msgstr ""
-
-#: includes/forms.php:108 includes/admin.php:388 includes/admin.php:443
-msgid "Example:"
-msgstr ""
-
-#: includes/forms.php:113
-msgid "Not neccessary"
-msgstr ""
-
-#: includes/forms.php:115
-msgid "Yap, do it"
-msgstr ""
-
-#: includes/forms.php:117
-msgid "Do it. Also make the posts invisible at primary position"
-msgstr ""
-
-#: includes/forms.php:122
-msgid "Show posts count appending to category name ?"
-msgstr ""
-
-#: includes/forms.php:123
-msgid ""
-"Selection no will over ride the Template Tag <code>%%category_count%%</code> "
-"to return empty."
-msgstr ""
-
-#: includes/forms.php:126
-msgid "No"
-msgstr ""
-
-#: includes/forms.php:128
-msgid "Yes"
-msgstr ""
-
-#: includes/forms.php:133
-msgid "Readmore Text"
-msgstr ""
-
-#: includes/forms.php:134
-msgid ""
-"Text for the template tag <code>%%more%%</code>. This text will be linked to "
-"the post title"
-msgstr ""
-
-#: includes/forms.php:140
-msgid "Excerpt length:"
-msgstr ""
-
-#: includes/forms.php:141
-msgid "Word limit when showing post excerpt."
-msgstr ""
-
-#: includes/forms.php:149
-msgid "Template Wrapper:"
-msgstr ""
-
-#: includes/forms.php:150
-msgid "The complete list inside a wrapper."
-msgstr ""
-
-#: includes/forms.php:157
-msgid "Category Template Wrapper:"
-msgstr ""
-
-#: includes/forms.php:158
-msgid ""
-"Category list wrapper. This will be placed inside the Template wrapper if "
-"you are using \"Posts with categories\" or \"Only categories\" list type."
-msgstr ""
-
-#: includes/forms.php:164
-msgid "Category Template Loop:"
-msgstr ""
-
-#: includes/forms.php:174
-msgid "Post Template Wrapper:"
-msgstr ""
-
-#: includes/forms.php:175
-msgid "Post list wrapper. This will be placed inside the Template wrapper"
-msgstr ""
-
-#: includes/forms.php:182
-msgid "Post Template Loop:"
-msgstr ""
-
-#: includes/forms.php:183
-msgid ""
-"While showing each post, this template will be parsed. If you removed a "
-"field, it will not be visible."
-msgstr ""
-
-#: includes/forms.php:221
-msgid " &laquo; Categories: %s"
-msgstr ""
-
-#: includes/forms.php:226
-msgid "No posts"
-msgstr ""
-
-#: includes/forms.php:308
-msgid "No posts in this cat"
-msgstr ""
-
-#: includes/forms.php:329
-msgid " Admins Only"
-msgstr ""
-
-#: includes/forms.php:330
-msgid "Admins, Editors"
-msgstr ""
-
-#: includes/forms.php:331
-msgid "Admins, Editors, Authors"
-msgstr ""
-
-#: includes/forms.php:332
-msgid "Admins, Editors, Authors, Contributors"
-msgstr ""
-
-#: includes/forms.php:340
-msgid "Create and manage post list:"
-msgstr ""
-
-#: includes/forms.php:341
-msgid ""
-"You can restrict acess to post creation. A user must have this capability, "
-"if he has the next capability. Otherwise, he wont use the next capability."
-msgstr ""
-
-#: includes/forms.php:353
-msgid "Edit/delete/manage All post list:"
-msgstr ""
-
-#: includes/forms.php:354
-msgid ""
-"Probably admin should have it. If you want user create this, set the "
-"previous one.."
-msgstr ""
-
-#: includes/forms.php:370 includes/admin.php:396
-msgid "Post order by:"
-msgstr ""
-
-#: includes/forms.php:372
-msgid "Newest -<small>recent</small>"
-msgstr ""
-
-#: includes/forms.php:375
-msgid "Oldest -<small>less recent</small>"
-msgstr ""
-
-#: includes/forms.php:378
-msgid "Most popular -<small>maximum commented post will be shown first</small>"
-msgstr ""
-
-#: includes/forms.php:381
-msgid "Less popular -<small>minimum commented post will be shown first</small>"
-msgstr ""
-
-#: includes/forms.php:384
-msgid "Sort by post title -<small>A-Z</small>"
-msgstr ""
-
-#: includes/forms.php:387
-msgid "Sort by post title -<small>Z-A</small>"
-msgstr ""
-
-#: includes/forms.php:390
-msgid "Random -<small>anything can happen</small>"
-msgstr ""
-
-#: includes/forms.php:395
-msgid "Show future posts:"
-msgstr ""
-
-#: includes/forms.php:397
-msgid "No."
-msgstr ""
-
-#: includes/forms.php:400
-msgid "Yes."
-msgstr ""
-
-#: includes/forms.php:409
-msgid "Maximum posts to show"
+#: includes/class.php:232
+msgid "Continue reading &raquo;"
 msgstr ""
 
 #: includes/admin.php:97
@@ -292,197 +67,118 @@ msgid ""
 "\"button\" href=\"%s\">Remove database</a>"
 msgstr ""
 
-#: includes/admin.php:197 includes/admin.php:263
+#: includes/admin.php:197 includes/admin.php:268
 msgid ""
 "With w4 post list plugin you can show your selected post list, selected "
 "category list or<br /> making list with both of them in woedpress site."
 msgstr ""
 
-#: includes/admin.php:200 includes/admin.php:267
-msgid "Documentation"
+#: includes/admin.php:200
+msgid "Plugin Page"
 msgstr ""
 
-#: includes/admin.php:201 includes/admin.php:202 includes/admin.php:268
-#: includes/admin.php:269
+#: includes/admin.php:201 includes/admin.php:272 includes/admin.php:273
 msgid "Visit Plugin Page"
 msgstr ""
 
-#: includes/admin.php:204
+#: includes/admin.php:203
 msgid "Mailto:Author"
 msgstr ""
 
-#: includes/admin.php:207
+#: includes/admin.php:205 includes/admin.php:275
+msgid "Vote on wordpress"
+msgstr ""
+
+#: includes/admin.php:207 includes/admin.php:277
+msgid "Manage Plugin Option/Database"
+msgstr ""
+
+#: includes/admin.php:208 includes/admin.php:279
+msgid "Documentation/Home"
+msgstr ""
+
+#: includes/admin.php:212
 msgid "Drop database table"
 msgstr ""
 
-#: includes/admin.php:209
+#: includes/admin.php:214
 msgid "Install database table"
 msgstr ""
 
-#: includes/admin.php:216
+#: includes/admin.php:221
 msgid "Option Updted."
 msgstr ""
 
-#: includes/admin.php:217
+#: includes/admin.php:222
 msgid ""
 "Informations updated. You can get the on main page. However, the list id and "
 "list shortcode may have been changed."
 msgstr ""
 
-#: includes/admin.php:218
+#: includes/admin.php:223
 msgid "Database table dropped."
 msgstr ""
 
-#: includes/admin.php:219
+#: includes/admin.php:224
 msgid "Database installed sucessfully.."
 msgstr ""
 
-#: includes/admin.php:220
+#: includes/admin.php:225
 msgid "Old Information cleared."
 msgstr ""
 
-#: includes/admin.php:224 includes/admin.php:288
+#: includes/admin.php:229 includes/admin.php:296
 msgid "List not found."
 msgstr ""
 
-#: includes/admin.php:228
+#: includes/admin.php:233
 msgid ""
 "Your old database options are still available. \r\n"
 "\t\t\t<a class=\"button\" href=\"%1$s\"><strong>Update them</strong></a> or "
 "<a class=\"button\" href=\"%2$s\"><strong>delete them</strong></a>"
 msgstr ""
 
-#: includes/admin.php:271
-msgid "Please rate and vote for this on wordpress"
-msgstr ""
-
-#: includes/admin.php:272
+#: includes/admin.php:280
 msgid "Add new"
 msgstr ""
 
-#: includes/admin.php:278
+#: includes/admin.php:286
 msgid "Option saved."
 msgstr ""
 
-#: includes/admin.php:279
-msgid "New post list Created."
+#: includes/admin.php:287
+msgid ""
+"New post list Created. Now change options below and save to prepare your "
+"list."
 msgstr ""
 
-#: includes/admin.php:280
+#: includes/admin.php:288
 msgid "One post list has been deleted."
 msgstr ""
 
-#: includes/admin.php:284
+#: includes/admin.php:292
 msgid ""
 "Unable to save. There may be a database connection error or this list may "
 "not have been exists or you do \r\n"
 "\t\t\tnot have capabilities to manage this list."
 msgstr ""
 
-#: includes/admin.php:286
+#: includes/admin.php:294
 msgid ""
 "Unable to delete this list now. There may be a database \r\n"
 "\t\t\tconnection error or this list may not have been exists or you do not "
 "have capabilities to delete this."
 msgstr ""
 
-#: includes/admin.php:289
-msgid "You dont have no permission to manage others list."
+#: includes/admin.php:297
+msgid "You dont have no permission to manage other users list."
 msgstr ""
 
-#: includes/admin.php:369
-msgid "To edit a list, click on the list item name above -"
-msgstr ""
-
-#: includes/admin.php:370
-msgid "To Contribute for this plugin development -  "
-msgstr ""
-
-#: includes/admin.php:386
-msgid "Understanding options"
-msgstr ""
-
-#: includes/admin.php:388
-msgid "List ID:"
-msgstr ""
-
-#: includes/admin.php:388
-msgid ""
-"Current list id. This id is necessary for showing list with shortcode. You "
-"can show a post list on your post or page by list id."
-msgstr ""
-
-#: includes/admin.php:388
-msgid "will show the list having id 1."
-msgstr ""
-
-#: includes/admin.php:390
-msgid ""
-"This is not very essential now. Just for finding a list with this name on "
-"post list page menu."
-msgstr ""
-
-#: includes/admin.php:392
-msgid ""
-"List type chooser. Only post list, only category list and both them together "
-"are available."
-msgstr ""
-
-#: includes/admin.php:392
-msgid "Note:"
-msgstr ""
-
-#: includes/admin.php:392
-msgid ""
-"Selecting and saving this option will hide or reveal related options. So we "
-"recommend you do make a save after choosing your list type."
-msgstr ""
-
-#: includes/admin.php:394
-msgid "Show posts in category with a jquery slide effect:"
-msgstr ""
-
-#: includes/admin.php:394
-msgid ""
-"This is only for \"Posts with categories\" list type. Possitive selection "
-"will create a show/hide effect with jQuery to your list."
-msgstr ""
-
-#: includes/admin.php:396
-msgid ""
-"In Which base the post will be orderby. Available options are newest, "
-"oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random."
-msgstr ""
-
-#: includes/admin.php:398
-msgid "Show future Posts:"
-msgstr ""
-
-#: includes/admin.php:398
-msgid ""
-"Automatically add future posts to the category post/only posts/only posts by "
-"category list or remove."
-msgstr ""
-
-#: includes/admin.php:400
-msgid "Show item count appending to category name:"
-msgstr ""
-
-#: includes/admin.php:400
-msgid "Show the published posts number for the category."
-msgstr ""
-
-#: includes/admin.php:402
-msgid ""
-"Show readmore link ? :</strong><br />Display a read more link after the post "
-"content."
-msgstr ""
-
-#: includes/admin.php:405
+#: includes/admin.php:380
 msgid "New in version 1.4"
 msgstr ""
 
-#: includes/admin.php:407
+#: includes/admin.php:382
 msgid ""
 "New option page. Admin can assign who can create/manage post list by "
 "existing capability. If a user has role to only create and manage his own "
@@ -490,7 +186,7 @@ msgid ""
 "management page."
 msgstr ""
 
-#: includes/admin.php:408
+#: includes/admin.php:383
 msgid ""
 "Post list database management process. Admin can drop or install the plugin "
 "database on click. People are recommended to do removal and install od "
@@ -500,18 +196,164 @@ msgid ""
 "feature."
 msgstr ""
 
-#: includes/admin.php:409
+#: includes/admin.php:384
 msgid ""
 "HTML Design template. You can design you list HTMl templte. For instruction, "
 "follow <a href=\"http://w4dev.com/wp/w4-post-list-design-template/\">http://"
 "w4dev.com/wp/w4-post-list-design-template/</a>"
 msgstr ""
 
-#: includes/admin.php:412
+#: includes/admin.php:389
+msgid "Shortcode"
+msgstr ""
+
+#: includes/admin.php:390
+msgid ""
+"Use shortcode \"postlist\" with the list id to show a post list on a post or "
+"page content area."
+msgstr ""
+
+#: includes/admin.php:390 includes/admin.php:421 includes/forms.php:110
+msgid "Example:"
+msgstr ""
+
+#: includes/admin.php:394
+msgid "Call Post list PHP function:"
+msgstr ""
+
+#: includes/admin.php:395
+msgid "Show a specific post list directly to your theme, use tempate tag"
+msgstr ""
+
+#: includes/admin.php:396
+msgid "with the list id. Example:"
+msgstr ""
+
+#: includes/admin.php:397
+msgid "For returning value instead of echoing, use "
+msgstr ""
+
+#: includes/admin.php:402
+msgid "Contact"
+msgstr ""
+
+#: includes/admin.php:404
+msgid "Web: "
+msgstr ""
+
+#: includes/admin.php:405
+msgid "Email: "
+msgstr ""
+
+#: includes/admin.php:408
+msgid "Contribution"
+msgstr ""
+
+#: includes/admin.php:417
+msgid ""
+"Click on the list item name above to edit an existing list. Click on add new "
+"to add a new one"
+msgstr ""
+
+#: includes/admin.php:418
+msgid "Understanding Plugin Options"
+msgstr ""
+
+#: includes/admin.php:421
+msgid "List ID:"
+msgstr ""
+
+#: includes/admin.php:421
+msgid ""
+"Current list id. This id is necessary for showing list with shortcode. You "
+"can show a post list on your post or page by list id."
+msgstr ""
+
+#: includes/admin.php:421
+msgid "will show the list having id 1."
+msgstr ""
+
+#: includes/admin.php:423 includes/forms.php:62
+msgid "List name:"
+msgstr ""
+
+#: includes/admin.php:423
+msgid ""
+"This is not very essential now. Just for finding a list with this name on "
+"post list page menu."
+msgstr ""
+
+#: includes/admin.php:425 includes/forms.php:68
+msgid "List type:"
+msgstr ""
+
+#: includes/admin.php:425
+msgid ""
+"List type chooser. Only post list, only category list and both them together "
+"are available."
+msgstr ""
+
+#: includes/admin.php:425
+msgid "Note:"
+msgstr ""
+
+#: includes/admin.php:425
+msgid ""
+"Selecting and saving this option will hide or reveal related options. So we "
+"recommend you do make a save after choosing your list type."
+msgstr ""
+
+#: includes/admin.php:427
+msgid "Show posts in category with a jquery slide effect:"
+msgstr ""
+
+#: includes/admin.php:427
+msgid ""
+"This is only for \"Posts with categories\" list type. Possitive selection "
+"will create a show/hide effect with jQuery to your list."
+msgstr ""
+
+#: includes/admin.php:429 includes/forms.php:373
+msgid "Post order by:"
+msgstr ""
+
+#: includes/admin.php:429
+msgid ""
+"In Which base the post will be orderby. Available options are newest, "
+"oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random."
+msgstr ""
+
+#: includes/admin.php:431
+msgid "Show future Posts:"
+msgstr ""
+
+#: includes/admin.php:431
+msgid ""
+"Automatically add future posts to the category post/only posts/only posts by "
+"category list or remove."
+msgstr ""
+
+#: includes/admin.php:433
+msgid "Show item count appending to category name:"
+msgstr ""
+
+#: includes/admin.php:433
+msgid "Show the published posts number for the category."
+msgstr ""
+
+#: includes/admin.php:435
+msgid "Readmore text"
+msgstr ""
+
+#: includes/admin.php:435
+msgid "Display a read more link after the post content."
+msgstr ""
+
+#: includes/admin.php:439
 msgid "Html Design Template"
 msgstr ""
 
-#: includes/admin.php:413
+#: includes/admin.php:440
 msgid ""
 "Design your post list template to match your theme style. We have made "
 "<strong>teplate tag</strong> for each element of a post list.<br />\r\n"
@@ -520,137 +362,77 @@ msgid ""
 "as it is.</span>"
 msgstr ""
 
-#: includes/admin.php:415
+#: includes/admin.php:442
 msgid ""
 "Template <strong>Tags</strong> are placed in <code>\"%%\"</code> sign. Each "
 "tag has a repective value. Please make sure you understand them before you "
 "remove one."
 msgstr ""
 
-#: includes/admin.php:416
+#: includes/admin.php:445
 msgid "Template Tags"
 msgstr ""
 
-#: includes/admin.php:418
+#: includes/admin.php:447
 msgid "You complete post list html."
 msgstr ""
 
-#: includes/admin.php:420
+#: includes/admin.php:449
 msgid ""
-"Post Template Loop. If it is a list, use <code>ol</code> or <code>ul</code> "
-"to wrap the post loop."
+"Post Template Loop. While displaying posts, every post go through the "
+"<code>postloop</code> once."
 msgstr ""
 
-#: includes/admin.php:421
-msgid "Post title template."
+#: includes/admin.php:450
+msgid "Post title template. Title will be linked to the post page."
 msgstr ""
 
-#: includes/admin.php:422
+#: includes/admin.php:451
 msgid "Post publish date."
 msgstr ""
 
-#: includes/admin.php:423
-msgid "Post last update date."
+#: includes/admin.php:452
+msgid "Post last update date. (modified time)"
 msgstr ""
 
-#: includes/admin.php:424
+#: includes/admin.php:453
 msgid "Post content."
 msgstr ""
 
-#: includes/admin.php:425
-msgid "Post excerpt."
+#: includes/admin.php:454
+msgid "Post excerpt. Excerpt lenght should be assigned."
 msgstr ""
 
-#: includes/admin.php:426
+#: includes/admin.php:455
 msgid "Read more link for post."
 msgstr ""
 
-#: includes/admin.php:428
-msgid "Category Template Loop."
+#: includes/admin.php:457
+msgid ""
+"Category Template Loop. While displaying categories, every category go "
+"through the <code>catloop</code> once"
 msgstr ""
 
-#: includes/admin.php:429
+#: includes/admin.php:458
 msgid "Title of this category, will be linked to the category url."
 msgstr ""
 
-#: includes/admin.php:430
+#: includes/admin.php:459
 msgid "Published post item inside this category."
 msgstr ""
 
-#: includes/admin.php:431
-msgid "Posts of that category."
+#: includes/admin.php:460
+msgid ""
+"Posts of that category. In this position, the <code>postloop</code> tag will "
+"be parsed."
 msgstr ""
 
-#: includes/admin.php:434
+#: includes/admin.php:463
 msgid "So now, you can wrap a tag easily with your own html tags. Like:"
 msgstr ""
 
-#: includes/admin.php:436
-msgid "For PHP function usage:"
-msgstr ""
-
-#: includes/admin.php:437
-msgid "Show a specific post list directly to your theme, use tempate tag"
-msgstr ""
-
-#: includes/admin.php:438
-msgid "with the list id. Example:"
-msgstr ""
-
-#: includes/admin.php:439
-msgid "For returning value instead of echoing, use "
-msgstr ""
-
-#: includes/admin.php:443
-msgid ""
-"Use shortcode \"postlist\" to show a post list on a post or page content "
-"area."
-msgstr ""
-
-#: includes/admin.php:446
-msgid "Web: "
-msgstr ""
-
-#: includes/admin.php:447
-msgid "Email: "
-msgstr ""
-
-#: includes/admin.php:637
+#: includes/admin.php:657
 msgid "Manage"
-msgstr ""
-
-#: includes/class.php:13
-msgid ""
-"List not found with [%1$s]. <a class=\"button\" href=\"%2$s\">Create a new "
-"list</a></p>"
-msgstr ""
-
-#: includes/class.php:38
-msgid "No category selected. Please select one to show here."
-msgstr ""
-
-#: includes/class.php:47
-msgid "No post selected. Please select one to show here."
-msgstr ""
-
-#: includes/class.php:146
-msgid "View posts from %3$s"
-msgstr ""
-
-#: includes/class.php:152
-msgid "Posts in"
-msgstr ""
-
-#: includes/class.php:197
-msgid " Published:"
-msgstr ""
-
-#: includes/class.php:202
-msgid "Updated:"
-msgstr ""
-
-#: includes/class.php:232
-msgid "Continue reading &raquo;"
 msgstr ""
 
 #: includes/widgets.php:8
@@ -684,6 +466,248 @@ msgstr ""
 
 #: includes/widgets.php:99
 msgid "Or <a class=\"button\" href=\"%s\">create new</a>"
+msgstr ""
+
+#: includes/forms.php:39
+msgid "List id: "
+msgstr ""
+
+#: includes/forms.php:49
+msgid "Copy this code"
+msgstr ""
+
+#: includes/forms.php:49
+msgid ""
+"and paste it into your post, page or text widget content area to show this "
+"list."
+msgstr ""
+
+#: includes/forms.php:54
+msgid "deleted this list"
+msgstr ""
+
+#: includes/forms.php:63
+msgid "Give this post list a name, so that you can find it easily."
+msgstr ""
+
+#: includes/forms.php:69
+msgid "Kind of list you need."
+msgstr ""
+
+#: includes/forms.php:72
+msgid "Posts with categories"
+msgstr ""
+
+#: includes/forms.php:74
+msgid "Only categories"
+msgstr ""
+
+#: includes/forms.php:76
+msgid "Only posts"
+msgstr ""
+
+#: includes/forms.php:78
+msgid "Only posts - <small> select by category</small>"
+msgstr ""
+
+#: includes/forms.php:98
+msgid "Select categories/posts:"
+msgstr ""
+
+#: includes/forms.php:103 includes/forms.php:298
+msgid "Select posts:"
+msgstr ""
+
+#: includes/forms.php:108
+msgid "Show category posts with a jquery slide Up/Down effect?"
+msgstr ""
+
+#: includes/forms.php:109
+msgid ""
+"if you have customized your <strong>Category Template Loop</strong> design, "
+"the remember to put  both <code>%%category_title%%</code> and <code>%%"
+"category_posts%%</code> tags in same html element and without putting each "
+"one in separate html elements."
+msgstr ""
+
+#: includes/forms.php:116
+msgid "Not neccessary"
+msgstr ""
+
+#: includes/forms.php:118
+msgid "Yap, do it"
+msgstr ""
+
+#: includes/forms.php:120
+msgid "Do it. Also make the posts invisible at primary position"
+msgstr ""
+
+#: includes/forms.php:125
+msgid "Show posts count appending to category name ?"
+msgstr ""
+
+#: includes/forms.php:126
+msgid ""
+"Selection no will over ride the Template Tag <code>%%category_count%%</code> "
+"to return empty."
+msgstr ""
+
+#: includes/forms.php:129
+msgid "No"
+msgstr ""
+
+#: includes/forms.php:131
+msgid "Yes"
+msgstr ""
+
+#: includes/forms.php:136
+msgid "Readmore Text"
+msgstr ""
+
+#: includes/forms.php:137
+msgid ""
+"Text for the template tag <code>%%more%%</code>. This text will be linked to "
+"the post title"
+msgstr ""
+
+#: includes/forms.php:143
+msgid "Excerpt length:"
+msgstr ""
+
+#: includes/forms.php:144
+msgid "Word limit when showing post excerpt."
+msgstr ""
+
+#: includes/forms.php:152
+msgid "Template Wrapper:"
+msgstr ""
+
+#: includes/forms.php:153
+msgid "The complete list inside a wrapper."
+msgstr ""
+
+#: includes/forms.php:160
+msgid "Category Template Wrapper:"
+msgstr ""
+
+#: includes/forms.php:161
+msgid ""
+"Category list wrapper. This will be placed inside the Template wrapper if "
+"you are using \"Posts with categories\" or \"Only categories\" list type."
+msgstr ""
+
+#: includes/forms.php:167
+msgid "Category Template Loop:"
+msgstr ""
+
+#: includes/forms.php:177
+msgid "Post Template Wrapper:"
+msgstr ""
+
+#: includes/forms.php:178
+msgid "Post list wrapper. This will be placed inside the Template wrapper"
+msgstr ""
+
+#: includes/forms.php:185
+msgid "Post Template Loop:"
+msgstr ""
+
+#: includes/forms.php:186
+msgid ""
+"While showing each post, this template will be parsed. If you removed a "
+"field, it will not be visible."
+msgstr ""
+
+#: includes/forms.php:224
+msgid " &laquo; Categories: %s"
+msgstr ""
+
+#: includes/forms.php:229
+msgid "No posts"
+msgstr ""
+
+#: includes/forms.php:311
+msgid "No posts in this cat"
+msgstr ""
+
+#: includes/forms.php:332
+msgid " Admins Only"
+msgstr ""
+
+#: includes/forms.php:333
+msgid "Admins, Editors"
+msgstr ""
+
+#: includes/forms.php:334
+msgid "Admins, Editors, Authors"
+msgstr ""
+
+#: includes/forms.php:335
+msgid "Admins, Editors, Authors, Contributors"
+msgstr ""
+
+#: includes/forms.php:343
+msgid "Create and manage post list:"
+msgstr ""
+
+#: includes/forms.php:344
+msgid ""
+"You can restrict acess to post creation. A user must have this capability, "
+"if he has the next capability. Otherwise, he wont use the next capability."
+msgstr ""
+
+#: includes/forms.php:356
+msgid "Edit/delete/manage All post list:"
+msgstr ""
+
+#: includes/forms.php:357
+msgid ""
+"Probably admin should have it. If you want user create this, set the "
+"previous one.."
+msgstr ""
+
+#: includes/forms.php:375
+msgid "Newest -<small>recent</small>"
+msgstr ""
+
+#: includes/forms.php:378
+msgid "Oldest -<small>less recent</small>"
+msgstr ""
+
+#: includes/forms.php:381
+msgid "Most popular -<small>maximum commented post will be shown first</small>"
+msgstr ""
+
+#: includes/forms.php:384
+msgid "Less popular -<small>minimum commented post will be shown first</small>"
+msgstr ""
+
+#: includes/forms.php:387
+msgid "Sort by post title -<small>A-Z</small>"
+msgstr ""
+
+#: includes/forms.php:390
+msgid "Sort by post title -<small>Z-A</small>"
+msgstr ""
+
+#: includes/forms.php:393
+msgid "Random -<small>anything can happen</small>"
+msgstr ""
+
+#: includes/forms.php:398
+msgid "Show future posts:"
+msgstr ""
+
+#: includes/forms.php:400
+msgid "No."
+msgstr ""
+
+#: includes/forms.php:403
+msgid "Yes."
+msgstr ""
+
+#: includes/forms.php:412
+msgid "Maximum posts to show"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
