@@ -1,61 +1,34 @@
 === W4 post list ===
 Plugin Name: W4 post list
 Author: sajib1223, Shazzad Hossain Khan
-Donate link: http://w4dev.com/
+Donate link: https://www.paypal.com/_donations/business=w4development@gmail.com&item_name=W4+Plugins&item_number=W4+post+list&currency_code=USD
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
-Tested up to: 3.1
-Stable tag: 1.3.6
+Tested up to: 3.1.3
+Stable tag: 1.4.1
 
-Lists wordpress posts, categories and posts with categories. Show/Hide post list with jquery slide effect. Multi-lingual supported.
+Show wordpress posts, categories, posts with categories or posts by categories in a complete post template or in a list preview style. jQuery enabled with slide effect for subcategories. Design your post list template to match your site html and css.
 
 == Description ==
-Show list inside post/page content and widget area (enable from version 1.3). The list management page has been moved to its own page rather than the widget inside page. As for a wide change, you may face difficulties to manage it. Please Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> to tell us what problem u are facing with the latest Version or anything else.
+Show Posts or category list inside post content and widget area. For details <a href="http://w4dev.com/w4-plugin/w4-post-list">visit plugin page</a>.
 
-Now (Version - 1.3.6) added new list type "Post lists by category".
+= What's new - 1.4 =
+* New option page. Admin can assign who can create/manage post list by existing capability. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option management page.
+* Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install od database once if they have upgraded to V-1.4 from a old once. When dabase table is dropped, plugin keeps the old data and promp for synchronize it once after installation of plugin database table. Only admin can have this feature.
+* HTML Design template. You can design you list HTMl templte. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
 
-
-= Upgrade Notice =
-* List only posts by category (Version -1.3.6).
-* Show/Not show future posts (Version -1.3.6).
-* Post lists with maximum posts to show (Version -1.3.6).
-* One click select/deselect all posts (Version -1.3.6).
-* Saving problem fixed (Version -1.3.4).
-* Read more link after content (Version -1.3.3).
-* Jquery effects to manage the list option more easily (Version -1.3.3).
-* Changed post order by to an easier method (Version -1.3.3).
-* A new "post select by" option (Version -1.3.3).
-* Some visual change in admin panel (Version -1.3.2).
-* Eiser post sorting options (Version -1.3.2).
-* Changed parameter to easily understand options. Please deactive and reactive plugin after update if you face any problem (Version -1.3.1).
-* Added template tag to show a specific post list at any place of your theme (Version -1.3.1).
-* Enabled multi-lingual functionality (Version -1.2.7).
-* Solved simple bugs (Version -1.2.6).
-* Show/hide post list with Sliding effect while showing posts with category (Version -1.2.5).
-* Fixed bugs (Version -1.2.5).
-* Added new option to show last post-modified time (Version -1.2.5).
-* Fixed post list bugs (Version -1.2.4).
-* Changed the posts selection method (Version -1.2.3).
-* Changed the preview style (Version -1.2.3).
-* Fixed the excerpt bugs (Version -1.2.1).
-
-
-= Understanding options =
+= Understanding Post List Options =
 * List ID: Current list id. This id is necessary for showing list with shortcode. You can show a post list on your post or page by list id. Example: [postlist 1] will show the list having id 1.
 * List name: This is not very essential now. Just for finding a list with this name on post list page menu.
-* List type: List type chooser. Only post list, only category list and both them together are available. Note: Selecting and saving this option will hide or reveal related options. So we recommend you do make a save after choosing your list type.
+* List type: List type chooser. Only post list, only category list and both them together are available. Note: Selecting and saving this option will hide or reveal related option fields. So we recommend you do make a save after choosing your list type.
 * Show posts in category with a jquery slide effect: This is only for "Posts with categories" list type. Possitive selection will create a show/hide effect with jQuery to your list.
 * Post order by: In Which base the post will be orderby. Available options are newest, oldest, most popular, less popular, by alphabetic order (A-Z/Z-A) and random.
 * Show future Posts: Automatically add future posts to the category post/only posts/only posts by category list or remove.
 * Show item count appending to category name: Show the published posts number for the category.
-* Show published date appending to post title: Show post publishing date.
-* Show last post-update time appending to post title: Post mpdified time.
-* Show post content: Display post content or post excerpt under the post title. You have to set the excerpt length to show post excerpt. This won't effect your sites other excerpt length.
-* Show readmore link ? : Display a read more link after the post content.
-
+* Readmore Text: The single page link text ( not title).
 
 == Installation ==
 1. Upload zip to the `/wp-content/plugins/` directory
@@ -69,6 +42,7 @@ Yes.
 As much as you have.
 
 == Screenshots ==
+1. A Basic Design template.
 
 == Changelog ==
 = 1.0 =
@@ -113,6 +87,10 @@ As much as you have.
 * Show/Not show future posts.
 * Post lists with maximum posts to show.
 * One click select/deselect all posts.
+= 1.4 =
+* Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
+* Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install od database once if they have upgraded to v.1.4 from a old once. When dabase table is dropped, plugin keeps the old data and promp for synchronize it once after installation of plugin database table. Only admin can have this feature.
+* HTML Design template. You can design you list HTMl templte. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
 
 == Upgrade Notice ==
 = 1.0 =
@@ -154,7 +132,10 @@ As much as you have.
 * Show/Not show future posts.
 * Post lists with maximum posts to show.
 * One click select/deselect all posts.
-
+= 1.4 =
+* Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
+* Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install od database once if they have upgraded to v.1.4 from a old once. When dabase table is dropped, plugin keeps the old data and promp for synchronize it once after installation of plugin database table. Only admin can have this feature.
+* HTML Design template. You can design you list HTMl templte. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
 
 == How to use ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.
