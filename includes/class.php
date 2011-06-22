@@ -20,6 +20,13 @@ class W4_Post_list {
 		// List Options
 		$this->list_type 		= $this->list_option['list_type'];
 		$this->categories 		= $this->list_option['categories'];
+
+		if( in_array( $this->list_type, array( 'oc', 'pc' )) && !$this->categories )
+				return new WP_Error( 'no_attribute', __( 'No category selected. Please select one to show here.', 'w4-post-list' ));
+
+		elseif( in_array( $this->list_type, array( 'op', 'op_by_cat' )) && count( $this->list_option['post_ids'] ) < 1 )
+				return new WP_Error( 'no_attribute', __( 'No post selected. Please select one to show here.', 'w4-post-list' ));
+
 		$this->list_effect 		= $this->list_option['list_effect'];
 		$this->read_more	 	= $this->list_option['read_more_text'];
 		$this->excerpt_length 	= $this->list_option['excerpt_length'];
@@ -33,18 +40,10 @@ class W4_Post_list {
 	function display(){
 
 		if( in_array( $this->list_type, array( 'oc', 'pc' ))){
-
-			if( empty( $this->categories ) || !$this->categories )
-				return new WP_Error( 'no_attribute', __( 'No category selected. Please select one to show here.', 'w4-post-list' ));
-			
 			$postlist = $this->generate_category_list();
-
 		}
 
 		elseif( in_array( $this->list_type, array( 'op', 'op_by_cat' ))){
-
-			if( !is_array( $this->list_option['post_ids']) || '1' > count( $this->list_option['post_ids'] ))
-				return new WP_Error( 'no_attribute', __( 'No post selected. Please select one to show here.', 'w4-post-list' ));
 
 			$post_order = w4pl_sanitize_post_order_method( $this->list_option['post_order_method']);
 			$this->query = array(
