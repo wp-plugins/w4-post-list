@@ -172,6 +172,8 @@ function w4pl_form_action(){
 		}
 			
 		$list_data = w4pl_get_list_form_data();
+		
+		#print_r( $_POST['show_category_posts_count']);return;
 		$list_id = w4pl_save_list( $list_data );
 	
 		if( is_wp_error( $list_id)){
@@ -329,7 +331,9 @@ function w4pl_get_list_form_data(){
 		if( !is_array( $val ))
 			$list_option[$key] = $_POST[$key];
 	}
-
+	
+	
+	
 	$list_option['post_ids'] 			= ( array ) $_POST['list_option']['post_ids'];
 	$list_option['posts_not_in'] 		= w4pl_all_posts_id();
 	foreach( $list_option['post_ids'] as $post_id){
@@ -376,6 +380,11 @@ function w4pl_get_list_form_data(){
 function w4pl_help_page(){ ?>
 	<div class="has-right-sidebar">
 	<div class="inner-sidebar" id="side-info-column">
+
+	<div class="stuffbox w4pl_updates"><h3><?php _e( 'Plugin News Updates', 'w4-post-list'); ?></h3>
+	<div class="inside">
+	<?php w4pl_plugin_news(); ?>
+	</div></div>
 
 	<div class="stuffbox"><h3><?php _e( 'New in version 1.4', 'w4-post-list'); ?></h3>
 	<div class="inside"><ul class="whats_new">
@@ -467,6 +476,36 @@ function w4pl_help_page(){ ?>
 	</div></div><!---->
 	</div>
 <?php
+}
+
+// Retrive latest news about our plugin from our server
+function w4pl_plugin_news( $echo = true, $refresh = false ){
+	$transient = 'w4pl_plugin_news';
+	$transient_old = $transient . '_old';
+	$expiration = 86400;
+
+	$output = get_transient( $transient );
+
+	if( $refresh || !$output || empty( $output )){
+		$objFetchSite = _wp_http_get_object();
+		$response = $objFetchSite->request( 'http://w4dev.com/wp-content/themes/w4-framework/lib/framework/ajax.php?action=plugin_news&item=1', 
+		array('method' => 'POST'));
+		
+		if ( is_wp_error( $response ) || !isset( $response['body']))
+			$output = get_option( $transient_old );
+
+		else
+			$output = $response['body'];
+
+		set_transient( $transient, $output, $expiration );
+		// Save last new forever if a newer is not available..
+		update_option( $transient_old, $output );
+	}
+	
+	if( !$echo )
+		return $output;
+	else
+		echo $output;
 }
 
 function w4pl_item_menu( $current = 0){

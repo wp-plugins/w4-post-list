@@ -53,10 +53,7 @@ function w4pl_sanitize_list_option_default( $option){
 	}
 	
 	if( !in_array( $show_category_posts_count, array( 'no', 'yes' ))){
-		if( 'included' == $show_category_posts_count)
-			$show_category_posts_count = 'yes';
-		
-		elseif( 'included' == $show_category_posts_count)
+		if( 'all' == $show_category_posts_count)
 			$show_category_posts_count = 'yes';
 			
 		else

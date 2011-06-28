@@ -13,7 +13,8 @@
 
 #w4pl_admin{
 	color:#777;
-	margin-right:200px;
+	overflow:hidden;
+	margin-right:10px;
 	}
 #w4pl_admin div.error{
 	background-color: #FFE8E8;
@@ -37,10 +38,10 @@
 }
 
 #w4pl_admin .stuffbox h3{
-    font-weight: normal;
-    line-height: 1;
-    margin: 0 0 0px 0;
-    padding: 7px 9px;
+	font-weight: normal;
+	line-height: 1;
+	margin: 0 0 0px 0;
+	padding: 7px 9px;
 }
 #w4pl_admin .stuffbox .inside{
 	padding:15px;
@@ -148,7 +149,8 @@
 #w4pl_admin .menu {
 	overflow:hidden;
 	width:100%;
-	border-right:1px solid #EEE;
+	border-right:1px solid #DDD;
+	margin-left:-1px;
 }
 #w4pl_admin .menu a{
 	background-color: #FFF;
@@ -187,7 +189,7 @@
 #w4pl_option_form{
 	margin:30px 0 0 100px;
 	}
-#w4_post_list_form .category{
+#w4_post_list_form .category, .taxonomy{
 	background-color:#DDD;
 	margin-bottom:1px;
 	overflow:hidden;
@@ -195,10 +197,10 @@
 	min-height:28px;
 	}
 
-#w4_post_list_form div.first{
+#w4_post_list_form div.first, .taxonomies .first{
 	background-color:#E8E8E8;
 	}
-#w4_post_list_form .w4c_inside {
+#w4_post_list_form .w4c_inside, .taxonomies .w4c_inside {
 	margin:0 0 5px 0;
 	font-size:10px;
 	padding:5px;
@@ -312,4 +314,9 @@ ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options {
 	}
 #w4pl_post_template_loop, #w4pl_category_template_loop{
 	height:150px;
+	}
+#w4pl_admin .w4pl_updates h3{
+	background: #FFFFE0;
+	border-bottom:1px solid #E6DB55;
+	color: #333;
 	}

@@ -46,7 +46,7 @@ function w4ld_list_form( $list_id = 0){
 		?>
 
 		<?php
-		echo "<strong>" . __( "Copy this code", "w4-post-list"). " &rarr; </strong><input type='text' value='[intlink $list_id]' readonly='readonly' onfocus='this.select();'> " . __( "and paste it into your post, page or text widget content area to show this list.", 'w4-post-list');
+		echo "<strong>" . __( "Copy this code", "w4-post-list"). " &rarr; </strong><input type='text' value='[postlist $list_id]' readonly='readonly' onfocus='this.select();'> " . __( "and paste it into your post, page or text widget content area to show this list.", 'w4-post-list');
 		?>
    		<p><input type="submit" name="" class="save_w4_post_list_options" value="Save option" /><br />
         <?php
@@ -127,19 +127,19 @@ function w4ld_list_form( $list_id = 0){
 		<ul>
 		<li><label><input type="radio" <?php checked( $show_category_posts_count, 'no' ); ?> name="show_category_posts_count" value="no"  /> <?php 
 		_e( 'No', 'w4-post-list' ); ?></label></li>
-		<li><label><input type="radio" <?php checked( $show_category_posts_count, 'all' ); ?> name="show_category_posts_count" value="all"  /> <?php 
+		<li><label><input type="radio" <?php checked( $show_category_posts_count, 'yes' ); ?> name="show_category_posts_count" value="yes"  /> <?php 
 		_e( 'Yes', 'w4-post-list' ); ?></label></li>
 		</ul></div>
 
 		<!--Post read more text-->
-		<div class="option <?php echo "$hide_if_oc"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
+		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h3><label for="read_more_text"><?php _e('Readmore Text', 'w4-post-list'); ?></label>
 		<span class="w4pl_tip_handle"><span><?php _e( 'Text for the template tag <code>%%more%%</code>. This text will be linked to the post title', 'w4-post-list' ); ?></span></span></h3>
 
 		<input type="text" value="<?php echo( $read_more_text) ; ?>" name="read_more_text" id="read_more_text" /></div>
 
 		<!--Post excerpt length-->
-		<div class="option <?php echo "$hide_if_oc"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
+		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h3><label for="excerpt_length"><?php _e('Excerpt length:', 'w4-post-list'); ?></label>
 		<span class="w4pl_tip_handle"><span><?php _e( 'Word limit when showing post excerpt.', 'w4-post-list'); ?></span></span></h3>
 		<input type="text" value="<?php echo( $excerpt_length) ; ?>" name="excerpt_length" id="excerpt_length" /></div>
