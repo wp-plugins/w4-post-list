@@ -10,7 +10,7 @@ Stable tag: 1.4.5
 Show wordpress posts, categories, posts with categories or posts by categories in a complete post template or in a list preview style. jQuery enabled with slide effect for subcategories. Design your post list template to match your site HTML and css.
 
 == Description ==
-Show Posts or category list inside post content and widget area. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">Visit plugin page</a> and plugin layout customzation <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit plugin page</a>help page.
+Show Posts or category list inside post content and widget area. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">Visit plugin page</a> and <a href="http://w4dev.com/wp/w4-post-list-design-template/">plugin layout customzation page</a>.
 
 = What's new - 1.4.5 =
 * The show future posts bug has been solved. From now on, there won't be any selecton problems.
