@@ -163,7 +163,7 @@ class W4_Post_list {
 		$this->query = wp_parse_args((array) $this->query, $defaults );
 
 		query_posts( $this->query);
-
+		$postloop = '';
 		//Checking post
 		if( have_posts()):
 			while( have_posts()): the_post();

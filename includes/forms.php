@@ -19,7 +19,7 @@ function w4ld_list_form( $list_id = 0){
 	$list_option = $list['list_option'];
 	$list_title = $list['list_title'];
 
-	$form_action = w4pl_plugin_page_url();
+	$form_action = add_query_arg( 'list_id', $list_id, w4pl_plugin_page_url());
 	$form_hidden_elements = '<input type="hidden" value="'. $list_id . '" name="list_id"/>';
 
 	extract( $list_option );
@@ -29,9 +29,10 @@ function w4ld_list_form( $list_id = 0){
 	$list_type_oc_hide = ( $list_type == 'oc' ) ? 'hide_box' : '';
 	$list_type_op_by_cat_hide = ( $list_type == 'op_by_cat' ) ? 'hide_box' : '';
 	
-	$post_content_no_hide = ( 'no' == $post_content ) ? 'hide_box' : '';
-	$post_content_content_hide = ( 'content' == $post_content ) ? 'hide_box' : '';
-	$read_more_no_hide = ( 'no' == $excerpt_more ) ? 'hide_box' : '';
+	// Removed
+	#$post_content_no_hide = ( 'no' == $post_content ) ? 'hide_box' : '';
+	#$post_content_content_hide = ( 'content' == $post_content ) ? 'hide_box' : '';
+	#$read_more_no_hide = ( 'no' == $excerpt_more ) ? 'hide_box' : '';
 
 ?>
 	<form action="<?php echo $form_action ; ?>" method="post" id="w4_post_list_form" enctype="multipart/form-data">
@@ -39,8 +40,8 @@ function w4ld_list_form( $list_id = 0){
 		<h2 style="padding-top:0px;"><?php _e( 'List id: ', 'w4-post-list');?> <span><?php echo $list_id; ?></span></h2>
 
 		<?php
-        if( !w4pl_is_list_user( $list ) && current_user_can( $w4pl_caps['manage_cap'])):
-			$list_user = get_userdata( $list['user_id']);
+        if( !w4pl_is_list_user( $list ) && current_user_can( $w4pl_caps['manage_cap'] )):
+			$list_user = get_userdata( $list['user_id'] );
 			echo "<p><strong>List Username:</strong> <span>$list_user->display_name</span>,<br /><strong>Userid:</strong> {$list_user->ID}</p>";
 		endif;
 		?>
@@ -55,7 +56,10 @@ function w4ld_list_form( $list_id = 0){
 			or <a class="button" title="Add new list" href="'. w4pl_add_url(). '">add new one</a></p>';
 			
 		?>
-		</div>
+		
+		<div class="w4ld_plugin_news"><h2>Plugin Updates</h2><?php w4pl_plugin_news(); ?></div>
+        </div>
+
     	<?php echo $form_hidden_elements ; ?>
 
 		<!--List Name-->
@@ -238,12 +242,16 @@ function w4pl_categories_checklist( $list_option = array()){
 	$category_options = (array) $list_option['categories'];
 	$list_type_oc_hide = ( 'oc' == $list_option['list_type'] ) ? 'hide_box' : '';
 
+	$checklist = '';
 	foreach( $categories as $category ){
-		$checked = ( in_array( $category->cat_ID, array_keys( $category_options))) ? ' checked="checked" ' : '';
-		$category_container_class = ( $category_container_class == 'first' ) ? 'second' : 'first';
-		$category_option = array_merge(
-				(array) $category_options[$category->cat_ID],
-				array( 'cat_id' => $category->cat_ID, 'list_type' => $list_option['list_type']));
+		$checked = ( in_array( $category->cat_ID, array_keys( $category_options ))) ? ' checked="checked" ' : '';
+		$category_container_class = isset( $category_container_class ) && $category_container_class == 'first' ? 'second' : 'first';
+
+		$default_options = array( 'cat_id' => $category->cat_ID, 'list_type' => $list_option['list_type'] );
+		$category_option = wp_parse_args(
+			isset( $category_options[$category->cat_ID] ) ? $category_options[$category->cat_ID] : array(),
+			$default_options
+		);
 
 		//Category name
 		$checklist .= "<div class=\"category $category_container_class\">";
@@ -272,9 +280,6 @@ function w4pl_category_posts_checklist( $category_option, $list_option ){
 	$category_option = wp_parse_args( $category_option, $default );
 	extract( $category_option);
 	
-#	if( $list_type == 'op_by_cat')
-#		$post_ids = $list_option['post_ids'];
-	
 	$list_type_op_by_cat_hide = ( $list_type == 'op_by_cat' ) ? 'hide_box' : '';
 	$post_order = w4pl_sanitize_post_order_method( $post_order_method);
 	query_posts( array(
@@ -287,7 +292,7 @@ function w4pl_category_posts_checklist( $category_option, $list_option ){
 	));
 
 	if( have_posts()):
-		$checklist .= "<div class=\"hide_if_op_by_cat show_if_pc $list_type_op_by_cat_hide\">";
+		$checklist = "<div class=\"hide_if_op_by_cat show_if_pc $list_type_op_by_cat_hide\">";
 		$checklist .= w4pl_form_order_by( "w4pl_categories_post_order_method[$cat_id]", $post_order_method ). '<br /><br />';
 		$checklist .= '</div>';
 
@@ -308,7 +313,7 @@ function w4pl_category_posts_checklist( $category_option, $list_option ){
 		$checklist .= "</ul>";
 
 	else:
-		$checklist .= '<span class="red">' . __( 'No posts in this cat', 'w4-post-list' ) .'</span>';
+		$checklist = '<span class="red">' . __( 'No posts in this cat', 'w4-post-list' ) .'</span>';
 	endif;
 		
 	return $checklist;
@@ -409,6 +414,6 @@ function w4pl_form_posts_by( $input_name, $selected){
 }
 
 function w4pl_form_max_posts( $input_name, $value){
-	return '<h4><label for="'.$input_name.'">'. __( 'Maximum posts to show', 'w4-post-list') . '</label> <span class="w4pl_tip_handle"><span>leave empty to show all</span></span></h4><input size="3" id="'.$input_name.'" name="'. $input_name. '" type="text" value="'. $value . '" />';
+	return '<h4><label for="'.$input_name.'">'. __( 'Maximum posts to show', 'w4-post-list') . '</label> <span class="w4pl_tip_handle"><span>leave empty or 0 to show all</span></span></h4><input size="3" id="'.$input_name.'" name="'. $input_name. '" type="text" value="'. $value . '" />';
 }
 ?>

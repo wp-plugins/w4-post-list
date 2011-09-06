@@ -22,7 +22,13 @@
 	color:#B10009;
 	}
 
-#w4pl_admin div.updated, #w4pl_admin div.error{
+#w4pl_admin .updated, #w4pl_admin .error{
+	padding:10px;
+	font-size:14px;
+	margin-bottom:5px;
+}
+
+#w4pl_admin .updated span, #w4pl_admin .error span{
 	padding:10px;
 	font-size:14px;
 	margin-bottom:5px;
@@ -64,9 +70,14 @@
 	position:absolute;
 	width:300px;
 	padding:10px;
-	background-color:#F3F3F3;
+	background-color:#DDDDBC;
 	right:0px;
 	top:0px;
+	}
+.w4ld_plugin_news{
+	margin-top:50px;
+	border-top:1px solid #C9C898;
+	padding:10px;
 	}
 .list-id span {
 	color:#333;

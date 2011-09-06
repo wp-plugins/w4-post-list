@@ -1,7 +1,7 @@
 <?php
 add_action( 'admin_menu', 'w4pl_admin_menu');
 function w4pl_admin_menu(){
-	global $wp_error, $plugin_page, $w4pl_caps;
+	global $wpdb, $wp_error, $plugin_page, $w4pl_caps, $w4pl_request;
 
 	$w4pl_caps = get_option( 'w4pl_options' );
 	if( !in_array( $w4pl_caps['access_cap'], array( 'manage_options', 'edit_others_posts', 'publish_posts', 'edit_posts')))
@@ -18,6 +18,7 @@ function w4pl_admin_menu(){
 	
 	if( in_array( $plugin_page, array( W4PL_SLUG, W4PL_SLUG . '-options' ))){
 		#load_plugin_textdomain( 'w4-post-list', false, dirname( W4PL_BASENAME ) . '/languages' );
+		$w4pl_request = isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'add', 'edit', 'delete' )) ? $_GET['action'] : "";
 		do_action( 'w4pl_admin_action');
 	}
 }
@@ -25,11 +26,8 @@ function w4pl_admin_menu(){
 //Plugin page option saving
 add_action( 'w4pl_admin_action', 'w4pl_form_action');
 function w4pl_form_action(){
-	global $wpdb, $wp_error, $plugin_page, $w4pl_caps;
-		
-	if ( empty( $wp_error))
-		$wp_error = new WP_Error();
-		
+	global $wpdb, $plugin_page, $w4pl_caps, $w4_request;
+
 	// If this is the option page and curren use have the manage_options capabilities
 	if( W4PL_SLUG . '-options' == $plugin_page && current_user_can( 'manage_options')):
 		if( isset( $_GET['databse'])){
@@ -37,7 +35,7 @@ function w4pl_form_action(){
 			switch( $db_call):
 				case 'remove':
 					if( !w4pl_table_exists()){
-						return $wp_error->add( 'table_not_installed', 'Theres no table exists.');
+						return w4pl_add_error( 'Theres no table exists.');
 						
 					}else{
 						w4ld_db_remove();
@@ -48,7 +46,7 @@ function w4pl_form_action(){
 				break;
 				case 'install':
 					if( w4pl_table_exists()){
-						return $wp_error->add( 'table_already_installed', 'Tables already installed.');
+						return w4pl_add_error( 'Tables already installed.');
 						
 					}else{
 						w4pl_db_install( true );
@@ -58,9 +56,14 @@ function w4pl_form_action(){
 					}
 				break;
 				case 'update_option':
-					$data = get_option( '_w4pl_temp_option');
-					foreach( (array) $data as $list){
+					$data = get_option( '_w4pl_temp_option' );
+					foreach( (array) $data as $list ){
 						$list['list_option'] = maybe_unserialize( $list['list_option'] );
+
+						// Unset list id
+						unset( $list['list_id'] );
+
+						// Insert new list
 						w4pl_save_list( $list );
 					}
 					delete_option( '_w4pl_temp_option');
@@ -103,7 +106,7 @@ function w4pl_form_action(){
 			$msg .= __( ' Please notify admin to update plugin databse before you can start using it..', 'w4-post-list');
 		
 		
-		return $wp_error->add( 'table_not_installed', $msg );
+		return w4pl_add_error( $msg );
 	}
 	elseif( version_compare( get_option( '_w4pl_db_version' ), '2', '<')){
 
@@ -113,15 +116,16 @@ function w4pl_form_action(){
 		else
 			$msg = __( ' Please notify admin to update plugin databse before you can start using it..', 'w4-post-list');
 
-		return $wp_error->add( 'table_not_installed', $msg );
+		return w4pl_add_error( $msg );
 	}
+
 	if( W4PL_SLUG == $plugin_page && current_user_can( $w4pl_caps['access_cap'])):
 		// Create new list
 		if( isset( $_GET['new_list']) && 'true' == $_GET['new_list']){
 			$list_id = w4pl_save_list();
 	
-			if( is_wp_error( $list_id)){
-				return $wp_error = $list_id;
+			if( is_wp_error( $list_id )){
+				return w4pl_add_error( $list_id->get_error_message());
 	
 			}else{
 				$url = add_query_arg( array( 'list_id' => $list_id, 'message' => 'list_created'), w4pl_plugin_page_url());
@@ -151,7 +155,7 @@ function w4pl_form_action(){
 		if( isset( $_GET['delete'] ) && 'true' == $_GET['delete'] ){
 			$list_id = w4pl_delete_list( $_GET['list_id']);
 			if( is_wp_error( $list_id)){
-				return $wp_error = $list_id;
+				return w4pl_add_error( $list_id->get_error_message());
 				
 			}else{
 				$url = add_query_arg( 'message', 'list_deleted', w4pl_plugin_page_url());
@@ -173,25 +177,26 @@ function w4pl_form_action(){
 			
 		$list_data = w4pl_get_list_form_data();
 		
-		#print_r( $_POST['show_category_posts_count']);return;
+		// Save the list
 		$list_id = w4pl_save_list( $list_data );
+		#return;
 	
-		if( is_wp_error( $list_id)){
-			return $wp_error = $list_id;
-	
+		if( is_wp_error( $list_id )){
+			return w4pl_add_error( $list_id->get_error_message());
+
 		}else{
-			$url = add_query_arg( array( 'list_id' => $list_id, 'message' => 'list_saved'), w4pl_plugin_page_url());
-			wp_redirect( $url);
+			$url = add_query_arg( array( 'list_id' => $list_id, 'message' => 'list_saved' ), w4pl_plugin_page_url());
+			wp_redirect( $url );
 			exit;
 		}
 	endif; //Pluginpage
 }
 
 function w4pl_admin_option_page(){
-	global $wp_error, $wpdb;
+	global $wpdb, $w4pl_caps;
 
-	if ( empty( $wp_error ))
-		$wp_error = new WP_Error();
+	if( !$w4pl_caps )
+		$w4pl_caps = get_option( 'w4pl_options' );
 ?>
 	<div id="w4pl_admin" class="wrap">
     	<div class="icon32" id="icon-post"><br/></div>
@@ -232,23 +237,21 @@ function w4pl_admin_option_page(){
 		);
 
 		if( get_option( '_w4pl_temp_option') && w4pl_table_exists()){
-			$wp_error->add( 'update_option', sprintf( __( 'Your old database options are still available. 
+			w4pl_add_message( sprintf( __( 'Your old database options are still available. 
 			<a class="button" href="%1$s"><strong>Update them</strong></a> or <a class="button" href="%2$s"><strong>delete them</strong></a>', 'w4-post-list'),
 			add_query_arg( 'databse', 'update_option', w4pl_option_page_url()), add_query_arg( 'databse', 'delete_option', w4pl_option_page_url())));
 		}
-		
-		// Only get the last error
-		if ( is_wp_error( $wp_error) && $wp_error->get_error_message())
-			echo '<div id="" class="error">'. $wp_error->get_error_message() .'</div>';
 
 		if ( isset( $_GET['message'])){
 			$mkey = $_GET['message'];
-			if( in_array( $mkey, array_keys( $list_messages)))
-				echo '<div id="" class="updated fade">'. $list_messages[$mkey] .'</div>';
+			if( in_array( $mkey, array_keys( $list_messages )))
+				w4pl_add_message( $list_messages[$mkey], $mkey );
 			
 			elseif( in_array( $mkey, array_keys( $list_errors)))
-				echo '<div id="" class="error">'. $list_errors[$mkey] .'</div>';
+				w4pl_add_error( $list_errors[$mkey], $mkey );
 		}
+
+		w4pl_display_error();
 
 		w4ld_option_form();
 		?>
@@ -256,13 +259,10 @@ function w4pl_admin_option_page(){
 <?php
 }
 function w4pl_admin_page(){
-	global $wp_error, $wpdb, $w4pl_caps;
+	global $wpdb, $w4pl_caps;
 
 	if( !$w4pl_caps)
 		$w4pl_caps = get_option( 'w4pl_options');
-	
-	if ( empty( $wp_error ))
-		$wp_error = new WP_Error();
 ?>
 	<div id="w4pl_admin" class="wrap">
     	<div class="icon32" id="icon-post"><br/></div>
@@ -299,19 +299,18 @@ function w4pl_admin_page(){
 			'no_permission'		=> __( 'You dont have no permission to manage other users list.')
 		);
 
-		if ( is_wp_error( $wp_error) && $wp_error->get_error_message())
-			echo '<div id="" class="error">'. $wp_error->get_error_message() .'</div>';
-
 		if ( isset( $_GET['message'])){
 			$mkey = $_GET['message'];
-			if( in_array( $mkey, array_keys( $list_messages)))
-				echo '<div id="" class="updated fade">'. $list_messages[$mkey] .'</div>';
+			if( in_array( $mkey, array_keys( $list_messages )))
+				w4pl_add_message( $list_messages[$mkey], $mkey );
 			
 			elseif( in_array( $mkey, array_keys( $list_errors)))
-				echo '<div id="" class="error">'. $list_errors[$mkey] .'</div>';
+				w4pl_add_error( $list_errors[$mkey], $mkey );
 		}
 
-		if( !$_GET['list_id'])
+		w4pl_display_error();
+
+		if( !isset( $_GET['list_id'] ))
 			echo w4pl_help_page();
 
         w4ld_list_form();
@@ -332,11 +331,10 @@ function w4pl_get_list_form_data(){
 			$list_option[$key] = $_POST[$key];
 	}
 	
-	
-	
-	$list_option['post_ids'] 			= ( array ) $_POST['list_option']['post_ids'];
 	$list_option['posts_not_in'] 		= w4pl_all_posts_id();
-	foreach( $list_option['post_ids'] as $post_id){
+	$list_option['post_ids'] 			= (array) $_POST['list_option']['post_ids'];
+
+	foreach( $list_option['post_ids'] as $post_id ){
 		if( $keys = array_keys( $list_option['posts_not_in'], $post_id)){
 			foreach( $keys as $k){
 				unset( $list_option['posts_not_in'][$k]);
@@ -347,21 +345,30 @@ function w4pl_get_list_form_data(){
 	$categories = array();
 	$category_ids =  $_POST['list_option']['categories'];
 	foreach( (array) $category_ids as $cat_id ){
+		
 		$categories[$cat_id]['post_order_method'] 	= $_POST["w4pl_categories_post_order_method"][$cat_id];
 		$categories[$cat_id]['max'] 				= $_POST["w4pl_categories_max"][$cat_id];
-		$categories[$cat_id]['posts_not_in'] 		= w4pl_category_posts_id( $cat_id );
 
-		$categories[$cat_id]['post_ids'] 			= ( array ) $_POST['category_posts'][$cat_id];
-		$categories[$cat_id]['show_future_posts'] 	= ( !$_POST['_w4_cat_show_future_posts_' . $cat_id]) ? 'no' : $_POST['_w4_cat_show_future_posts_'.$cat_id];
+		$categories[$cat_id]['post_ids'] 			= isset( $_POST['category_posts'][$cat_id] ) ? $_POST['category_posts'][$cat_id] : array();
+		$categories[$cat_id]['show_future_posts'] 	= isset( $_POST['_w4_cat_show_future_posts_' . $cat_id] ) ? $_POST['_w4_cat_show_future_posts_'.$cat_id] : '';
 		
-		#print_r( $_w4_cat_posts );
+		$all_cat_posts = w4pl_category_posts_id( $cat_id );
+		$categories[$cat_id]['posts_not_in'] = !empty( $all_cat_posts ) ? $all_cat_posts : array();
+
+#		print_r($categories[$cat_id]['posts_not_in']); echo '<br />';
+#		print_r($categories[$cat_id]['post_ids']);echo '<br />';
 		
-		foreach( $categories[$cat_id]['posts_not_in'] as $not_id){
-			if( $keys = array_keys( $categories[$cat_id]['post_ids'], $not_id)){
-				foreach( $keys as $k )
+		foreach( $categories[$cat_id]['post_ids'] as $not_id ){
+			if( $keys = array_keys( $categories[$cat_id]['posts_not_in'], $not_id )){
+#				echo 'Keys:'; print_r($keys); echo '<br />';
+				foreach( $keys as $k ){
+					
 					unset( $categories[$cat_id]['posts_not_in'][$k]);
+				
+				}
 			}
 		}
+		
 	}
 
 	$list_option['categories'] = $categories;
@@ -416,7 +423,10 @@ function w4pl_help_page(){ ?>
 
 	<div class="stuffbox"><h3><?php _e( 'Contribution', 'w4-post-list' ); ?></h3>
 	<div class="inside">
-    Sorry, no PayPal.
+    	<ul>
+        <li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Review this plugin on WordPress</a></li>
+        <li><a href="http://w4dev.com/?utm_source=w4-post-list" target="_blank">Visit Author's site</a></li>
+        </ul>
 	</div></div>
 
 	</div><!--#side-info-column-->
@@ -545,7 +555,7 @@ function w4pl_item_menu( $current = 0){
 	
 
 	
-function w4pl_delete_list( $list_id){
+function w4pl_delete_list( $list_id ){
 	$list_id = (int) $list_id;
 		
 	if( !$list_id)
@@ -557,7 +567,7 @@ function w4pl_delete_list( $list_id){
 	global $wpdb;
 	
 	if( !$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->post_list WHERE list_id = %d", $list_id )))
-		return new WP_Error( 'database_error', 'couldnot delete the list, databse error.');
+		return w4pl_add_error( 'couldnot delete the list, databse error.', 'database_error' );
 		
 	return $list_id;
 }
@@ -579,17 +589,21 @@ function w4pl_save_list( $options = array()){
 	if( $list_id){
 		// handling options
 		$options = apply_filters( 'w4pl_sanitize_list_option', $options );
+
 		$update = true;
 		$old_options = w4pl_get_list( $list_id);
 
 		$list_option = maybe_serialize( stripslashes_deep( $list_option ));
-		$user_id = get_userdata( $old_options['user_id'] ) ? $old_options['user_id'] : get_current_user_id();
+		$user_id = get_userdata( (int) $old_options['user_id'] ) ? $old_options['user_id'] : get_current_user_id();
 
-		if( get_option( '_w4pl_db_version' ) == W4PL_DB_VERSION )
+
+		if( version_compare( get_option( '_w4pl_db_version' ), '2', '<' )){
+			$options = compact( 'list_title', 'list_option' );
+
+		}elseif( get_option( '_w4pl_db_version' ) == '2' ){
 			$options = compact( 'list_title', 'list_option', 'user_id' );
 
-		else
-			$options = compact( 'list_title', 'list_option' );
+		}
 
 		$wpdb->update( $wpdb->post_list, $options, array( 'list_id' => $list_id));
 	}
@@ -645,7 +659,7 @@ function w4pl_db_install( $force = false ){
 
 	if( w4pl_table_exists() && !$force )
 		return;
-	
+
 	if( !empty ( $wpdb->charset ))
 		$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
 
@@ -661,40 +675,38 @@ function w4pl_db_install( $force = false ){
 	){$charset_collate};";
 
 	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
-	dbDelta( $sql );
+
+	if( dbDelta( $sql ))
+		update_option( '_w4pl_db_version', W4PL_DB_VERSION );
 }
 
 function w4ld_db_remove(){
 	global $wpdb;
 
-	update_option( '_w4pl_db_version', W4PL_DB_VERSION );
+	// Remove the database version first
+	delete_option( '_w4pl_db_version' );
 
-	$query = $wpdb->prepare( "SELECT * FROM  $wpdb->post_list ORDER BY list_id ASC" );
-	$lists = $wpdb->get_results( $query );
-	$options_all = array();
+	// Get Existing data @ array format
+	$lists = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM  $wpdb->post_list ORDER BY list_id ASC" ), ARRAY_A );
+
+	// Create an array to export list data
+	$export_lists = array();
 	
-	if ( $lists){
-		delete_option( '_w4pl_temp_option');
-		$i = 1;
-		foreach( $lists as $list){
-			
-			if( is_object( $list))
-				$list = get_object_vars( $list );
-			$key = $list['list_id'];
-			unset( $list['list_id'] );
-			$options_all[$key] = $list;
-			$i++;
-		}		
-		if( $i > 1 )
-			update_option( '_w4pl_temp_option', $options_all);
+	if ( !empty( $lists )){
+		delete_option( '_w4pl_temp_option' );
+		update_option( '_w4pl_temp_option', $lists );
 	}
-	return $wpdb->query( "DROP TABLE IF EXISTS $wpdb->post_list");
+	return $wpdb->query( "DROP TABLE IF EXISTS $wpdb->post_list" );
 }
 
 add_action( 'plugin_action_links_' . W4PL_BASENAME, 'w4pl_plugin_action_links' );
 function w4pl_plugin_action_links( $links ){
-	$readme_link['readme'] = '<a href="'.esc_attr( w4pl_plugin_page_url()).'">' . __( 'Manage', 'w4-post-list' ). '</a>';
+	$readme_link['manage_plugin'] = '<a href="'. esc_attr( w4pl_plugin_page_url()) .'">' . __( 'Plugin', 'w4-post-list' ). '</a>';
+	
+	if( current_user_can( 'manage_options')){
+		$readme_link['manage_plugin_options'] = '<a href="'. esc_attr( w4pl_option_page_url()) .'">' . __( 'Manage Options', 'w4-post-list' ). '</a>';
+	}
+
 	return array_merge( $links, $readme_link );
 }
-
 ?>

@@ -3,7 +3,7 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
-Version: 1.4.4
+Version: 1.4.5
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -33,28 +33,32 @@ Author URI: http://w4dev.com/
 define( 'W4PL_DIR', plugin_dir_path(__FILE__));
 define( 'W4PL_URL', plugin_dir_url(__FILE__));
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.4.4' );
+define( 'W4PL_VERSION', '1.4.5' );
 define( 'W4PL_DB_VERSION', '2' );
 define( 'W4PL_NAME', 'W4 post list' );
 define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
+define( 'W4PL_INC', W4PL_DIR . 'includes' );
 
 register_activation_hook( __FILE__, 'w4pl_database_update' );
 
-if( file_exists( W4PL_DIR . 'includes/class.php'))
-	include( W4PL_DIR . 'includes/class.php');
+if( file_exists( W4PL_INC . '/errors.php'))
+include( W4PL_INC . '/errors.php');
 
-if( file_exists( W4PL_DIR . 'includes/widgets.php'))
-	include( W4PL_DIR . 'includes/widgets.php');
+if( file_exists( W4PL_INC .'/class.php'))
+include( W4PL_INC .'/class.php');
 
-if( file_exists( W4PL_DIR . 'includes/functions.php' ))
-	include( W4PL_DIR . 'includes/functions.php');
+if( file_exists( W4PL_INC .'/widgets.php'))
+include( W4PL_INC .'/widgets.php');
+
+if( file_exists( W4PL_INC .'/functions.php' ))
+include( W4PL_INC .'/functions.php');
 
 // Load admin scripts
 if( is_admin()):
-	if( file_exists( W4PL_DIR . 'includes/admin.php'))
-	include( W4PL_DIR . 'includes/admin.php');
+	if( file_exists( W4PL_INC .'/admin.php'))
+	include( W4PL_INC .'/admin.php');
 
-	if( file_exists( W4PL_DIR . 'includes/forms.php'))
-	include( W4PL_DIR . 'includes/forms.php');
+	if( file_exists( W4PL_INC .'/forms.php'))
+	include( W4PL_INC .'/forms.php');
 endif;
 ?>

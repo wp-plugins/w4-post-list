@@ -1,21 +1,20 @@
 === W4 post list ===
 Plugin Name: W4 post list
 Author: sajib1223, Shazzad Hossain Khan
-Donate link: https://www.paypal.com/_donations/business=w4development@gmail.com&item_name=W4+Plugins&item_number=W4+post+list&currency_code=USD
+Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 
 Show wordpress posts, categories, posts with categories or posts by categories in a complete post template or in a list preview style. jQuery enabled with slide effect for subcategories. Design your post list template to match your site HTML and css.
 
 == Description ==
-Show Posts or category list inside post content and widget area. For details <a href="http://w4dev.com/w4-plugin/w4-post-list">visit plugin page</a>.
+Show Posts or category list inside post content and widget area. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">Visit plugin page</a> and plugin layout customzation <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit plugin page</a>help page.
 
-= What's new - 1.4 =
-* New option page. Admin can assign who can create/manage post list by existing capability. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option management page.
-* Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to V-1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
-* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
+= What's new - 1.4.5 =
+* The show future posts bug has been solved. From now on, there won't be any selecton problems.
+* Sliding Javascript has been updated to match the latest jQuery.
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -91,6 +90,9 @@ As much as you have.
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
 * HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
+= What's new - 1.4.5 =
+* The show future posts bug has been solved. From now on, there won't be any selecton problems.
+* Sliding Javascript has been updated to match the latest jQuery.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -136,6 +138,9 @@ As much as you have.
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
 * HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
+= What's new - 1.4.5 =
+* The show future posts bug has been solved. From now on, there won't be any selecton problems.
+* Sliding Javascript has been updated to match the latest jQuery.
 
 == How to use ==
 Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.

@@ -5,28 +5,27 @@ function w4pl_load_scripts(){
 	global $wpdb;
 	$wpdb->post_list = $wpdb->prefix . 'post_list';
 	
-	// Start from 1.3
-	#delete_option( '_w4pl_db_version');
+	// Start from 1
 	if( !get_option( '_w4pl_db_version' ))
-		add_option( '_w4pl_db_version', '1.6');
+		add_option( '_w4pl_db_version', '1' );
 	
 	if( is_admin()){
 		wp_enqueue_script( 'w4pl-admin-js', W4PL_URL.'js/admin_js.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-sortable' ), W4PL_VERSION ,false );
 		wp_enqueue_style( 'w4pl-admin-css', W4PL_URL . 'css/admin-style.css', '', W4PL_VERSION );
-		#if( get_option( '_w4pl_db_version' ) != W4PL_DB_VERSION) w4pl_database_update();
+
 	}
 	else{
 		wp_enqueue_script( 'w4pl-js', W4PL_URL . 'js/js.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true );
 		wp_enqueue_style( 'w4pl-css', W4PL_URL . 'css/style.css', '', W4PL_VERSION ) ;
-	}	
+	}
 }
 
-// Sanitize list insert
+// Sanitize list
 add_filter( 'w4pl_sanitize_list_option', 'w4pl_sanitize_list_option_default');
 function w4pl_sanitize_list_option_default( $option){
 
 	$list_option = $option['list_option'];
-	extract( $list_option);
+	extract( $list_option );
 	$yn_array = array( 'yes', 'no');
 
 	// Version 1.3.1 *****************************************************
@@ -65,6 +64,7 @@ function w4pl_sanitize_list_option_default( $option){
 		$post_order_method = 'newest';
 
 	// Handle category posts
+
 	if( in_array( $list_type, array( 'pc', 'oc', 'op_by_cat' ))):
 		
 		$post_ids = array();
@@ -73,6 +73,7 @@ function w4pl_sanitize_list_option_default( $option){
 		foreach( $categories as $category_id => $category_option){
 			$category_obj = get_category( $category_id);
 
+			// if the cat doesnt exists
 			if( !$category_obj)
 				continue;
 
@@ -80,7 +81,7 @@ function w4pl_sanitize_list_option_default( $option){
 			$category_option['posts_not_in'] = (array) $category_option['posts_not_in'];
 			$category_option['post_order_method'] = empty( $category_option['post_order_method'] ) ? 'newest' : $category_option['post_order_method'];
 			$category_option['max'] = intval( $category_option['max'] );
-
+			
 			if( !in_array( $category_option['show_future_posts'], $yn_array ))
 				$category_option['show_future_posts'] = 'no';
 
@@ -88,8 +89,8 @@ function w4pl_sanitize_list_option_default( $option){
 			if( 'yes' == $category_option['show_future_posts']){
 				$category_option['post_ids'] = w4pl_category_posts_id( $category_id );
 					
-				foreach( $category_option['posts_not_in'] as $post_id){
-					if( $keys = array_keys( $category_option['post_ids'], $post_id )){
+				foreach( $category_option['posts_not_in'] as $_post_id ){
+					if( $keys = array_keys( $category_option['post_ids'], $_post_id )){
 						foreach( $keys as $k){
 							unset( $category_option['post_ids'][$k] );
 						}
@@ -97,7 +98,7 @@ function w4pl_sanitize_list_option_default( $option){
 				}
 				$category_option['post_ids'] = array_unique( $category_option['post_ids'] );
 			}
-				
+
 			elseif( 'no' == $category_option['show_future_posts']){
 				$category_option['posts_not_in'] = w4pl_category_posts_id( $category_id );
 
@@ -140,15 +141,17 @@ function w4pl_sanitize_list_option_default( $option){
 	if( !is_array( $posts_not_in ))
 		$posts_not_in = ( array ) $posts_not_in;
 
-	if( in_array( $list_type, array( 'op', 'op_by_cat'))){
+	if( in_array( $list_type, array( 'op' ))){
+
 		$all_post_ids = w4pl_all_posts_id();
 
 		if( 'yes' == $show_future_posts ){
+
 			$post_ids = $all_post_ids;
-			foreach( $posts_not_in as $post_id){
+			foreach( $posts_not_in as $post_id ){
 				if( $keys = array_keys( $post_ids, $post_id )){
-					foreach($keys as $k){
-						unset($post_ids[$k]);
+					foreach( $keys as $k ){
+						unset( $post_ids[$k] );
 					}
 				}
 			}
@@ -157,18 +160,19 @@ function w4pl_sanitize_list_option_default( $option){
 			$posts_not_in = $all_post_ids;
 			foreach( $post_ids as $post_id){
 				if( $keys = array_keys($posts_not_in, $post_id)){
-					foreach($keys as $k){
-						unset($posts_not_in[$k]);
+					foreach( $keys as $k ){
+						unset( $posts_not_in[$k] );
 					}
 				}
 			}
 			$posts_not_in = array_merge( $posts_not_in, array());
 		}
 		
-		if( 'no' == $show_future_posts){
+		if( 'no' == $show_future_posts ){
+
 			$posts_not_in = $all_post_ids;
 			foreach( $post_ids as $post_id){
-				if( $keys = array_keys($posts_not_in, $post_id)){
+				if( $keys = array_keys( $posts_not_in, $post_id )){
 					foreach($keys as $k){
 						unset($posts_not_in[$k]);
 					}
@@ -261,9 +265,10 @@ function w4pl_text_widget_replace( $matches ){
 
 add_shortcode( 'postlist', 'w4pl_do_shortcode');
 function w4pl_do_shortcode( $attr){
+
 	if( !is_array( $attr ))
 		$attr = array($attr);
-		
+
 	$list_id = array_shift( $attr );
 	$list_id = (int) $list_id;
 	
@@ -337,15 +342,10 @@ function w4pl_get_list( $list_id = '', $col = null){
 
 	$query = $wpdb->prepare( "SELECT * FROM  $wpdb->post_list WHERE list_id = %d", $list_id );
 
-	if ( !$row = $wpdb->get_row( $query ))
+	if ( !$row = $wpdb->get_row( $query, ARRAY_A ))
 		return false;
 
-	$row = apply_filters( 'w4pl_get_list', $row);
-
-	$row->list_option = maybe_unserialize( $row->list_option );
-	$row->html_template = maybe_unserialize( $row->html_template );
-
-	$row = get_object_vars( $row);
+	$row['list_option'] = maybe_unserialize( $row['list_option'] );
 	$row = apply_filters( 'w4pl_sanitize_list_option', $row );
 		
 	if( isset( $col) && in_array( $col, array_keys( $row)))
