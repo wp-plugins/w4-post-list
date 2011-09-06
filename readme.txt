@@ -90,7 +90,7 @@ As much as you have.
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
 * HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
-= What's new - 1.4.5 =
+= 1.4.5 =
 * The show future posts bug has been solved. From now on, there won't be any selecton problems.
 * Sliding Javascript has been updated to match the latest jQuery.
 
@@ -138,7 +138,7 @@ As much as you have.
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
 * HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
-= What's new - 1.4.5 =
+= 1.4.5 =
 * The show future posts bug has been solved. From now on, there won't be any selecton problems.
 * Sliding Javascript has been updated to match the latest jQuery.
 
