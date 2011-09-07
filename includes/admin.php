@@ -462,25 +462,42 @@ function w4pl_help_page(){ ?>
 	</div></div>
 
 	<div class="stuffbox"><h3><?php _e( 'Template Tags', 'w4-post-list'); ?></h3>
-	<div class="inside"><ul class="help">
-	<li><code>%%postlist%%</code> --  <?php _e( 'You complete post list html.', 'w4-post-list' ); ?></li>
+	<div class="inside w4pl_tags">
+		<h4>General tags:</h4>
+		<code>%%</code>postlist<code>%%</code> --  <?php _e( 'You complete post list html.', 'w4-post-list' ); ?><br />
+		<code>%%</code>postloop<code>%%</code> -- <?php _e( 'Post Template Loop. While displaying posts, every post go through the <code>postloop</code> once.', 'w4-post-list' ); ?><br />
+		<code>%%</code>catloop<code>%%</code> == <?php _e( 'Category Template Loop. While displaying categories, every category go through the <code>catloop</code> once', 'w4-post-list' ); ?>
 
-	<li><code>%%postloop%%</code> == <?php _e( 'Post Template Loop. While displaying posts, every post go through the <code>postloop</code> once.', 'w4-post-list' ); ?></li>
-	<li><code>%%title%%</code> --  <?php _e( 'Post title template. Title will be linked to the post page.', 'w4-post-list' ); ?></li>
-    <li><code>%%publish%%</code> --  <?php _e( 'Post publish date.', 'w4-post-list' ); ?></li>
-    <li><code>%%modified%%</code> --  <?php _e( 'Post last update date. (modified time)', 'w4-post-list' ); ?></li>
-    <li><code>%%content%%</code> --  <?php _e( 'Post content.', 'w4-post-list' ); ?></li>
-    <li><code>%%excerpt%%</code> --  <?php _e( 'Post excerpt. Excerpt lenght should be assigned.', 'w4-post-list' ); ?></li>
-    <li><code>%%more%%</code> --  <?php _e( 'Read more link for post.', 'w4-post-list' ); ?></li>
+		<h4>Category tags:</h4>
+        <code>%%</code>category_title<code>%%</code> --  <?php _e( 'Category title template', 'w4-post-list' ); ?><br />
+        <code>%%</code>category_count<code>%%</code> --  <?php _e( 'Category item count', 'w4-post-list' ); ?><br />
+        <code>%%</code>category_posts<code>%%</code> --  <?php _e( 'Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible', 'w4-post-list' ); ?><br />
 
-	<li><code>%%catloop%%</code> == <?php _e( 'Category Template Loop. While displaying categories, every category go through the <code>catloop</code> once', 'w4-post-list' ); ?></li>
-	<li><code>%%category_title%%</code> --  <?php _e( 'Title of this category, will be linked to the category url.', 'w4-post-list' ); ?></li>
-	<li><code>%%category_count%%</code> --  <?php _e( 'Published post item inside this category.', 'w4-post-list' ); ?></li>
-	<li><code>%%category_posts%%</code> ==  <?php _e( 'Posts of that category. In this position, the <code>postloop</code> tag will be parsed.', 'w4-post-list' ); ?></li>
-	</ul>
+        <h4>Post tags:</h4>
+        <code>%%</code>title<code>%%</code> --  <?php _e( 'Post title template', 'w4-post-list' ); ?><br />
+        <code>%%</code>meta<code>%%</code> --  <?php _e( 'Meta template. <code><em>Ex: Posted on date by author</em></code>', 'w4-post-list' ); ?><br />
+        <code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date template', 'w4-post-list' ); ?><br />
+        <code>%%</code>modified<code>%%</code> --  <?php _e( 'Post last update date template', 'w4-post-list' ); ?><br />
+        <code>%%</code>author<code>%%</code> --  <?php _e( 'Post author template linked to author url', 'w4-post-list' ); ?><br />
+        <code>%%</code>excerpt<code>%%</code> --  <?php _e( 'Post excerpt template', 'w4-post-list' ); ?><br />
+        <code>%%</code>post_excerpt<code>%%</code> --  <?php _e( 'Raw Post excerpt without wrapper. By default we wrap it with a html div', 'w4-post-list' ); ?><br />
+        <code>%%</code>content<code>%%</code> --  <?php _e( 'Post content template', 'w4-post-list' ); ?><br />
+        <code>%%</code>content<code>%%</code> --  <?php _e( 'Raw Post content without wrapper', 'w4-post-list' ); ?><br />
+        <code>%%</code>more<code>%%</code> --  <?php _e( 'Read more template', 'w4-post-list' ); ?><br />
 
-	<p><?php _e( 'So now, you can wrap a tag easily with your own html tags. Like:', 'w4-post-list' ); ?> <code>&lt;span class=&quot;my-time&quot;&gt;%%publish%%&lt;/span&gt;</code></p>
-	</div></div>
+        <h4>More Post tags:</h4>
+        <code>%%</code>id<code>|</code>ID<code>%%</code> --  <?php _e( 'Post ID', 'w4-post-list' ); ?><br />
+        <code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  <?php _e( 'Post permalink url address', 'w4-post-list' ); ?><br />
+        <code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date', 'w4-post-list' ); ?><br />
+        <code>%%</code>post_title<code>%%</code> --  <?php _e( 'Raw Post Title Without link', 'w4-post-list' ); ?><br />
+        <code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author name', 'w4-post-list' ); ?><br />
+        <code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author url address', 'w4-post-list' ); ?><br />
+
+		<h4>Example:</h4>
+        <p><?php _e( 'So now, you can wrap a tag easily with your own html tags. Like:', 'w4-post-list' );
+		?> <code>&lt;span class=&quot;my-time&quot;&gt;%%publish%%&lt;/span&gt;</code></p>
+	</div><!--inside-->
+    </div><!--stuffbox-->
 
 
 	</div></div><!---->
@@ -490,22 +507,25 @@ function w4pl_help_page(){ ?>
 
 // Retrive latest news about our plugin from our server
 function w4pl_plugin_news( $echo = true, $refresh = false ){
-	$transient = 'w4pl_plugin_news';
+	$transient = 'w4pl_plugin_newss';
 	$transient_old = $transient . '_old';
 	$expiration = 86400;
 
 	$output = get_transient( $transient );
 
 	if( $refresh || !$output || empty( $output )){
-		$objFetchSite = _wp_http_get_object();
-		$response = $objFetchSite->request( 'http://w4dev.com/wp-content/themes/w4-framework/lib/framework/ajax.php?action=plugin_news&item=1', 
-		array('method' => 'POST'));
-		
-		if ( is_wp_error( $response ) || !isset( $response['body']))
-			$output = get_option( $transient_old );
 
-		else
+		$objFetchSite = _wp_http_get_object();
+		$response = $objFetchSite->request( 
+		'http://w4dev.com/wp-content/themes/w4-framework/lib/framework/ajax.php?action=plugin_news&item=1', 
+		array( 'method' => 'GET' ));
+
+		if ( is_wp_error( $response ) || empty( $response['body'] )){
+			$output = get_option( $transient_old );
+		}
+		else{
 			$output = $response['body'];
+		}
 
 		set_transient( $transient, $output, $expiration );
 		// Save last new forever if a newer is not available..

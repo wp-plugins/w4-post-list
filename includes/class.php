@@ -33,7 +33,34 @@ class W4_Post_list {
 
 		// List Template
 		$this->template 			= $this->list_option['html_template'];
-		$this->post_template_fields = array( 'title', 'publish', 'modified', 'content', 'excerpt', 'more');
+		
+		// Shortcode template fields # tag id => Callback
+		$this->post_template_fields = array(
+			'title'				=> 'title',
+			'meta'				=> 'meta',
+			'publish'			=> 'publish',
+			'date'				=> 'publish',
+			'modified'			=> 'modified',
+			'author'			=> 'author',
+			'excerpt'			=> 'excerpt',
+			'content'			=> 'content',
+			'more' 				=> 'more',
+
+			'id' 				=> 'post_id',
+			'ID' 				=> 'post_id',
+			'link'				=> 'post_permalink',
+			'post_permalink'	=> 'post_permalink',
+			'post_title'		=> 'post_title',
+			'post_date'			=> 'post_date',
+			'post_date_time'	=> 'post_date_time',
+			'post_modified'		=> 'post_modified',
+			'post_modified_time'=> 'post_modified_time',
+			'post_author'		=> 'post_author',
+			'post_author_url'	=> 'post_author_url',
+			'post_excerpt'		=> 'post_excerpt',
+			'post_content'		=> 'post_content'
+		);
+
 		$this->category_template_fields = array( 'category_title', 'category_count', 'category_posts');
 	}
 
@@ -154,85 +181,147 @@ class W4_Post_list {
 	}
 
 	function generate_posts_list(){
-		global $post, $wp_query;
+		#global $post, $wp_query;
 
-		$old_post = $post;
-		$old_wp_query = $wp_query;
+		#$old_post = $post;
+		#$old_wp_query = $wp_query;
 
 		$defaults = array( 'post_status' => 'publish', 'post_type' => 'post' );
 		$this->query = wp_parse_args((array) $this->query, $defaults );
 
-		query_posts( $this->query);
+		#query_posts( $this->query );
+		$query = new WP_Query( $this->query );
 		$postloop = '';
 		//Checking post
-		if( have_posts()):
-			while( have_posts()): the_post();
-				$postloop .= $this->post_template();
+		if( $query->have_posts()):
+			while( $query->have_posts()): $query->the_post();
+				$postloop .= call_user_func( array( &$this, 'post_template' ));
 			endwhile;
-			wp_reset_query();
+			#wp_reset_query();
 		endif; //End-if( have_posts()):
-
-		$post = $old_post;
-		$wp_query = $old_wp_query;
+		wp_reset_postdata();
 		
+		#$post = $old_post;
+		#$wp_query = $old_wp_query;
+
 		return preg_replace( '/\%\%postloop\%\%/', $postloop, $this->template['wrapper_post'] );
 	}
-	
+
 	function post_template(){
-		global $post;
+
 		$template = $this->template['loop_post'];
-		foreach ( $this->post_template_fields as $field ){
-			if( preg_match( "/\%\%{$field}\%\%/", $template ))
-				$template = preg_replace( "/\%\%{$field}\%\%/", $this->$field(), $template );
+		foreach ( $this->post_template_fields as $field => $callback ){
+			if( preg_match( "/\%\%{$field}\%\%/", $template ) && is_callable( array( &$this, $callback )))
+				$template = preg_replace( "/\%\%{$field}\%\%/", call_user_func( array( &$this, $callback )), $template );
 		}
 
 		return $template;
 	}
 
-	function title(){
-		return sprintf( '<a class="w4pl_post_title" href="%1$s" title="View %2$s">%2$s</a>', get_permalink(), the_title( '','',false));
+	// Post template tag parser
+	function post_id(){
+		return get_the_ID();
 	}
 
-	function publish(){
-		return sprintf( ' <abbr class="published" title="%2$s"><strong>' . __(" Published:", "w4-post-list").'</strong> %1$s</abbr>',
-		get_the_time('j-m-Y'), get_the_time('g:i a'));
+	function post_permalink(){
+		return get_permalink();
 	}
 
-	function modified(){
-		return sprintf(' <abbr class="modified" title="%2$s"><strong>' . __( "Updated:", "w4-post-list" ) . '</strong> %1$s</abbr>',
-		get_post_modified_time( 'j-m-Y'), get_post_modified_time('g:i a'));
+	function post_title(){
+		return the_title( '','',false );
 	}
-	
-	function content(){
+
+	function post_date(){
+		return get_the_time('j-m-Y');
+	}
+
+	function post_date_time(){
+		return get_the_time('g:i a');
+	}
+
+	function post_modified(){
+		return get_post_modified_time('j-m-Y');
+	}
+
+	function post_modified_time(){
+		return get_post_modified_time('g:i a');
+	}
+
+	function post_author(){
+		return get_the_author();
+	}
+
+	function post_author_url(){
+		return get_author_posts_url( get_the_author_meta( 'ID' ));
+	}
+
+	function post_excerpt(){
 		global $post;
-		// Post content--
-		/*Not sure why this dont work. if anyone can get the below 3 line works, please contact me.
-			$content = apply_filters( 'the_content', get_the_content());
-			$content = str_replace(']]>', ']]&gt;', $content);
-			$post_content .= $content;
-		*/
-		$content = "<div class=\"post_content\">" . wpautop( get_the_content()) . "</div>";
-		return $content;
-	}
 
-	function excerpt(){
-		global $post;
-
-		// Post excerpt--
+		// Post excerpt without wrapper --
 		$excerpt = $post->post_excerpt;
+
 		if ( '' == $excerpt )
 			$excerpt = $post->post_content;
 
 		$excerpt = wp_strip_all_tags( $excerpt );
+		$excerpt = w4pl_trim_excerpt( $excerpt, $this->excerpt_length );
 
-		return "<div class=\"post_excerpt\">" . w4pl_trim_excerpt( $excerpt, $this->excerpt_length ) . "</div>";
+		return $excerpt;
+	}
+
+	function post_content(){
+		global $post;
+		// Post content without wrapper --
+		/* Not sure why this dont work. if anyone can get the below 3 line works, please contact me.
+			$content = apply_filters( 'the_content', get_the_content());
+			$content = str_replace(']]>', ']]&gt;', $content);
+			$content = "<div class=\"post_content\">" . $content . "</div>";;
+		*/
+
+		# $content = "<div class=\"post_content\">" . wpautop( get_the_content()) . "</div>";
+
+		$content = apply_filters( 'the_content', get_the_content());
+		$content = str_replace(']]>', ']]&gt;', $content);
+
+		return $content;
+	}
+
+	function title(){
+		return sprintf( '<a class="w4pl_post_title" href="%1$s" title="View %2$s">%2$s</a>', '%%post_permalink%%', '%%post_title%%' );
+	}
+
+	function meta(){
+		return sprintf( 'Posted on <abbr class="published post_date" title="%2$s">%3$s</abbr> <span class="post_author">by %1$s</span>', '%%author%%', '%%post_date_time%%', '%%post_date%%' );
+	}
+
+	function publish(){
+		return sprintf( '<abbr class="published post_date" title="%2$s"><strong>' . __(" Published:", "w4-post-list").'</strong> %1$s</abbr>',
+		'%%post_date%%', '%%post_date_time%%' );
+	}
+
+	function modified(){
+		return sprintf( '<abbr class="modified post_modified" title="%2$s"><strong>' . __( "Updated:", "w4-post-list" ) . '</strong> %1$s</abbr>',
+		'%%post_modified%%', '%%post_modified_time%%' );
+	}
+
+	function author(){
+		return sprintf( '<a href="%1$s" title="View all posts by %2$s" rel="author">%2$s</a>', '%%post_author_url%%', '%%post_author%%' );
+	}
+
+	function excerpt(){
+		return "<div class=\"post_excerpt\">%%post_excerpt%%</div>";
+	}
+
+	function content(){
+		// Post content--
+		return "<div class=\"post_content\">%%post_content%%</div>";
 	}
 
 	function more(){
-		$read_more = !empty( $this->read_more ) ? $this->read_more : __( 'Continue reading &raquo;', 'w4-post-list');
-		return sprintf( ' <a href="%1$s">%2$s</a>', get_permalink(), $read_more );
+		$read_more = !empty( $this->read_more ) ? $this->read_more : __( 'Continue reading &raquo;', 'w4-post-list' );
+		return sprintf( '<a href="%1$s" title="Cotinue reading %2$s">%3$s</a>', '%%post_permalink%%', '%%post_title%%',  $read_more );
 	}
-
 }
 //use function w4_post_list() as template tag to show a post list anywhere in your theme
 $w4_post_list = new W4_Post_list();

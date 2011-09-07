@@ -53,19 +53,23 @@
 	padding:15px;
 	line-height:normal;
 	}
-
+#w4pl_admin .stuffbox .w4pl_tags{
+	line-height:19px;
+}
 #w4pl_admin h4, #w4pl_admin h4 label{
 	font-size:16px;
 	margin-top:0px;
 	}
-
 #w4pl_admin code{
-	background-color:#f8f8c7;
-	color:#555;
+	background-color:#EEE;
+	color:#666;
+	border:1px solid #DDD;
+	border-width:1px 0;
+	margin:0 2px;
 	}
-
-#w4pl_admin a{
-	}
+#w4pl_admin .form_help code{
+	background-color:#FFF;
+}
 #w4pl_admin .side_notice{
 	position:absolute;
 	width:300px;

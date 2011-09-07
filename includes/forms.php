@@ -170,9 +170,11 @@ function w4ld_list_form( $list_id = 0){
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
 		<h4><label for="w4pl_category_template_loop"><?php _e( 'Category Template Loop:', 'w4-post-list'); ?></label></h4>
 		<div class="form_help">
+        <p>
         <code>%%</code>category_title<code>%%</code> --  Category title template.<br />
         <code>%%</code>category_count<code>%%</code> --  Category item count.<br />
-        <code>%%</code>category_posts<code>%%</code> --  Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible<br />
+        <code>%%</code>category_posts<code>%%</code> --  Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible
+        </p>
 		</div>
 		<textarea name="html_template[loop_category]" id="w4pl_category_template_loop"><?php echo $html_template['loop_category']; ?></textarea>
 		</div>
@@ -188,15 +190,33 @@ function w4ld_list_form( $list_id = 0){
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h4><label for="w4pl_post_template_loop"><?php _e( 'Post Template Loop:', 'w4-post-list'); ?></label>
 		<span class="w4pl_tip_handle"><span><?php _e( 'While showing each post, this template will be parsed. If you removed a field, it will not be visible.', 'w4-post-list'); ?></span></span></h4>
-		<div class="form_help">>Writting a wrong tag field name will make the field name visible on your pos list rather than parsing it with our code..<br /><br />
+		
+        <div class="form_help">Writting a wrong tag field name will make the field name visible on your post list rather than parsing it with our code..<br /><br />
         If you wrap your Post Template Wrapper with <code>ol</code> or <code>ul</code>, you should wrap you loop template with <code>li</code> Html element.</p>
 		<p>
+        <strong>Regular tags:</strong><br />
         <code>%%</code>title<code>%%</code> --  Post title template.<br />
-        <code>%%</code>publish<code>%%</code> --  Post publish date.<br />
-        <code>%%</code>modified<code>%%</code> --  Post last update date.<br />
-        <code>%%</code>content<code>%%</code> --  Post content/excerpt.<br />
-        <code>%%</code>more<code>%%</code> --  Read more link for post.
+        <code>%%</code>meta<code>%%</code> --  Meta template. <code><em>Ex: Posted on date by author</em></code><br />
+        <code>%%</code>publish/date<code>%%</code> --  Post publishing date template.<br />
+        <code>%%</code>modified<code>%%</code> --  Post last update date template.<br />
+        <code>%%</code>author<code>%%</code> --  Post author template linked to author url.<br />
+        <code>%%</code>excerpt<code>%%</code> --  Post excerpt template.<br />
+        <code>%%</code>post_excerpt<code>%%</code> --  Raw Post excerpt without wrapper. By default we wrap it with a html div<br />
+        <code>%%</code>content<code>%%</code> --  Post content template.<br />
+        <code>%%</code>content<code>%%</code> --  Raw Post content without wrapper.<br />
+        <code>%%</code>more<code>%%</code> --  Read more template.
 		</p>
+
+		<p>
+        <strong>More tags:</strong><br />
+        <code>%%</code>id<code>|</code>ID<code>%%</code> --  Post ID.<br />
+        <code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  Post permalink url address.<br />
+        <code>%%</code>publish/date<code>%%</code> --  Post publishing date.<br />
+        <code>%%</code>post_title<code>%%</code> --  Raw Post Title Without link.<br />
+        <code>%%</code>post_author<code>%%</code> --  Post author name.<br />
+        <code>%%</code>post_author<code>%%</code> --  Post author url address.<br />
+		</p>
+
         </div>
 		<textarea name="html_template[loop_post]" id="w4pl_post_template_loop"><?php echo $html_template['loop_post']; ?></textarea>
 		</div>
@@ -217,9 +237,9 @@ function w4ld_posts_checklist($options = array()){
 		'posts_per_page'	=> '-1',
 		'showposts'			=> '-1'
 	));
-		
+
 	if( have_posts()):
-		$checklist .= "<input type='checkbox' name=\"selector\" id=\"post_selector\" value=\"list_option[post_ids][]\"/> <label for=\"post_selector\">toggle select all</label>";
+		$checklist = "<input type='checkbox' name=\"selector\" id=\"post_selector\" value=\"list_option[post_ids][]\"/> <label for=\"post_selector\">toggle select all</label>";
 		$checklist .= "<ul class=\"post_list\">";
 			
 		while( have_posts()): the_post();
@@ -230,7 +250,7 @@ function w4ld_posts_checklist($options = array()){
 		$checklist .= "</ul>";
 
 	else:
-		$checklist .= __( 'No posts', 'w4-post-list' );
+		$checklist = __( 'No posts', 'w4-post-list' );
 
 	endif;
 	return $checklist ;
