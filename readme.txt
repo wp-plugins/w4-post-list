@@ -5,16 +5,17 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 
-Show wordpress posts, categories, posts with categories or posts by categories in a complete post template or in a list preview style. jQuery enabled with slide effect for subcategories. Design your post list template to match your site HTML and css.
+Show wordpress posts, categories, posts with categories or posts by categories with a customized post template style to match your theme style. jQuery enabled with slide effect for category posts. Design your post list template as you want.
 
 == Description ==
-Show Posts or category list inside post content and widget area. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">Visit plugin page</a> and <a href="http://w4dev.com/wp/w4-post-list-design-template/">plugin layout customzation page</a>.
+Show Posts or category list inside post or page content and widget areas. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">visit plugin page</a>. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much from it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">visit plugin's template tag definition page for details</a>.
 
-= What's new - 1.4.5 =
-* The show future posts bug has been solved. From now on, there won't be any selecton problems.
-* Sliding Javascript has been updated to match the latest jQuery.
+= What's new - 1.4.6 =
+* A lot more template tag to arrange your post list with more flexibility.
+
+Find-out new template tags on your wordpress admin page.
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -32,6 +33,8 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 == Installation ==
 1. Upload zip to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Find W4 post list menu under Posts Menu. Add and manage post list from there.
+4. User shortcode [postlist] with id, or copy shortcode from the post list options page.
 
 == Frequently Asked Questions ==
 = Can i show post from any category ? =
@@ -41,7 +44,7 @@ Yes.
 As much as you have.
 
 == Screenshots ==
-1. A Basic Design template.
+1. A Basic Design template tag definition.
 
 == Changelog ==
 = 1.0 =
@@ -66,7 +69,7 @@ As much as you have.
 * Bug Fixed.
 * Added new option to show last post-modified time.
 = 1.2.7 =
-* Enabled multi-lingual functionality.
+* Enabled multilingual functionality.
 = 1.3 =
 * Show list also on inside post content, page content.
 = 1.3.1 =
@@ -93,6 +96,8 @@ As much as you have.
 = 1.4.5 =
 * The show future posts bug has been solved. From now on, there won't be any selecton problems.
 * Sliding Javascript has been updated to match the latest jQuery.
+= 1.4.6 =
+* A lot more template tag to arrange your post list with more flexibility.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -139,8 +144,38 @@ As much as you have.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
 * HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
 = 1.4.5 =
-* The show future posts bug has been solved. From now on, there won't be any selecton problems.
-* Sliding Javascript has been updated to match the latest jQuery.
+* The show future posts bug has been solved. From now on, there won't be any selection problems.
+* Sliding JavaScript has been updated to match the latest jQuery.
+= 1.4.6 =
+* A lot more template tag to arrange your post list with more flexibility.
 
 == How to use ==
-Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for usage.
+
+Visit <a href="http://w4dev.com/w4-plugin/w4-post-list/">Plugin page</a> for detail usage.
+
+= General tags: =
+* postlist -- You complete post list html.
+* postloop -- Post Template Loop. While displaying posts, every post go through the postloop once.
+* catloop == Category Template Loop. While displaying categories, every category go through the catloop once
+Category tags:
+* category_title -- Category title template
+* category_count -- Category item count
+* category_posts -- Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible
+
+= Post tags =
+* title -- Post title template
+* meta -- Meta template. Ex: Posted on date by author
+* publish/date -- Post publishing date template
+* modified -- Post last update date template
+* author -- Post author template linked to author url
+* excerpt -- Post excerpt template
+* post_excerpt -- Raw Post excerpt without wrapper. By default we wrap it with a html div
+* content -- Post content template
+* content -- Raw Post content without wrapper
+* more -- Read more template
+
+= More Post tags =
+Visit <a href="http://w4dev.com/wp/w4-post-list-design-template/">plugin template definition page</a> for additional tags information.
+
+= Using Template tag =
+You can wrap a tag easily with your own html tags. Like: <span class="my-time">publish</span> while editing a list.
