@@ -1,3 +1,5 @@
+
+
 (function($){
 	function w4pl_admin_toogle(){
 		if ($(this).is(':checked')){
@@ -17,6 +19,12 @@
 		}
 	}
 	$(document).ready(function($){
+		jQuery( '.toogle_help').hide();
+		jQuery( '.toogle_helper').click(function(){
+			jQuery(this).parent().parent().find('.toogle_help').toggle();
+			return false;
+		});
+
 		$(".category_post_handle").click(function(){
 			$(this).parent().parent().children("div.w4c_inside").toggle();
 		});

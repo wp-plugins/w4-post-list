@@ -28,11 +28,6 @@ function w4ld_list_form( $list_id = 0){
 	$list_type_op_hide = ( $list_type == 'op' ) ? 'hide_box' : '';
 	$list_type_oc_hide = ( $list_type == 'oc' ) ? 'hide_box' : '';
 	$list_type_op_by_cat_hide = ( $list_type == 'op_by_cat' ) ? 'hide_box' : '';
-	
-	// Removed
-	#$post_content_no_hide = ( 'no' == $post_content ) ? 'hide_box' : '';
-	#$post_content_content_hide = ( 'content' == $post_content ) ? 'hide_box' : '';
-	#$read_more_no_hide = ( 'no' == $excerpt_more ) ? 'hide_box' : '';
 
 ?>
 	<form action="<?php echo $form_action ; ?>" method="post" id="w4_post_list_form" enctype="multipart/form-data">
@@ -127,13 +122,10 @@ function w4ld_list_form( $list_id = 0){
 		<!--Category item count-->
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
 		<h3><?php _e( 'Show posts count appending to category name ?', 'w4-post-list' ); ?>
-		<span class="w4pl_tip_handle"><span><?php _e( 'Selection no will over ride the Template Tag <code>%%category_count%%</code> to return empty.', 'w4-post-list' ); ?></span></span></h3>
-		<ul>
-		<li><label><input type="radio" <?php checked( $show_category_posts_count, 'no' ); ?> name="show_category_posts_count" value="no"  /> <?php 
-		_e( 'No', 'w4-post-list' ); ?></label></li>
-		<li><label><input type="radio" <?php checked( $show_category_posts_count, 'yes' ); ?> name="show_category_posts_count" value="yes"  /> <?php 
-		_e( 'Yes', 'w4-post-list' ); ?></label></li>
-		</ul></div>
+      
+        <span class="w4pl_tip_handle"><span><?php _e( 'Selection no will over ride the Template Tag <code>%%category_count%%</code> to return empty.', 'w4-post-list' ); ?></span></span></h3>
+		This option has been implemented into Html template. Use '%%category_count%%' tags in 'Category Template Loop' to show the post item count of a category.
+		</div>
 
 		<!--Post read more text-->
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
@@ -148,32 +140,45 @@ function w4ld_list_form( $list_id = 0){
 		<span class="w4pl_tip_handle"><span><?php _e( 'Word limit when showing post excerpt.', 'w4-post-list'); ?></span></span></h3>
 		<input type="text" value="<?php echo( $excerpt_length) ; ?>" name="excerpt_length" id="excerpt_length" /></div>
 
-		<h3>Html Design Template</h3>
+		<h3 style="color:#FF0000">Html Design Template</h3>
 		<div class="form_help">If you are not little expert understanding Basic HTMl and PhP Loop algorithm, just leave the design field as it is.<br />
 		Template tag are placed in <code>'%%'</code> sign. Each tag has a repective value. Please make sure you understand them before you remove one.</div>
+        
+        <p>
+        <a href="http://w4dev.com/wp/w4-post-list-design-template/#examples" target="_blank"><em>*** View some HTML Design Template Examples</em></a><br />
+        <em style="color:red;">*** Click on the yellow question mark icon for help.</em></p>
 
 		<div class="option">
 		<h4><label for="w4pl_template_wrapper"><?php _e( 'Template Wrapper:', 'w4-post-list'); ?></strong></label>
-		<span class="w4pl_tip_handle"><span><?php _e( 'The complete list inside a wrapper.', 'w4-post-list'); ?></span></span></h4>
-		<div class="form_help"><code>%%</code>postlist<code>%%</code> --  You complete post list html.</div>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags.', 'w4-post-list'); ?></span></span></h4>
+		The complete list inside a wrapper.
+        <div class="form_help toogle_help"><code>%%</code>postlist<code>%%</code> --  You complete post list html.</div>
 
 		<textarea name="html_template[wrapper]" id="w4pl_template_wrapper"><?php echo $html_template['wrapper']; ?></textarea>
 		</div>
 
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
 		<h4><label for="w4pl_category_template_wrapper"><?php _e( 'Category Template Wrapper:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle"><span><?php _e( 'Category list wrapper. This will be placed inside the Template wrapper if you are using "Posts with categories" or "Only categories" list type.', 'w4-post-list'); ?></span></span></h4>
-		<div class="form_help"><code>%%</code>catloop<code>%%</code> --  Category loop container html.</div>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+
+		Category list wrapper. This will be placed inside the Template wrapper if you are using "Posts with categories" or "Only categories" list type.
+        <div class="form_help toogle_help"><code>%%</code>catloop<code>%%</code> --  Category loop container html.</div>
 		<textarea name="html_template[wrapper_category]" id="w4pl_category_template_wrapper"><?php echo $html_template['wrapper_category']; ?></textarea>
 		</div>
 
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
-		<h4><label for="w4pl_category_template_loop"><?php _e( 'Category Template Loop:', 'w4-post-list'); ?></label></h4>
-		<div class="form_help">
+		<h4><label for="w4pl_category_template_loop"><?php _e( 'Category Template Loop:', 'w4-post-list'); ?></label>
+        <span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+        <div class="form_help toogle_help">
         <p>
         <code>%%</code>category_title<code>%%</code> --  Category title template.<br />
-        <code>%%</code>category_count<code>%%</code> --  Category item count.<br />
-        <code>%%</code>category_posts<code>%%</code> --  Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible
+        <code>%%</code>category_count<code>%%</code> --  Category item count template. use <code>%%</code>cat_count<code>%%</code> to get the raw count.<br />
+        <code>%%</code>category_posts<code>%%</code> --  Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible<br /><br />
+		<code>%%</code>cat_link<code>%%</code> --  Category page link. ex: <code>http://example.com/category/uncategorized/</code><br />
+		<code>%%</code>cat_count<code>%%</code> --  Category post amount.<br />
+		<code>%%</code>cat_name<code>%%</code> --  Category name.<br />
+		<code>%%</code>cat_desc<code>%%</code> --  Category description.<br />
+
         </p>
 		</div>
 		<textarea name="html_template[loop_category]" id="w4pl_category_template_loop"><?php echo $html_template['loop_category']; ?></textarea>
@@ -181,18 +186,21 @@ function w4ld_list_form( $list_id = 0){
 
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h4><label for="w4pl_post_template_wrapper"><?php _e( 'Post Template Wrapper:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle"><span><?php _e( 'Post list wrapper. This will be placed inside the Template wrapper', 'w4-post-list'); ?></span></span></h4>
-
-		<div class="form_help"><code>%%</code>postloop<code>%%</code> --  Post template loop.</div>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+		
+        Post list wrapper. This will be placed inside the Template wrapper.
+		<div class="form_help toogle_help">
+        <code>%%</code>postloop<code>%%</code> --  Post template loop.</div>
 		<textarea name="html_template[wrapper_post]" id="w4pl_post_template_wrapper"><?php echo $html_template['wrapper_post']; ?></textarea>
 		</div>
 
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h4><label for="w4pl_post_template_loop"><?php _e( 'Post Template Loop:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle"><span><?php _e( 'While showing each post, this template will be parsed. If you removed a field, it will not be visible.', 'w4-post-list'); ?></span></span></h4>
-		
-        <div class="form_help">Writting a wrong tag field name will make the field name visible on your post list rather than parsing it with our code..<br /><br />
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+        
+        Writting a wrong tag field name will make the field name visible on your post list rather than parsing it with our code..<br /><br />
         If you wrap your Post Template Wrapper with <code>ol</code> or <code>ul</code>, you should wrap you loop template with <code>li</code> Html element.</p>
+        <div class="form_help toogle_help">
 		<p>
         <strong>Regular tags:</strong><br />
         <code>%%</code>title<code>%%</code> --  Post title template.<br />

@@ -5,15 +5,17 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 
 Show wordpress posts, categories, posts with categories or posts by categories with a customized post template style to match your theme style. jQuery enabled with slide effect for category posts. Design your post list template as you want.
 
 == Description ==
 Show Posts or category list inside post or page content and widget areas. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">visit plugin page</a>. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much from it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">visit plugin's template tag definition page for details</a>.
 
-= What's new - 1.4.6 =
-* A lot more template tag to arrange your post list with more flexibility.
+= What's new - 1.4.7 =
+* Category count fixed.
+* Few more tag added related to category list.
+* Category description tag added.
 
 Find-out new template tags on your wordpress admin page.
 

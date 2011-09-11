@@ -1,13 +1,9 @@
 <?php
 // Load js/css scripts
-add_action( 'plugins_loaded', 'w4pl_load_scripts');
+add_action( 'plugins_loaded', 'w4pl_load_scripts' );
 function w4pl_load_scripts(){
 	global $wpdb;
 	$wpdb->post_list = $wpdb->prefix . 'post_list';
-	
-	// Start from 1
-	if( !get_option( '_w4pl_db_version' ))
-		add_option( '_w4pl_db_version', '1' );
 	
 	if( is_admin()){
 		wp_enqueue_script( 'w4pl-admin-js', W4PL_URL.'js/admin_js.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-sortable' ), W4PL_VERSION ,false );
@@ -16,12 +12,11 @@ function w4pl_load_scripts(){
 	}
 	else{
 		wp_enqueue_script( 'w4pl-js', W4PL_URL . 'js/js.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true );
-		wp_enqueue_style( 'w4pl-css', W4PL_URL . 'css/style.css', '', W4PL_VERSION ) ;
+		wp_enqueue_style( 'w4pl-css', W4PL_URL . 'css/style.css', '', W4PL_VERSION );
 	}
 }
 
 // Sanitize list
-add_filter( 'w4pl_sanitize_list_option', 'w4pl_sanitize_list_option_default');
 function w4pl_sanitize_list_option_default( $option){
 
 	$list_option = $option['list_option'];
@@ -51,6 +46,9 @@ function w4pl_sanitize_list_option_default( $option){
 			$list_effect = 'no';
 	}
 	
+/*
+	Use '%%category_count%%' tags in 'Category Template Loop' to show the post item count of a category
+
 	if( !in_array( $show_category_posts_count, array( 'no', 'yes' ))){
 		if( 'all' == $show_category_posts_count)
 			$show_category_posts_count = 'yes';
@@ -58,18 +56,17 @@ function w4pl_sanitize_list_option_default( $option){
 		else
 			$show_category_posts_count = 'no';
 	}
-
+*/
 	// Version 1.3.3 *****************************************************
 	if( empty( $post_order_method ))
 		$post_order_method = 'newest';
 
 	// Handle category posts
-
 	if( in_array( $list_type, array( 'pc', 'oc', 'op_by_cat' ))):
-		
+
 		$post_ids = array();
 		$posts_not_in = array();
-		
+
 		foreach( $categories as $category_id => $category_option){
 			$category_obj = get_category( $category_id);
 
@@ -201,7 +198,7 @@ function w4pl_sanitize_list_option_default( $option){
 	$list_option = compact(
 			'list_type',
 			'list_effect',
-			'show_category_posts_count',
+			#'show_category_posts_count',
 
 			'post_max',
 			'post_order_method',
@@ -218,6 +215,7 @@ function w4pl_sanitize_list_option_default( $option){
 	$option['list_option'] = $list_option;
 	return $option;
 }
+add_filter( 'w4pl_sanitize_list_option', 'w4pl_sanitize_list_option_default');
 
 function w4pl_sanitize_post_order_method( $order = 'newest'){
 	$array = array(
@@ -245,18 +243,12 @@ function w4pl_category_posts_id( $cat_id ){
 }
 
 
-// Check our plugin table exists or not
-function w4pl_table_exists(){
-	global $wpdb;
-	return strtolower( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->post_list'" )) == strtolower( $wpdb->post_list );
-}
-
 // Shortcodes
-add_filter( 'widget_text', 'w4pl_text_widget_replace_callback');
 function w4pl_text_widget_replace_callback( $text ){
 	$pattern = '/\[\s*postlist(.*?)\]/sm';
 	return preg_replace_callback( $pattern,'w4pl_text_widget_replace', $text);
 }
+add_filter( 'widget_text', 'w4pl_text_widget_replace_callback');
 
 function w4pl_text_widget_replace( $matches ){
 	$attr = shortcode_parse_atts( $matches[1] );
@@ -332,6 +324,7 @@ function get_w4_post_list( $list_id ){
 	return $w4_post_list->display();
 }
 
+// Retrieve list data
 function w4pl_get_list( $list_id = '', $col = null){
 	global $wpdb;
 		
@@ -427,37 +420,5 @@ function w4pl_category_template_loop( $categoryloop = '' ){
 		return $default;
 	
 	return $categoryloop;
-}
-
-
-function w4pl_default_options(){
-	$default_options2 = array(
-		'list_id'						=> (int) 0,
-		'list_title'			 		=> '', 		
-		'list_option'					=> array(
-			'list_type'		 			=> 'pc',
-			'list_effect' 				=> 'no',	
-			'show_category_posts_count'	=> 'no',	
-
-			'post_max'					=> '',
-			'post_order_method'			=> 'newest',
-			'show_future_posts'			=> 'no',
-			'read_more_text'			=> '[...]',
-			'excerpt_length' 			=> (int) 10,
-
-			'post_ids'					=> array(),
-			'posts_not_in'				=> array(),
-			'categories'				=> array(),
-			'html_template'				=> array(
-				'wrapper' 			=> w4pl_template_wrapper(),
-				'wrapper_post'		=> w4pl_post_template_wrapper(),
-				'loop_post' 		=> w4pl_post_template_loop(),
-				'wrapper_category'	=> w4pl_category_template_wrapper(),
-				'loop_category'		=> w4pl_category_template_loop()
-			)
-		),
-		'user_id'					=> get_current_user_id(),
-	);
-	return $default_options2;
 }
 ?>
