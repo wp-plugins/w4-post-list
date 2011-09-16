@@ -88,7 +88,7 @@ function w4pl_default_options(){
 			'post_max'					=> '',
 			'post_order_method'			=> 'newest',
 			'show_future_posts'			=> 'no',
-			'read_more_text'			=> '[...]',
+			'read_more_text'			=> 'Continue reading...',
 			'excerpt_length' 			=> (int) 10,
 
 			'post_ids'					=> array(),
@@ -167,7 +167,7 @@ function w4pl_help_page(){ ?>
         <li><a href="http://w4dev.com/?utm_source=w4-post-list" target="_blank">Plugin Site</a></li>
         <li><a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank">Plugin Page</a></li>
         <li><a href="http://w4dev.com/wp/w4-post-list-design-template/#examples" target="_blank">Plugin Html Template Examples</a></li>
-        <li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Rate Please</a></li>
+        <li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Rate us On WordPress</a></li>
         <li><a href="mailto:workonbd@gmail.com" target="_blank">Contact</a></li>
         </ol>
 		
@@ -206,14 +206,14 @@ function w4pl_help_page(){ ?>
 	<h4 style="color:#FF0000; padding-bottom:10px; border-bottom:1px solid #CCC;"><?php _e( 'Click on the list item name above to edit an existing list. Click on add new to add a new one', 'w4-post-list'); ?></h4>
 
 	<h3 style="margin-bottom:0;">Updates from Plugin Server</h3>
-    <p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0;"><?php w4pl_plugin_news(); ?></p>
+    <p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0;"><?php w4pl_plugin_news( true); ?></p>
 
 	<div class="stuffbox"><h3><?php _e( 'Html Design Template', 'w4-post-list'); ?></h3>
 	<div class="inside">
    	<h4 style="color:#FF0000;"><a target="_blank" href="http://w4dev.com/w4-plugin/w4-post-list/">Learn about plugins basic options..</a></h4>
 
     <p><?php _e( 'Design your post list template to match your theme style. We have made <strong>teplate tag</strong> for each element of a post list.<br />
-<span style="color:#FF0000">Caution: If you are not little expert understanding Basic HTMl and PhP Loop algorithm, just leave the design field as it is.</span>', 'w4-post-list' ); ?></p>
+<span style="color:#FF0000">Caution:</span> If you are not Expert Understanding Basic HTML, CSS and PHP Loop algorithm, just leave the post list "Html Design Template" field as it is. Just save the basic options.', 'w4-post-list' ); ?></p>
 	<p><?php _e( 'Template <strong>Tags</strong> are placed in <code>"%%"</code> sign. Each tag has a repective value. Please make sure you understand them before you remove one.', 'w4-post-list' ); ?></p>
 	</div></div>
 
@@ -270,7 +270,7 @@ function w4pl_help_page(){ ?>
 function w4pl_plugin_news( $echo = true, $refresh = false ){
 	$transient = 'w4pl_plugin_newss';
 	$transient_old = $transient . '_old';
-	$expiration = 86400;
+	$expiration = 7200;
 
 	$output = get_transient( $transient );
 

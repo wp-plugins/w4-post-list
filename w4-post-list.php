@@ -3,7 +3,7 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
-Version: 1.4.9
+Version: 1.5
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -30,45 +30,56 @@ Author URI: http://w4dev.com/
 	setting page and save the options again.
 */
 
+# Plugins Global Constant
 define( 'W4PL_DIR', plugin_dir_path(__FILE__));
 define( 'W4PL_URL', plugin_dir_url(__FILE__));
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.4.9' );
+define( 'W4PL_VERSION', '1.5' );
 define( 'W4PL_DB_VERSION', '2' );
 define( 'W4PL_NAME', 'W4 post list' );
 define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
 define( 'W4PL_INC', W4PL_DIR . 'includes' );
 
+# Hook called when Plugin is Activated or updated
 register_activation_hook( __FILE__, 'w4pl_database_update' );
 
-if( file_exists( W4PL_INC .'/functions.php' ))
-include( W4PL_INC .'/functions.php');
+function w4pl_file_check(){
+	$w4pl_plugin_files = array( 
+		'functions.php',
+		'database.php',
+		'errors.php',
+		'class.php',
+		'admin-misc.php',
+		'admin.php',
+		'management-page.php',
+		'forms.php',
+		'widgets.php'
+	);
 
-if( file_exists( W4PL_INC . '/database.php' ))
-include( W4PL_INC . '/database.php');
-
-if( file_exists( W4PL_INC . '/errors.php'))
-include( W4PL_INC . '/errors.php');
-
-if( file_exists( W4PL_INC .'/class.php'))
-include( W4PL_INC .'/class.php');
-
-// Load admin scripts
-if( is_admin()):
-
-	if( file_exists( W4PL_INC .'/admin-misc.php' ))
-	include( W4PL_INC .'/admin-misc.php');
-
-	if( file_exists( W4PL_INC .'/admin.php'))
-	include( W4PL_INC .'/admin.php');
-
-	if( file_exists( W4PL_INC . '/management-page.php'))
-	include( W4PL_INC . '/management-page.php');
-
-	if( file_exists( W4PL_INC .'/forms.php'))
-	include( W4PL_INC .'/forms.php');
-endif;
-
-if( file_exists( W4PL_INC .'/widgets.php'))
-include( W4PL_INC .'/widgets.php');
+	foreach( $w4pl_plugin_files as $w4pl_plugin_file ){
+		if( !file_exists( W4PL_INC .'/'. $w4pl_plugin_file ))
+			return false;
+	}
+	return true;
+}
+function w4pl_admin_notice(){
+	echo "<div class='error'><p>W4 post list plugin found some file missing. You are recommended to comppletely uninstall and delete this plugin, then reinstall a fresh copy.</p></div>";
+}
+if( w4pl_file_check()){
+	include( W4PL_INC .'/functions.php');
+	include( W4PL_INC . '/database.php');
+	include( W4PL_INC . '/errors.php');
+	include( W4PL_INC .'/class.php');
+	include( W4PL_INC .'/widgets.php');
+	
+	// Load admin files when viewing admin page
+	if( is_admin()){
+		include( W4PL_INC .'/admin-misc.php');
+		include( W4PL_INC .'/admin.php');
+		include( W4PL_INC . '/management-page.php');
+		include( W4PL_INC .'/forms.php');
+	}
+}else{
+	add_action( 'admin_notices', 'w4pl_admin_notice');
+}
 ?>

@@ -140,7 +140,7 @@ function w4pl_admin_page(){
 ?>
 	<div id="w4pl_admin" class="wrap">
     	<div class="icon32" id="icon-post"><br/></div>
-        <h2><?php echo W4PL_NAME. " - V:" . W4PL_VERSION ; ?>
+        <h2><?php echo W4PL_NAME. " &#8212; " . W4PL_VERSION ; ?>
         	<span class="desc"><?php _e( 'With w4 post list plugin you can show your selected post list, selected category list or<br /> making list with both of them in woedpress site.', 'w4-post-list' ); ?></span>
         	
 		</h2>

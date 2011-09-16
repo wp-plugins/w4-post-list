@@ -92,7 +92,7 @@ class W4_Post_list {
 
 			$postlist = $this->generate_posts_list();
 		}
-		return preg_replace( '/\%\%postlist\%\%/', $postlist, $this->template['wrapper'] );
+		return "<!-- Post list ID - $this->id-->\n" . preg_replace( '/\%\%postlist\%\%/', $postlist, $this->template['wrapper'] );
 	}
 
 

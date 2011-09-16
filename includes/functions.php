@@ -316,12 +316,12 @@ function get_w4_post_list( $list_id ){
 		$w4pl_caps = get_option( 'w4pl_options');
 
 		if( current_user_can( $w4pl_caps['manage_cap']))
-			return $list->get_error_message();
+			return '<p><strong>W4 post list Error:</strong> <span style="color:#FF0000">'.$list->get_error_message().'</span><br /><small>* this error is only visible for post list moderators and wont effect in search engine.</small></p>';
 
-		return '';
+		return '<!-- W4 post list Error: '. $list->get_error_message() .'-->';
 	}
 	
-	return $w4_post_list->display();
+	return "<!-- Post list Created by W4 post list WordPress Plugin @ http://w4dev.com/w4-plugin/w4-post-list -->\n" . $w4_post_list->display();
 }
 
 // Retrieve list data
