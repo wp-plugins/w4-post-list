@@ -5,18 +5,18 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.5
+Stable tag: 1.5.1
 
-Show wordpress posts, categories, posts with categories or posts by categories with a customized post template style to match your theme style.
+Most Customizable WordPress Post list Plugin for creating custom post list matching your theme design. Jquery enabled.
 
 == Description ==
-Show Posts or category list inside post or page content and widget areas. jQuery enabled with slide effect for category posts. Design your post list template as you want. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">visit plugin page</a>. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much from it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">visit plugin's template tag definition page for details and examples</a>.
+Show Posts / Category Posts list inside post/page content or widget areas by shortcodes. Select what to show and design how to show it. jQuery enabled with slide effect. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">visit plugin page</a>.
 
-= What's new on 1.5 =
-* Complete stable version.
-* Some minor changes.
+You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit here</a> to get plugin's template tag definition or for some examples.
 
-Find-out new template tags on your wordpress admin page.
+= What's new on 1.5.1 =
+* Post Comment Count and Comment url tag added.
+* Fixed Html Template input issue.
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -101,6 +101,10 @@ As much as you have.
 * A lot more template tag to arrange your post list with more flexibility.
 = 1.5 =
 * Stable Version
+= 1.5.1 =
+* Post Comment Count and Comment url tag added.
+* Fixed Html Template input issue.
+
 
 == Upgrade Notice ==
 = 1.0 =
@@ -153,7 +157,9 @@ As much as you have.
 * A lot more template tag to arrange your post list with more flexibility.
 = 1.5 =
 * Stable Version
-
+= 1.5.1 =
+* Post Comment Count and Comment url tag added.
+* Fixed Html Template input issue.
 
 == How to use ==
 
