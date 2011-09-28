@@ -5,6 +5,57 @@ class W4_Post_list {
 	
 	var $options = array();
 	var $post_template_fields = array();
+	var $category_template_fields = array();
+
+	function __construct(){
+		// Shortcode template fields # tag id => Callback
+		$this->post_template_fields = array(
+			'title'				=> 'template_title',
+			'meta'				=> 'template_meta',
+			'publish'			=> 'template_publish',
+			'date'				=> 'template_publish',
+			'modified'			=> 'template_modified',
+			'author'			=> 'template_author',
+			'excerpt'			=> 'template_excerpt',
+			'content'			=> 'template_content',
+			'more' 				=> 'template_more',
+
+			'id' 				=> 'post_id',
+			'post_comment_url'	=> 'post_comment_url',
+			'ID' 				=> 'post_id',
+			'link'				=> 'post_permalink',
+			'post_permalink'	=> 'post_permalink',
+			'post_title'		=> 'post_title',
+			'post_date'			=> 'post_date',
+			'post_date_time'	=> 'post_date_time',
+			'post_modified'		=> 'post_modified',
+			'post_modified_time'=> 'post_modified_time',
+			'post_comment_count'=> 'post_comment_count',
+			'post_author'		=> 'post_author',
+			'post_author_url'	=> 'post_author_url',
+			'post_excerpt'		=> 'post_excerpt',
+			'post_content'		=> 'post_content'
+		);
+
+		$this->category_template_fields = array( 
+			'category_title'	=> 'template_category_title',
+			'category_count'	=> 'template_category_count',
+			'category_posts'	=> 'template_category_posts',
+
+			'cat_desc'			=> 'cat_desc',
+			'cat_link'			=> 'cat_link',
+			'cat_count'			=> 'cat_count',
+			'cat_name'			=> 'cat_name'
+		);
+		
+		$this->default_template = array( 
+			'wrapper' 			=> "<div class='w4_post_list'>\n%%postlist%%\n</div>",
+			'wrapper_post'		=> "<ul>\n%%postloop%%\n</ul>",
+			'loop_post' 		=> "<li>\n%%title%%\n%%publish%%\n%%modified%%\n%%excerpt%%\n%%more%%\n</li>",
+			'wrapper_category'	=> "<ul>\n%%catloop%%\n</ul>",
+			'loop_category'		=> "<li>\n%%category_title%%\n%%category_count%%\n%%category_posts%%\n</li>"
+		);
+	}
 
 	function prepare( $list_id ){
 
@@ -33,44 +84,6 @@ class W4_Post_list {
 
 		// List Template
 		$this->template 			= $this->list_option['html_template'];
-		
-		// Shortcode template fields # tag id => Callback
-		$this->post_template_fields = array(
-			'title'				=> 'template_title',
-			'meta'				=> 'template_meta',
-			'publish'			=> 'template_publish',
-			'date'				=> 'template_publish',
-			'modified'			=> 'template_modified',
-			'author'			=> 'template_author',
-			'excerpt'			=> 'template_excerpt',
-			'content'			=> 'template_content',
-			'more' 				=> 'template_more',
-
-			'id' 				=> 'post_id',
-			'ID' 				=> 'post_id',
-			'link'				=> 'post_permalink',
-			'post_permalink'	=> 'post_permalink',
-			'post_title'		=> 'post_title',
-			'post_date'			=> 'post_date',
-			'post_date_time'	=> 'post_date_time',
-			'post_modified'		=> 'post_modified',
-			'post_modified_time'=> 'post_modified_time',
-			'post_author'		=> 'post_author',
-			'post_author_url'	=> 'post_author_url',
-			'post_excerpt'		=> 'post_excerpt',
-			'post_content'		=> 'post_content'
-		);
-
-		$this->category_template_fields = array( 
-			'category_title'	=> 'template_category_title',
-			'category_count'	=> 'template_category_count',
-			'category_posts'	=> 'template_category_posts',
-
-			'cat_desc'			=> 'cat_desc',
-			'cat_link'			=> 'cat_link',
-			'cat_count'			=> 'cat_count',
-			'cat_name'			=> 'cat_name'
-		);
 	}
 
 	function display(){
@@ -175,10 +188,10 @@ class W4_Post_list {
 			$postlist =  $this->generate_posts_list();
 
 			if( 'yes' == $this->list_effect )
-				$postlist = "<div class='category_posts'>" . $postlist . "</div>";
+				$postlist = "<div class='term_posts' id='term_posts_".$this->category_obj->term_id."'>" . $postlist . "</div>";
 
 			elseif( 'extended' == $this->list_effect )
-				$postlist = "<div class='category_posts' style='display:none;'>" . $postlist . "</div>";
+				$postlist = "<div class='term_posts' id='term_posts_".$this->category_obj->term_id."' style='display:none;'>" . $postlist . "</div>";
 
 			return $postlist;
 		}
@@ -190,15 +203,18 @@ class W4_Post_list {
 			$this->category_link_class = "list_effect_enabled";
 
 			if( $this->show_post_list ){
-				$this->category_link_class .= " category_effect_handler";
+				$this->category_link_class .= " list_effect_handler";
 
 				if( 'extended' == $this->list_effect )
-					$this->category_link_class .= " list_closed";
+					$this->category_link_class .= " list_inactive";
+				
+				else
+					$this->category_link_class .= " list_active";
 			}
 		}
 
-		return sprintf( '<a class="%1$s" alt="%3$s" href="%2$s" title="'. __( 'View posts from %3$s', 'w4-post-list' ) .'">%3$s</a>',
-		$this->category_link_class, '%%cat_link%%', '%%cat_name%%' );
+		return sprintf( '<a class="%1$s" alt="%3$s" ref="%4$s" href="%2$s" title="'. __( 'View posts from %3$s', 'w4-post-list' ) .'">%3$s</a>',
+		$this->category_link_class, '%%cat_link%%', '%%cat_name%%', $this->category_obj->term_id );
 	}
 
 	function template_category_count(){
@@ -212,6 +228,9 @@ class W4_Post_list {
 		$this->query = wp_parse_args((array) $this->query, $defaults );
 
 		#query_posts( $this->query );
+		global $post;
+		$old_post = $post;
+
 		$query = new WP_Query( $this->query );
 		$postloop = '';
 		//Checking post
@@ -219,12 +238,10 @@ class W4_Post_list {
 			while( $query->have_posts()): $query->the_post();
 				$postloop .= call_user_func( array( &$this, 'post_template' ));
 			endwhile;
-			#wp_reset_query();
 		endif; //End-if( have_posts()):
 		wp_reset_postdata();
 		
-		#$post = $old_post;
-		#$wp_query = $old_wp_query;
+		$post = $old_post;
 
 		return preg_replace( '/\%\%postloop\%\%/', $postloop, $this->template['wrapper_post'] );
 	}
@@ -244,6 +261,10 @@ class W4_Post_list {
 	// Callable Basic functions - Post
 	function post_id(){
 		return get_the_ID();
+	}
+
+	function post_comment_url(){
+		return "%%post_permalink%%#comments";
 	}
 
 	function post_permalink(){
@@ -268,6 +289,11 @@ class W4_Post_list {
 
 	function post_modified_time(){
 		return get_post_modified_time('g:i a');
+	}
+
+	function post_comment_count(){
+		global $post;
+		return (int) $post->comment_count;
 	}
 
 	function post_author(){

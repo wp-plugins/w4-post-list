@@ -2,8 +2,8 @@
 /*
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
-Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. Multi-lingual supported.
-Version: 1.5
+Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. The Most Customizable Post list Plugin u ever used..
+Version: 1.5.1
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -34,7 +34,7 @@ Author URI: http://w4dev.com/
 define( 'W4PL_DIR', plugin_dir_path(__FILE__));
 define( 'W4PL_URL', plugin_dir_url(__FILE__));
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.5' );
+define( 'W4PL_VERSION', '1.5.1' );
 define( 'W4PL_DB_VERSION', '2' );
 define( 'W4PL_NAME', 'W4 post list' );
 define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
@@ -65,13 +65,14 @@ function w4pl_file_check(){
 function w4pl_admin_notice(){
 	echo "<div class='error'><p>W4 post list plugin found some file missing. You are recommended to comppletely uninstall and delete this plugin, then reinstall a fresh copy.</p></div>";
 }
+
 if( w4pl_file_check()){
 	include( W4PL_INC .'/functions.php');
 	include( W4PL_INC . '/database.php');
 	include( W4PL_INC . '/errors.php');
 	include( W4PL_INC .'/class.php');
 	include( W4PL_INC .'/widgets.php');
-	
+
 	// Load admin files when viewing admin page
 	if( is_admin()){
 		include( W4PL_INC .'/admin-misc.php');

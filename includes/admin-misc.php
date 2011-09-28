@@ -164,23 +164,20 @@ function w4pl_help_page(){ ?>
 	<div class="stuffbox"><h3><?php _e( 'Connect', 'w4-post-list' ); ?></h3>
 	<div class="inside">
     	<ol>
-        <li><a href="http://w4dev.com/?utm_source=w4-post-list" target="_blank">Plugin Site</a></li>
-        <li><a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank">Plugin Page</a></li>
-        <li><a href="http://w4dev.com/wp/w4-post-list-design-template/#examples" target="_blank">Plugin Html Template Examples</a></li>
-        <li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Rate us On WordPress</a></li>
-        <li><a href="mailto:workonbd@gmail.com" target="_blank">Contact</a></li>
-        </ol>
+		<?php $siteurl = site_url('/'); ?>
+		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/' ); ?>" target="_blank">Plugin Site</a></li>
+		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>" target="_blank">Plugin Page</a></li>
+		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/wp/w4-post-list-design-template/#examples' ); ?>" target="_blank">Plugin Html Template Examples</a></li>
+		<li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Rate us On WordPress</a></li>
+		<li><a href="mailto:workonbd@gmail.com" target="_blank">Contact</a></li>
+		</ol>
 		
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 		<script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
 
 		<p>If u like this plugin, Share IT !!!</p>
-        <table style="text-align:center; margin:10px;"><tr><td><iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode( 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>&amp;send=false&amp;layout=box_count&amp;width=85&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:62px;" allowTransparency="true"></iframe></td>
+		<table style="text-align:center; margin:10px;"><tr><td><iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode( 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>&amp;send=false&amp;layout=box_count&amp;width=85&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:62px;" allowTransparency="true"></iframe></td>
 
-        <td><g:plusone size="tall" count="true" href="http://w4dev.com/w4-plugin/w4-post-list/"></g:plusone></td>
-        
-        <td><a href="http://twitter.com/share" class="twitter-share-button" url="<?php echo urlencode( 'http://w4dev.com/w4-plugin/w4-post-list/'); ?>" 
-	text="W4 Post List" data-count="vertical" data-via="w4dev">Tweet</a></td></tr></table>
+		<td><g:plusone size="tall" count="true" href="http://w4dev.com/w4-plugin/w4-post-list/"></g:plusone></td></tr></table>
 
 	</div></div>
 
@@ -206,11 +203,11 @@ function w4pl_help_page(){ ?>
 	<h4 style="color:#FF0000; padding-bottom:10px; border-bottom:1px solid #CCC;"><?php _e( 'Click on the list item name above to edit an existing list. Click on add new to add a new one', 'w4-post-list'); ?></h4>
 
 	<h3 style="margin-bottom:0;">Updates from Plugin Server</h3>
-    <p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0;"><?php w4pl_plugin_news( true); ?></p>
+    <p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0;"><?php w4pl_plugin_news(); ?></p>
 
 	<div class="stuffbox"><h3><?php _e( 'Html Design Template', 'w4-post-list'); ?></h3>
 	<div class="inside">
-   	<h4 style="color:#FF0000;"><a target="_blank" href="http://w4dev.com/w4-plugin/w4-post-list/">Learn about plugins basic options..</a></h4>
+   	<h4 style="color:#FF0000;"><a target="_blank" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/w4-plugin/w4-post-list/#understanding_options' ); ?>">Learn about plugins basic options..</a></h4>
 
     <p><?php _e( 'Design your post list template to match your theme style. We have made <strong>teplate tag</strong> for each element of a post list.<br />
 <span style="color:#FF0000">Caution:</span> If you are not Expert Understanding Basic HTML, CSS and PHP Loop algorithm, just leave the post list "Html Design Template" field as it is. Just save the basic options.', 'w4-post-list' ); ?></p>
@@ -225,38 +222,43 @@ function w4pl_help_page(){ ?>
 		<code>%%</code>catloop<code>%%</code> == <?php _e( 'Category Template Loop. While displaying categories, every category go through the <code>catloop</code> once', 'w4-post-list' ); ?><br /><br /><br />
 
 		<h4>Category tags:</h4>
-        <code>%%</code>category_title<code>%%</code> --  <?php _e( 'Category title template', 'w4-post-list' ); ?><br />
-        <code>%%</code>category_count<code>%%</code> --  <?php _e( 'Category item count', 'w4-post-list' ); ?><br />
-        <code>%%</code>category_posts<code>%%</code> --  <?php _e( 'Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible', 'w4-post-list' ); ?><br />
+		<code>%%</code>category_title<code>%%</code> --  <?php _e( 'Category title template', 'w4-post-list' ); ?><br />
+		<code>%%</code>category_count<code>%%</code> --  <?php _e( 'Category item count', 'w4-post-list' ); ?><br />
+		<code>%%</code>category_posts<code>%%</code> --  <?php _e( 'Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible', 'w4-post-list' ); ?><br />
 		<code>%%</code>cat_link<code>%%</code> --  <?php _e( 'Category page link. ex: <code>http://example.com/category/uncategorized/</code>', 'w4-post-list' ); ?><br />
 		<code>%%</code>cat_count<code>%%</code> --  <?php _e( 'Category post amount.', 'w4-post-list' ); ?><br />
 		<code>%%</code>cat_name<code>%%</code> --  <?php _e( 'Category name.', 'w4-post-list' ); ?><br />
 		<code>%%</code>cat_desc<code>%%</code> --  <?php _e( 'Category description.', 'w4-post-list' ); ?><br /><br /><br />
 
+		
+		<h4>Post tags:</h4>
+		<code>%%</code>title<code>%%</code> --  <?php _e( 'Post title template', 'w4-post-list' ); ?><br />
+		<code>%%</code>meta<code>%%</code> --  <?php _e( 'Meta template. <code><em>Ex: Posted on date by author</em></code>', 'w4-post-list' ); ?><br />
+		<code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date template', 'w4-post-list' ); ?><br />
+		<code>%%</code>modified<code>%%</code> --  <?php _e( 'Post last update date template', 'w4-post-list' ); ?><br />
+		<code>%%</code>author<code>%%</code> --  <?php _e( 'Post author template linked to author url', 'w4-post-list' ); ?><br />
+		<code>%%</code>excerpt<code>%%</code> --  <?php _e( 'Post excerpt template', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_excerpt<code>%%</code> --  <?php _e( 'Raw Post excerpt without wrapper. By default we wrap it with a html div', 'w4-post-list' ); ?><br />
+		<code>%%</code>content<code>%%</code> --  <?php _e( 'Post content template', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_content<code>%%</code> --  <?php _e( 'Raw Post content without wrapper', 'w4-post-list' ); ?><br />
+		<code>%%</code>more<code>%%</code> --  <?php _e( 'Read more template', 'w4-post-list' ); ?><br /><br /><br />
 
-        <h4>Post tags:</h4>
-        <code>%%</code>title<code>%%</code> --  <?php _e( 'Post title template', 'w4-post-list' ); ?><br />
-        <code>%%</code>meta<code>%%</code> --  <?php _e( 'Meta template. <code><em>Ex: Posted on date by author</em></code>', 'w4-post-list' ); ?><br />
-        <code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date template', 'w4-post-list' ); ?><br />
-        <code>%%</code>modified<code>%%</code> --  <?php _e( 'Post last update date template', 'w4-post-list' ); ?><br />
-        <code>%%</code>author<code>%%</code> --  <?php _e( 'Post author template linked to author url', 'w4-post-list' ); ?><br />
-        <code>%%</code>excerpt<code>%%</code> --  <?php _e( 'Post excerpt template', 'w4-post-list' ); ?><br />
-        <code>%%</code>post_excerpt<code>%%</code> --  <?php _e( 'Raw Post excerpt without wrapper. By default we wrap it with a html div', 'w4-post-list' ); ?><br />
-        <code>%%</code>content<code>%%</code> --  <?php _e( 'Post content template', 'w4-post-list' ); ?><br />
-        <code>%%</code>content<code>%%</code> --  <?php _e( 'Raw Post content without wrapper', 'w4-post-list' ); ?><br />
-        <code>%%</code>more<code>%%</code> --  <?php _e( 'Read more template', 'w4-post-list' ); ?><br /><br /><br />
-
-        <h4>More Post tags:</h4>
-        <code>%%</code>id<code>|</code>ID<code>%%</code> --  <?php _e( 'Post ID', 'w4-post-list' ); ?><br />
-        <code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  <?php _e( 'Post permalink url address', 'w4-post-list' ); ?><br />
-        <code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date', 'w4-post-list' ); ?><br />
-        <code>%%</code>post_title<code>%%</code> --  <?php _e( 'Raw Post Title Without link', 'w4-post-list' ); ?><br />
-        <code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author name', 'w4-post-list' ); ?><br />
-        <code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author url address', 'w4-post-list' ); ?><br /><br /><br />
+		<h4>More Post tags:</h4>
+		<code>%%</code>id<code>|</code>ID<code>%%</code> --  <?php _e( 'Post ID', 'w4-post-list' ); ?><br />
+		<code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  <?php _e( 'Post permalink url address', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_title<code>%%</code> --  <?php _e( 'Raw Post Title Without link', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_date<code>%%</code> --  <?php _e( 'Post date Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_date_time<code>%%</code> --  <?php _e( 'Post time Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_modified<code>%%</code> --  <?php _e( 'Post last Modified date Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_modified_time<code>%%</code> --  <?php _e( 'Post last Modified time Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_comment_count<code>%%</code> --  <?php _e( 'Number of Approved comment for this post', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_comment_url<code>%%</code> --  <?php _e( 'Comment url address for current post', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author name', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_author_url<code>%%</code> --  <?php _e( 'Post author url address', 'w4-post-list' ); ?><br /><br /><br />
 
 		<h4>Example:</h4>
-        <p><?php _e( 'So now, you can wrap a tag easily with your own html tags. Like:', 'w4-post-list' );
-		?> <code>&lt;span class=&quot;my-time&quot;&gt;%%publish%%&lt;/span&gt;</code></p>
+		<p><?php _e( 'So now, you can wrap a tag easily with your own html tags. Like:', 'w4-post-list' );
+		?> <code>&lt;span class=&quot;my-time&quot;&gt;%%post_date%%&lt;/span&gt;</code></p>
 	</div><!--inside-->
     </div><!--stuffbox-->
 
@@ -268,7 +270,7 @@ function w4pl_help_page(){ ?>
 
 // Retrive latest news about our plugin from our server
 function w4pl_plugin_news( $echo = true, $refresh = false ){
-	$transient = 'w4pl_plugin_newss';
+	$transient = 'w4pl_plugin_news';
 	$transient_old = $transient . '_old';
 	$expiration = 7200;
 
@@ -278,8 +280,8 @@ function w4pl_plugin_news( $echo = true, $refresh = false ){
 
 		$objFetchSite = _wp_http_get_object();
 		$response = $objFetchSite->request( 
-		'http://w4dev.com/wp-content/themes/w4-framework/lib/framework/ajax.php?action=plugin_news&item=1', 
-		array( 'method' => 'GET' ));
+		'http://w4dev.com/wp-admin/admin-ajax.php?action=w4_ajax&action_call=plugin_news', 
+		array( 'method' => 'POST' ));
 
 		if ( is_wp_error( $response ) || empty( $response['body'] )){
 			$output = get_option( $transient_old );

@@ -1,7 +1,7 @@
 /*
 W4 post list list StyleSheet
 */
-.open a.category_effect_handler{
+.list_active{
 	font-weight:bold;
 	}
 .post_content, .post_excerpt {

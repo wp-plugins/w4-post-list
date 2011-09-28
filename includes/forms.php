@@ -14,7 +14,7 @@ function w4ld_list_form( $list_id = 0){
 		return false;
 	
 	$list = w4pl_get_list( $list_id );
-	#echo '<pre>';print_r($list);echo '</pre>';
+	#echo '<pre>';print_r( $list );echo '</pre>';
 
 	$list_option = $list['list_option'];
 	$list_title = $list['list_title'];
@@ -52,7 +52,7 @@ function w4ld_list_form( $list_id = 0){
 			
 		?>
 		
-		<div class="w4ld_plugin_news"><h2>Plugin Updates</h2><?php w4pl_plugin_news(); ?></div>
+		<div class="w4ld_plugin_news"><h3>Updates From Plugin Server -</h3><?php w4pl_plugin_news(); ?></div>
         </div>
 
     	<?php echo $form_hidden_elements ; ?>
@@ -203,26 +203,31 @@ function w4ld_list_form( $list_id = 0){
         <div class="form_help toogle_help">
 		<p>
         <strong>Regular tags:</strong><br />
-        <code>%%</code>title<code>%%</code> --  Post title template.<br />
-        <code>%%</code>meta<code>%%</code> --  Meta template. <code><em>Ex: Posted on date by author</em></code><br />
-        <code>%%</code>publish/date<code>%%</code> --  Post publishing date template.<br />
-        <code>%%</code>modified<code>%%</code> --  Post last update date template.<br />
-        <code>%%</code>author<code>%%</code> --  Post author template linked to author url.<br />
-        <code>%%</code>excerpt<code>%%</code> --  Post excerpt template.<br />
-        <code>%%</code>post_excerpt<code>%%</code> --  Raw Post excerpt without wrapper. By default we wrap it with a html div<br />
-        <code>%%</code>content<code>%%</code> --  Post content template.<br />
-        <code>%%</code>content<code>%%</code> --  Raw Post content without wrapper.<br />
-        <code>%%</code>more<code>%%</code> --  Read more template.
+		<code>%%</code>title<code>%%</code> --  <?php _e( 'Post title template', 'w4-post-list' ); ?><br />
+		<code>%%</code>meta<code>%%</code> --  <?php _e( 'Meta template. <code><em>Ex: Posted on date by author</em></code>', 'w4-post-list' ); ?><br />
+		<code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date template', 'w4-post-list' ); ?><br />
+		<code>%%</code>modified<code>%%</code> --  <?php _e( 'Post last update date template', 'w4-post-list' ); ?><br />
+		<code>%%</code>author<code>%%</code> --  <?php _e( 'Post author template linked to author url', 'w4-post-list' ); ?><br />
+		<code>%%</code>excerpt<code>%%</code> --  <?php _e( 'Post excerpt template', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_excerpt<code>%%</code> --  <?php _e( 'Raw Post excerpt without wrapper. By default we wrap it with a html div', 'w4-post-list' ); ?><br />
+		<code>%%</code>content<code>%%</code> --  <?php _e( 'Post content template', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_content<code>%%</code> --  <?php _e( 'Raw Post content without wrapper', 'w4-post-list' ); ?><br />
+		<code>%%</code>more<code>%%</code> --  <?php _e( 'Read more template', 'w4-post-list' ); ?><br /><br /><br />
 		</p>
 
 		<p>
-        <strong>More tags:</strong><br />
-        <code>%%</code>id<code>|</code>ID<code>%%</code> --  Post ID.<br />
-        <code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  Post permalink url address.<br />
-        <code>%%</code>publish/date<code>%%</code> --  Post publishing date.<br />
-        <code>%%</code>post_title<code>%%</code> --  Raw Post Title Without link.<br />
-        <code>%%</code>post_author<code>%%</code> --  Post author name.<br />
-        <code>%%</code>post_author<code>%%</code> --  Post author url address.<br />
+        <strong>Additional tags:</strong><br />
+		<code>%%</code>id<code>|</code>ID<code>%%</code> --  <?php _e( 'Post ID', 'w4-post-list' ); ?><br />
+		<code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  <?php _e( 'Post permalink url address', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_title<code>%%</code> --  <?php _e( 'Raw Post Title Without link', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_date<code>%%</code> --  <?php _e( 'Post date Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_date_time<code>%%</code> --  <?php _e( 'Post time Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_modified<code>%%</code> --  <?php _e( 'Post last Modified date Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_modified_time<code>%%</code> --  <?php _e( 'Post last Modified time Raw', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_comment_count<code>%%</code> --  <?php _e( 'Number of Approved comment for this post', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_comment_url<code>%%</code> --  <?php _e( 'Comment url address for current post', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author name', 'w4-post-list' ); ?><br />
+		<code>%%</code>post_author_url<code>%%</code> --  <?php _e( 'Post author url address', 'w4-post-list' ); ?><br /><br /><br />
 		</p>
 
         </div>
@@ -427,18 +432,13 @@ function w4pl_form_order_by( $input_name, $selected){
 	';
 }
 	
-function w4pl_form_show_future_posts( $input_name, $selected){
-		return '<h4>'. __( 'Show future posts:', 'w4-post-list' ). '</h4>
-				<label><input type="radio" '. checked( $selected, 'no', false ).' name="'. $input_name .
-				'" value="no"  /> '. __( 'No.', 'w4-post-list'). '</label>
+function w4pl_form_show_future_posts( $input_name, $selected ){
+	return '<h4>'. __( 'Show future posts:', 'w4-post-list' ). '</h4>
+		<label><input type="radio" '. checked( $selected, 'no', false ).' name="'. $input_name .
+		'" value="no"  /> '. __( 'No.', 'w4-post-list'). '</label>
 
-				<br /><label><input type="radio" '. checked( $selected, 'yes', false ).' name="'. $input_name .
-				'" value="yes"  /> '. __( 'Yes.', 'w4-post-list'). '</label>
-			';
-	}
-	
-function w4pl_form_posts_by( $input_name, $selected){
-	return '';
+		<br /><label><input type="radio" '. checked( $selected, 'yes', false ).' name="'. $input_name .
+		'" value="yes"  /> '. __( 'Yes.', 'w4-post-list'). '</label>';
 }
 
 function w4pl_form_max_posts( $input_name, $value){

@@ -1,5 +1,3 @@
-
-
 (function($){
 	function w4pl_admin_toogle(){
 		if ($(this).is(':checked')){

@@ -327,7 +327,7 @@ function get_w4_post_list( $list_id ){
 // Retrieve list data
 function w4pl_get_list( $list_id = '', $col = null){
 	global $wpdb;
-		
+
 	$list_id = (int) $list_id;
 		
 	if( !$list_id)
@@ -362,63 +362,113 @@ function w4pl_trim_excerpt( $text, $length = 0){
 	return $content;
 }
 
-function w4pl_template_wrapper( $wrapper = '' ){
-	$default = "<div class='w4_post_list'>\n%%postlist%%\n</div>";
-	
-	if( empty( $wrapper))
+function w4pl_template_wrapper( $input = '' ){
+	global $w4_post_list;
+
+	if( !is_object( $w4_post_list ))
+		$w4_post_list = new W4_Post_list();
+
+	if( !isset( $w4_post_list->default_template ))
+		$input;
+
+	$default = $w4_post_list->default_template['wrapper_post'];
+
+	if( empty( $input ))
 		return $default;
 	
-	if( !preg_match( '/\%\%postlist\%\%/', $wrapper ))
+	if( !preg_match( '/\%\%postlist\%\%/', $input ))
 		return $default;
-	
-	return $wrapper;
+
+	return $input;
 }
 
-function w4pl_post_template_wrapper( $wrapper_post = '' ){
-	$default = "<ul>\n%%postloop%%\n</ul>";
-	
-	if( empty( $wrapper_post ))
+function w4pl_post_template_wrapper( $input = '' ){
+	global $w4_post_list;
+
+	if( !is_object( $w4_post_list ))
+		$w4_post_list = new W4_Post_list();
+
+	if( !isset( $w4_post_list->default_template ))
+		$input;
+
+	$default = $w4_post_list->default_template['wrapper_post'];
+
+	if( empty( $input ))
 		return $default;
 	
-	if( !preg_match( '/\%\%postloop\%\%/', $wrapper_post ))
+	if( !preg_match( '/\%\%postloop\%\%/', $input ))
 		return $default;
-	
-	return $wrapper_post;
+
+	return $input;
 }
 
-function w4pl_post_template_loop( $postloop = '' ){
-	$default = "<li>\n%%title%%\n%%publish%%\n%%modified%%\n%%excerpt%%\n%%more%%\n</li>";
-	
-	if( empty( $postloop ))
+function w4pl_post_template_loop( $input = '' ){
+	global $w4_post_list;
+
+	if( !is_object( $w4_post_list ))
+		$w4_post_list = new W4_Post_list();
+
+	if( !isset( $w4_post_list->default_template ))
+		$input;
+
+	$default = $w4_post_list->default_template['loop_post'];
+
+	if( empty( $input ))
 		return $default;
 	
-	if( !preg_match( '/\%\%(title|publish|modified|content|excerpt|more)\%\%/', $postloop ))
+	if( !isset( $w4_post_list->post_template_fields ))
+		$postloop;
+
+	$allowed = join( '|', array_keys( $w4_post_list->post_template_fields ));
+
+	if( !preg_match( '/\%\%('. $allowed .')\%\%/', $input ))
 		return $default;
-	
-	return $postloop;
+
+	return $input;
 }
 
-function w4pl_category_template_wrapper( $wrapper_category = '' ){
-	$default = "<ul>\n%%catloop%%\n</ul>";
-	
-	if( empty( $wrapper_category ))
+function w4pl_category_template_wrapper( $input = '' ){
+	global $w4_post_list;
+
+	if( !is_object( $w4_post_list ))
+		$w4_post_list = new W4_Post_list();
+
+	if( !isset( $w4_post_list->default_template ))
+		$input;
+
+	$default = $w4_post_list->default_template['wrapper_category'];
+
+	if( empty( $input ))
 		return $default;
 	
-	if( !preg_match( '/\%\%catloop\%\%/', $wrapper_category ))
+	if( !preg_match( '/\%\%catloop\%\%/', $input ))
 		return $default;
-	
-	return $wrapper_category;
+
+	return $input;
 }
 
-function w4pl_category_template_loop( $categoryloop = '' ){
-	$default = "<li>\n%%category_title%%\n%%category_count%%\n%%category_posts%%\n</li>";
-	
-	if( empty( $categoryloop ))
+function w4pl_category_template_loop( $input = '' ){
+	global $w4_post_list;
+
+	if( !is_object( $w4_post_list ))
+		$w4_post_list = new W4_Post_list();
+
+	if( !isset( $w4_post_list->default_template ))
+		$input;
+
+	$default = $w4_post_list->default_template['loop_category'];
+
+	if( empty( $input ))
 		return $default;
 	
-	if( !preg_match( '/\%\%(category_title|category_count|category_posts)\%\%/', $categoryloop ))
+	if( !isset( $w4_post_list->category_template_fields ))
+		$postloop;
+
+	$allowed = join( '|', array_keys( $w4_post_list->category_template_fields ));
+
+	if( !preg_match( '/\%\%('. $allowed .')\%\%/', $input ))
 		return $default;
-	
-	return $categoryloop;
+
+	return $input;
 }
 ?>
