@@ -3,7 +3,7 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: Lists wordpress posts, categories and posts with categories by W4 post list plugin. Show/Hide post list with jquery slide effect. The Most Customizable Post list Plugin u ever used..
-Version: 1.5.1
+Version: 1.5.2
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -34,7 +34,7 @@ Author URI: http://w4dev.com/
 define( 'W4PL_DIR', plugin_dir_path(__FILE__));
 define( 'W4PL_URL', plugin_dir_url(__FILE__));
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.5.1' );
+define( 'W4PL_VERSION', '1.5.2' );
 define( 'W4PL_DB_VERSION', '2' );
 define( 'W4PL_NAME', 'W4 post list' );
 define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
@@ -46,6 +46,7 @@ register_activation_hook( __FILE__, 'w4pl_database_update' );
 function w4pl_file_check(){
 	$w4pl_plugin_files = array( 
 		'functions.php',
+		'template-functions.php',
 		'database.php',
 		'errors.php',
 		'class.php',
@@ -68,8 +69,9 @@ function w4pl_admin_notice(){
 
 if( w4pl_file_check()){
 	include( W4PL_INC .'/functions.php');
-	include( W4PL_INC . '/database.php');
-	include( W4PL_INC . '/errors.php');
+	include( W4PL_INC .'/template-functions.php');
+	include( W4PL_INC .'/database.php');
+	include( W4PL_INC .'/errors.php');
 	include( W4PL_INC .'/class.php');
 	include( W4PL_INC .'/widgets.php');
 
