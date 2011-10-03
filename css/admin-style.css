@@ -73,16 +73,15 @@
 #w4pl_admin .side_notice{
 	position:absolute;
 	width:300px;
-	padding:10px;
-	background-color:#DDDDBC;
 	right:0px;
 	top:0px;
+	border-left:1px solid #bdbd96;
 	}
-.w4ld_plugin_news{
-	margin-top:50px;
-	border-top:1px solid #C9C898;
+.w4form{
+	background-color:#DDDDBC;
 	padding:10px;
-	}
+}
+
 .list-id span {
 	color:#333;
 }
@@ -277,7 +276,7 @@ ul.post_list_menu li {
 	padding:0;
 	float:left;
 }
-ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options {
+ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options, .w4outlinks a {
 	display:block;
 	-moz-box-shadow: 0 1px 2px #AAA;
 	border-color: #0488ba;
@@ -293,9 +292,15 @@ ul.post_list_menu li a, #w4pl_admin input.save_w4_post_list_options {
 	border-width:1px;
 	cursor:pointer;
 }
-.post_list_menu li a:hover, .post_list_menu li a.current{
+.w4outlinks a{
+	background-color:#67A54B;
+	border-color:#3C7123;
+	padding:10px 20px;
+}
+.post_list_menu li a:hover, .post_list_menu li a.current, .w4outlinks a:hover{
 	background-color:#0488ba;
 	border-color:#047099;
+	color: #FFF;
 	}
 #w4pl_admin input.save_w4_post_list_options {
 	background-color:#67A54B;
