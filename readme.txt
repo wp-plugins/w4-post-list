@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
 Requires at least: 3.0
 Tested up to: 3.1.3
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 
 Most Customizable WordPress Post list Plugin for creating custom post list matching your theme design. Jquery enabled.
 
@@ -14,7 +14,7 @@ Show Posts / Category Posts list inside post/page content or widget areas by sho
 
 You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit here</a> to get plugin's template tag definition or for some examples.
 
-= What's new on 1.5.1 =
+= What's new on 1.5.2 =
 * Post Comment Count and Comment url tag added.
 * Fixed Html Template input issue.
 
