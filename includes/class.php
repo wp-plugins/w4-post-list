@@ -227,22 +227,19 @@ class W4_Post_list {
 		$defaults = array( 'post_status' => 'publish', 'post_type' => 'post' );
 		$this->query = wp_parse_args((array) $this->query, $defaults );
 
-		#query_posts( $this->query );
-		global $post;
-		$old_post = $post;
-
 		$query = new WP_Query( $this->query );
 		$postloop = '';
+		
 		//Checking post
 		if( $query->have_posts()):
 			while( $query->have_posts()): $query->the_post();
 				$postloop .= call_user_func( array( &$this, 'post_template' ));
 			endwhile;
 		endif; //End-if( have_posts()):
+		
+		// Reset postdata back to normal.
 		wp_reset_postdata();
 		
-		$post = $old_post;
-
 		return preg_replace( '/\%\%postloop\%\%/', $postloop, $this->template['wrapper_post'] );
 	}
 

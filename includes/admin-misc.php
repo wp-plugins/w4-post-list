@@ -1,5 +1,5 @@
 <?php
-
+/* Delete a Post list */
 function w4pl_delete_list( $list_id ){
 	$list_id = (int) $list_id;
 		
@@ -17,7 +17,7 @@ function w4pl_delete_list( $list_id ){
 	return $list_id;
 }
 	
-//Save options
+/* Save or Update Post list */
 function w4pl_save_list( $options = array()){
 	global $wpdb;
 
@@ -31,7 +31,7 @@ function w4pl_save_list( $options = array()){
 	$list_title = $options['list_title'];
 	$list_option = $options['list_option'];
 
-	if( $list_id){
+	if( $list_id ){
 		// handling options
 		$options = apply_filters( 'w4pl_sanitize_list_option', $options );
 
@@ -76,6 +76,7 @@ function w4pl_save_list( $options = array()){
 	return $list_id;
 }
 
+/* Post list Default options array */
 function w4pl_default_options(){
 	$default_options2 = array(
 		'list_id'						=> (int) 0,
@@ -107,6 +108,7 @@ function w4pl_default_options(){
 	return $default_options2;
 }
 
+/* Post list items menu */
 function w4pl_item_menu( $current = 0){
 	global $wpdb, $w4pl_caps;
 		
@@ -122,64 +124,67 @@ function w4pl_item_menu( $current = 0){
 	if( !$current & isset( $_GET['list_id']))
 		$current = (int) $_GET['list_id'];
 	
-	if( !$w4pl_caps)
+	if( !$w4pl_caps )
 		$w4pl_caps = get_option( 'w4pl_options');
 	
 	$all_post_list = '<ul class="post_list_menu">';
-	foreach( $lists as $list ){
-		if( $list->list_id){
-			if( w4pl_is_list_user( $list) || current_user_can( $w4pl_caps['manage_cap'])){
-
-				$class = ($current == $list->list_id) ? 'current' : '';
-				$title = empty( $list->list_title ) ? 'List#' . $list->list_id : $list->list_title;
-				$url = add_query_arg( 'list_id', $list->list_id, w4pl_plugin_page_url());
 	
-				$all_post_list .= '<li><a title="Edit post list - '.$title.'" href="'. $url . '" class="'.$class.'">'. $title .'</a></li>';
+	if( count( $lists ) > 0 ){
+		foreach( $lists as $list ){
+			if( $list->list_id){
+				if( w4pl_is_list_user( $list) || current_user_can( $w4pl_caps['manage_cap'])){
+	
+					$class = ($current == $list->list_id) ? 'current' : '';
+					$title = empty( $list->list_title ) ? 'List#' . $list->list_id : $list->list_title;
+					$url = add_query_arg( 'list_id', $list->list_id, w4pl_plugin_page_url());
+		
+					$all_post_list .= '<li><a title="Edit post list - '.$title.'" href="'. $url . '" class="'.$class.'">'. $title .'</a></li>';
+				}
 			}
 		}
+		$all_post_list .= '<li><span style="color:red;font-size:11px;background:url(images/arrows-dark.png) no-repeat 0 -72px; height:12px; padding-left:15px; position:relative; top:3px;">Click on a list name to edit its options</span></li>';
+	}
+	else{
+		$all_post_list .= '<li><span style="color:red;font-size:11px;position:relative; top:3px;">No List So far.</span></li><li><a href="'. w4pl_add_url() . '">Add one now</a></li>';
 	}
 	$all_post_list .= "</ul>";
 	echo $all_post_list;
 }
 
+/* Is the current user created this list */
 function w4pl_is_list_user( $list = array(), $list_id = 0){
 	if( !$list )
-		$list = w4pl_get_list( $list_id);
+		$list = w4pl_get_list( $list_id );
 	
 	if( is_object( $list ))
-		$list = get_object_vars( $list);
+		$list = get_object_vars( $list );
 
 	$cur_user_id = get_current_user_id();
 
-	if( $cur_user_id == $list['user_id'])
+	if( $cur_user_id == $list['user_id'] )
 		return true;
 	
 	return false;
 }
 
+/* The default or front page of plugin */
 function w4pl_help_page(){ ?>
 	<div class="has-right-sidebar">
 	<div class="inner-sidebar" id="side-info-column">
+	<h3 style="margin:0;">Updates from Plugin Server</h3>
+    <p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0;"><?php w4pl_plugin_news(); ?></p>
 
-	<div class="stuffbox"><h3><?php _e( 'Connect', 'w4-post-list' ); ?></h3>
-	<div class="inside">
-    	<ol>
+    	<ul class="w4outlinks">
 		<?php $siteurl = site_url('/'); ?>
-		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/' ); ?>" target="_blank">Plugin Site</a></li>
-		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>" target="_blank">Plugin Page</a></li>
-		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/wp/w4-post-list-design-template/#examples' ); ?>" target="_blank">Plugin Html Template Examples</a></li>
-		<li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Rate us On WordPress</a></li>
-		<li><a href="mailto:workonbd@gmail.com" target="_blank">Contact</a></li>
-		</ol>
+		<li><a style="text-align:center; background-color:#0488ba;" href="https://load.payoneer.com/LoadToPage.aspx?email=sajib1223@gmail.com" target="_blank">Plugin Needs Some Fund..<br /><span style="font-size:18px">Donate 20USD</span><br />through Payoneer</a></li>
+		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/' ); ?>" target="_blank">Visit Plugin Site</a></li>
+		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>" target="_blank">Visit Plugin Page</a></li>
+		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/wp/w4-post-list-design-template/#examples' ); ?>" target="_blank">Designing Examples</a></li>
+		<li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Rate On WordPress</a></li>
+		<li><a href="mailto:workonbd@gmail.com" target="_blank">Contact Author</a></li>
+		</ul>
 		
-		<script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
 
-		<p>If u like this plugin, Share IT !!!</p>
-		<table style="text-align:center; margin:10px;"><tr><td><iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode( 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>&amp;send=false&amp;layout=box_count&amp;width=85&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:62px;" allowTransparency="true"></iframe></td>
-
-		<td><g:plusone size="tall" count="true" href="http://w4dev.com/w4-plugin/w4-post-list/"></g:plusone></td></tr></table>
-
-	</div></div>
 
 	<div class="stuffbox">
 	<h3><?php _e( 'Using Shortcode', 'w4-post-list' ); ?></h3>
@@ -199,11 +204,15 @@ function w4pl_help_page(){ ?>
 	</div><!--#side-info-column-->
 
 	<div id="post-body"><div id="post-body-content">
+	<div style="overflow:hidden;">
+    	<script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
+		<table style="margin-bottom:10px;"><tr>
+        <td style="padding-right:5px;"><strong>Share it:</strong></td>
+        <td style="padding-right:5px;"><g:plusone annotation="none" href="http://w4dev.com/w4-plugin/w4-post-list/"></g:plusone></td>
+        <td><iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode( 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>&amp;send=true&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:25px;" allowTransparency="true"></iframe></td>
 
-	<h4 style="color:#FF0000; padding-bottom:10px; border-bottom:1px solid #CCC;"><?php _e( 'Click on the list item name above to edit an existing list. Click on add new to add a new one', 'w4-post-list'); ?></h4>
-
-	<h3 style="margin-bottom:0;">Updates from Plugin Server</h3>
-    <p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0;"><?php w4pl_plugin_news(); ?></p>
+		</tr></table>
+	</div>
 
 	<div class="stuffbox"><h3><?php _e( 'Html Design Template', 'w4-post-list'); ?></h3>
 	<div class="inside">
@@ -268,7 +277,7 @@ function w4pl_help_page(){ ?>
 <?php
 }
 
-// Retrive latest news about our plugin from our server
+/* Retrive latest updates about Post List plugin */
 function w4pl_plugin_news( $echo = true, $refresh = false ){
 	$transient = 'w4pl_plugin_news';
 	$transient_old = $transient . '_old';
@@ -301,6 +310,7 @@ function w4pl_plugin_news( $echo = true, $refresh = false ){
 		echo $output;
 }
 
+/* Add an action link on plugins.php page */
 function w4pl_plugin_action_links( $links ){
 	$readme_link['manage_plugin'] = '<a href="'. esc_attr( w4pl_plugin_page_url()) .'">' . __( 'Plugin', 'w4-post-list' ). '</a>';
 	

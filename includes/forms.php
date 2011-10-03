@@ -31,7 +31,7 @@ function w4ld_list_form( $list_id = 0){
 
 ?>
 	<form action="<?php echo $form_action ; ?>" method="post" id="w4_post_list_form" enctype="multipart/form-data">
-		<div class="side_notice">
+		<div class="side_notice"><div class="w4form">
 		<h2 style="padding-top:0px;"><?php _e( 'List id: ', 'w4-post-list');?> <span><?php echo $list_id; ?></span></h2>
 
 		<?php
@@ -44,15 +44,19 @@ function w4ld_list_form( $list_id = 0){
 		<?php
 		echo "<strong>" . __( "Copy this code", "w4-post-list"). " &rarr; </strong><input type='text' value='[postlist $list_id]' readonly='readonly' onfocus='this.select();'> " . __( "and paste it into your post, page or text widget content area to show this list.", 'w4-post-list');
 		?>
-   		<p><input type="submit" name="" class="save_w4_post_list_options" value="Save option" /><br />
-        <?php
-		echo '<a class="button" id="delete_list" rel="'. $list_title .'" title="Delete '. $list_title .' ?" 
-			href="'. add_query_arg( array( "list_id" => $list_id, 'delete' => 'true'), w4pl_plugin_page_url()). '">' .__( 'deleted this list', 'w4-post-list' ) . '</a> 
-			or <a class="button" title="Add new list" href="'. w4pl_add_url(). '">add new one</a></p>';
-			
-		?>
-		
-		<div class="w4ld_plugin_news"><h3>Updates From Plugin Server -</h3><?php w4pl_plugin_news(); ?></div>
+   		<p><input type="submit" name="" class="button-primary" style="display:inline-block;" value="Update" /> 
+        <a class="button" id="delete_list" rel="<?php echo $list_title; ?>" title="Delete <?php echo $list_title; ?> ?"
+         href="<?php echo add_query_arg( array( "list_id" => $list_id, 'delete' => 'true'), w4pl_plugin_page_url()); ?>">
+		 <?php echo __( 'Deleted', 'w4-post-list' );?></a> 
+		<a class="button-primary" title="Add new list" href="<?php echo w4pl_add_url(); ?>">Add new</a></p>
+		</div>
+
+		<div style="border-top:1px solid #C9C898;padding:10px; background-color:#EEE;">
+        <h3 style="margin:0 0 10px;">Updates From Plugin Server -</h3><?php w4pl_plugin_news(); ?>
+        </div>
+        
+        <ul class="w4outlinks"><li><a style="text-align:center; background-color:#0488ba;" href="https://load.payoneer.com/LoadToPage.aspx?email=sajib1223@gmail.com" target="_blank">Plugin Needs Some Fund..<br /><span style="font-size:18px">Donate 20USD</span><br />through Payoneer</a></li></ul>
+
         </div>
 
     	<?php echo $form_hidden_elements ; ?>

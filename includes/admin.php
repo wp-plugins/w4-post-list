@@ -142,8 +142,8 @@ function w4pl_admin_page(){
     	<div class="icon32" id="icon-post"><br/></div>
         <h2><?php echo W4PL_NAME. " &#8212; " . W4PL_VERSION ; ?>
         	<span class="desc"><?php _e( 'With w4 post list plugin you can show your selected post list, selected category list or<br /> making list with both of them in woedpress site.', 'w4-post-list' ); ?></span>
-        	
 		</h2>
+
         <div class="menu">
             <a href="http://w4dev.com/w4-plugin/w4-post-list/" target="_blank" title="<?php _e( 'Visit Plugin Page', 'w4-post-list' ); ?>"> <?php 
 			_e( 'Visit Plugin Page', 'w4-post-list' ); ?></a>
