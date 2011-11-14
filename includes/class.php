@@ -51,7 +51,7 @@ class W4_Post_list {
 		$this->default_template = array( 
 			'wrapper' 			=> "<div class='w4_post_list'>\n%%postlist%%\n</div>",
 			'wrapper_post'		=> "<ul>\n%%postloop%%\n</ul>",
-			'loop_post' 		=> "<li>\n%%title%%\n%%publish%%\n%%modified%%\n%%excerpt%%\n%%more%%\n</li>",
+			'loop_post' 		=> "<li>\n%%title%%\n%%excerpt%%\n%%more%%\n</li>",
 			'wrapper_category'	=> "<ul>\n%%catloop%%\n</ul>",
 			'loop_category'		=> "<li>\n%%category_title%%\n%%category_count%%\n%%category_posts%%\n</li>"
 		);
