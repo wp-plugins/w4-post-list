@@ -93,10 +93,7 @@ function dropdown_post_list_selector( $select_name, $select_id, $selected = 0){
 		$all_post_list .= "<option value=\"$list->list_id\" $sel >$title</option>\n";
 	}
 	$all_post_list .= "</select>";
-	
-	$all_post_list .= "</p>";
-
-	$all_post_list .= "<p>". sprintf( __( 'Or <a class="button" href="%s">create new</a>', 'w4-post-list' ), w4pl_add_url()). "</p>";
+	$all_post_list .= sprintf( __( 'or <a class="button" href="%s">create new</a>', 'w4-post-list' ), w4pl_add_url()). "</p>";
 
 	return $all_post_list;
 }

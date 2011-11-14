@@ -4,73 +4,85 @@ add_action( 'w4pl_admin_action', 'w4pl_admin_option_page_action');
 function w4pl_admin_option_page_action(){
 	global $wpdb, $plugin_page, $w4pl_caps, $w4_request, $w4pl_error;
 
+	// Plugin Options Page
+	if( W4PL_SLUG . '-options' != $plugin_page )
+		return;
+
 	// If this is the option page and curren use have the manage_options capabilities
-	if( W4PL_SLUG . '-options' == $plugin_page && current_user_can( 'manage_options')):
-		if( isset( $_GET['databse'])){
-			$db_call = $_GET['databse'];
-			switch( $db_call):
-				case 'remove':
-					if( !w4pl_table_exists()){
-						return w4pl_add_error( 'Theres no table exists.');
-						
-					}else{
-						w4ld_db_remove();
-						$url = add_query_arg( 'message', 'db_dropped', w4pl_option_page_url());
-						wp_redirect( $url);
-						exit;
-					}
-				break;
-				case 'install':
-					if( w4pl_table_exists()){
-						return w4pl_add_error( 'Tables already installed.');
-						
-					}else{
-						w4pl_db_install( true );
-						$url = add_query_arg( 'message', 'db_installed', w4pl_option_page_url());
-						wp_redirect( $url);
-						exit;
-					}
-				break;
-				case 'update_option':
-					$data = get_option( '_w4pl_temp_option' );
-					foreach( (array) $data as $list ){
-						$list['list_option'] = maybe_unserialize( $list['list_option'] );
+	if( !current_user_can( 'manage_options' ))
+		return;
 
-						// Unset list id
-						unset( $list['list_id'] );
+	if( isset( $_GET['databse'] )):
 
-						// Insert new list
-						w4pl_save_list( $list );
-					}
-					delete_option( '_w4pl_temp_option');
-					$url = add_query_arg( 'message', 'db_updated', w4pl_option_page_url());
+		$db_call = $_GET['databse'];
+
+		switch( $db_call):
+			case 'remove':
+				if( !w4pl_table_exists()){
+					return w4pl_add_error( 'Theres no table exists.');
+						
+				}else{
+					w4ld_db_remove();
+					$url = add_query_arg( 'message', 'db_dropped', w4pl_option_page_url());
 					wp_redirect( $url);
 					exit;
-				break;
+				}
+			break;
 
-				case 'delete_option':
-					delete_option( '_w4pl_temp_option');
-					$url = add_query_arg( 'message', 'old_option_cleared', w4pl_option_page_url());
+			case 'install':
+				if( w4pl_table_exists()){
+					return w4pl_add_error( 'Tables already installed.');
+						
+				}else{
+					w4pl_db_install( true );
+					$url = add_query_arg( 'message', 'db_installed', w4pl_option_page_url());
 					wp_redirect( $url);
 					exit;
-				break;
+				}
+			break;
 
-				default:
-				break;
-			endswitch;
-		}
-		// Save options
-		if( isset( $_POST['save_w4pl_option_form'])){
-			$options = array();
-			$options['access_cap'] 			= $_POST['access_cap'];
-			$options['manage_cap'] 			= $_POST['manage_cap'];
+			case 'update_option':
+				$data = get_option( '_w4pl_temp_option' );
+				foreach( (array) $data as $list ){
+					$list['list_option'] = maybe_unserialize( $list['list_option'] );
+
+					// Unset list id
+					unset( $list['list_id'] );
+
+					// Insert new list
+					w4pl_save_list( $list );
+				}
+
+				delete_option( '_w4pl_temp_option');
+				$url = add_query_arg( 'message', 'db_updated', w4pl_option_page_url());
+				wp_redirect( $url);
+				exit;
+			break;
+
+			case 'delete_option':
+				delete_option( '_w4pl_temp_option');
+				$url = add_query_arg( 'message', 'old_option_cleared', w4pl_option_page_url());
+				wp_redirect( $url);
+				exit;
+			break;
+
+			default:
+			break;
+		endswitch;
+	endif;// Get Database
+
+	// Save options
+	if( isset( $_POST['save_w4pl_option_form'])){
+		$options = array();
+		$options['access_cap'] 			= $_POST['access_cap'];
+		$options['manage_cap'] 			= $_POST['manage_cap'];
 			
-			update_option( 'w4pl_options', $options );
-			$url = add_query_arg( 'message', 'option_updated', w4pl_option_page_url());
-			wp_redirect( $url);
-			exit;
-		}
-	endif;// Option page
+		update_option( 'w4pl_options', $options );
+
+		$url = add_query_arg( 'message', 'option_updated', w4pl_option_page_url());
+		wp_redirect( $url);
+		exit;
+	}
 }
 
 function w4pl_admin_option_page(){

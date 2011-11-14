@@ -4,6 +4,8 @@
 */
 function w4pl_database_update(){
 	global $wpdb;
+	$wpdb->post_list = $wpdb->prefix . 'post_list';
+
 	w4pl_db_install( true );
 
 	if( !get_option( '_w4pl_db_version' ))

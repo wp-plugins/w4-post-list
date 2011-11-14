@@ -13,7 +13,7 @@ function w4pl_delete_list( $list_id ){
 	
 	if( !$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->post_list WHERE list_id = %d", $list_id )))
 		return w4pl_add_error( 'couldnot delete the list, databse error.', 'database_error' );
-		
+
 	return $list_id;
 }
 	
@@ -34,6 +34,8 @@ function w4pl_save_list( $options = array()){
 	if( $list_id ){
 		// handling options
 		$options = apply_filters( 'w4pl_sanitize_list_option', $options );
+		#echo '<pre>'; print_r( $options ); echo '</pre>';
+		#return;
 
 		$update = true;
 		$old_options = w4pl_get_list( $list_id);

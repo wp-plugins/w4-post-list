@@ -61,7 +61,7 @@ class W4_Post_list {
 
 		if( ! w4pl_get_list( $list_id ))
 			return new WP_Error( 'postlist_not_found', 
-			sprintf( __( 'List not found with [%1$s]. <a class="button" href="%2$s">Create a new list</a></p>',	'w4-post-list' ), $list_id, w4pl_add_url()));
+			sprintf( __( 'List not found with [%1$s]. <a rel="nofollow" class="button" href="%2$s">create a new list</a>',	'w4-post-list' ), $list_id, w4pl_add_url()));
 
 		$this->id 				= $list_id;
 		$this->query 			= array();

@@ -35,9 +35,9 @@ function w4ld_list_form( $list_id = 0){
 		<h2 style="padding-top:0px;"><?php _e( 'List id: ', 'w4-post-list');?> <span><?php echo $list_id; ?></span></h2>
 
 		<?php
-        if( !w4pl_is_list_user( $list ) && current_user_can( $w4pl_caps['manage_cap'] )):
+        if( !w4pl_is_list_user( $list )):
 			$list_user = get_userdata( $list['user_id'] );
-			echo "<p><strong>List Username:</strong> <span>$list_user->display_name</span>,<br /><strong>Userid:</strong> {$list_user->ID}</p>";
+			echo "<p><strong>List Author:</strong> <span>$list_user->display_name</span>,<br /><strong>Userid:</strong> {$list_user->ID}</p>";
 		endif;
 		?>
 
@@ -47,7 +47,7 @@ function w4ld_list_form( $list_id = 0){
    		<p><input type="submit" name="" class="button-primary" style="display:inline-block;" value="Update" /> 
         <a class="button" id="delete_list" rel="<?php echo $list_title; ?>" title="Delete <?php echo $list_title; ?> ?"
          href="<?php echo add_query_arg( array( "list_id" => $list_id, 'delete' => 'true'), w4pl_plugin_page_url()); ?>">
-		 <?php echo __( 'Deleted', 'w4-post-list' );?></a> 
+		 <?php echo __( 'Delete', 'w4-post-list' );?></a> 
 		<a class="button-primary" title="Add new list" href="<?php echo w4pl_add_url(); ?>">Add new</a></p>
 		</div>
 
@@ -256,12 +256,12 @@ function w4ld_posts_checklist($options = array()){
 	));
 
 	if( have_posts()):
-		$checklist = "<input type='checkbox' name=\"selector\" id=\"post_selector\" value=\"list_option[post_ids][]\"/> <label for=\"post_selector\">toggle select all</label>";
+		$checklist = "<input type='checkbox' name=\"selector\" id=\"post_selector\" value=\"w4pl_PID[]\"/> <label for=\"post_selector\">toggle select all</label>";
 		$checklist .= "<ul class=\"post_list\">";
 			
 		while( have_posts()): the_post();
 			$checked = in_array( get_the_ID(), $post_ids) ? ' checked="checked" ' : '';
-			$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"list_option[post_ids][]\" type=\"checkbox\" $checked value=\"". get_the_ID() ."\" /> " 
+			$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"w4pl_PID[]\" type=\"checkbox\" $checked value=\"". get_the_ID() ."\" /> " 
 			. get_the_title() .'</label>'. sprintf( __( ' &laquo; Categories: %s', 'w4-post-list' ), get_the_category_list( ', ' )) .'</li>';
 		endwhile;
 		$checklist .= "</ul>";
@@ -293,7 +293,7 @@ function w4pl_categories_checklist( $list_option = array()){
 		//Category name
 		$checklist .= "<div class=\"category $category_container_class\">";
 			
-		$checklist .= "<p class=\"cat_title\"><label><input name=\"list_option[categories][]\" type=\"checkbox\" 
+		$checklist .= "<p class=\"cat_title\"><label><input name=\"w4pl_terms[]\" type=\"checkbox\" 
 		$checked value=\"$category->cat_ID\" class=\"w4pl_cat_checkbox\" /> $category->cat_name</strong></label> 
 		<span class=\"category_post_handle $list_type_oc_hide hide_if_oc show_if_pc show_if_op_by_cat\" rel='w4cat_{$category->cat_ID}'>manage posts</span></p>";
 
@@ -330,21 +330,21 @@ function w4pl_category_posts_checklist( $category_option, $list_option ){
 
 	if( have_posts()):
 		$checklist = "<div class=\"hide_if_op_by_cat show_if_pc $list_type_op_by_cat_hide\">";
-		$checklist .= w4pl_form_order_by( "w4pl_categories_post_order_method[$cat_id]", $post_order_method ). '<br /><br />';
+		$checklist .= w4pl_form_order_by( "w4pl_terms_POM[$cat_id]", $post_order_method ). '<br /><br />';
 		$checklist .= '</div>';
 
-		$checklist .= w4pl_form_show_future_posts( "_w4_cat_show_future_posts_". $cat_id, $show_future_posts );
+		$checklist .= w4pl_form_show_future_posts( "w4pl_term_SFP[$cat_id]", $show_future_posts );
 		#$max_field_name = "w4pl_categories_max[$cat_id]";
 		
-		$checklist .= '<br /><br />' . w4pl_form_max_posts( "w4pl_categories_max[$cat_id]" , $max) ;
+		$checklist .= '<br /><br />' . w4pl_form_max_posts( "w4pl_terms_MAX[$cat_id]" , $max) ;
 		$checklist .= "<br /><br /><strong>". __( 'Select posts:', 'w4-post-list' ) ."</strong> ";
 			
-		$checklist .= "<input type='checkbox' name=\"selector\" id=\"post_selector_for_{$cat_id}\" value=\"category_posts[$cat_id][]\" /> <label for=\"post_selector_for_{$cat_id}\">toggle select all</label>";
+		$checklist .= "<input type='checkbox' name=\"selector\" id=\"post_selector_for_{$cat_id}\" value=\"w4pl_term_PID[$cat_id][]\" /> <label for=\"post_selector_for_{$cat_id}\">toggle select all</label>";
 
 		$checklist .= "<ul class=\"post_list\">";
 		while( have_posts()): the_post();
 			$checked2 = in_array( get_the_ID(), $post_ids) ? ' checked="checked" ' : '';
-			$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"category_posts[$cat_id][]\" type=\"checkbox\" $checked2 
+			$checklist .= "<li><label title=\"". get_the_title() ."\"><input name=\"w4pl_term_PID[$cat_id][]\" type=\"checkbox\" $checked2 
 			value=\"".get_the_ID()."\" /> ". get_the_title() .'</label></li>' ;
 		endwhile;
 		$checklist .= "</ul>";

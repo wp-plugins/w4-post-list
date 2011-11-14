@@ -1,22 +1,21 @@
 === W4 post list ===
 Plugin Name: W4 post list
-Author: sajib1223, Shazzad Hossain Khan
+Author: sajib1223, Shazzad Hossain Khan, W4dev
 Donate link: http://w4dev.com/w4-plugin/w4-post-list
-Tags: posts, categories, listing posts, custom post list, list posts with excerpt, category list
+Tags: posts, categories, post list, category list, custom post list
 Requires at least: 3.0
-Tested up to: 3.1.3
-Stable tag: 1.5.2
+Tested up to: 3.2.1
+Stable tag: 1.5.3
 
-Most Customizable WordPress Post list Plugin for creating custom post list matching your theme design. Jquery enabled.
+With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site.
 
 == Description ==
 Show Posts / Category Posts list inside post/page content or widget areas by shortcodes. Select what to show and design how to show it. jQuery enabled with slide effect. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">visit plugin page</a>.
 
 You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit here</a> to get plugin's template tag definition or for some examples.
 
-= What's new on 1.5.2 =
-* Post Comment Count and Comment url tag added.
-* Fixed Html Template input issue.
+= What's new on 1.5.3 =
+* Post selection bug fixed
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -104,6 +103,8 @@ As much as you have.
 = 1.5.1 =
 * Post Comment Count and Comment url tag added.
 * Fixed Html Template input issue.
+= 1.5.3 =
+* Category Post selection problem fixed.
 
 
 == Upgrade Notice ==
@@ -160,6 +161,8 @@ As much as you have.
 = 1.5.1 =
 * Post Comment Count and Comment url tag added.
 * Fixed Html Template input issue.
+= 1.5.3 =
+* Category Post selection problem fixed.
 
 == How to use ==
 
