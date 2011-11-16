@@ -3,7 +3,7 @@
 Plugin Name: W4 post list
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site. The Most Customizable Post list Plugin u ever used..
-Version: 1.5.3
+Version: 1.5.4
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -33,12 +33,15 @@ Author URI: http://w4dev.com/
 # Plugins Global Constant
 define( 'W4PL_DIR', plugin_dir_path(__FILE__));
 define( 'W4PL_URL', plugin_dir_url(__FILE__));
+define( 'W4PL_ADMIN', W4PL_DIR . 'admin' );
+define( 'W4PL_INC', W4PL_DIR . 'includes' );
+
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.5.3' );
+define( 'W4PL_VERSION', '1.5.4' );
 define( 'W4PL_DB_VERSION', '2' );
 define( 'W4PL_NAME', 'W4 post list' );
 define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
-define( 'W4PL_INC', W4PL_DIR . 'includes' );
+
 
 # Hook called when Plugin is Activated or updated
 register_activation_hook( __FILE__, 'w4pl_database_update' );
@@ -47,13 +50,7 @@ function w4pl_file_check(){
 	$w4pl_plugin_files = array( 
 		'functions.php',
 		'template-functions.php',
-		'database.php',
-		'errors.php',
 		'class.php',
-		'admin-misc.php',
-		'admin.php',
-		'management-page.php',
-		'forms.php',
 		'widgets.php'
 	);
 
@@ -75,12 +72,11 @@ if( w4pl_file_check()){
 
 	// Load admin files when viewing admin page
 	if( is_admin()){
-		include( W4PL_INC .'/database.php');
-		include( W4PL_INC .'/errors.php');
-		include( W4PL_INC .'/admin-misc.php');
-		include( W4PL_INC .'/admin.php');
-		include( W4PL_INC .'/management-page.php');
-		include( W4PL_INC .'/forms.php');
+		include( W4PL_ADMIN .'/database.php');
+		include( W4PL_ADMIN .'/errors.php');
+		include( W4PL_ADMIN .'/admin-misc.php');
+		include( W4PL_ADMIN .'/admin.php');
+		include( W4PL_ADMIN .'/forms.php');
 	}
 }else{
 	add_action( 'admin_notices', 'w4pl_admin_notice');
