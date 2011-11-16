@@ -19,6 +19,7 @@ class W4_Post_list {
 			'excerpt'			=> 'template_excerpt',
 			'content'			=> 'template_content',
 			'more' 				=> 'template_more',
+			'image' 			=> 'template_image',
 
 			'id' 				=> 'post_id',
 			'post_comment_url'	=> 'post_comment_url',
@@ -51,7 +52,7 @@ class W4_Post_list {
 		$this->default_template = array( 
 			'wrapper' 			=> "<div class='w4_post_list'>\n%%postlist%%\n</div>",
 			'wrapper_post'		=> "<ul>\n%%postloop%%\n</ul>",
-			'loop_post' 		=> "<li>\n%%title%%\n%%excerpt%%\n%%more%%\n</li>",
+			'loop_post' 		=> "<li>\n%%title%%\n%%image%%\n%%excerpt%%\n%%more%%\n</li>",
 			'wrapper_category'	=> "<ul>\n%%catloop%%\n</ul>",
 			'loop_category'		=> "<li>\n%%category_title%%\n%%category_count%%\n%%category_posts%%\n</li>"
 		);
@@ -81,6 +82,7 @@ class W4_Post_list {
 		$this->list_effect 		= $this->list_option['list_effect'];
 		$this->read_more	 	= $this->list_option['read_more_text'];
 		$this->excerpt_length 	= $this->list_option['excerpt_length'];
+		$this->image_size 		= isset( $this->list_option['image_size'] ) ? $this->list_option['image_size'] : 'thumbnail';
 
 		// List Template
 		$this->template 			= $this->list_option['html_template'];
@@ -99,7 +101,7 @@ class W4_Post_list {
 				'post__in' 			=> $this->list_option['post_ids'],
 				'order' 			=> $post_order['order'],
 				'orderby' 			=> $post_order['orderby'],
-				'posts_per_page'	=> intval( $this->list_option["post_max"]) > 0 ? intval( $this->list_option["post_max"]) : '-1'
+				'posts_per_page'	=> intval( $this->list_option["post_max"] ) > 0 ? intval( $this->list_option["post_max"] ) : '-1'
 			);
 			$this->query['showposts'] = $this->query['posts_per_page'];
 
@@ -368,6 +370,10 @@ class W4_Post_list {
 	function template_more(){
 		$read_more = !empty( $this->read_more ) ? $this->read_more : __( 'Continue reading &raquo;', 'w4-post-list' );
 		return sprintf( '<a href="%1$s" title="Cotinue reading %2$s">%3$s</a>', '%%post_permalink%%', '%%post_title%%',  $read_more );
+	}
+
+	function template_image(){
+		return get_the_post_thumbnail( null, $this->image_size, array( 'class' => "w4pl_post_thumb attachment-{$this->image_size}" ));
 	}
 }
 //use function w4_post_list() as template tag to show a post list anywhere in your theme

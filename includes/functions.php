@@ -4,14 +4,9 @@ function w4pl_load_scripts(){
 	global $wpdb;
 	$wpdb->post_list = $wpdb->prefix . 'post_list';
 
-	if( is_admin()){
-		wp_enqueue_script( 'w4pl-admin-js', W4PL_URL.'js/admin_js.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs' ), W4PL_VERSION ,false );
-		wp_enqueue_style( 'w4pl-admin-css', W4PL_URL . 'css/admin-style.css', '', W4PL_VERSION );
-
-	}
-	else{
-		wp_enqueue_script( 'w4pl-js', W4PL_URL . 'js/js.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true );
-		wp_enqueue_style( 'w4pl-css', W4PL_URL . 'css/style.css', '', W4PL_VERSION );
+	if( !is_admin()){
+		wp_enqueue_script( 'w4pl-js', W4PL_URL . 'scripts/js.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true );
+		wp_enqueue_style( 'w4pl-css', W4PL_URL . 'scripts/style.css', '', W4PL_VERSION );
 	}
 }
 add_action( 'plugins_loaded', 'w4pl_load_scripts' );
@@ -60,7 +55,7 @@ function get_w4_post_list( $list_id ){
 	if( is_wp_error( $list )){
 		$w4pl_caps = get_option( 'w4pl_options');
 
-		if( is_user_logged_in() && current_user_can( $w4pl_caps['manage_cap']))
+		if( is_user_logged_in() && current_user_can( $w4pl_caps['manage_cap'] ))
 			return '<p><strong>W4 post list Error:</strong> <span style="color:#FF0000">'.$list->get_error_message().'</span><br /><small>* this error is only visible for post list moderators and wont effect in search engine.</small></p>';
 
 		return '<!-- W4 post list Error: '. $list->get_error_message() .'-->';
@@ -109,7 +104,7 @@ function w4pl_trim_excerpt( $text, $length = 0 ){
 
 /* Plugin Page Url Functions */
 function w4pl_add_url( $echo = false ){
-	$link = add_query_arg( 'new_list', 'true' , w4pl_plugin_page_url());
+	$link = add_query_arg( 'action', 'add' , w4pl_plugin_page_url());
 
 	if( $echo )
 		echo $link;
@@ -119,15 +114,6 @@ function w4pl_add_url( $echo = false ){
 }
 function w4pl_plugin_page_url( $echo = false ){
 	$link = add_query_arg( 'page', W4PL_SLUG, admin_url( 'admin.php'));
-
-	if( $echo )
-		echo $link;
-	
-	else
-		return $link;
-}
-function w4pl_option_page_url( $echo = false ){
-	$link = add_query_arg( 'page', W4PL_SLUG. '-options', admin_url( 'admin.php'));
 
 	if( $echo )
 		echo $link;
@@ -164,6 +150,9 @@ function w4pl_sanitize_list_option( $option ){
 
 	if( !is_array( $posts_not_in ))
 		$posts_not_in = ( array ) $posts_not_in;
+
+	if( !isset( $image_size ))
+		$image_size = 'thumbnail';
 
 	// Handle category posts/ categories/ and posts by categories
 	if( in_array( $list_type, array( 'pc', 'oc', 'op_by_cat' ))):
@@ -320,6 +309,7 @@ function w4pl_sanitize_list_option( $option ){
 			'show_future_posts',
 			'read_more_text',
 			'excerpt_length',
+			'image_size',
 
 			'post_ids',
 			'posts_not_in',
