@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, post list, category list, custom post list
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.5.3
+Stable tag: 1.5.4
 
 With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site.
 
@@ -14,8 +14,8 @@ Show Posts / Category Posts list inside post/page content or widget areas by sho
 
 You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit here</a> to get plugin's template tag definition or for some examples.
 
-= What's new on 1.5.3 =
-* Post selection bug fixed
+= What's new on 1.5.4 =
+* Include Post Thumbnail/Image in the list.
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -45,6 +45,7 @@ As much as you have.
 
 == Screenshots ==
 1. A Basic Design template tag definition.
+2. W4 Post List Examples
 
 == Changelog ==
 = 1.0 =
@@ -105,7 +106,8 @@ As much as you have.
 * Fixed Html Template input issue.
 = 1.5.3 =
 * Category Post selection problem fixed.
-
+= 1.5.4 =
+* Include Post Thumbnail/Image in the list.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -163,6 +165,8 @@ As much as you have.
 * Fixed Html Template input issue.
 = 1.5.3 =
 * Category Post selection problem fixed.
+= 1.5.4 =
+* Include Post Thumbnail/Image in the list.
 
 == How to use ==
 
@@ -179,6 +183,7 @@ Category tags:
 
 = Post tags =
 * title -- Post title template
+* Image -- Post Thumbnail/image template. You can stylize this image with "w4pl_post_thumb" css class
 * meta -- Meta template. Ex: Posted on date by author
 * publish/date -- Post publishing date template
 * modified -- Post last update date template
