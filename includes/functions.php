@@ -53,9 +53,9 @@ function get_w4_post_list( $list_id ){
 	$list = $w4_post_list->prepare( $list_id );
 
 	if( is_wp_error( $list )){
-		$w4pl_caps = get_option( 'w4pl_options');
+		$w4pl_plugin_option = get_option( 'w4pl_options');
 
-		if( is_user_logged_in() && current_user_can( $w4pl_caps['manage_cap'] ))
+		if( is_user_logged_in() && current_user_can( $w4pl_plugin_option['manage_cap'] ))
 			return '<p><strong>W4 post list Error:</strong> <span style="color:#FF0000">'.$list->get_error_message().'</span><br /><small>* this error is only visible for post list moderators and wont effect in search engine.</small></p>';
 
 		return '<!-- W4 post list Error: '. $list->get_error_message() .'-->';
@@ -366,5 +366,53 @@ function w4pl_term_posts( $term_id, $taxonomy = 'category', $post_type = 'post' 
 		return array();
 
 	return $posts;
+}
+
+function w4pl_image_dimensions( $size = null ){
+	$image_sizes = array(
+		'thumbnail' => array( 'width' => intval( get_option( 'thumbnail_size_w' )), 'height' => intval( get_option('thumbnail_size_h'))),
+		'medium' 	=> array( 'width' => intval( get_option( 'medium_size_w' )), 	'height' => intval( get_option('medium_size_h'))),
+		'large' 	=> array( 'width' => intval( get_option( 'large_size_w' )), 	'height' => intval( get_option('large_size_h'))),
+	);
+
+	global $_wp_additional_image_sizes;
+	if( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) ){
+		foreach( $_wp_additional_image_sizes as $k => $data ){
+			$image_sizes[$k] = array( 'width' => intval( $data['width'] ), 'height' => intval( $data['height'] ));
+		}
+	}
+
+	if( $size == null ){
+		return $image_sizes;
+	}elseif( array_key_exists( $size, $image_sizes )){
+		return $image_sizes[$size];
+	}
+	else{
+		return array();
+	}
+}
+
+function w4pl_plugin_option(){
+	global $w4pl_plugin_option;
+
+	if( empty( $w4pl_plugin_option ))
+		$w4pl_plugin_option = get_option( 'w4pl_options' );
+	
+	if( !is_array( $w4pl_plugin_option ))
+		$w4pl_plugin_option = array();
+
+	if( !isset( $w4pl_plugin_option['access_cap'] ))
+		$w4pl_plugin_option['access_cap'] = 'manage_options';
+
+	if( !isset( $w4pl_plugin_option['manage_cap'] ))
+		$w4pl_plugin_option['manage_cap'] = 'manage_options';
+
+	if( !isset( $w4pl_plugin_option['image_source'] ))
+		$w4pl_plugin_option['image_source'] = 'featured';
+
+	if( !isset( $w4pl_plugin_option['image_meta_key'] ))
+		$w4pl_plugin_option['image_meta_key'] = '';
+
+	return $w4pl_plugin_option;
 }
 ?>

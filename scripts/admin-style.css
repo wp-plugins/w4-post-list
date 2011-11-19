@@ -113,6 +113,7 @@
 	background:url(help.gif) no-repeat;
 	position:relative;
 	top:3px;
+	z-index:9999;
 	}
 .w4pl_tip_handle span{
 	position:absolute;

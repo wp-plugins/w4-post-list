@@ -1,11 +1,11 @@
 <?php
 // The main form to collect post list data
 function w4ld_list_form( $w4pl_list_option = array()){
-	global $w4pl_caps, $w4pl_admin_url;
+	global $w4pl_plugin_option, $w4pl_admin_url;
 	$editing = false;
 
-	if( !$w4pl_caps)
-		$w4pl_caps = get_option( 'w4pl_options');;
+	if( !$w4pl_plugin_option)
+		$w4pl_plugin_option = get_option( 'w4pl_options');;
 
 	extract( $w4pl_list_option );
 
@@ -379,9 +379,9 @@ function w4pl_category_posts_checklist( $category_option, $list_option ){
 
 // Option page form.
 function w4pl_option_form(){
-	global $w4pl_caps, $w4pl_pagenow, $w4pl_admin_url;
+	global $w4pl_pagenow, $w4pl_admin_url;
 
-	$w4pl_caps = w4pl_capabilities();
+	$w4pl_plugin_option = w4pl_plugin_option();
 
 	$capability_options = array(
 		'manage_options' 	=> __(' Admins Only', 'w4-post-list' ),
@@ -394,27 +394,46 @@ function w4pl_option_form(){
 	<form action="<?php echo add_query_arg( array( 'subpage' => $w4pl_pagenow, 'action' => 'update' ), $w4pl_admin_url ); ?>" method="post" class="w4pl_form" enctype="multipart/form-data">
         <div class="option"><h3><label for="access_cap"><?php _e( 'Create and manage post list:', 'w4-post-list'); ?></label>
 		<span class="w4pl_tip_handle"><span><?php _e( 'You can restrict acess to post creation. A user must have this capability, if he has the next capability. Otherwise, he wont use the next capability.', 'w4-post-list'); ?></span></span></h3>
-		<select name="access_cap">
 		<?php
-		foreach ( $capability_options as $k => $v):
-			$selected = $k == $w4pl_caps['access_cap'] ? ' selected=selected ': '';
-			echo "<option value=\"$k\" $selected >$v</option>";
+		foreach ( $capability_options as $k => $v ):
+			$selected = $k == $w4pl_plugin_option['access_cap'] ? ' checked=checked ': '';
+			echo "<label><input type='radio' value='$k' name='access_cap' $selected /> $v</label><br />";			
 		endforeach;
 		?>
-		</select>
 		</div>
 
 		<div class="option"><h3><label for="manage_cap"><?php _e( 'Edit/delete/manage All post list:', 'w4-post-list'); ?></label>
 		<span class="w4pl_tip_handle"><span><?php _e( 'Probably admin should have it. If you want user create this, set the previous one..', 'w4-post-list'); ?></span></span></h3>
-		<select name="manage_cap">
 		<?php
 		foreach ( $capability_options as $k => $v):
-			$selected = $k == $w4pl_caps['manage_cap'] ? ' selected=selected ': '';
-			echo "<option value=\"$k\" $selected >$v</option>";
+			$selected = $k == $w4pl_plugin_option['manage_cap'] ? ' checked=checked ': '';
+			echo "<label><input type='radio' value='$k' name='manage_cap' $selected /> $v</label><br />";			
 		endforeach;
 		?>
-		</select>
 		</div>
+
+		<div class="option"><h3><label for="image_source"><?php _e( 'Select How to pick the post image:', 'w4-post-list'); ?></label>
+		<span class="w4pl_tip_handle"><span><?php _e( 'How we select image to be use with a post.', 'w4-post-list'); ?></span></span></h3>
+        <p>Confused ? get some <a href="http://w4dev.com/wp/w4pl-post-image-credentials/" target="_blank">documentation</a>..</p>
+		<?php
+		foreach( array( 
+			'featured' 			=> "Featured Image",
+			'first_attachment'	=> "Use the first image attachment",
+			'last_attachment'	=> "Last image attachment",
+			'first_image'		=> "First image found inside post content ( image source )",
+			'last_image'		=> "Last image found inside post content ( image source )",
+			'meta_value'		=> "Image source from a Post Meta value" ) as $k => $v ){
+				$selected = $k == $w4pl_plugin_option['image_source'] ? ' checked=checked ': '';
+				echo "<label><input type='radio' value='$k' name='image_source' $selected /> $v</label><br />";			
+			}
+		?>
+		</div>
+
+        <div class="option"><h3><label for="image_meta_key"><?php _e( 'Post image source meta key name ?', 'w4-post-list'); ?></label>
+		<span class="w4pl_tip_handle"><span><?php _e( 'If you use Custom field to add an image with a post, enter the cusom field name, not the field value.', 'w4-post-list'); ?></span></span></h3>
+		<input type="text" id="image_meta_key" name="image_meta_key" value="<?php echo $w4pl_plugin_option['image_meta_key']; ?>" />
+		</div>
+
 		<input type="submit" name="" class="w4pl_update_button" value="Update" />
 		<input type="hidden" value="1" name="w4pl_update_credentials" />
 	</form>

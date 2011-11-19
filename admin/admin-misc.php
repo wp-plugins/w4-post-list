@@ -208,28 +208,12 @@ function w4pl_plugin_news( $echo = true, $refresh = false ){
 		update_option( $transient_old, $output );
 	}
 	
+	$output = preg_replace( '/[\n]/', '<br />', $output );
+	
 	if( !$echo )
 		return $output;
 	else
 		echo $output;
-}
-
-function w4pl_capabilities(){
-	global $w4pl_caps;
-
-	if( empty( $w4pl_caps ))
-		$w4pl_caps = get_option( 'w4pl_options' );
-	
-	if( !is_array( $w4pl_caps ))
-		$w4pl_caps = array();
-
-	if( !in_array( $w4pl_caps['access_cap'], array( 'manage_options', 'edit_others_posts', 'publish_posts', 'edit_posts' )))
-		$w4pl_caps['access_cap'] = 'manage_options';
-
-	if( !in_array( $w4pl_caps['manage_cap'], array( 'manage_options', 'edit_others_posts', 'publish_posts', 'edit_posts' )))
-		$w4pl_caps['manage_cap'] = 'manage_options';
-
-	return $w4pl_caps;
 }
 
 /* Add an action link on plugins.php page */

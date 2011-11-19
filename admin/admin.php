@@ -1,18 +1,18 @@
 <?php
 add_action( 'admin_menu', 'w4pl_admin_menu');
 function w4pl_admin_menu(){
-	global $menu, $submenu, $submenu_file, $plugin_page, $w4pl_subpages, $w4pl_pagenow, $w4pl_action, $w4pl_admin_url, $w4pl_caps;
+	global $menu, $submenu, $submenu_file, $plugin_page, $w4pl_subpages, $w4pl_pagenow, $w4pl_action, $w4pl_admin_url, $w4pl_plugin_option;
 
 	$w4pl_admin_url = admin_url( 'admin.php?page=' . W4PL_SLUG );
 
-	$w4pl_caps = w4pl_capabilities();
+	$w4pl_plugin_option = w4pl_plugin_option();
 	$w4pl_subpages = array(
 		'credentials' 	=> array( 'Credentials', 'manage_options' ),
-		'docs' 			=> array( 'Documentation', $w4pl_caps['access_cap'] )
+		'docs' 			=> array( 'Documentation', $w4pl_plugin_option['access_cap'] )
 	);
 
 	//Prepare menu
-	add_menu_page( W4PL_NAME , W4PL_NAME , $w4pl_caps['access_cap'], W4PL_SLUG, 'w4pl_admin_page', W4PL_URL .'scripts/icon.jpg', '6' );
+	add_menu_page( W4PL_NAME , W4PL_NAME , $w4pl_plugin_option['access_cap'], W4PL_SLUG, 'w4pl_admin_page', W4PL_URL .'scripts/icon.jpg', '6' );
 
 	if( $plugin_page == W4PL_SLUG ){
 		$w4pl_action = isset( $_GET['action'] ) ? $_GET['action'] : "";
@@ -32,7 +32,7 @@ function w4pl_admin_menu(){
 	// We are doing things a little bit fancy here. Not using the builtin wordpress submenu method.
 	// As We have reated submenus within the main menu not a stand alone one, here is the solution.
 	$i=1;
-	$submenu[W4PL_SLUG][0] = array( W4PL_NAME, $w4pl_caps['access_cap'], 'admin.php?page='. W4PL_SLUG );
+	$submenu[W4PL_SLUG][0] = array( W4PL_NAME, $w4pl_plugin_option['access_cap'], 'admin.php?page='. W4PL_SLUG );
 
 	if( empty( $w4pl_pagenow ) && $plugin_page == W4PL_SLUG )
 		$submenu_file = 'admin.php?page='.W4PL_SLUG;
@@ -141,7 +141,7 @@ function w4pl_pluginpage_menus(){
 }
 
 function w4pl_admin_body_listpage(){
-	global $wpdb, $w4pl_action, $w4pl_admin_url, $w4pl_caps;
+	global $wpdb, $w4pl_action, $w4pl_admin_url, $w4pl_plugin_option;
 
 	if( !empty( $w4pl_action ) && in_array( $w4pl_action, array( 'add', 'edit', 'delete' )))
 		return;
@@ -149,7 +149,7 @@ function w4pl_admin_body_listpage(){
 	$current_user_id = get_current_user_id();
 	$query = $wpdb->prepare( "SELECT * FROM $wpdb->post_list ORDER BY list_id ASC" );
 
-	if( !current_user_can( $w4pl_caps['manage_cap'] )){
+	if( !current_user_can( $w4pl_plugin_option['manage_cap'] )){
 		$query = $wpdb->prepare( "SELECT * FROM $wpdb->post_list WHERE user_id = '$current_user_id' ORDER BY list_id ASC" );
 	}
 
@@ -214,7 +214,7 @@ function w4pl_admin_body_listpage(){
 add_action( 'w4pl_admin_body_default', 'w4pl_admin_body_listpage' );
 
 function w4pl_admin_body_formpage(){
-	global $wpdb, $w4pl_subpages, $w4pl_pagenow, $w4pl_action, $w4pl_admin_url, $w4pl_caps, $w4pl_list_option;
+	global $wpdb, $w4pl_subpages, $w4pl_pagenow, $w4pl_action, $w4pl_admin_url, $w4pl_plugin_option, $w4pl_list_option;
 
 	if( empty( $w4pl_action ) || !in_array( $w4pl_action, array( 'add', 'edit' )))
 		return;
@@ -267,7 +267,7 @@ add_action( 'w4pl_admin_body_default', 'w4pl_admin_body_formpage' );
 
 //Plugin page option saving
 function w4pl_admin_action(){
-	global $wpdb, $plugin_page, $w4pl_caps, $w4pl_pagenow, $w4pl_action, $w4pl_admin_url, $w4pl_list_option;
+	global $wpdb, $plugin_page, $w4pl_plugin_option, $w4pl_pagenow, $w4pl_action, $w4pl_admin_url, $w4pl_list_option;
 
 	// Check Plugin database
 	if( !w4pl_table_exists()){
@@ -297,7 +297,7 @@ function w4pl_admin_action(){
 		return;
 
 	// Handle post list information
-	if( !current_user_can( $w4pl_caps['access_cap']))
+	if( !current_user_can( $w4pl_plugin_option['access_cap']))
 		return;
 
 	// Delete a list
@@ -314,7 +314,7 @@ function w4pl_admin_action(){
 			exit;
 		}
 		
-		if( !current_user_can( $w4pl_caps['manage_cap'] ) && !w4pl_is_list_user( $w4pl_list_option )){
+		if( !current_user_can( $w4pl_plugin_option['manage_cap'] ) && !w4pl_is_list_user( $w4pl_list_option )){
 			$url = add_query_arg( array( 'error' => 'no_permission' ), $w4pl_admin_url );
 			wp_redirect( $url);
 			exit;
@@ -344,7 +344,7 @@ function w4pl_admin_action(){
 			exit;
 		}
 		
-		if( !current_user_can( $w4pl_caps['manage_cap'] ) && !w4pl_is_list_user( $w4pl_list_option )){
+		if( !current_user_can( $w4pl_plugin_option['manage_cap'] ) && !w4pl_is_list_user( $w4pl_list_option )){
 			$url = add_query_arg( array( 'error' => 'no_permission' ), $w4pl_admin_url );
 			wp_redirect( $url);
 			exit;
@@ -465,7 +465,7 @@ add_action( 'w4pl_admin_body_credentials', 'w4pl_admin_body_credentials' );
 
 // Plugin option page data handler
 function w4pl_admin_action_credentials(){
-	global $wpdb, $w4pl_caps, $w4pl_action, $w4pl_pagenow, $w4pl_admin_url;
+	global $wpdb, $w4pl_plugin_option, $w4pl_action, $w4pl_pagenow, $w4pl_admin_url;
 
 	// If this is the option page and curren use have the manage_options capabilities
 	if( !current_user_can( 'manage_options' )){
@@ -543,8 +543,9 @@ function w4pl_admin_action_credentials(){
 	// Save options
 	if( isset( $_POST['w4pl_update_credentials'] )){
 		$options = array();
-		$options['access_cap'] 			= isset( $_POST['access_cap'] ) ? $_POST['access_cap'] : '';
-		$options['manage_cap'] 			= isset( $_POST['manage_cap'] ) ? $_POST['manage_cap'] : '';
+		foreach( array( 'access_cap', 'manage_cap', 'image_source', 'image_meta_key' ) as $v ){
+			$options[$v] = isset( $_POST[$v] ) ? $_POST[$v] : '';
+		}
 
 		update_option( 'w4pl_options', $options );
 
@@ -554,4 +555,9 @@ function w4pl_admin_action_credentials(){
 	}
 }
 add_action( 'w4pl_admin_action_credentials', 'w4pl_admin_action_credentials');
+
+function w4yb_post_column(){
+	echo 'sssssssssss';
+}
+add_filter('manage_post_columns', 'w4yb_post_column');
 ?>

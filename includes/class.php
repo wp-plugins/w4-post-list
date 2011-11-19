@@ -62,7 +62,7 @@ class W4_Post_list {
 
 		if( ! w4pl_get_list( $list_id ))
 			return new WP_Error( 'postlist_not_found', 
-			sprintf( __( 'List not found with [%1$s]. <a rel="nofollow" class="button" href="%2$s">create a new list</a>',	'w4-post-list' ), $list_id, w4pl_add_url()));
+			sprintf( __( 'List not found with [%1$s]. <a rel="nofollow" class="button" href="%2$s">create a new list</a>','w4-post-list' ),$list_id, w4pl_add_url()));
 
 		$this->id 				= $list_id;
 		$this->query 			= array();
@@ -79,13 +79,21 @@ class W4_Post_list {
 		elseif( in_array( $this->list_type, array( 'op', 'op_by_cat' )) && count( $this->list_option['post_ids'] ) < 1 )
 				return new WP_Error( 'no_attribute', __( 'No post selected. Please select one to show here.', 'w4-post-list' ));
 
-		$this->list_effect 		= $this->list_option['list_effect'];
-		$this->read_more	 	= $this->list_option['read_more_text'];
-		$this->excerpt_length 	= $this->list_option['excerpt_length'];
-		$this->image_size 		= isset( $this->list_option['image_size'] ) ? $this->list_option['image_size'] : 'thumbnail';
+		$this->list_effect 				= $this->list_option['list_effect'];
+		$this->read_more	 			= $this->list_option['read_more_text'];
+		$this->excerpt_length 			= $this->list_option['excerpt_length'];
+
+		// Post Image reference variables. Very primary level coding !! Just ignore..
+		$this->image_size 				= isset( $this->list_option['image_size'] ) ? $this->list_option['image_size'] : 'thumbnail';
+		$this->image_dimension 			= w4pl_image_dimensions( $this->image_size );
+
+		$plugin_option 					= w4pl_plugin_option();
+		$this->image_source 			= $plugin_option['image_source'];
+		$this->image_source_meta_key 	= $plugin_option['image_meta_key'];
+
 
 		// List Template
-		$this->template 			= $this->list_option['html_template'];
+		$this->template 		= $this->list_option['html_template'];
 	}
 
 	function display(){
@@ -96,7 +104,7 @@ class W4_Post_list {
 
 		elseif( in_array( $this->list_type, array( 'op', 'op_by_cat' ))){
 
-			$post_order = w4pl_sanitize_post_order_method( $this->list_option['post_order_method']);
+			$post_order = w4pl_sanitize_post_order_method( $this->list_option['post_order_method'] );
 			$this->query = array(
 				'post__in' 			=> $this->list_option['post_ids'],
 				'order' 			=> $post_order['order'],
@@ -321,14 +329,6 @@ class W4_Post_list {
 	function post_content(){
 		global $post;
 		// Post content without wrapper --
-		/* Not sure why this dont work. if anyone can get the below 3 line works, please contact me.
-			$content = apply_filters( 'the_content', get_the_content());
-			$content = str_replace(']]>', ']]&gt;', $content);
-			$content = "<div class=\"post_content\">" . $content . "</div>";;
-		*/
-
-		# $content = "<div class=\"post_content\">" . wpautop( get_the_content()) . "</div>";
-
 		$content = apply_filters( 'the_content', get_the_content());
 		$content = str_replace(']]>', ']]&gt;', $content);
 
@@ -373,9 +373,130 @@ class W4_Post_list {
 	}
 
 	function template_image(){
-		return get_the_post_thumbnail( null, $this->image_size, array( 'class' => "w4pl_post_thumb attachment-{$this->image_size}" ));
+		$source = '';
+		$alt = '';
+		$title	= "%%post_title%%";
+
+		$attachment_id = 0;
+		$width = intval( $this->image_dimension['width'] );
+		$height	= intval( $this->image_dimension['height'] );
+
+		switch( $this->image_source ){
+			case 'first_attachment':
+				$images = get_children( array( 
+					'post_parent' 		=> get_the_ID(),
+					'post_type' 		=> 'attachment',
+					'post_mime_type' 	=> 'image',
+					'orderby' 			=> 'menu_order',
+					'order' 			=> 'ASC',
+					'numberposts' 		=> 999
+				));
+
+				if ( !empty( $images )){
+					$image = array_shift( $images );
+					$attachment_id = absint( $image->ID );
+				}
+			break;
+
+			case 'last_attachment':
+				$images = get_children( array( 
+					'post_parent' 		=> get_the_ID(),
+					'post_type' 		=> 'attachment',
+					'post_mime_type' 	=> 'image',
+					'orderby' 			=> 'menu_order',
+					'order' 			=> 'ASC',
+					'numberposts' 		=> 999
+				));
+
+				if ( !empty( $images )){
+					$image = array_pop( $images );
+					$attachment_id = absint( $image->ID );
+				}
+			break;
+
+			case 'meta_value':
+				if( !empty( $this->image_source_meta_key )){
+					$source = get_post_meta( get_the_ID(), $this->image_source_meta_key, true );
+					$height = '';
+				}
+			break;
+
+			case 'first_image':
+				global $post;
+				$source = w4pl_image_source_from_html( $post->post_content );
+				$height = '';
+			break;
+
+			case 'last_image':
+				global $post;
+				$source = w4pl_image_source_from_html( $post->post_content, 'last' );
+				$height = '';
+			break;
+
+			default:
+				$attachment_id = get_post_thumbnail_id( get_the_ID());
+			break;
+		}
+
+		if( $attachment_id )
+			$alt = trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true )));
+
+		$attr = array(
+			'src'				=> $source,
+			'alt'				=> $alt,
+			'title'				=> $title,
+			'class'				=> "attachment-{$this->image_size} w4pl_post_thumb",
+			'size'				=> $this->image_size,
+			'width'				=> $width,
+			'height'			=> $height,
+			'attachment_id' 	=> (int) $attachment_id
+		);
+
+		return w4pl_post_image( $attr );
 	}
 }
+
 //use function w4_post_list() as template tag to show a post list anywhere in your theme
 $w4_post_list = new W4_Post_list();
+
+function w4pl_post_image( $attr = array()){
+	$html = '';
+	extract( $attr );
+
+	if( empty( $src ) && $attachment_id ){
+		$image = wp_get_attachment_image_src( $attachment_id, $size, false );
+
+		if( $image ){
+			list( $src, $width, $height ) = $image;
+		}
+	}
+
+	if( empty( $src ))
+		return $html;
+
+	$hwstring = image_hwstring( $width, $height );
+	$default_attr = compact( 'src', 'class', 'alt', 'title' );
+
+	$html = rtrim("<img $hwstring");
+	foreach ( $default_attr as $name => $value ) {
+		$html .= " $name=" . '"' . $value . '"';
+	}
+	$html .= ' />';
+
+	return $html;
+}
+
+function w4pl_image_source_from_html( $html, $position = '' ){
+	$source = '';
+	if( empty( $html ))
+		return $source;
+
+	preg_match_all( "/<img[^>]*src\s*=\s*[\'\"]([+:%\/\?~=&;\\\(\),._a-zA-Z0-9-]*)[\'\" ]?/i", $html, $images, PREG_SET_ORDER );
+
+	if( !empty( $images )){
+		$image = $position == 'last' ? array_pop( $images ) : array_shift( $images );
+		$source = isset( $image['1'] ) ? $image['1'] : "";
+	}
+	return $source;
+}
 ?>
