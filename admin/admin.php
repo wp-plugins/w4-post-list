@@ -555,9 +555,4 @@ function w4pl_admin_action_credentials(){
 	}
 }
 add_action( 'w4pl_admin_action_credentials', 'w4pl_admin_action_credentials');
-
-function w4yb_post_column(){
-	echo 'sssssssssss';
-}
-add_filter('manage_post_columns', 'w4yb_post_column');
 ?>

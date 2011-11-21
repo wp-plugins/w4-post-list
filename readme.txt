@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, post list, category list, custom post list
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.5.5
+Stable tag: 1.5.6
 
 With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site.
 
@@ -14,8 +14,8 @@ Show Posts / Category Posts list inside post/page content or widget areas by sho
 
 You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit here</a> to get plugin's template tag definition or for some examples.
 
-= What's new on 1.5.5 =
-* Manage How to select the post image. Lots of options.
+= What's new on 1.5.6 =
+* Important Updates.
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -110,7 +110,8 @@ As much as you have.
 * Include Post Thumbnail/Image in the list.
 = 1.5.5 =
 * Manage How to select the post image. Lots of options.
-
+= 1.5.6 =
+* Important Updates.
 
 == Upgrade Notice ==
 = 1.0 =
@@ -172,6 +173,8 @@ As much as you have.
 * Include Post Thumbnail/Image in the list.
 = 1.5.5 =
 * Manage How to select the post image. Lots of options.
+= 1.5.6 =
+* Important Updates.
 
 
 == How to use ==
