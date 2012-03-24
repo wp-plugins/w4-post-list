@@ -6,13 +6,16 @@ function w4pl_admin_menu(){
 	$w4pl_admin_url = admin_url( 'admin.php?page=' . W4PL_SLUG );
 
 	$w4pl_plugin_option = w4pl_plugin_option();
+	if( !current_user_can( $w4pl_plugin_option['access_cap'] ))
+		return;
+
 	$w4pl_subpages = array(
 		'credentials' 	=> array( 'Credentials', 'manage_options' ),
 		'docs' 			=> array( 'Documentation', $w4pl_plugin_option['access_cap'] )
 	);
-
+	
 	//Prepare menu
-	add_menu_page( W4PL_NAME , W4PL_NAME , $w4pl_plugin_option['access_cap'], W4PL_SLUG, 'w4pl_admin_page', W4PL_URL .'scripts/icon.jpg', '6' );
+	add_menu_page( W4PL_NAME , W4PL_NAME , $w4pl_plugin_option['access_cap'], W4PL_SLUG, 'w4pl_admin_page', W4PL_URL .'scripts/menu.png', '6' );
 
 	if( $plugin_page == W4PL_SLUG ){
 		$w4pl_action = isset( $_GET['action'] ) ? $_GET['action'] : "";
@@ -25,6 +28,9 @@ function w4pl_admin_menu(){
 
 		if( !empty( $w4pl_pagenow ))
 			do_action( 'w4pl_admin_action_'. $w4pl_pagenow );
+
+		else
+			do_action( 'w4pl_admin_action_default' );
 
 		do_action( 'w4pl_admin_action' );
 	}
@@ -48,10 +54,10 @@ function w4pl_admin_menu(){
 	}
 }
 
-// Plugin page script loaders
+// Plugin Page script loaders. Only Loads Them When Editing or adding new list..
 function w4pl_load_admin_scripts(){
-	wp_enqueue_script( 'w4pl-admin-js', W4PL_URL.'scripts/admin_js.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs' ), W4PL_VERSION ,false );
-	wp_enqueue_style( 'w4pl-admin-css', W4PL_URL . 'scripts/admin-style.css', '', W4PL_VERSION );
+	wp_enqueue_script( 'w4-post-list-admin', W4PL_URL.'scripts/w4-post-list-admin.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs' ), W4PL_VERSION , false );
+	wp_enqueue_style( 'w4-post-list-admin', W4PL_URL . 'scripts/w4-post-list-admin.css', '', W4PL_VERSION );
 }
 function w4pl_admin_page(){
 	global $w4pl_pagenow, $w4pl_action;
@@ -110,7 +116,7 @@ function w4pl_pluginpage_menus(){
 
 	<a style="border-color:#E6DB55;" href="<?php echo add_query_arg( array( 'subpage' => 'docs'), $w4pl_admin_url ); ?>"><?php _e( 'Documentation', 'w4-post-list' ); ?></a>
 
-	<a style="border-color:#E6DB55;" href="<?php echo $w4pl_admin_url; ?>"><?php _e( 'Lists', 'w4-post-list' ); ?></a>
+	<a style="border-color:#E6DB55;" href="<?php echo $w4pl_admin_url; ?>"><?php _e( 'Your Lists', 'w4-post-list' ); ?></a>
 	<?php if( current_user_can( 'manage_options' )): ?>
 
         <a style="border-color:#E6DB55; border-width:1px;" href="<?php 
@@ -195,15 +201,18 @@ function w4pl_admin_body_listpage(){
 			
 			else{
 				$u_data = get_userdata( $w4pl_list->user_id );
-				if( !is_wp_error( $u_data )){
+				if( !is_wp_error( $u_data ) && isset( $u_data->display_name )){
 					echo $u_data->display_name;
+				}
+				else{
+					echo "Unknown user";
 				}
 			}
 			echo "</td>";
 
 			echo "<td>";
 			printf( '<a href="%s">edit</a>', add_query_arg( array( 'action' => 'edit', 'list_id' => $w4pl_list->list_id ), $w4pl_admin_url ));
-			printf( ' | <a href="%1$s" class="delete_list" rel="%2$s" >delete</a>', add_query_arg( array( 'action' => 'delete', 'list_id' => $w4pl_list->list_id ), $w4pl_admin_url ), $w4pl_list->list_title);
+			printf( ' | <a href="%1$s" class="delete_list" rel="%2$s" >delete</a>', add_query_arg( array( 'action' => 'delete', 'list_id' => $w4pl_list->list_id ), $w4pl_admin_url ), $w4pl_list->list_title );
 			echo "</td>";
 			echo "</tr>";
 		}
@@ -250,15 +259,18 @@ function w4pl_admin_body_formpage(){
 	if( !isset( $w4pl_list_option['list_option']['html_template'] ))
 		$w4pl_list_option['list_option']['html_template'] = array();
 
-	foreach( array( 
+	$template_array = array( 
 		'wrapper' 			=> 'w4pl_template_wrapper',
 		'wrapper_post'		=> 'w4pl_post_template_wrapper',
 		'loop_post' 		=> 'w4pl_post_template_loop',
 		'wrapper_category'	=> 'w4pl_category_template_wrapper',
-		'loop_category'		=> 'w4pl_category_template_loop' ) 
-			as $tk => $tcb ){
-		$w4pl_list_option['list_option']['html_template'][$tk] = isset( $w4pl_list_option['list_option']['html_template'][$tk] ) ? 
-		$w4pl_list_option['list_option']['html_template'][$tk] : call_user_func( $tcb );
+		'loop_category'		=> 'w4pl_category_template_loop'
+	);
+
+	foreach( $template_array as $template => $callback ){
+		if( ( !isset( $w4pl_list_option['list_option']['html_template'][$template] ) || empty( $w4pl_list_option['list_option']['html_template'][$template] )) 
+		&& is_callable( $callback ))
+		$w4pl_list_option['list_option']['html_template'][$template] = call_user_func( $callback );
 	}
 
 	w4ld_list_form( $w4pl_list_option );
@@ -285,10 +297,10 @@ function w4pl_admin_action(){
 	elseif( version_compare( get_option( '_w4pl_db_version' ), W4PL_DB_VERSION, '<'  )){
 
 		if( current_user_can( 'manage_options'))
-			$msg = sprintf( __( 'You have to update the database table structure for plugin to work properly. For this, remove the database table now and install again. Your old option will still remain. You can synchronise them after installation, <a id="remove_w4ldb" href="%s">remove database now ?</a>', 'w4-post-list'), add_query_arg( array( 'subpage' => 'credentials', 'action' => 'removedb' ), $w4pl_admin_url ));
+			$msg = sprintf( __( 'You have to update the database table structure for plugin to work properly. For this, Drop the Database Table and Install again. Your old option will still remain. You can synchronise them after Installation, <a id="remove_w4ldb" href="%s">remove database now ?</a>', 'w4-post-list'), add_query_arg( array( 'subpage' => 'credentials', 'action' => 'removedb' ), $w4pl_admin_url ));
 			
 		else
-			$msg = __( ' Please notify admin to update plugin databse before you can start using it..', 'w4-post-list' );
+			$msg = __( ' Please notify admin to update W4 Post list Plugin Database before you can start using it..', 'w4-post-list' );
 
 		return w4pl_add_error( $msg );
 	}
@@ -297,12 +309,11 @@ function w4pl_admin_action(){
 		return;
 
 	// Handle post list information
-	if( !current_user_can( $w4pl_plugin_option['access_cap']))
+	if( !current_user_can( $w4pl_plugin_option['access_cap'] ))
 		return;
 
 	// Delete a list
 	if( $w4pl_action && $w4pl_action == 'delete' ){
-
 		if( !isset( $_GET['list_id'] )){
 			$url = add_query_arg( array( 'error' => 'list_not_deleted' ), $w4pl_admin_url );
 			wp_redirect( $url);
@@ -330,7 +341,7 @@ function w4pl_admin_action(){
 			exit;
 		}
 	}
-	
+
 	if( $w4pl_action && $w4pl_action == 'edit' ){
 		if( !isset( $_GET['list_id'] )){
 			$url = add_query_arg( array( 'action' => 'add' ), $w4pl_admin_url );
@@ -343,7 +354,7 @@ function w4pl_admin_action(){
 			wp_redirect( $url);
 			exit;
 		}
-		
+
 		if( !current_user_can( $w4pl_plugin_option['manage_cap'] ) && !w4pl_is_list_user( $w4pl_list_option )){
 			$url = add_query_arg( array( 'error' => 'no_permission' ), $w4pl_admin_url );
 			wp_redirect( $url);
@@ -351,7 +362,7 @@ function w4pl_admin_action(){
 		}
 	}
 
-	// Stop here if not Updating a list options & list id not given
+	// Stop here if no option posted yet..
 	if( !isset( $_POST['w4pl_update_list'] ))
 		return;
 
@@ -460,6 +471,9 @@ function w4pl_admin_body_credentials(){
 	if( current_user_can( 'manage_options' )){
 		w4pl_option_form();
 	}
+	else{
+		echo 'You dont have permission to manage this page.';
+	}
 }
 add_action( 'w4pl_admin_body_credentials', 'w4pl_admin_body_credentials' );
 
@@ -482,13 +496,11 @@ function w4pl_admin_action_credentials(){
 		));
 	}
 
-	echo $w4pl_action;
-
 	if( !empty( $w4pl_action )):
 		switch( $w4pl_action ):
 			case 'removedb':
 				if( !w4pl_table_exists()){
-					return w4pl_add_error( 'Theres no table exists.');
+					return w4pl_add_error( 'Theres no table exists to drop.');
 
 				}else{
 					w4ld_db_remove();
@@ -500,7 +512,7 @@ function w4pl_admin_action_credentials(){
 
 			case 'installdb':
 				if( w4pl_table_exists()){
-					return w4pl_add_error( 'Tables already installed.');
+					return w4pl_add_error( 'Tables already Installed.');
 
 				}else{
 					w4pl_db_install( true );

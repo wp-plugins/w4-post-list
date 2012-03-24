@@ -4,11 +4,11 @@ class W4PL_Widget extends WP_Widget {
 
 	function W4PL_Widget() {
 		$widget_ops = array(
-			'classname' => 'w4_post_list',
+			'classname' => 'w4_post_list_widget',
 			'description' => __( 'List your selected posts or categories or both of them together...', 'w4-post-list' )
 		);
 
-		$control_ops = array('width' => 200, 'height' => 400);
+		$control_ops = array( 'width' => 200, 'height' => 400);
 		$this->WP_Widget( 'w4_post_list', 'W4 post list', $widget_ops, $control_ops );
 		$this->alt_option_name = 'w4_post_list';
 	}
@@ -55,13 +55,13 @@ class W4PL_Widget extends WP_Widget {
             value="<?php echo $title; ?>" /></p>
             
             
-			<?php echo dropdown_post_list_selector( $this->get_field_name('PL_ID'), $this->get_field_id('PL_ID'), $PL_ID); ?>
+			<?php echo dropdown_post_list_selector( $this->get_field_name('PL_ID'), $this->get_field_id('PL_ID'), $PL_ID ); ?>
 
             <div class="w4-post-list-support">
-            <?php printf( __( '<a target="_blank" href="%s">Let us know</a> if you face any problem or what additional functions you want from this plugin.', 
-			'w4-post-list'), 'http://w4dev.com/w4-plugin/w4-post-list/?ref=widgets#comments' ); ?>
-            <?php printf( __( 'You can Rate this on <a target="_blank" href="%s">Wordpress plugin page</a>', 'w4-post-list' ), 
-			'http://wordpress.org/extend/plugins/w4-post-list/'); ?>
+            <?php printf( __( '<a target="_blank" href="%s">Let us know</a> if you face any problem or need more features from this plugin.', 
+			'w4-post-list' ), 'http://w4dev.com/w4-plugin/w4-post-list/?ref=widgets#comments' ); ?>
+            <?php printf( __( 'You can Rate this on <a target="_blank" href="%s">WordPress Plugin Directory</a>', 'w4-post-list' ), 
+			'http://wordpress.org/extend/plugins/w4-post-list/' ); ?>
             </div>
 		</div>
 		<?php
@@ -70,7 +70,7 @@ class W4PL_Widget extends WP_Widget {
 //load Widget==============================
 add_action('widgets_init', 'W4PL_Widget_Init');
 function W4PL_Widget_Init(){
-	register_widget('W4PL_Widget');
+	register_widget( 'W4PL_Widget' );
 }
 
 // For widget
@@ -82,19 +82,18 @@ function dropdown_post_list_selector( $select_name, $select_id, $selected = 0){
 		return '<p class="red">'. sprintf( __( 'No post list yet. <a href="%s" class="button">Create now &#8212;</a>', 'w4-post-list' ), w4pl_add_url()) .'</strong>';
 
 	$selected = (int) $selected;
-	
-	$all_post_list .= "<p>". __( 'Select a post list:', 'w4-post-list'). "<br />";
-	
-	$all_post_list .= "<select name=\"$select_name\" id=\"$select_id\">\n";
 
-	foreach($lists as $list){
-		$sel = ($selected == $list->list_id) ? 'selected="selected"' : '';
+	$html = "<p>". __( 'Select a post list:', 'w4-post-list'). "<br />";
+	$html .= "<select name=\"$select_name\" id=\"$select_id\">\n";
+
+	foreach( $lists as $list ){
+		$sel = ( $selected == $list->list_id ) ? 'selected="selected"' : '';
 		$title = empty($list->list_title) ? 'List#' . $list->list_id : $list->list_title;
-		$all_post_list .= "<option value=\"$list->list_id\" $sel >$title</option>\n";
+		$html .= "<option value=\"$list->list_id\" $sel >$title</option>\n";
 	}
-	$all_post_list .= "</select>";
-	$all_post_list .= sprintf( __( 'or <a class="button" href="%s">create new</a>', 'w4-post-list' ), w4pl_add_url()). "</p>";
+	$html .= "</select>";
+	$html .= sprintf( __( 'or <a class="button" href="%s">create new</a>', 'w4-post-list' ), w4pl_add_url()). "</p>";
 
-	return $all_post_list;
+	return $html;
 }
 ?>

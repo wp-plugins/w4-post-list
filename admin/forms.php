@@ -4,7 +4,7 @@ function w4ld_list_form( $w4pl_list_option = array()){
 	global $w4pl_plugin_option, $w4pl_admin_url;
 	$editing = false;
 
-	if( !$w4pl_plugin_option)
+	if( !$w4pl_plugin_option )
 		$w4pl_plugin_option = get_option( 'w4pl_options');;
 
 	extract( $w4pl_list_option );
@@ -109,8 +109,8 @@ function w4ld_list_form( $w4pl_list_option = array()){
 		<!--List effect-->
 		<div class="option <?php echo "$list_type_oc_hide $list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_oc hide_if_op hide_if_op_by_cat show_if_pc">
 		<h3><?php _e( 'Show category posts with a jquery slide Up/Down effect?', 'w4-post-list' ); ?></h3>
-		<div class="form_help"><?php _e( 'if you have customized your <strong>Category Template Loop</strong> design, the remember to put  both <code>%%category_title%%</code> and <code>%%category_posts%%</code> tags in same html element and without putting each one in separate html elements.', 'w4-post-list' ); ?><br /><br />
-		<strong><?php _e( 'Example:', 'w4-post-list' ); ?></strong><pre>&lt;div&gt;<br /><code>%%category_title%%</code><br /><code>%%category_posts%%</code><br />&lt;/div&gt;</pre>
+		<div class="form_help"><?php _e( 'if you have customized your <strong>Category Template Loop</strong> design, the remember to put  both <code>[category_title]</code> and <code>[category_posts]</code> shortcodes in same html element and without putting each one in separate html elements.', 'w4-post-list' ); ?><br /><br />
+		<strong><?php _e( 'Example:', 'w4-post-list' ); ?></strong><pre>&lt;div&gt;<br /><code>[category_title]</code><br /><code>[category_posts]</code><br />&lt;/div&gt;</pre>
 		<br />On-clicking on the category title, the selected posts under this category will appear. If a category doen have any selected posts, the category title link will take you to the category page.
 		</div>
 
@@ -126,7 +126,7 @@ function w4ld_list_form( $w4pl_list_option = array()){
 		<!--Post read more text-->
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h3><label for="read_more_text"><?php _e('Readmore Text', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle"><span><?php _e( 'Text for the template tag <code>%%more%%</code>. This text will be linked to the post title', 'w4-post-list' ); ?></span></span></h3>
+		<span class="w4pl_tip_handle"><span><?php _e( 'Text for the shortcodes <code>[more]</code>. This text will be linked to the post title', 'w4-post-list' ); ?></span></span></h3>
 
 		<input type="text" value="<?php echo( $read_more_text) ; ?>" name="read_more_text" id="read_more_text" /></div>
 
@@ -167,7 +167,7 @@ function w4ld_list_form( $w4pl_list_option = array()){
 
 		<h3 style="color:#FF0000">Html Design Template</h3>
 		<div class="form_help">If you are not little expert understanding Basic HTMl and PhP Loop algorithm, just leave the design field as it is.<br />
-		Template tag are placed in <code>'%%'</code> sign. Each tag has a repective value. Please make sure you understand them before you remove one.</div>
+		Shortcodes are placed in <code>'%%'</code> sign. Each shortcode has a repective value. Please make sure you understand them before you remove one.</div>
         
         <p>
         <a href="http://w4dev.com/wp/w4-post-list-design-template/#examples" target="_blank"><em>*** View some HTML Design Template Examples</em></a><br />
@@ -175,34 +175,34 @@ function w4ld_list_form( $w4pl_list_option = array()){
 
 		<div class="option">
 		<h4><label for="w4pl_template_wrapper"><?php _e( 'Template Wrapper:', 'w4-post-list'); ?></strong></label>
-		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags.', 'w4-post-list'); ?></span></span></h4>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcodes.', 'w4-post-list'); ?></span></span></h4>
 		The complete list inside a wrapper.
-        <div class="form_help toogle_help"><code>%%</code>postlist<code>%%</code> --  You complete post list html.</div>
+        <div class="form_help toogle_help"><code>[postlist]</code> --  You complete post list html.</div>
 
 		<textarea name="html_template[wrapper]" id="w4pl_template_wrapper"><?php echo $html_template['wrapper']; ?></textarea>
 		</div>
 
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
 		<h4><label for="w4pl_category_template_wrapper"><?php _e( 'Category Template Wrapper:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcodes', 'w4-post-list'); ?></span></span></h4>
 
 		Category list wrapper. This will be placed inside the Template wrapper if you are using "Posts with categories" or "Only categories" list type.
-        <div class="form_help toogle_help"><code>%%</code>catloop<code>%%</code> --  Category loop container html.</div>
+        <div class="form_help toogle_help"><code>[catloop]</code> --  Category loop container html.</div>
 		<textarea name="html_template[wrapper_category]" id="w4pl_category_template_wrapper"><?php echo $html_template['wrapper_category']; ?></textarea>
 		</div>
 
 		<div class="option <?php echo "$list_type_op_hide $list_type_op_by_cat_hide"; ?> hide_if_op hide_if_op_by_cat show_if_pc show_if_oc">
 		<h4><label for="w4pl_category_template_loop"><?php _e( 'Category Template Loop:', 'w4-post-list'); ?></label>
-        <span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+        <span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcodes', 'w4-post-list'); ?></span></span></h4>
         <div class="form_help toogle_help">
         <p>
-        <code>%%</code>category_title<code>%%</code> --  Category title template.<br />
-        <code>%%</code>category_count<code>%%</code> --  Category item count template. use <code>%%</code>cat_count<code>%%</code> to get the raw count.<br />
-        <code>%%</code>category_posts<code>%%</code> --  Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible<br /><br />
-		<code>%%</code>cat_link<code>%%</code> --  Category page link. ex: <code>http://example.com/category/uncategorized/</code><br />
-		<code>%%</code>cat_count<code>%%</code> --  Category post amount.<br />
-		<code>%%</code>cat_name<code>%%</code> --  Category name.<br />
-		<code>%%</code>cat_desc<code>%%</code> --  Category description.<br />
+        <code>[category_title]</code> --  Category title template.<br />
+        <code>[category_count]</code> --  Category item count template. use <code>[cat_count]</code> to get the raw count.<br />
+        <code>[category_posts]</code> --  Posts inside this category. If you leave this field empty, And using post category list type, selected posts wont be visible<br /><br />
+		<code>[cat_link]</code> --  Category page link. ex: <code>http://example.com/category/uncategorized/</code><br />
+		<code>[cat_count]</code> --  Category post amount.<br />
+		<code>[cat_name]</code> --  Category name.<br />
+		<code>[cat_desc]</code> --  Category description.<br />
 
         </p>
 		</div>
@@ -211,49 +211,49 @@ function w4ld_list_form( $w4pl_list_option = array()){
 
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h4><label for="w4pl_post_template_wrapper"><?php _e( 'Post Template Wrapper:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcodes', 'w4-post-list'); ?></span></span></h4>
 		
         Post list wrapper. This will be placed inside the Template wrapper.
 		<div class="form_help toogle_help">
-        <code>%%</code>postloop<code>%%</code> --  Post template loop.</div>
+        <code>[postloop]</code> --  Post template loop.</div>
 		<textarea name="html_template[wrapper_post]" id="w4pl_post_template_wrapper"><?php echo $html_template['wrapper_post']; ?></textarea>
 		</div>
 
 		<div class="option <?php echo "$list_type_oc_hide"; ?> hide_if_oc show_if_pc show_if_op show_if_op_by_cat">
 		<h4><label for="w4pl_post_template_loop"><?php _e( 'Post Template Loop:', 'w4-post-list'); ?></label>
-		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcode tags', 'w4-post-list'); ?></span></span></h4>
+		<span class="w4pl_tip_handle toogle_helper"><span><?php _e( 'Click to see available shortcodes', 'w4-post-list'); ?></span></span></h4>
         
-        Writting a wrong tag field name will make the field name visible on your post list rather than parsing it with our code..<br /><br />
+        Writting a wrong shortcodes field name will make the field name visible on your post list rather than parsing it with our code..<br /><br />
         If you wrap your Post Template Wrapper with <code>ol</code> or <code>ul</code>, you should wrap you loop template with <code>li</code> Html element.</p>
         <div class="form_help toogle_help">
 		<p>
-        <strong>Regular tags:</strong><br />
-		<code>%%</code>title<code>%%</code> --  <?php _e( 'Post title template', 'w4-post-list' ); ?><br />
-		<code>%%</code>image<code>%%</code> --  <?php _e( 'Post Thumbnail/image template. You can stylize this image with "w4pl_post_thumb" css class.<br /><code>Ex: .w4pl_post_thumb:border:1px solid red;</code>', 'w4-post-list' ); ?><br />
-		<code>%%</code>meta<code>%%</code> --  <?php _e( 'Meta template. <code><em>Ex: Posted on date by author</em></code>', 'w4-post-list' ); ?><br />
-		<code>%%</code>publish/date<code>%%</code> --  <?php _e( 'Post publishing date template', 'w4-post-list' ); ?><br />
-		<code>%%</code>modified<code>%%</code> --  <?php _e( 'Post last update date template', 'w4-post-list' ); ?><br />
-		<code>%%</code>author<code>%%</code> --  <?php _e( 'Post author template linked to author url', 'w4-post-list' ); ?><br />
-		<code>%%</code>excerpt<code>%%</code> --  <?php _e( 'Post excerpt template', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_excerpt<code>%%</code> --  <?php _e( 'Raw Post excerpt without wrapper. By default we wrap it with a html div', 'w4-post-list' ); ?><br />
-		<code>%%</code>content<code>%%</code> --  <?php _e( 'Post content template', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_content<code>%%</code> --  <?php _e( 'Raw Post content without wrapper', 'w4-post-list' ); ?><br />
-		<code>%%</code>more<code>%%</code> --  <?php _e( 'Read more template', 'w4-post-list' ); ?><br /><br /><br />
+        <strong>Regular shortcodes:</strong><br />
+		<code>[title]</code> --  <?php _e( 'Post title template', 'w4-post-list' ); ?><br />
+		<code>[image]</code> --  <?php _e( 'Post Thumbnail/image template. You can stylize this image with "w4pl_post_thumb" css class.<br /><code>Ex: .w4pl_post_thumb:border:1px solid red;</code>', 'w4-post-list' ); ?><br />
+		<code>[meta]</code> --  <?php _e( 'Meta template. <code><em>Ex: Posted on date by author</em></code>', 'w4-post-list' ); ?><br />
+		<code>[publish/date]</code> --  <?php _e( 'Post publishing date template', 'w4-post-list' ); ?><br />
+		<code>[modified]</code> --  <?php _e( 'Post last update date template', 'w4-post-list' ); ?><br />
+		<code>[author]</code> --  <?php _e( 'Post author template linked to author url', 'w4-post-list' ); ?><br />
+		<code>[excerpt]</code> --  <?php _e( 'Post excerpt template', 'w4-post-list' ); ?><br />
+		<code>[post_excerpt]</code> --  <?php _e( 'Raw Post excerpt without wrapper. By default we wrap it with a html div', 'w4-post-list' ); ?><br />
+		<code>[content]</code> --  <?php _e( 'Post content template', 'w4-post-list' ); ?><br />
+		<code>[post_content]</code> --  <?php _e( 'Raw Post content without wrapper', 'w4-post-list' ); ?><br />
+		<code>[more]</code> --  <?php _e( 'Read more template', 'w4-post-list' ); ?><br /><br /><br />
 		</p>
 
 		<p>
-        <strong>Additional tags:</strong><br />
-		<code>%%</code>id<code>|</code>ID<code>%%</code> --  <?php _e( 'Post ID', 'w4-post-list' ); ?><br />
-		<code>%%</code>link<code>|</code>post_permalink<code>%%</code> --  <?php _e( 'Post permalink url address', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_title<code>%%</code> --  <?php _e( 'Raw Post Title Without link', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_date<code>%%</code> --  <?php _e( 'Post date Raw', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_date_time<code>%%</code> --  <?php _e( 'Post time Raw', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_modified<code>%%</code> --  <?php _e( 'Post last Modified date Raw', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_modified_time<code>%%</code> --  <?php _e( 'Post last Modified time Raw', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_comment_count<code>%%</code> --  <?php _e( 'Number of Approved comment for this post', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_comment_url<code>%%</code> --  <?php _e( 'Comment url address for current post', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_author<code>%%</code> --  <?php _e( 'Post author name', 'w4-post-list' ); ?><br />
-		<code>%%</code>post_author_url<code>%%</code> --  <?php _e( 'Post author url address', 'w4-post-list' ); ?><br /><br /><br />
+        <strong>Additional shortcodes:</strong><br />
+		<code>[id<code>|</code>ID]</code> --  <?php _e( 'Post ID', 'w4-post-list' ); ?><br />
+		<code>[link<code>|</code>post_permalink]</code> --  <?php _e( 'Post permalink url address', 'w4-post-list' ); ?><br />
+		<code>[post_title]</code> --  <?php _e( 'Raw Post Title Without link', 'w4-post-list' ); ?><br />
+		<code>[post_date]</code> --  <?php _e( 'Post date Raw', 'w4-post-list' ); ?><br />
+		<code>[post_date_time]</code> --  <?php _e( 'Post time Raw', 'w4-post-list' ); ?><br />
+		<code>[post_modified]</code> --  <?php _e( 'Post last Modified date Raw', 'w4-post-list' ); ?><br />
+		<code>[post_modified_time]</code> --  <?php _e( 'Post last Modified time Raw', 'w4-post-list' ); ?><br />
+		<code>[post_comment_count]</code> --  <?php _e( 'Number of Approved comment for this post', 'w4-post-list' ); ?><br />
+		<code>[post_comment_url]</code> --  <?php _e( 'Comment url address for current post', 'w4-post-list' ); ?><br />
+		<code>[post_author]</code> --  <?php _e( 'Post author name', 'w4-post-list' ); ?><br />
+		<code>[post_author_url]</code> --  <?php _e( 'Post author url address', 'w4-post-list' ); ?><br /><br /><br />
 		</p>
 
         </div>

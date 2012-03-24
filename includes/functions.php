@@ -1,20 +1,81 @@
 <?php
-// Load js/css scripts
-function w4pl_load_scripts(){
+// Include Plugin Database Into $wpdb Object.
+function _w4pl_load_dbname(){
 	global $wpdb;
 	$wpdb->post_list = $wpdb->prefix . 'post_list';
-
-	if( !is_admin()){
-		wp_enqueue_script( 'w4pl-js', W4PL_URL . 'scripts/js.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION ,true );
-		wp_enqueue_style( 'w4pl-css', W4PL_URL . 'scripts/style.css', '', W4PL_VERSION );
-	}
 }
-add_action( 'plugins_loaded', 'w4pl_load_scripts' );
+add_action( 'plugins_loaded', '_w4pl_load_dbname' );
+
+function w4pl_euqueue_scripts(){
+	wp_register_script( 'w4-post-list', W4PL_URL . 'scripts/w4-post-list.js', array( 'jquery', 'jquery-ui-core' ), W4PL_VERSION , true );
+	wp_enqueue_script( 'w4-post-list' );
+
+	wp_register_style( 'w4-post-list', W4PL_URL . 'scripts/w4-post-list.css', '', W4PL_VERSION );
+	wp_enqueue_style( 'w4-post-list' );
+}
+add_action( 'wp_enqueue_scripts', 'w4pl_euqueue_scripts' );
+
+// Prepare Post Image from given attribute..
+function w4pl_post_image( $attr = array()){
+	$html = '';
+	extract( $attr );
+
+	if( empty( $src ) && $attachment_id ){
+		$image = wp_get_attachment_image_src( $attachment_id, $size, false );
+
+		if( $image ){
+			list( $src, $width, $height ) = $image;
+		}
+	}
+
+	if( empty( $src ))
+		return $html;
+
+	$hwstring = image_hwstring( $width, $height );
+	$default_attr = compact( 'src', 'class', 'alt', 'title' );
+
+	$html = rtrim("<img $hwstring");
+	foreach ( $default_attr as $name => $value ) {
+		$html .= " $name=" . '"' . $value . '"';
+	}
+	$html .= ' />';
+
+	return $html;
+}
+// Grab Image From HTML content
+function w4pl_image_source_from_html( $html, $position = '' ){
+	$source = '';
+	if( empty( $html ))
+		return $source;
+
+	preg_match_all( "/<img[^>]*src\s*=\s*[\'\"]([+:%\/\?~=&;\\\(\),._a-zA-Z0-9-]*)[\'\" ]?/i", $html, $images, PREG_SET_ORDER );
+
+	if( !empty( $images )){
+		$image = $position == 'last' ? array_pop( $images ) : array_shift( $images );
+		$source = isset( $image['1'] ) ? $image['1'] : "";
+	}
+	return $source;
+}
+function w4pl_trim_excerpt( $text, $length = 0 ){
+	if( !$length || $length < 1)
+		return $text;
+
+	$content = array();
+	$words = preg_split( "/[\n\r\t ]+/", $text, $length + 1, PREG_SPLIT_NO_EMPTY );
+	if ( count( $words) > 1 ){
+		array_pop( $words );
+		$content = implode(' ', $words);
+	} else {
+		$content = implode(' ', $words);
+	}
+	return $content;
+}
+
 
 // Parse Shortcode Inside Text Widget
 function w4pl_text_widget_replace_callback( $text ){
 	$pattern = '/\[\s*postlist(.*?)\]/sm';
-	return preg_replace_callback( $pattern,'w4pl_text_widget_replace', $text);
+	return preg_replace_callback( $pattern, 'w4pl_text_widget_replace', $text);
 }
 add_filter( 'widget_text', 'w4pl_text_widget_replace_callback');
 
@@ -25,7 +86,6 @@ function w4pl_text_widget_replace( $matches ){
 
 // Add [postlist] Shortcode
 function w4pl_do_shortcode( $attr){
-
 	if( !is_array( $attr ))
 		$attr = array($attr);
 
@@ -74,7 +134,6 @@ function w4pl_get_list( $list_id = '', $col = null ){
 		return false;
 
 	$query = $wpdb->prepare( "SELECT * FROM  $wpdb->post_list WHERE list_id = %d", $list_id );
-
 	if ( !$row = $wpdb->get_row( $query, ARRAY_A ))
 		return false;
 
@@ -85,21 +144,6 @@ function w4pl_get_list( $list_id = '', $col = null ){
 		return $row[$col];
 
 	return $row;
-}
-
-function w4pl_trim_excerpt( $text, $length = 0 ){
-	if( !$length || $length < 1)
-		return $text;
-	
-	$content = array();
-	$words = preg_split( "/[\n\r\t ]+/", $text, $length + 1, PREG_SPLIT_NO_EMPTY );
-	if ( count( $words) > 1 ){
-		array_pop( $words );
-		$content = implode(' ', $words);
-	} else {
-		$content = implode(' ', $words);
-	}
-	return $content;
 }
 
 /* Plugin Page Url Functions */
@@ -123,6 +167,18 @@ function w4pl_plugin_page_url( $echo = false ){
 }
 
 /* Sanitize Post list Data */
+function w4pl_sanitize_list_option_html_template_tag( $option ){
+	if( !isset( $option['list_option']['html_template'] ))
+		return $option;
+
+	foreach( $option['list_option']['html_template'] as $key => $input ){
+		if( preg_match( '/\%\%(.*?)\%\%/', $input ))
+			$option['list_option']['html_template'][$key] = preg_replace( '/\%\%(.*?)\%\%/', '[\1]', $input );
+	}
+	return $option;
+}
+#add_filter( 'w4pl_sanitize_list_option', 'w4pl_sanitize_list_option_html_template_tag', 11 );
+
 function w4pl_sanitize_list_option( $option ){
 
 	$list_option = isset( $option['list_option'] ) ? $option['list_option'] : array();
