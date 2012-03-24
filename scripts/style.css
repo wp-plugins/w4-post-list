@@ -1,9 +1,0 @@
-/*
-W4 post list list StyleSheet
-*/
-.list_active{
-	font-weight:bold;
-	}
-.post_content, .post_excerpt {
-	padding:3px 0;
-}
