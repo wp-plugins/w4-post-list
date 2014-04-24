@@ -4,7 +4,7 @@ Author: sajib1223, shazzad, Shazzad Hossain Khan, W4dev
 Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: posts, categories, post list, category list, custom post list
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.9
 Stable tag: 1.5.8
 
 With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site.
