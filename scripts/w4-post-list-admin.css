@@ -46,11 +46,8 @@
 }
 #w4pl_admin .stuffbox .inside{
 	padding:15px;
-	line-height:normal;
+	line-height:20px;
 	}
-#w4pl_admin .stuffbox .w4pl_tags{
-	line-height:19px;
-}
 #w4pl_admin h4, #w4pl_admin h4 label{
 	font-size:16px;
 	margin-top:0px;
@@ -116,7 +113,7 @@
 	background:url(help.gif) no-repeat;
 	position:relative;
 	top:3px;
-	z-index:9999;
+	z-index:10;
 	}
 .w4pl_tip_handle span{
 	position:absolute;
@@ -257,7 +254,6 @@
 }
 #w4pl_admin .form_help{
 	font-size:11px;
-	line-height:14px;
 	padding:5px 10px;
 	background-color:#EEE;
 	margin:10px;

@@ -88,16 +88,6 @@ function w4pl_admin_body_docs(){ ?>
 
     	<ul class="w4outlinks">
 		<?php $siteurl = site_url('/'); ?>
-		<li><form action="https://www.moneybookers.com/app/payment.pl" method="POST" id="mb">
-    <input type="hidden" name="pay_to_email" value="facebookbd@yahoo.com" />
-    <input type="hidden" name="return_url" value="http://w4dev.com/w4-plugin/w4-post-list/" />
-	<input type="hidden" name="language" value="EN" />
-    <input type="hidden" name="currency" value="USD" />
-    <input type="hidden" name="amount" value="2" />
-    <input type="hidden" name="detail1_description" value="Contribute To W4 Post List" />
-    <input type="hidden" name="detail1_text" value="WP Plugin Development" />
-    <input type="submit" title="Click to make a donation for WP W4 Post List" value="" id="donate-button" />
-</form></li>
 		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/' ); ?>" target="_blank">Visit Plugin Site</a></li>
 		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>" target="_blank">Visit Plugin Page</a></li>
 		<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => 'w4-post-list' ), 'http://w4dev.com/wp/w4-post-list-design-template/#examples' ); ?>" target="_blank">Designing Examples</a></li>

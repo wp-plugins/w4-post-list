@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: W4 post list
+Plugin Name: W4 Post List
 Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
 Description: With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site. The Most Customizable Post list Plugin u ever used..
-Version: 1.5.7
+Version: 1.5.8
 Author: Shazzad Hossain Khan
 Author URI: http://w4dev.com/
 */
@@ -37,12 +37,18 @@ define( 'W4PL_ADMIN', W4PL_DIR . 'admin' );
 define( 'W4PL_INC', W4PL_DIR . 'includes' );
 
 define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.5.7' );
+define( 'W4PL_VERSION', '1.5.8' );
 define( 'W4PL_DB_VERSION', '2' );
-define( 'W4PL_NAME', 'W4 post list' );
+define( 'W4PL_NAME', 'W4 Post List' );
 define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
 
-function w4pl_file_check(){
+
+	global $wpdb;
+	$wpdb->post_list = $wpdb->prefix . 'post_list';
+
+
+function w4pl_file_check()
+{
 	$w4pl_plugin_files = array( 
 		'functions.php',
 		'templates.php',
@@ -60,7 +66,8 @@ function w4pl_fallback_notice(){
 	echo "<div class='error'><p>W4 post list plugin found some file missing. You are recommended to comppletely uninstall and delete this plugin, then reinstall a fresh copy from WordPress Plugin Directory.</p></div>";
 }
 
-if( w4pl_file_check()){
+if( w4pl_file_check() )
+{
 	include( W4PL_INC .'/functions.php');
 	include( W4PL_INC .'/templates.php');
 	include( W4PL_INC .'/class.postlist.php');

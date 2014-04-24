@@ -2,20 +2,17 @@
 /* We resave all the data upon activation/reactivation. As we change our data 
 ** structure it is important to resave the options and update the database once if available.
 */
-function w4pl_database_update(){
-	global $wpdb;
-	$wpdb->post_list = $wpdb->prefix . 'post_list';
-
-	w4pl_db_install( true );
-
-	if( !get_option( '_w4pl_db_version' ))
-		add_option( '_w4pl_db_version', '1' );
+function w4pl_database_update()
+{
+	w4pl_db_install();
+	if( !get_option('_w4pl_db_version') ) add_option('_w4pl_db_version', '1');
 }
-	
-function w4pl_db_install( $force = false ){
+
+function w4pl_db_install()
+{
 	global $wpdb;
 
-	if( w4pl_table_exists() && !$force )
+	if( w4pl_table_exists() )
 		return;
 
 	if( !empty ( $wpdb->charset ))
@@ -25,14 +22,14 @@ function w4pl_db_install( $force = false ){
 		$charset_collate .= " COLLATE {$wpdb->collate}";
 
 	$sql[] = "CREATE TABLE $wpdb->post_list(
-		  list_id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  list_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		  list_title varchar(200) NOT NULL DEFAULT '',
 		  list_option longtext NOT NULL,
-		  user_id bigint(20) NOT NULL DEFAULT '0',
-		  UNIQUE  KEY  list_id (list_id)
+		  user_id bigint(20) unsigned NOT NULL DEFAULT '0',
+		  PRIMARY KEY  list_id (list_id)
 	){$charset_collate};";
 
-	require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 	if( dbDelta( $sql ))
 		update_option( '_w4pl_db_version', W4PL_DB_VERSION );

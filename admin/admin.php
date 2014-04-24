@@ -64,20 +64,8 @@ function w4pl_admin_page(){
 ?>
 <div class="wrap" id="w4pl_admin">
 	<div id='w4pl_header'>
-	<div id='icon-w4pl' class='icon32'><br></div>
 	<h2 id="w4pl-title"><?php echo W4PL_NAME . ': V.' . W4PL_VERSION; ?></h2>
     <span class="desc"><?php _e( 'With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site. Plugin comes with heavy customizable options to make exactly what you want o do with this. You are free to write us sudggestions /bugs report /complains.', 'w4-post-list' ); ?></span>
-
-	<?php if( !in_array( $w4pl_action, array( 'add', 'edit' ))): ?>
-	<div style="overflow:hidden;">
-    	<script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
-		<table style="margin-bottom:10px;"><tr>
-        <td style="padding-right:5px;">Share this plugin:</td>
-        <td style="padding-right:5px;"><g:plusone annotation="none" href="http://w4dev.com/w4-plugin/w4-post-list/"></g:plusone></td>
-        <td><iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo urlencode( 'http://w4dev.com/w4-plugin/w4-post-list/' ); ?>&amp;send=true&amp;layout=standard&amp;width=450&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=25" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:25px;" allowTransparency="true"></iframe></td>
-		</tr></table>
-	</div>
-	<?php endif; ?>
 	</div><!--#w4pl_header-->
 	<p style="background-color:#FFFFE0; border:1px solid #E6DB55; padding:5px 10px; border-width:1px 0; overflow:hidden;"><?php w4pl_plugin_news(); ?></p>
 
@@ -153,10 +141,10 @@ function w4pl_admin_body_listpage(){
 		return;
 
 	$current_user_id = get_current_user_id();
-	$query = $wpdb->prepare( "SELECT * FROM $wpdb->post_list ORDER BY list_id ASC" );
+	$query = "SELECT * FROM $wpdb->post_list ORDER BY list_id ASC";
 
 	if( !current_user_can( $w4pl_plugin_option['manage_cap'] )){
-		$query = $wpdb->prepare( "SELECT * FROM $wpdb->post_list WHERE user_id = '$current_user_id' ORDER BY list_id ASC" );
+		$query = $wpdb->prepare( "SELECT * FROM $wpdb->post_list WHERE user_id = %d ORDER BY list_id ASC", $current_user_id );
 	}
 
 	if( !$w4pl_lists = $wpdb->get_results( $query ))
