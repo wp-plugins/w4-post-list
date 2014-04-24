@@ -10,13 +10,12 @@ Stable tag: 1.5.8
 With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site.
 
 == Description ==
-Show Posts / Category Posts list inside post/page content or widget areas by shortcodes. Select what to show and design how to show it. jQuery enabled with slide effect. For details <a href="http://w4dev.com/w4-plugin/w4-post-list/">visit plugin page</a>.
+Show Posts / Category Posts list inside post/page content or widget areas by shortcodes. Select what to show and design how to show it. jQuery enabled with slide effect. For details <a href="http://w4dev.com/w4-plugin/w4-post-list">visit plugin page</a>.
 
-You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template/">Visit here</a> to get plugin's template tag definition or for some examples.
+You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template">Visit here</a> to get plugin's template tag definition or for some examples.
 
-= What's new on 1.5.7 =
-* Template Tag Changed. Now use Template Tags as like WordPress Shortcode Wrapped With Third Brackets[].
-* Simple Javascript bug fixed.
+= What's new on 1.5.8 =
+* Bug fixes and compatibility checks
 
 
 = Shortcode =
