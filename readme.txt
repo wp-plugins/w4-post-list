@@ -7,7 +7,7 @@ Requires at least: 3.0
 Tested up to: 3.9
 Stable tag: 1.6
 
-W4 Post List lets you can create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
+W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
 
 
 == Description ==
