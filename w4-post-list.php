@@ -1,12 +1,13 @@
 <?php
 /*
-Plugin Name: W4 Post List
-Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
-Description: With the w4 post list plugin you can show a list of selected posts, selected categories or a list with both of them on your WordPress site. The Most Customizable Post list Plugin u ever used..
-Version: 1.5.8
-Author: Shazzad Hossain Khan
-Author URI: http://w4dev.com/
-*/
+ * Plugin Name: W4 Post List
+ * Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
+ * Description: With the w4 post list plugin you can show a list of selected posts and custom post types on your WordPress site. 
+   Template are created using shortcodes, so you can customize it as you like.
+ * Version: 1.6
+ * Author: Shazzad Hossain Khan
+ * Author URI: http://w4dev.com/about
+**/
 
 /*  Copyright 2011  Shazzad Hossain Khan  (email : sajib1223@gmail.com)
 
@@ -25,67 +26,28 @@ Author URI: http://w4dev.com/
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/*	Few  argument have been changed in version 1.3.1. Please if you feel 
-	difficulties after upgrading to latest, go to your post list admin 
-	setting page and save the options again.
-*/
+# == Plugins Global Constant == #
+define( 'W4PL_DIR', 			plugin_dir_path(__FILE__) );
+define( 'W4PL_URL', 			plugin_dir_url(__FILE__) );
+define( 'W4PL_BASENAME', 		plugin_basename( __FILE__ ));
 
-# Plugins Global Constant
-define( 'W4PL_DIR', plugin_dir_path(__FILE__));
-define( 'W4PL_URL', plugin_dir_url(__FILE__));
-define( 'W4PL_ADMIN', W4PL_DIR . 'admin' );
-define( 'W4PL_INC', W4PL_DIR . 'includes' );
+define( 'W4PL_VERSION', 		'1.6' );
+define( 'W4PL_DB_VERSION', 		'2' );
 
-define( 'W4PL_BASENAME', plugin_basename( __FILE__ ));
-define( 'W4PL_VERSION', '1.5.8' );
-define( 'W4PL_DB_VERSION', '2' );
-define( 'W4PL_NAME', 'W4 Post List' );
-define( 'W4PL_SLUG', strtolower( str_replace( ' ', '-', W4PL_NAME )));
+define( 'W4PL_NAME', 			'W4 Post List' );
+define( 'W4PL_SLUG', 			'w4pl' );
 
+define( 'W4PL_ADMIN', 			W4PL_DIR . 'admin' );
+define( 'W4PL_INC', 			W4PL_DIR . 'inc' );
+define( 'W4PL_TXT_DOMAIN', 		'w4pl' );
 
-	global $wpdb;
-	$wpdb->post_list = $wpdb->prefix . 'post_list';
+include( W4PL_INC .'/core.php');
+include( W4PL_INC .'/class.postlist.php');
+include( W4PL_INC .'/widget.php');
 
-
-function w4pl_file_check()
-{
-	$w4pl_plugin_files = array( 
-		'functions.php',
-		'templates.php',
-		'class.postlist.php',
-		'widgets.php'
-	);
-
-	foreach( $w4pl_plugin_files as $w4pl_plugin_file ){
-		if( !file_exists( W4PL_INC .'/'. $w4pl_plugin_file ))
-			return false;
-	}
-	return true;
-}
-function w4pl_fallback_notice(){
-	echo "<div class='error'><p>W4 post list plugin found some file missing. You are recommended to comppletely uninstall and delete this plugin, then reinstall a fresh copy from WordPress Plugin Directory.</p></div>";
-}
-
-if( w4pl_file_check() )
-{
-	include( W4PL_INC .'/functions.php');
-	include( W4PL_INC .'/templates.php');
-	include( W4PL_INC .'/class.postlist.php');
-	include( W4PL_INC .'/widgets.php');
-
-	// Load admin files when viewing admin page
-	if( is_admin()){
-		include( W4PL_ADMIN .'/database.php');
-		include( W4PL_ADMIN .'/errors.php');
-		include( W4PL_ADMIN .'/admin-misc.php');
-		include( W4PL_ADMIN .'/admin.php');
-		include( W4PL_ADMIN .'/forms.php');
-	}
-
-	# Hook called when Plugin is Activated or updated
-	register_activation_hook( __FILE__, 'w4pl_database_update' );
-
-}else{
-	add_action( 'admin_notices', 'w4pl_fallback_notice' );
-}
+if( is_admin() ) :
+	include( W4PL_ADMIN .'/form.php');
+	include( W4PL_ADMIN .'/admin.php');
+	include( W4PL_ADMIN .'/admin-page-docs.php');
+endif
 ?>
