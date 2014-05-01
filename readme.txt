@@ -2,7 +2,7 @@
 Plugin Name: W4 Post List
 Author: sajib1223, shazzad, Shazzad Hossain Khan, W4dev
 Donate link: http://w4dev.com/w4-plugin/w4-post-list
-Tags: post, widgets, shortcode, postlist, custom post type list
+Tags: post, widget, shortcode, postlist, custom post type list
 Requires at least: 3.0
 Tested up to: 3.9
 Stable tag: 1.6.1
