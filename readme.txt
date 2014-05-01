@@ -2,10 +2,10 @@
 Plugin Name: W4 Post List
 Author: sajib1223, shazzad, Shazzad Hossain Khan, W4dev
 Donate link: http://w4dev.com/w4-plugin/w4-post-list
-Tags: posts, post list, custom post list, custom post type
+Tags: post, widgets, shortcode, postlist, custom post type list
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.6
+Stable tag: 1.6.1
 
 W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
 
@@ -14,6 +14,9 @@ W4 Post List lets you create a list of posts and display them. The extraordinary
 Display Posts inside Post/Page content or widget areas by shortcodes. Select what to show and design how to show it. For details <a href="http://w4dev.com/w4-plugin/w4-post-list">visit plugin page</a>.
 
 You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template">Visit here</a> to get plugin's template tag definition or for some examples.
+
+= What's new on 1.6.1 =
+* New: Added loading state upon changing post type on options page
 
 = What's new on 1.6 =
 * New: Option panel
@@ -37,6 +40,9 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Changelog ==
+= 1.6.1 =
+* New: Added loading state upon changing post type on options page
+
 = 1.6 =
 * New / Clean Option Panel
 * A Lot more shortcodes
@@ -108,6 +114,8 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Upgrade Notice ==
+= 1.6.1 =
+* New: Added loading state upon changing post type on options page
 = 1.6 =
 * New / Clean Option Panel
 * A Lot more shortcodes
