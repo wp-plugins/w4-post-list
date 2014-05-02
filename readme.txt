@@ -5,7 +5,7 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: post, widget, shortcode, list, media, custom post type
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 
 W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
 

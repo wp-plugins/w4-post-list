@@ -4,7 +4,7 @@
  * Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
  * Description: With the w4 post list plugin you can show a list of selected posts and custom post types on your WordPress site. 
    Template are created using shortcodes, so you can customize it as you like.
- * Version: 1.6.1
+ * Version: 1.6.2
  * Author: Shazzad Hossain Khan
  * Author URI: http://w4dev.com/about
 **/
@@ -31,7 +31,7 @@ define( 'W4PL_DIR', 			plugin_dir_path(__FILE__) );
 define( 'W4PL_URL', 			plugin_dir_url(__FILE__) );
 define( 'W4PL_BASENAME', 		plugin_basename( __FILE__ ));
 
-define( 'W4PL_VERSION', 		'1.6.1' );
+define( 'W4PL_VERSION', 		'1.6.2' );
 
 define( 'W4PL_NAME', 			'W4 Post List' );
 define( 'W4PL_SLUG', 			'w4pl' );
