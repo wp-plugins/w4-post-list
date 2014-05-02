@@ -11,15 +11,7 @@ class W4PL_Core
 
 		// allow shortcode for widget text
 		add_filter( 'widget_text', 				'do_shortcode');
-
-		# add_action( 'wp_footer', 				array($this, 'wp_footer'));
 	}
-
-	public function wp_footer()
-	{
-		wp_enqueue_script( 'w4pl', W4PL_URL . 'assets/w4-post-list.js', array( 'jquery' ) );
-	}
-
 
 	/*
 	 * Register List Post Type

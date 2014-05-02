@@ -441,7 +441,7 @@ class W4_Post_list
 				$class .= ' ajax-navigation';
 
 				$this->js .= '(function($){$(document).ready(function(){$("#w4pl-list-'. $this->id 
-				. ' .navigation a.page-numbers").live("click", function(){var that = $(this), parent = $("#w4pl-'. $this->id 
+				. ' .navigation a.page-numbers").live("click", function(){var that = $(this), parent = $("#w4pl-list-'. $this->id 
 				. '");parent.load( that.attr("href") + " #" + parent.attr("id") + " .w4pl-inner", function(e){});return false;});});})(jQuery) ;';
 
 			}

@@ -105,6 +105,8 @@ class W4PL_Admin
 .wffl{
 	font-size:13px;
 }
+#w4pl_post_type_options{position:relative;}
+#w4pl_post_type_options:after{ background:url(images/loading.gif) no-repeat; width:30px; height:30px; display:block;}
         </style>
 		<script type="text/javascript">
 (function($){
@@ -126,8 +128,14 @@ class W4PL_Admin
 		
 
 		$('#w4pl_post_type').change(function(){
+			$('.wffwi_w4pl_post_type .spinner').css('display', 'inline-block');
+			$('#publish').hide();
+			
 			$.post(ajaxurl, 'action=w4pl_get_post_type_fields&post_id='+ $('#post_ID').val() +'&post_type='+ $(this).val(), function(r){
 				$('#w4pl_post_type_options').html(r);
+				$('.wffwi_w4pl_post_type .spinner').css('display', 'none');
+				$('#publish').show();
+				
 				return false;
 			})
 		});
@@ -160,44 +168,25 @@ class W4PL_Admin
 			'name' 			=> 'w4pl[post_type]',
 			'label' 		=> 'Post Type',
 			'type' 			=> 'select',
-			'option' 		=> self::post_type_options()
+			'option' 		=> self::post_type_options(),
+			'input_after'	=> '<span class="spinner" style="position:relative; float:none; left:10px; top:5px; margin: 0; height:19px;"></span>'
 		);
 		$fields['post_status'] = array(
 			'option_name' 	=> 'post_status',
 			'name' 			=> 'w4pl[post_status]',
 			'label' 		=> 'Post Status',
 			'type' 			=> 'checkbox',
-			'option' 		=> array('any' => 'Any', 'inherit' => 'Inherit', 'pending' => 'Pending', 'publish' => 'Publish', 'future' => 'Future')
+			'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
 		);
 		$fields['before_post_type_options'] = array(
 			'type' 			=> 'html',
 			'html' 			=> '<div id="w4pl_post_type_options">'
 		);
-
 		// intialize post type fields
 		self::post_type_fields($fields, $post_data);
-
-
 		$fields['after_post_type_options'] = array(
 			'type' 			=> 'html',
 			'html' 			=> '</div><!--w4pl_post_type_options-->'
-		);
-
-
-		$fields['orderby'] = array(
-			'option_name' 	=> 'orderby',
-			'name' 			=> 'w4pl[orderby]',
-			'label' 		=> 'Orderby',
-			'type' 			=> 'select',
-			'option' 		=> self::post_orderby_options($post_data['post_type']),
-			'input_after'	=> '<div id="orderby_meta_key_wrap">Meta key: <input name="w4pl[orderby_meta_key]" type="text" value="'. (isset($post_data['orderby_meta_key']) ? esc_attr($post_data['orderby_meta_key']) : '') .'" /></div>'
-		);
-		$fields['order'] = array(
-			'option_name' 	=> 'order',
-			'name' 			=> 'w4pl[order]',
-			'label' 		=> 'Order',
-			'type' 			=> 'select',
-			'option' 		=> array('ASC' => 'ASC', 'DESC' => 'DESC')
 		);
 
 		$fields['post__in'] = array(
@@ -236,6 +225,25 @@ class W4PL_Admin
 			'type' 			=> 'text',
 			'desc' 			=> 'number of items to show per page'
 		);
+
+		$fields['orderby'] = array(
+			'option_name' 	=> 'orderby',
+			'name' 			=> 'w4pl[orderby]',
+			'label' 		=> 'Orderby',
+			'type' 			=> 'select',
+			'option' 		=> self::post_orderby_options($post_data['post_type']),
+			'input_after'	=> '<div id="orderby_meta_key_wrap">Meta key: <input name="w4pl[orderby_meta_key]" type="text" value="'
+				. (isset($post_data['orderby_meta_key']) ? esc_attr($post_data['orderby_meta_key']) : '') .'" /></div>'
+		);
+		$fields['order'] = array(
+			'option_name' 	=> 'order',
+			'name' 			=> 'w4pl[order]',
+			'label' 		=> 'Order',
+			'type' 			=> 'select',
+			'option' 		=> array('ASC' => 'ASC', 'DESC' => 'DESC')
+		);
+
+
 		$fields['limit'] = array(
 			'option_name' 	=> 'limit',
 			'name' 			=> 'w4pl[limit]',

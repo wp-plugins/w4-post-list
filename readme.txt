@@ -1,21 +1,64 @@
 === W4 Post List ===
 Plugin Name: W4 Post List
-Author: sajib1223, shazzad, Shazzad Hossain Khan, W4dev
+Author: sajib1223, Shazzad Hossain Khan
 Donate link: http://w4dev.com/w4-plugin/w4-post-list
-Tags: posts, post list, custom post list, custom post type
+Tags: post, widget, shortcode, list, media, custom post type
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.6
+Stable tag: 1.6.2
 
 W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
 
 
 == Description ==
-Display Posts inside Post/Page content or widget areas by shortcodes. Select what to show and design how to show it. For details <a href="http://w4dev.com/w4-plugin/w4-post-list">visit plugin page</a>.
+Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. There a page for creating or editing a list, just like you manage a post page. The Option page let you set your desired posts query. Firstly, you use filters to chose desired set of posts, secondly, you the order in what posts will be sorted, thirdly you chose how many posts to display and if you need Multi-Page post list (using pagination), and lastly, you build the display template. So, the steps are -
 
-You will be using template tag for creating a custom design for your list. If you don't understand the perfect usage of this plugin template tags, then you won't be able to take much out of it. <a href="http://w4dev.com/wp/w4-post-list-design-template">Visit here</a> to get plugin's template tag definition or for some examples.
+= Filter Posts by =
+* post type
+* post status
+* post mime type
+* post taxonomy terms
+* post ids
+* post parents
+* post authors
 
-= What's new on 1.6 =
+
+= Order Posts by =
+* post id
+* post title
+* post name
+* post publish date
+* post modified date
+* menu order
+* approved comment count
+* meta value
+* or random
+
+
+You can use pagination for your lists of posts. There three type of pagination, 1. Next / Previous links, 2. Numeric navigation flat - Ex: 1, 2, 3, 2. Numeric navigation showing in unordered list. Pagination can also be used by Ajax, no page-loading.
+
+
+The next thing is Templates. And that's the Prime Feature of this plugin. Templates are designed using Shortcodes and HTML codes. You can create a simple list just showing post title and and linked to the post page. Or you can display complex list using following elements - 
+
+* post thumbnail
+* post categories
+* post tags
+* post custom taxonomy terms
+* post author name / links / avatar
+* post publish time
+* post modified time
+* post excerpt
+* post content
+* post meta value (multiple times, with multiple meta keys)
+
+
+To check a list of available shortcode available, visit the plugin website - <a href="http://w4dev.com/w4-plugin/w4-post-list">here</a>.
+
+To check few example lists created with the plugin, visit the <a href="http://w4dev.com/wp/w4-post-list-design-template">example page</a>.
+
+
+= What's new latest version (1.6 +)=
+* New: Added loading state upon changing post type on options page
 * New: Option panel
 * Removed: Posts with categories, Only categories.
 
@@ -37,6 +80,9 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Changelog ==
+= 1.6.1 =
+* New: Added loading state upon changing post type on options page
+
 = 1.6 =
 * New / Clean Option Panel
 * A Lot more shortcodes
@@ -108,6 +154,8 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Upgrade Notice ==
+= 1.6.1 =
+* New: Added loading state upon changing post type on options page
 = 1.6 =
 * New / Clean Option Panel
 * A Lot more shortcodes
