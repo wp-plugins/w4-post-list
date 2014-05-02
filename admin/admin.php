@@ -218,14 +218,6 @@ class W4PL_Admin
 			'desc' 			=> 'comma separate id'
 		);
 
-		$fields['posts_per_page'] = array(
-			'option_name' 	=> 'posts_per_page',
-			'name' 			=> 'w4pl[posts_per_page]',
-			'label' 		=> 'Items per page',
-			'type' 			=> 'text',
-			'desc' 			=> 'number of items to show per page'
-		);
-
 		$fields['orderby'] = array(
 			'option_name' 	=> 'orderby',
 			'name' 			=> 'w4pl[orderby]',
@@ -244,6 +236,13 @@ class W4PL_Admin
 		);
 
 
+		$fields['posts_per_page'] = array(
+			'option_name' 	=> 'posts_per_page',
+			'name' 			=> 'w4pl[posts_per_page]',
+			'label' 		=> 'Items per page',
+			'type' 			=> 'text',
+			'desc' 			=> 'number of items to show per page'
+		);
 		$fields['limit'] = array(
 			'option_name' 	=> 'limit',
 			'name' 			=> 'w4pl[limit]',
