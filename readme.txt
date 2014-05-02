@@ -57,7 +57,7 @@ To check a list of available shortcode available, visit the plugin website - <a 
 To check few example lists created with the plugin, visit the <a href="http://w4dev.com/wp/w4-post-list-design-template">example page</a>.
 
 
-= What's new latest version (1.6 +)=
+= What's new latest version (1.6 +) =
 * New: Added loading state upon changing post type on options page
 * New: Option panel
 * Removed: Posts with categories, Only categories.
