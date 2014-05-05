@@ -107,6 +107,8 @@ class W4PL_Admin
 }
 #w4pl_post_type_options{position:relative;}
 #w4pl_post_type_options:after{ background:url(images/loading.gif) no-repeat; width:30px; height:30px; display:block;}
+
+#w4pl_template_loop_buttons a{ padding:2px 4px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
         </style>
 		<script type="text/javascript">
 (function($){
@@ -139,8 +141,47 @@ class W4PL_Admin
 				return false;
 			})
 		});
+
+		$('#w4pl_template_loop_buttons a').click(function(e){
+			insertAtCaret( 'w4pl_template_loop', $(this).data('code') );
+			return false;
+		});
 	});
-})(jQuery) ;
+
+function insertAtCaret(areaId,text) {
+    var txtarea = document.getElementById(areaId);
+    var scrollPos = txtarea.scrollTop;
+    var strPos = 0;
+    var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ? 
+        "ff" : (document.selection ? "ie" : false ) );
+    if (br == "ie") { 
+        txtarea.focus();
+        var range = document.selection.createRange();
+        range.moveStart ('character', -txtarea.value.length);
+        strPos = range.text.length;
+    }
+    else if (br == "ff") strPos = txtarea.selectionStart;
+
+    var front = (txtarea.value).substring(0,strPos);  
+    var back = (txtarea.value).substring(strPos,txtarea.value.length); 
+    txtarea.value=front+text+back;
+    strPos = strPos + text.length;
+    if (br == "ie") { 
+        txtarea.focus();
+        var range = document.selection.createRange();
+        range.moveStart ('character', -txtarea.value.length);
+        range.moveStart ('character', strPos);
+        range.moveEnd ('character', 0);
+        range.select();
+    }
+    else if (br == "ff") {
+        txtarea.selectionStart = strPos;
+        txtarea.selectionEnd = strPos;
+        txtarea.focus();
+    }
+    txtarea.scrollTop = scrollPos;
+}
+})(jQuery);
 		</script>
         <?php
 	}
@@ -260,6 +301,9 @@ class W4PL_Admin
 			'default' 		=> apply_filters('w4pl/template_default', ''),
 			'desc' 			=> 'the main template. this template should have the [loop] shortcode somewhere.'
 		);
+		
+		
+		
 		$fields['template_loop'] = array(
 			'option_name' 	=> 'template_loop',
 			'name' 			=> 'w4pl[template_loop]',
@@ -267,31 +311,29 @@ class W4PL_Admin
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
 			'default' 		=> apply_filters('w4pl/template_loop_default', ''),
-			'desc' 			=> 'click on the button below to see all available shortcodes'
+			'desc' 			=> 'click on the shortcode names on right to add it to the template. to learn more, click button below'
 		);
 
 
-		$shortcodes = W4_Post_list::get_shortcodes();
-		$shortcode_hint_html = '<a id="shortcode_hint_toggle" class="button">View Shortcodes</a>';
-		$shortcode_hint_html .= '<table id="shortcode_hint" class="widefat" style="display:none;">';
-		$shortcode_hint_html .= '<thead><tr><th style="text-align: right;">Tag</th><th>Details</th></tr></thead><tbody>';
-		foreach( $shortcodes as $shortcode => $attr ){ 
-			$rc = isset($rc) && $rc == '' ? $rc = 'alt' : '';
-			$shortcode_hint_html .= '<tr class="'. $rc .'">';
-			$shortcode_hint_html .= '<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>['. $shortcode. ']</code></th>';
-			$shortcode_hint_html .= '<td style="font-size:12px; line-height: 1.3em;">'. $attr['desc'] . '</td>';
-			$shortcode_hint_html .= '</tr>';
-		}
-			$shortcode_hint_html .= '<tr class="'. $rc .'">';
-			$shortcode_hint_html .= '<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>[nav]</code></th>';
-			$shortcode_hint_html .= '<td style="font-size:12px; line-height: 1.3em;"><strong>return</strong> pagination for the list
-            <br /><br /><strong>Attributes</strong>:
-            <br /><strong>type</strong> = (text) allowed values  - plain, list, nav
-            <br /><strong>ajax</strong> = (0|1) use pagination with ajax</td>';
-			$shortcode_hint_html .= '</tr>';
-		$shortcode_hint_html .= '</tbody></table>';
 
-		$fields['template_loop']['input_wrap_before'] = $shortcode_hint_html;
+		$shortcodes = W4_Post_list::get_shortcodes();
+
+
+		$input_before = '<div id="w4pl_template_loop_buttons">';
+		foreach( $shortcodes as $shortcode => $attr ){
+			if( isset($attr['code']) )
+				$code = $attr['code'];
+			else
+				$code = '['. $shortcode . ']';
+
+			$input_before .= sprintf(' <a href="#%1$s" data-code="%2$s">%1$s</a>', $shortcode, esc_attr($code) );
+		}
+		$input_before .= '</div>';
+
+		$fields['template_loop']['input_before'] = $input_before;
+
+
+		$fields['template_loop']['input_wrap_before'] = self::get_shortcode_hint_html();
 
 		$fields['class'] = array(
 			'option_name' 	=> 'class',
@@ -491,6 +533,31 @@ class W4PL_Admin
 		if( post_type_supports($post_type, 'comments') )
 			$return['comment_count'] = __( 'Comment Count',W4PL_TXT_DOMAIN);
 
+		return $return;
+	}
+
+	public function get_shortcode_hint_html()
+	{
+		$shortcodes = W4_Post_list::get_shortcodes();
+		$return = '<a id="shortcode_hint_toggle" class="button">shortcodes details</a>';
+		$return .= '<table id="shortcode_hint" class="widefat" style="display:none;">';
+		$return .= '<thead><tr><th style="text-align: right;">Tag</th><th>Details</th></tr></thead><tbody>';
+		foreach( $shortcodes as $shortcode => $attr ){ 
+			$rc = isset($rc) && $rc == '' ? $rc = 'alt' : '';
+			$return .= '<tr class="'. $rc .'">';
+			$return .= '<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>['. $shortcode. ']</code></th>';
+			$return .= '<td style="font-size:12px; line-height: 1.3em;">'. $attr['desc'] . '</td>';
+			$return .= '</tr>';
+		}
+			$return .= '<tr class="'. $rc .'">';
+			$return .= '<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>[nav]</code></th>';
+			$return .= '<td style="font-size:12px; line-height: 1.3em;"><strong>return</strong> pagination for the list
+            <br /><br /><strong>Attributes</strong>:
+            <br /><strong>type</strong> = (text) allowed values  - plain, list, nav
+            <br /><strong>ajax</strong> = (0|1) use pagination with ajax</td>';
+			$return .= '</tr>';
+		$return .= '</tbody></table>';
+		
 		return $return;
 	}
 

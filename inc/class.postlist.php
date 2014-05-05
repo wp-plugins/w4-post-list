@@ -88,12 +88,14 @@ class W4_Post_list
 				'desc' => '<strong>Output</strong>: post author name url'
 			),
 			'post_author_avatar'=> array(
+				'code' => '[post_author_avatar size=""]', 
 				'func' => 'post_author_avatar', 
 				'desc' => '<strong>Output</strong>: post author avatar
 				<br /><br /><strong>attributes:</strong>
 				<br /><strong>size</strong> = (number), avatar image size'
 			),
 			'post_excerpt' => array(
+				'code' => '[post_excerpt wordlimit=""]', 
 				'func' => 'post_excerpt', 
 				'desc' => '<strong>Output</strong>: post excerpt/short description
 				<br /><br /><strong>Attributes:</strong>
@@ -104,6 +106,7 @@ class W4_Post_list
 				'desc' => '<strong>Output</strong>: post content'
 			),
 			'post_thumbnail' => array(
+				'code' => '[post_thumbnail size=""]', 
 				'func' => 'post_thumbnail', 
 				'desc' => '<strong>Output</strong>: (text|number) based on the rerurn attribute & only if the post has a thumbnail assigned
 				<br /><br /><strong>Attributes:</strong>
@@ -116,6 +119,7 @@ class W4_Post_list
 				<br /><strong>height</strong> = (number), post_thumbnail height'
 			),
 			'attachment_thumbnail' => array(
+				'code' => '[attachment_thumbnail size=""]', 
 				'func' => 'attachment_thumbnail', 
 				'desc' => '<strong>Output</strong>: if the post is an attachment, the attached image is displayed as thumbnail
 				<br /><br /><strong>Attributes:</strong>
@@ -128,6 +132,7 @@ class W4_Post_list
 				'desc' => '<strong>Output</strong>:  if the post is an attachment, the attached image source is returned'
 			),
 			'post_meta' => array(
+				'code' => '[post_meta key="" multiple="0"]', 
 				'func' => 'post_meta', 
 				'desc' => '<strong>Output</strong>: post meta value. if return value is an array, it will be migrated to string by using explode function
 				<br /><br /><strong>Attributes:</strong>
@@ -136,6 +141,7 @@ class W4_Post_list
 				<br /><strong>sep</strong> = (text), separate array meta value into string'
 			),
 			'post_terms' => array(
+				'code' => '[post_terms tax="category" sep=", "]', 
 				'func' => 'post_terms', 
 				'desc' => '<strong>Output</strong>: post type terms. if return value is an array, it will be migrated to string by using explode function
 				<br /><br /><strong>Attributes:</strong>
