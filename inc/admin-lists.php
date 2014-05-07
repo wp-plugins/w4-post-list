@@ -16,7 +16,6 @@ class W4PL_Lists_Admin
 		add_action( 'wp_ajax_w4pl_get_post_type_fields', 	array($this, 'get_post_type_fields_ajax') );
 
 		add_filter( 'w4pl/template_default',  				array($this, 'template_default') );
-		add_filter( 'w4pl/template_loop_default',  			array($this, 'template_loop_default') );
 	}
 
 	public function post_updated_messages( $messages )
@@ -376,7 +375,7 @@ function insertAtCaret(areaId,text) {
 			unset($post_data['template_loop']);
 		}
 
-		if( ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $post_data['template']) && preg_match('/\[loop\]/sm', $post_data['template'], $match ) )
+		if( isset($post_data['template']) && ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $post_data['template']) && preg_match('/\[loop\]/sm', $post_data['template'], $match ) )
 		{
 			$post_data['template'] = str_replace( $match[0], '[posts]'. $post_data['template_loop'] .'[/posts]', $post_data['template'] );
 		}
@@ -513,12 +512,8 @@ function insertAtCaret(areaId,text) {
 
 	// default templates
 	public function template_default($r){
-		return '<ul>[loop]</ul>';
+		return '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[post_thumbnail]'. "\n" . '[excerpt]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
 	}
-	public function template_loop_default($r){
-		return '<li>'. "\n".'[title]'. "\n".'[post_thumbnail]'. "\n".'[excerpt]'. "\n".'[more]'. "\n".'</li>';
-	}
-
 
 
 	public static function post_type_options()
