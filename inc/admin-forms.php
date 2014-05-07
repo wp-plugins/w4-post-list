@@ -128,6 +128,9 @@ function w4pl_form_field_html( $args = array()){
 		'style' 		=> '',
 		'attrs' 		=> array(),
 
+		'before'		=> '',
+		'after'			=> '',
+
 		'field_wrap'	=> true,
 		'field_before'	=> '',
 		'field_after'	=> '',
@@ -166,6 +169,8 @@ function w4pl_form_field_html( $args = array()){
 	{
 		$attr .= ' '. $an .'="'. esc_attr($av) .'"';
 	}
+
+	$html .= $before;
 
 	if( !in_array($type, array('html', 'hidden') ) && $field_wrap ){
 		$html .= sprintf( '<div class="%1$s"%2$s>', w4pl_form_pitc_class('wffw', $id, $type, $class), $attr );

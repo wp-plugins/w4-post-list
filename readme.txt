@@ -5,13 +5,14 @@ Donate link: http://w4dev.com/w4-plugin/w4-post-list
 Tags: post, widget, shortcode, list, media, custom post type
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 
 W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
 
 
 == Description ==
 Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. There a page for creating or editing a list, just like you manage a post page. The Option page let you set your desired posts query. Firstly, you use filters to chose desired set of posts, secondly, you the order in what posts will be sorted, thirdly you chose how many posts to display and if you need Multi-Page post list (using pagination), and lastly, you build the display template. So, the steps are -
+
 
 = Filter Posts by =
 * post type
@@ -35,7 +36,7 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * or random
 
 
-You can use pagination for your lists of posts. There three type of pagination, 1. Next / Previous links, 2. Numeric navigation flat - Ex: 1, 2, 3, 2. Numeric navigation showing in unordered list. Pagination can also be used by Ajax, no page-loading.
+Next is pagination for your list. There three type of pagination, 1. Next / Previous links, 2. Numeric navigation flat - Ex: 1, 2, 3, 2. Numeric navigation showing in unordered list. Pagination can also be used by Ajax, no page-loading.
 
 
 The next thing is Templates. And that's the Prime Feature of this plugin. Templates are designed using Shortcodes and HTML codes. You can create a simple list just showing post title and and linked to the post page. Or you can display complex list using following elements - 
@@ -58,6 +59,7 @@ To check few example lists created with the plugin, visit the <a href="http://w4
 
 
 = What's new latest version (1.6 +) =
+* New: Group posts by parent, author, categories, tags, year, month, year month.
 * New: Added loading state upon changing post type on options page
 * New: Option panel
 * Removed: Posts with categories, Only categories.
@@ -80,6 +82,10 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Changelog ==
+= 1.6.4 =
+* New: Group posts by parent, author, categories, tags, year, month, year month.
+* New: Shortcodes to display group information.
+
 = 1.6.3 =
 * New: Added shortcode button to insert shortcode quickly, similar as tinymce button
 = 1.6.1 =
@@ -156,6 +162,10 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Upgrade Notice ==
+= 1.6.4 =
+* New: Group posts by parent, author, categories, tags, year, month, year month.
+* New: Shortcodes to display group information.
+
 = 1.6.3 =
 * New: Added shortcode button to insert shortcode quickly, similar as tinymce button
 = 1.6.1 =

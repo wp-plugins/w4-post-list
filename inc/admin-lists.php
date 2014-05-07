@@ -1,12 +1,16 @@
 <?php
-class W4PL_Admin 
+class W4PL_Lists_Admin 
 {
 	function __construct()
 	{
+		// set update message for our post type, you dont like to use - "post update" !
 		add_filter( 'post_updated_messages', 				array($this, 'post_updated_messages'));
+
+		// add lists link to plugin links, so one can navigate quickly
 		add_filter( 'plugin_action_links_' . W4PL_BASENAME, array($this, 'plugin_action_links') );
 
-		add_action( 'add_meta_boxes', 						array($this, 'add_meta_boxes') );
+		
+		add_action( 'add_meta_boxes_'. W4PL_SLUG, 			array($this, 'add_meta_boxes') );
 		add_action( 'save_post_'. W4PL_SLUG,  				array($this, 'save_post'), 10, 3 );
 
 		add_action( 'wp_ajax_w4pl_get_post_type_fields', 	array($this, 'get_post_type_fields_ajax') );
@@ -35,21 +39,18 @@ class W4PL_Admin
 	}
 
 	// Meta box
-	public function add_meta_boxes( $post_type )
+	public function add_meta_boxes( $post )
 	{
-		// this seems better :)
-		if( $post_type == W4PL_SLUG ){
-			add_action( 'edit_form_after_title', array($this, 'list_options_meta_box') );
-		}
+		// add configuration box right after post title, out of metabox
+		add_action( 'edit_form_after_title', array($this, 'list_options_meta_box') );
 
+		// add plugin news metabox one right side
 		add_meta_box( "w4pl_news_meta_box", "Plugin Updates", array($this, 'news_meta_box'), W4PL_SLUG, "side", 'core');
 
-		if( $post_type == W4PL_SLUG )
-		{
-			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts') );
-			add_action('admin_head', array($this, 'admin_head') );
-			add_action('admin_print_footer_scripts', array($this, 'admin_print_footer_scripts') );
-		}
+		// enqueue script files, print css on header and print js on footer
+		add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts') );
+		add_action('admin_head', array($this, 'admin_head') );
+		add_action('admin_print_footer_scripts', array($this, 'admin_print_footer_scripts') );
 	}
 
 
@@ -59,17 +60,16 @@ class W4PL_Admin
 		wp_enqueue_script( 'w4pl_form', W4PL_URL . 'assets/form.js', array( 'jquery', 'plupload-handlers', 'jquery-ui-autocomplete') );
 	}
 
-
 	public function admin_head()
 	{
 		?>
         <style>
 /*W4 post list admin*/
-#w4pl_template_before, #w4pl_template_after, #w4pl_template_loop{
+#w4pl_template_before, #w4pl_template_after, #w4pl_template{
 	width:99%;
 	height:50px;
 	}
-#w4pl_template_loop, #w4pl_css{
+#w4pl_template, #w4pl_css{
 	height:250px;
 	}
 #minor-publishing-actions, #misc-publishing-actions{
@@ -92,24 +92,22 @@ class W4PL_Admin
 	padding-bottom:15px;
 	border-width: 0 0 0 5px;
 	box-shadow:0 0 1px #AAAAAA;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	overflow:hidden;
 }
-.wfflw,
-.wffdw {
-	width:200px;
-	float:left;
-	clear:left;
-}
-.wffew {
-	margin-left:220px;
-}
-.wffl{
-	font-size:13px;
-}
+.wfflw, .wffdw {width:200px;float:left;clear:left;}
+.wffew {margin-left:220px;}
+.wffl{font-size:13px;}
 #w4pl_post_type_options{position:relative;}
 #w4pl_post_type_options:after{ background:url(images/loading.gif) no-repeat; width:30px; height:30px; display:block;}
-
-#w4pl_template_loop_buttons a{ padding:2px 4px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+#w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+.w4pl_button_group{ padding:0 0 10px;}
+.w4pl_button_group_title{ display:block;}
         </style>
+
+
 		<script type="text/javascript">
 (function($){
 	$(document).ready(function(){
@@ -127,7 +125,7 @@ class W4PL_Admin
 			}
 		});
 		$('#w4pl_orderby').trigger('change');
-		
+
 
 		$('#w4pl_post_type').change(function(){
 			$('.wffwi_w4pl_post_type .spinner').css('display', 'inline-block');
@@ -142,11 +140,17 @@ class W4PL_Admin
 			})
 		});
 
-		$('#w4pl_template_loop_buttons a').click(function(e){
-			insertAtCaret( 'w4pl_template_loop', $(this).data('code') );
+		$('#w4pl_template_buttons a').click(function(e){
+			insertAtCaret( 'w4pl_template', $(this).data('code') );
 			return false;
 		});
 	});
+
+
+/*
+ * Similar feature as tinymce quicktag button
+ * This function helps to place shortcode right at the cursor position
+*/
 
 function insertAtCaret(areaId,text) {
     var txtarea = document.getElementById(areaId);
@@ -205,6 +209,7 @@ function insertAtCaret(areaId,text) {
 
 		$fields = array();
 		$fields['post_type'] = array(
+			'before'		=> '<h2>Query</h2>',
 			'option_name' 	=> 'post_type',
 			'name' 			=> 'w4pl[post_type]',
 			'label' 		=> 'Post Type',
@@ -235,31 +240,32 @@ function insertAtCaret(areaId,text) {
 			'name' 			=> 'w4pl[post__in]',
 			'label' 		=> 'Include post by ids',
 			'type' 			=> 'text',
-			'desc' 			=> 'comma separate id'
+			'desc' 			=> 'comma separated post id'
 		);
 		$fields['post__not_in'] = array(
 			'option_name' 	=> 'post__not_in',
 			'name' 			=> 'w4pl[post__not_in]',
 			'label' 		=> 'Exclude post by ids',
 			'type' 			=> 'text',
-			'desc' 			=> 'comma separate id'
+			'desc' 			=> 'comma separated post id'
 		);
 		$fields['post_parent__in'] = array(
 			'option_name' 	=> 'post_parent__in',
 			'name' 			=> 'w4pl[post_parent__in]',
 			'label' 		=> 'Post parent ids',
 			'type' 			=> 'text',
-			'desc' 			=> 'comma separate id'
+			'desc' 			=> 'comma separated post parent id'
 		);
 		$fields['author__in'] = array(
 			'option_name' 	=> 'author__in',
 			'name' 			=> 'w4pl[author__in]',
 			'label' 		=> 'Post author ids',
 			'type' 			=> 'text',
-			'desc' 			=> 'comma separate id'
+			'desc' 			=> 'comma separated author id'
 		);
 
 		$fields['orderby'] = array(
+			'before'		=> '<h2>Order</h2>',
 			'option_name' 	=> 'orderby',
 			'name' 			=> 'w4pl[orderby]',
 			'label' 		=> 'Orderby',
@@ -278,6 +284,7 @@ function insertAtCaret(areaId,text) {
 
 
 		$fields['posts_per_page'] = array(
+			'before'		=> '<h2>Limit</h2>',
 			'option_name' 	=> 'posts_per_page',
 			'name' 			=> 'w4pl[posts_per_page]',
 			'label' 		=> 'Items per page',
@@ -291,51 +298,92 @@ function insertAtCaret(areaId,text) {
 			'type' 			=> 'text',
 			'desc' 			=> 'maximum results to display in total'
 		);
+		$fields['offset'] = array(
+			'option_name' 	=> 'offset',
+			'name' 			=> 'w4pl[offset]',
+			'label' 		=> 'Offset',
+			'type' 			=> 'text',
+			'desc' 			=> 'skip given number of posts from beginning'
+		);
+
 
 		$fields['template'] = array(
+			'before'		=> '<h2>Template</h2>',
 			'option_name' 	=> 'template',
 			'name' 			=> 'w4pl[template]',
-			'label' 		=> 'Main template',
+			'label' 		=> '',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
 			'default' 		=> apply_filters('w4pl/template_default', ''),
-			'desc' 			=> 'the main template. this template should have the [loop] shortcode somewhere.'
+			'desc' 			=> 'top level shortcodes are [nav], [groups][/groups], [posts][/posts]. while using group by option, posts should be nested in groups tag. example:'
+			. "<pre style='width:auto'>
+[groups]
+  [group_title]
+  [posts]
+    [post_title]
+  [/posts]
+[/groups]
+[nav]
+</pre>"
+			. '<br />without group, a simple template should be like -'
+			. "<pre style='width:auto'>
+[posts]
+  [post_title]
+[/posts]
+[nav]
+</pre>"
 		);
-		
-		
-		
-		$fields['template_loop'] = array(
-			'option_name' 	=> 'template_loop',
-			'name' 			=> 'w4pl[template_loop]',
-			'label' 		=> 'Loop Template',
-			'type' 			=> 'textarea',
-			'input_class' 	=> 'widefat',
-			'default' 		=> apply_filters('w4pl/template_loop_default', ''),
-			'desc' 			=> 'click on the shortcode names on right to add it to the template. to learn more, click button below'
-		);
 
 
-
-		$shortcodes = W4_Post_list::get_shortcodes();
-
-
-		$input_before = '<div id="w4pl_template_loop_buttons">';
+		$shortcodes = W4PL_Core::get_shortcodes();
+		$shortcode_groups = array();
 		foreach( $shortcodes as $shortcode => $attr ){
-			if( isset($attr['code']) )
-				$code = $attr['code'];
-			else
-				$code = '['. $shortcode . ']';
+			$group = $attr['group'];
+			if( !isset($shortcode_groups[$group]) || !is_array($shortcode_groups[$group]) )
+				$shortcode_groups[$group] = array();
 
-			$input_before .= sprintf(' <a href="#%1$s" data-code="%2$s">%1$s</a>', $shortcode, esc_attr($code) );
+			#if( ! in_array($attr['group'], $shortcode_groups) )
+			$shortcode_groups[$group][] = $shortcode;
+		}
+
+		#print_r($shortcode_groups);
+
+
+		$input_before = '<div id="w4pl_template_buttons">';
+		foreach( $shortcode_groups as $shortcode_group => $scodes ){
+			$input_before .= sprintf(' <div class="w4pl_button_group"><span class="w4pl_button_group_title">%1$s</span>', $shortcode_group );
+			foreach( $scodes as $shortcode ){
+				$attr = $shortcodes[$shortcode];
+				if( isset($attr['code']) )
+					$code = $attr['code'];
+				else
+					$code = '['. $shortcode . ']';
+				$input_before .= sprintf(' <a href="#%1$s" data-code="%2$s">%1$s</a>', $shortcode, esc_attr($code) );
+			}
+			$input_before .= '</div>';
 		}
 		$input_before .= '</div>';
 
-		$fields['template_loop']['input_before'] = $input_before;
+
+		$fields['template']['input_before'] = $input_before;
+		$fields['template']['input_wrap_before'] = self::get_shortcode_hint_html();
 
 
-		$fields['template_loop']['input_wrap_before'] = self::get_shortcode_hint_html();
+		/* Migration procedure */
+		if( isset($post_data['template_loop']) && !empty($post_data['template_loop']) )
+		{
+			$post_data['template'] = str_replace( '[loop]', '[posts]'. $post_data['template_loop'] .'[/posts]', $post_data['template'] );
+			unset($post_data['template_loop']);
+		}
+
+		if( ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $post_data['template']) && preg_match('/\[loop\]/sm', $post_data['template'], $match ) )
+		{
+			$post_data['template'] = str_replace( $match[0], '[posts]'. $post_data['template_loop'] .'[/posts]', $post_data['template'] );
+		}
+
 
 		$fields['class'] = array(
+			'before'		=> '<h2>Style</h2>',
 			'option_name' 	=> 'class',
 			'name' 			=> 'w4pl[class]',
 			'label' 		=> 'List class',
@@ -367,6 +415,7 @@ function insertAtCaret(areaId,text) {
 
 		echo w4pl_form_fields( $fields, $post_data, $form_args );
 	}
+
 
 	public static function get_post_type_fields_ajax()
 	{
@@ -400,6 +449,7 @@ function insertAtCaret(areaId,text) {
 	public static function post_type_fields( &$fields, $post_data )
 	{
 		$post_type = $post_data['post_type'];
+
 		// mime type field
 		if( $mime_type_options = self::post_mime_type_options($post_type) )
 		{
@@ -407,10 +457,26 @@ function insertAtCaret(areaId,text) {
 				'option_name' 	=> 'post_mime_type',
 				'name' 			=> 'w4pl[post_mime_type]',
 				'label' 		=> 'Post Mime Type',
-				'type' 			=> 'select',
-				'option' 		=> $mime_type_options
+				'type' 			=> 'checkbox',
+				'option' 		=> $mime_type_options,
+				'desc' 			=> 'if displaying attachment, choose mime type to restrcit result to specific file types.'
 			);
 		}
+
+		$fields['groupby'] = array(
+			'option_name' 	=> 'groupby',
+			'name' 			=> 'w4pl[groupby]',
+			'label' 		=> 'Group By',
+			'type' 			=> 'select',
+			'option' 		=> self::post_groupby_options($post_type)
+		);
+		$fields['group_order'] = array(
+			'option_name' 	=> 'group_order',
+			'name' 			=> 'w4pl[group_order]',
+			'label' 		=> 'Group Order',
+			'type' 			=> 'select',
+			'option' 		=> array('' => 'None', 'ASC' => 'ASC', 'DESC' => 'DESC')
+		);
 
 		foreach( self::post_type_taxonomies_options($post_type) as $taxonomy => $label )
 		{
@@ -501,9 +567,30 @@ function insertAtCaret(areaId,text) {
 
 			$return[$post_type] = $post_type_object->labels->name;
 		}
-	
+
 		return $return;
 	}
+
+
+	public static function post_groupby_options( $post_type )
+	{
+		$return = array(
+			'' 			=> 'None',
+			'year' 		=> 'Year',
+			'month' 	=> 'Month',
+			'yearmonth' => 'Year Months',
+			'author' 	=> 'Author',
+			'parent' 	=> 'Parent'
+		);
+		foreach( get_object_taxonomies($post_type, 'all') as $taxonomy => $taxonomy_object ){
+			if( $taxonomy == 'post_format' || !$taxonomy_object->public )
+				continue;
+			$return['tax_'. $taxonomy] = $taxonomy_object->labels->name;
+		}
+
+		return $return;
+	}
+
 
 	public static function post_type_taxonomies_options( $post_type )
 	{
@@ -538,7 +625,7 @@ function insertAtCaret(areaId,text) {
 
 	public function get_shortcode_hint_html()
 	{
-		$shortcodes = W4_Post_list::get_shortcodes();
+		$shortcodes = W4PL_Core::get_shortcodes();
 		$return = '<a id="shortcode_hint_toggle" class="button">shortcodes details</a>';
 		$return .= '<table id="shortcode_hint" class="widefat" style="display:none;">';
 		$return .= '<thead><tr><th style="text-align: right;">Tag</th><th>Details</th></tr></thead><tbody>';
@@ -607,9 +694,5 @@ function insertAtCaret(areaId,text) {
 	}
 }
 
-	new W4PL_Admin;
-
-
-
-
+	new W4PL_Lists_Admin;
 ?>

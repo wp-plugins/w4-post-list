@@ -4,7 +4,7 @@ class W4PL_Admin_Page_Docs
 	function __construct()
 	{
 		add_action( 'admin_menu', array($this, 'admin_menu') );
-		add_action( 'activate_'. W4PL_BASENAME,  			array($this, 'plugin_activated'), 10, 3 );
+		#add_action( 'activate_'. W4PL_BASENAME,  			array($this, 'plugin_activated'), 10, 3 );
 	}
 
 	public function plugin_activated()
@@ -61,7 +61,7 @@ class W4PL_Admin_Page_Docs
 
 		<div class="postbox"><h3><?php _e( 'Plugin Updates', W4PL_TXT_DOMAIN ); ?></h3>
 		<div class="inside">
-	       <?php W4PL_Admin::plugin_news(); ?>
+	       <?php W4PL_Lists_Admin::plugin_news(); ?>
 		</div><!--inside-->
 		</div><!--postbox-->
 
@@ -92,7 +92,7 @@ class W4PL_Admin_Page_Docs
 		</div><!--postbox-->
 	
 		<div class="postbox "><h3><?php _e( 'Shortcodes', W4PL_TXT_DOMAIN); ?></h3>
-		<div class="inside"><?php $shortcodes = W4_Post_list::get_shortcodes(); ?>
+		<div class="inside"><?php $shortcodes = apply_filters( 'w4pl/get_shortcodes', array() ); ?>
 		<table id="shortcode_hint" class="widefat">
 		<thead><tr><th style="text-align: right; width: 100px;">Tag</th><th>Details</th></tr></thead><tbody><?php
 		foreach( $shortcodes as $shortcode => $attr ){ $rc = isset($rc) && $rc == '' ? $rc = 'alt' : ''; ?>
@@ -101,13 +101,6 @@ class W4PL_Admin_Page_Docs
 			<td style="font-size:12px; line-height: 1.3em;"><?php echo $attr['desc']; ?></td>
 			</tr>
 		<?php } ?>
-			<tr class="<?php echo $rc; ?>">
-			<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>[nav]</code></th>
-			<td style="font-size:12px; line-height: 1.3em;"><strong>return</strong> pagination for the list
-            <br /><br /><strong>Attributes</strong>:
-            <br /><strong>type</strong> = (text) allowed values  - plain, list, nav
-            <br /><strong>ajax</strong> = (0|1) use pagination with ajax</td>
-			</tr>
 		</tbody></table>
 
 		</div><!--inside-->
