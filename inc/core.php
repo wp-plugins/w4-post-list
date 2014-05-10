@@ -19,6 +19,8 @@ class W4PL_Core
 		add_filter( 'w4pl/get_shortcodes', 		array($this, 'get_shortcodes') );
 	}
 
+
+
 	/*
 	 * Register List Post Type
 	*/
@@ -47,10 +49,13 @@ class W4PL_Core
 			'public'  				=> false,
 			'has_archive'			=> false,
 			'delete_with_user'		=> false,
+			'show_in_admin_bar'		=> false,
 			'supports' 				=> array('title' ),
 			'menu_icon'				=> W4PL_URL .'assets/menu.png'
 		));
 	}
+
+
 
 	/*
 	 * Shortcodes
@@ -95,6 +100,11 @@ class W4PL_Core
 				'group' => 'Post', 
 				'func' => 'post_id', 
 				'desc' => '<strong>Output</strong>: post id'
+			),
+			'post_number' => array(
+				'group' => 'Post', 
+				'func' => 'post_number', 
+				'desc' => '<strong>Output</strong>: post item number, starting from 1'
 			),
 			'post_permalink' => array(
 				'group' => 'Post', 
@@ -164,6 +174,11 @@ class W4PL_Core
 				'group' => 'Post', 
 				'func' => 'post_author_url', 
 				'desc' => '<strong>Output</strong>: post author name url'
+			),
+			'post_author_email'	=> array(
+				'group' => 'Post', 
+				'func' => 'post_author_email', 
+				'desc' => '<strong>Output</strong>: post author email address'
 			),
 			'post_author_avatar'=> array(
 				'group' => 'Post', 
@@ -293,6 +308,8 @@ class W4PL_Core
 			)
 		);
 	}
+
+
 
 	/*
 	 * Display List Using Shortcode

@@ -731,6 +731,7 @@ class W4_Post_list
 
 	// Callback Functions - Post
 	function post_id($attr, $cont){ return get_the_ID(); }
+	function post_number($attr, $cont){ return $this->wp_query->current_post + 1; }
 	function post_permalink($attr, $cont){ return get_permalink(); }
 	function post_class($attr, $cont){ return join( ' ', get_post_class() ); }
 	function post_title($attr, $cont)
@@ -781,6 +782,7 @@ class W4_Post_list
 
 	function post_author_name($attr, $cont){ return get_the_author_meta('display_name'); }
 	function post_author_url($attr, $cont){ return get_author_posts_url( get_the_author_meta('ID') ); }
+	function post_author_email($attr, $cont){ return get_the_author_meta('user_email'); }
 	function post_author_avatar($attr, $cont)
 	{
 		$size = 32;

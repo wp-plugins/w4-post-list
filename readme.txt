@@ -1,17 +1,17 @@
 === W4 Post List ===
-Plugin Name: W4 Post List
-Author: sajib1223, Shazzad Hossain Khan
-Donate link: http://w4dev.com/w4-plugin/w4-post-list
+Contributors: sajib1223
 Tags: post, widget, shortcode, list, media, custom post type
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.6.4
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
 
 
 == Description ==
-Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. There a page for creating or editing a list, just like you manage a post page. The Option page let you set your desired posts query. Firstly, you use filters to chose desired set of posts, secondly, you the order in what posts will be sorted, thirdly you chose how many posts to display and if you need Multi-Page post list (using pagination), and lastly, you build the display template. So, the steps are -
+
+Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. There's a page for creating or editing each list. The Option page let you set your desired posts query. Firstly, you use filters to chose desired set of posts, secondly, you the order in what posts will be sorted, thirdly you chose how many posts to display and if you need Multi-Page post list (using pagination), and lastly, you build the display template. So, you can do following -
 
 
 = Filter Posts by =
@@ -22,6 +22,15 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * post ids
 * post parents
 * post authors
+
+
+= Group Posts by =
+* year
+* month
+* month year
+* category, post tag or custom taxonomies
+* authors
+* parents
 
 
 = Order Posts by =
@@ -36,10 +45,16 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * or random
 
 
-Next is pagination for your list. There three type of pagination, 1. Next / Previous links, 2. Numeric navigation flat - Ex: 1, 2, 3, 2. Numeric navigation showing in unordered list. Pagination can also be used by Ajax, no page-loading.
+Enable pagination for your list. There three type of pagination -
+* Next / Previous links
+* Numeric navigation flat - Ex: 1, 2, 3.
+* Numeric navigation showing in unordered list. 
 
 
-The next thing is Templates. And that's the Prime Feature of this plugin. Templates are designed using Shortcodes and HTML codes. You can create a simple list just showing post title and and linked to the post page. Or you can display complex list using following elements - 
+Ajax can be enabled for pagination to avoid page-loading.
+
+
+The next thing is Templates. And that's the Prime Feature of this plugin. Templates can be designed using Shortcodes and HTML codes. You can create a simple list just showing post title and linked to the post page, or you can display complex list using any of the information relating to post. Some of these are - 
 
 * post thumbnail
 * post categories
@@ -82,15 +97,17 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Changelog ==
+= 1.6.5 =
+* New: Post author email shortcode
+* New: Post item number shrtcode
+* New: Copy list shortcode directly from the lists table page
 = 1.6.4 =
 * New: Group posts by parent, author, categories, tags, year, month, year month.
 * New: Shortcodes to display group information.
-
 = 1.6.3 =
 * New: Added shortcode button to insert shortcode quickly, similar as tinymce button
 = 1.6.1 =
 * New: Added loading state upon changing post type on options page
-
 = 1.6 =
 * New / Clean Option Panel
 * A Lot more shortcodes
@@ -162,10 +179,13 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Upgrade Notice ==
+= 1.6.5 =
+* New: Post author email shortcode
+* New: Post item number shrtcode
+* New: Copy list shortcode directly from the lists table page
 = 1.6.4 =
 * New: Group posts by parent, author, categories, tags, year, month, year month.
 * New: Shortcodes to display group information.
-
 = 1.6.3 =
 * New: Added shortcode button to insert shortcode quickly, similar as tinymce button
 = 1.6.1 =
@@ -191,6 +211,7 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 * Fixed Html Template input issue.
 = 1.5 =
 * Stable Version
+
 = 1.4.6 =
 * A lot more template tag to arrange your post list with more flexibility.
 = 1.4.5 =

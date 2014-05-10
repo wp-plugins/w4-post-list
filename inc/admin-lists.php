@@ -3,38 +3,23 @@ class W4PL_Lists_Admin
 {
 	function __construct()
 	{
-		// set update message for our post type, you dont like to use - "post update" !
-		add_filter( 'post_updated_messages', 				array($this, 'post_updated_messages'));
-
-		// add lists link to plugin links, so one can navigate quickly
-		add_filter( 'plugin_action_links_' . W4PL_BASENAME, array($this, 'plugin_action_links') );
-
-		
 		add_action( 'add_meta_boxes_'. W4PL_SLUG, 			array($this, 'add_meta_boxes') );
 		add_action( 'save_post_'. W4PL_SLUG,  				array($this, 'save_post'), 10, 3 );
 
 		add_action( 'wp_ajax_w4pl_get_post_type_fields', 	array($this, 'get_post_type_fields_ajax') );
 
 		add_filter( 'w4pl/template_default',  				array($this, 'template_default') );
-	}
 
-	public function post_updated_messages( $messages )
-	{
-		global $post_ID, $post;
 
-		$messages[W4PL_SLUG] = array(
-			 1 => sprintf( __('List updated. Use Shortcode <input value="[postlist %d]" type="text" size="9" />'), $post_ID ),
-			 2 => '',
-			 3 => '',
-			 4 => __('List updated.'),
-			 5 => '',
-			 6 => sprintf( __('List published. Use Shortcode <input value="[postlist %d]" type="text" size="9" />'), $post_ID ),
-			 7 => __('List saved.'),
-			 8 => sprintf( __('List submitted. Use Shortcode <input value="[postlist %d]" type="text" size="9" />'), $post_ID ),
-			 9 => sprintf( __('List scheduled. Use Shortcode <input value="[postlist %d]" type="text" size="9" />'), $post_ID ),
-			10 => ''
-		);
-		return $messages;
+		// set update message for our post type, you dont like to use - "post update" !
+		add_filter( 'post_updated_messages', 				array($this, 'post_updated_messages'));
+
+		// additional column
+		add_filter( 'manage_'. W4PL_SLUG .'_posts_columns', 		array($this, 'manage_posts_columns') );
+		add_action( 'manage_'. W4PL_SLUG .'_posts_custom_column', 	array($this, 'manage_posts_custom_column'), 10, 2 );
+
+		// add lists link to plugin links, so one can navigate quickly
+		add_filter( 'plugin_action_links_' . W4PL_BASENAME, array($this, 'plugin_action_links') );
 	}
 
 	// Meta box
@@ -612,6 +597,7 @@ function insertAtCaret(areaId,text) {
 			'meta_value_num'	=> __( 'Meta numeric value', 	W4PL_TXT_DOMAIN),
 			'rand'				=> __( 'Random', 				W4PL_TXT_DOMAIN),
 		);
+
 		if( post_type_supports($post_type, 'comments') )
 			$return['comment_count'] = __( 'Comment Count',W4PL_TXT_DOMAIN);
 
@@ -631,23 +617,63 @@ function insertAtCaret(areaId,text) {
 			$return .= '<td style="font-size:12px; line-height: 1.3em;">'. $attr['desc'] . '</td>';
 			$return .= '</tr>';
 		}
-			$return .= '<tr class="'. $rc .'">';
-			$return .= '<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>[nav]</code></th>';
-			$return .= '<td style="font-size:12px; line-height: 1.3em;"><strong>return</strong> pagination for the list
-            <br /><br /><strong>Attributes</strong>:
-            <br /><strong>type</strong> = (text) allowed values  - plain, list, nav
-            <br /><strong>ajax</strong> = (0|1) use pagination with ajax</td>';
-			$return .= '</tr>';
 		$return .= '</tbody></table>';
-		
 		return $return;
 	}
+
+
+	public function post_updated_messages( $messages )
+	{
+		global $post_ID, $post;
+
+		$input_attr = 'type="text" size="9" onfocus="this.select();" onclick="this.select();" readonly="readonly"';
+
+		$messages[W4PL_SLUG] = array(
+			 1 => sprintf( __('List updated. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			 2 => '',
+			 3 => '',
+			 4 => __('List updated.'),
+			 5 => '',
+			 6 => sprintf( __('List published. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			 7 => __('List saved.'),
+			 8 => sprintf( __('List submitted. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			 9 => sprintf( __('List scheduled. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			10 => ''
+		);
+		return $messages;
+	}
+
+	public function manage_posts_columns( $columns )
+	{
+		$date = false;
+		if( isset($columns['date']) ){
+			$date = $columns['date'];
+			unset($columns['date']);
+		}
+		$columns['shortcode'] = __('Shortcode');
+
+		if( $date ){
+			$columns['date'] = $date;
+		}
+
+		return $columns;
+	}
+
+	public function manage_posts_custom_column( $column_name, $post_ID )
+	{
+		if( 'shortcode' == $column_name ){
+			printf( '<input value="[postlist %d]" type="text" size="9" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', $post_ID );
+		}
+	}
+
 
 	public static function plugin_action_links( $links )
 	{
 		$readme_link['doc'] = '<a href="'. 'edit.php?post_type='. W4PL_SLUG . '-docs">' . __( 'Docs', W4PL_TXT_DOMAIN ). '</a>';
 		return array_merge( $links, $readme_link );
 	}
+
+
 
 	public static function news_meta_box()
 	{
@@ -671,7 +697,8 @@ function insertAtCaret(areaId,text) {
 			if( is_wp_error( $content ) ){
 				$output = get_option( $transient_old );
 			}
-			else{
+			else
+			{
 				$output = $content;
 				// Save last new forever if a newer is not available..
 				update_option( $transient_old, $output );
