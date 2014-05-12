@@ -57,6 +57,7 @@ Ajax can be enabled for pagination to avoid page-loading.
 
 The next thing is Templates. And that's the Prime Feature of this plugin. Templates can be designed using Shortcodes and HTML codes. You can create a simple list just showing post title and linked to the post page, or you can display complex list using any of the information relating to post. Some of these are - 
 
+
 * post thumbnail
 * post categories
 * post tags
@@ -71,7 +72,8 @@ The next thing is Templates. And that's the Prime Feature of this plugin. Templa
 
 To check a list of available shortcode available, visit the plugin website - <a href="http://w4dev.com/w4-plugin/w4-post-list">here</a>.
 
-To check few example lists created with the plugin, visit the <a href="http://w4dev.com/wp/w4-post-list-design-template">example page</a>.
+
+To check few example lists created with the plugin, visit the <a href="http://w4dev.com/wp/w4-post-list-examples">example page</a>.
 
 
 = What's new latest version (1.6 +) =
@@ -93,11 +95,22 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Screenshots ==
+
 1. Config Panel
-2. A preview
+
+2. Preview 1
+
+3. Preview 2
+
+
+== Frequently Asked Questions ==
+
+Please ask question in the comments <a href="http://w4dev.com/w4-plugin/w4-post-list">here</a>.
+
 
 
 == Changelog ==
+
 = 1.6.6 =
 * New: Meta query feature. Do query by multiple meta key/value with comparement
 = 1.6.5 =
@@ -139,7 +152,7 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 = 1.4 =
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
-* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
+* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-examples/">http://w4dev.com/wp/w4-post-list-examples/</a>
 = 1.3.6 =
 * List only posts by category.
 * Show/Not show future posts.
@@ -225,7 +238,7 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 = 1.4 =
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
-* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-design-template/">http://w4dev.com/wp/w4-post-list-design-template/</a>
+* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-examples/">http://w4dev.com/wp/w4-post-list-examples/</a>
 = 1.3.6 =
 * List only posts by category.
 * Show/Not show future posts.
@@ -265,12 +278,3 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 = 1.1 =
 * Please update to 1.1, to avoid the simple category count bug and enjoy the multi widget functionality.
 = 1.0 =
-
-
-
-== How to use ==
-
-Visit <a href="http://w4dev.com/wp/w4-post-list-design-template">plugin template definition page</a> for tags information.
-
-= Using Template tag =
-You can wrap a tag easily with your own html tags. Like: <span class="my-time">post_date</span> while editing a list.
