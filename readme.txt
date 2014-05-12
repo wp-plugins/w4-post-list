@@ -22,6 +22,7 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * post ids
 * post parents
 * post authors
+* post meta ( meta_query )
 
 
 = Group Posts by =
@@ -97,6 +98,8 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Changelog ==
+= 1.6.6 =
+* New: Meta query feature. Do query by multiple meta key/value with comparement
 = 1.6.5 =
 * New: Post author email shortcode
 * New: Post item number shrtcode
@@ -179,6 +182,8 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Upgrade Notice ==
+= 1.6.6 =
+* New: Meta query feature. Do query by multiple meta key/value with comparement
 = 1.6.5 =
 * New: Post author email shortcode
 * New: Post item number shrtcode

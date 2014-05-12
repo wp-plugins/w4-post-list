@@ -35,12 +35,15 @@ class W4_Post_list
 		if( in_array($list_id, $w4pl_loaded) )
 			return new WP_Error('list_loaded', 'A list can load only one.');
 
+
 		$w4pl_loaded[] = $list_id;
+
 
 		$this->id 				= $list_id;
 		$this->query 			= array();
 		$this->wp_query 		= '';
 		$this->options 			= get_post_meta( $list_id, '_w4pl', true );
+
 
 		if( isset($this->options['template_loop']) && !empty($this->options['template_loop']) ){
 			if( isset($this->options['template']) 
@@ -103,7 +106,27 @@ class W4_Post_list
 			$this->query['meta_key'] = $this->options['orderby_meta_key'];
 		}
 
-		# print_r($this->options);
+
+		// meta query
+		if( isset($this->options['meta_query']) && !empty($this->options['meta_query']) )
+		{
+			$this->query['meta_query'] = array('relation' => isset($this->options['meta_query']['relation']) ? $this->options['meta_query']['relation'] : 'OR');
+			foreach( $this->options['meta_query']['key'] as $index => $key )
+			{
+				$value = isset($this->options['meta_query']['value'][$index]) ? $this->options['meta_query']['value'][$index] : '';
+				$compare = isset($this->options['meta_query']['compare'][$index]) ? $this->options['meta_query']['compare'][$index] : '';
+				if( !empty($key) && !empty($compare) )
+				{
+					$this->query['meta_query'][] = array(
+						'key' 		=> $key,
+						'compare' 	=> $compare,
+						'value' 	=> $value
+					);
+				}
+			}
+		}
+
+		#echo '<pre>'; print_r($this->query); echo '</pre>';
 
 
 		// build taxonoomy query
@@ -143,6 +166,8 @@ class W4_Post_list
 
 
 		$this->wp_query = new WP_Query( $this->query );
+
+		#echo '<pre>'; print_r($this->wp_query); echo '</pre>';
 
 
 		// main template

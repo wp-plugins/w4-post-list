@@ -89,6 +89,7 @@ class W4PL_Lists_Admin
 #w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .w4pl_button_group{ padding:0 0 10px;}
 .w4pl_button_group_title{ display:block;}
+#w4pl_meta_query_table th{ text-align:left; padding-left:8px;}
         </style>
 
 
@@ -128,6 +129,18 @@ class W4PL_Lists_Admin
 			insertAtCaret( 'w4pl_template', $(this).data('code') );
 			return false;
 		});
+
+		$('#w4pl_meta_query_add_btn').click(function(){
+			var htm = $('#w4pl_meta_query_clone tbody').html();
+			$('#w4pl_meta_query_table tbody').append(htm);
+			return false;
+		});
+		$('.w4pl_meta_query_remove_btn').live('click',function(){
+			$(this).parents('tr').remove();
+			return false;
+		});
+
+
 	});
 
 
@@ -219,6 +232,9 @@ function insertAtCaret(areaId,text) {
 			'html' 			=> '</div><!--w4pl_post_type_options-->'
 		);
 
+		#echo '<pre>';	print_r($post_data);	echo '</pre>';
+
+
 		$fields['post__in'] = array(
 			'option_name' 	=> 'post__in',
 			'name' 			=> 'w4pl[post__in]',
@@ -248,6 +264,101 @@ function insertAtCaret(areaId,text) {
 			'desc' 			=> 'comma separated author id'
 		);
 
+
+
+		/* Meta Query */
+
+		$html = '<h2>Meta Query</h2>';
+
+		$meta_query_relation = isset($post_data['meta_query']['relation']) ? $post_data['meta_query']['relation'] : '';
+		$html .= w4pl_form_field_html( array(
+			'name' 			=> 'w4pl[meta_query][relation]',
+			'label' 		=> 'Relation',
+			'type' 			=> 'radio',
+			'option' 		=> array('OR' => 'OR', 'AND' => 'AND'),
+			'value'			=> $meta_query_relation
+		));
+
+		$html .= '<div class="wffw">';
+		$html .= '<table id="w4pl_meta_query_table" class="widefat"><thead><tr><th>Key</th><th>Compare</th><th>Value</th><th>Action</th></tr></thead>
+		<tbody>';
+
+		if( isset($post_data['meta_query']) )
+		{
+			foreach( $post_data['meta_query']['key'] as $index => $key )
+			{
+				$compare = isset($post_data['meta_query']['compare'][$index]) ? $post_data['meta_query']['compare'][$index] : '';
+				$value = isset($post_data['meta_query']['value'][$index]) ? $post_data['meta_query']['value'][$index] : '';
+
+				if( empty($key) || empty($compare))
+					continue;
+
+				$html .= '
+				<tr><td>
+					'.
+					w4pl_form_child_field_html( array(
+						'id' 			=> 'w4pl_meta_query_key_'. $index,
+						'name' 			=> 'w4pl[meta_query][key][]',
+						'type' 			=> 'text',
+						'value'			=> $key
+					))
+					. '</td><td>' 
+					. w4pl_form_child_field_html( array(
+						'id' 			=> 'w4pl_meta_query_compare_'. $index,
+						'name' 			=> 'w4pl[meta_query][compare][]',
+						'type' 			=> 'select',
+						'option' 		=> self::meta_query_compare_options(),
+						'value'			=> $compare
+					))
+					. '</td><td>' 
+					. w4pl_form_child_field_html( array(
+						'id' 			=> 'w4pl_meta_query_value_'. $index,
+						'name' 			=> 'w4pl[meta_query][value][]',
+						'type' 			=> 'text',
+						'value'			=> $value
+					))
+					. '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
+					.'
+				</tr>';
+			}
+		}
+		$html .= '</tbody>
+			</table>';
+
+
+		$html .= '
+		<p style="text-align:right;"><a id="w4pl_meta_query_add_btn" href="#" class="button">+ Add</a></p>
+		<table id="w4pl_meta_query_clone" style="display:none;">
+		<tr><td>
+			'
+			. w4pl_form_child_field_html( array(
+				'name' 			=> 'w4pl[meta_query][key][]',
+				'type' 			=> 'text'
+			))
+			. '</td><td>' 
+			. w4pl_form_child_field_html( array(
+				'name' 			=> 'w4pl[meta_query][compare][]',
+				'type' 			=> 'select',
+				'option' 		=> self::meta_query_compare_options()
+			))
+			. '</td><td>' 
+			. w4pl_form_child_field_html( array(
+				'name' 			=> 'w4pl[meta_query][value][]',
+				'type' 			=> 'text'
+			))
+			. '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
+			.'
+		</tr></table>';
+		$html .= '</div>';
+
+		$fields['meta_query'] = array(
+			'type' 			=> 'html',
+			'html'			=> $html
+		);
+
+		/* ========================================= */
+
+
 		$fields['orderby'] = array(
 			'before'		=> '<h2>Order</h2>',
 			'option_name' 	=> 'orderby',
@@ -262,7 +373,7 @@ function insertAtCaret(areaId,text) {
 			'option_name' 	=> 'order',
 			'name' 			=> 'w4pl[order]',
 			'label' 		=> 'Order',
-			'type' 			=> 'select',
+			'type' 			=> 'radio',
 			'option' 		=> array('ASC' => 'ASC', 'DESC' => 'DESC')
 		);
 
@@ -458,7 +569,7 @@ function insertAtCaret(areaId,text) {
 			'option_name' 	=> 'group_order',
 			'name' 			=> 'w4pl[group_order]',
 			'label' 		=> 'Group Order',
-			'type' 			=> 'select',
+			'type' 			=> 'radio',
 			'option' 		=> array('' => 'None', 'ASC' => 'ASC', 'DESC' => 'DESC')
 		);
 
@@ -489,6 +600,8 @@ function insertAtCaret(areaId,text) {
 			return;
 
 		$options = stripslashes_deep($_POST['w4pl']);
+		#die( print_r($_POST) );
+
 		if( isset($options) )
 		{
 			update_post_meta( $post_ID, '_w4pl', $options );
@@ -567,6 +680,14 @@ function insertAtCaret(areaId,text) {
 				continue;
 			$return['tax_'. $taxonomy] = $taxonomy_object->labels->name;
 		}
+
+		return $return;
+	}
+
+	public function meta_query_compare_options()
+	{
+		$return = array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE','NOT EXISTS', 'REGEXP', 'NOT REGEXP', 'RLIKE');
+		$return = array_combine($return, $return);
 
 		return $return;
 	}
