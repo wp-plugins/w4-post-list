@@ -84,6 +84,8 @@ To check few example lists created with the plugin, visit the <a href="http://w4
 * Removed: Posts with categories, Only categories.
 
 
+If you find this plugin useful, please add your <a href="http://wordpress.org/support/view/plugin-reviews/w4-post-list">review</a>.
+
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
 
@@ -99,8 +101,9 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 == Frequently Asked Questions ==
 
-Please ask question in the comments <a href="http://w4dev.com/w4-plugin/w4-post-list">here</a>.
+Please ask any question regarding the plugin - <a href="http://wordpress.org/support/plugin/w4-post-list">here</a>.
 
+If you find this plugin useful, please add your <a href="http://wordpress.org/support/view/plugin-reviews/w4-post-list">review</a>.
 
 
 == Screenshots ==
