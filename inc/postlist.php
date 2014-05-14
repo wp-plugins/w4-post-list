@@ -67,7 +67,8 @@ class W4_Post_list
 			'orderby', 
 			'order', 
 			'offset',
-			'posts_per_page'
+			'posts_per_page',
+			'post_format'
 		) as $option_name )
 		{
 			if( !empty($this->options[$option_name]) )
@@ -108,9 +109,9 @@ class W4_Post_list
 
 
 		// meta query
-		if( isset($this->options['meta_query']) && !empty($this->options['meta_query']) )
+		if( isset($this->options['meta_query']) && isset($this->options['meta_query']['key']) )
 		{
-			$this->query['meta_query'] = array('relation' => isset($this->options['meta_query']['relation']) ? $this->options['meta_query']['relation'] : 'OR');
+			$this->query['meta_query'] = array();
 			foreach( $this->options['meta_query']['key'] as $index => $key )
 			{
 				$value = isset($this->options['meta_query']['value'][$index]) ? $this->options['meta_query']['value'][$index] : '';
@@ -123,6 +124,10 @@ class W4_Post_list
 						'value' 	=> $value
 					);
 				}
+			}
+			if( !empty($this->query['meta_query']) )
+			{
+				$this->query['meta_query']['relation'] = isset($this->options['meta_query']['relation']) ? $this->options['meta_query']['relation'] : 'OR';
 			}
 		}
 
@@ -167,7 +172,7 @@ class W4_Post_list
 
 		$this->wp_query = new WP_Query( $this->query );
 
-		#echo '<pre>'; print_r($this->wp_query); echo '</pre>';
+		# echo '<pre>'; print_r($this->wp_query); echo '</pre>';
 
 
 		// main template
@@ -222,19 +227,19 @@ class W4_Post_list
 					$group_posts_loop = '';
 					$groups_template_clone = $groups_template; // clone the group template
 
-
-					while( $this->wp_query->have_posts() ): 
+					// post loop
+					while( $this->wp_query->have_posts() )
+					{
 						$this->wp_query->the_post();
 						if( in_array( get_the_ID(), $group['post_ids']) ){
 							$group_posts_loop .= preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $posts_template );
 						}
-					endwhile;
+					}
 
 					// replace [posts]
 					$groups_template_clone = str_replace( $posts_match['0'], $group_posts_loop, $groups_template_clone );
 
 					// replace groups atribute
-					#$groups_template_clone = preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $groups_template_clone );
 					$groups_template_clone = str_replace( "[group_title]", $group['title'], $groups_template_clone );
 					$groups_template_clone = str_replace( "[group_url]", $group['url'], $groups_template_clone );
 
@@ -244,20 +249,22 @@ class W4_Post_list
 				// replace [groups]
 				$template = str_replace( $group_match[0], $groups_loop, $template );
 			}
+
 			else
 			{
-				#print_r($posts_template);
-
 				$posts_loop = '';
-				while( $this->wp_query->have_posts() ): 
+				// post loop
+				while( $this->wp_query->have_posts() )
+				{
 					$this->wp_query->the_post();
 					$posts_loop .= preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $posts_template );
-				endwhile;
+				}
 
 				// replace [posts]
 				$template = str_replace( $posts_match[0], $posts_loop, $template );
 			}
 		endif;
+
 
 		// replace [nav]
 		if( !empty($template_nav) )
@@ -265,12 +272,6 @@ class W4_Post_list
 			$navigation = $this->get_navigation( shortcode_parse_atts($template_nav), null );
 			$template = str_replace( $nav_match[0], $navigation, $template );
 		}
-
-		#die();
-		
-		
-		// replace the loop content
-		# $template = str_replace( '[posts]', $the_loop, $template );
 
 
 		// unique list class

@@ -501,6 +501,7 @@ function insertAtCaret(areaId,text) {
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
 			'desc' 			=> 'this js loaded just after the list template.'
+
 		);
 
 		$form_args = array(
@@ -525,7 +526,7 @@ function insertAtCaret(areaId,text) {
 		$post_type = $post_data['post_type'];
 
 		$fields = array();
-		self::post_type_fields($fields, $post_data);
+		self::post_type_fields( $fields, $post_data );
 
 		if( empty($fields) ){
 			echo '';
@@ -573,6 +574,39 @@ function insertAtCaret(areaId,text) {
 			'option' 		=> array('' => 'None', 'ASC' => 'ASC', 'DESC' => 'DESC')
 		);
 
+
+		// post format fields
+		if ( post_type_supports( $post_type, 'post-formats' ) )
+		{
+			#global $_wp_post_type_features;
+			#$formats = $_wp_post_type_features[$post_type]['post-formats'];
+
+			#print_r( $formats );
+			#die();
+
+			if( $formats = get_post_format_strings() )
+			{
+				// TODO - push to top
+				$new_formats = array('' => __('Any') );
+				foreach( $formats as $k => $v ){
+					if( 'standard' != $k )
+					{
+						$new_formats["post-format-$k"] = $v;
+					}
+				}
+
+
+				$fields['post_format'] = array(
+					'option_name' 	=> 'post_format',
+					'name' 			=> 'w4pl[post_format]',
+					'label' 		=> 'Post Format',
+					'type' 			=> 'select',
+					'option' 		=> $new_formats
+				);
+			}
+		}
+
+
 		foreach( self::post_type_taxonomies_options($post_type) as $taxonomy => $label )
 		{
 			if( $terms = get_terms( $taxonomy, array( 'fields' => 'id=>name', 'hide_empty' => false ) ) )
@@ -580,13 +614,14 @@ function insertAtCaret(areaId,text) {
 				$fields['tax_query_' . $taxonomy] = array(
 					'option_name' 	=> 'tax_query_'. $taxonomy,
 					'name' 			=> 'w4pl[tax_query_'. $taxonomy .']',
-					'label' 		=> 'Post: ' . $label,
+					'label' 		=> 'Taxonomy - ' . $label,
 					'type' 			=> 'checkbox',
 					'class' 		=> 'tax_query',
 					'option' 		=> $terms
 				);
 			}
 		}
+
 		return $fields;
 	}
 

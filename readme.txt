@@ -1,12 +1,13 @@
 === W4 Post List ===
 Contributors: sajib1223
-Tags: post, widget, shortcode, list, media, custom post type
+Tags: post, post list, custom post list, custom post type, widget, shortcode, media
 Requires at least: 3.0
 Tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
+
 
 
 == Description ==
@@ -88,19 +89,12 @@ Use shortcode "postlist" to show your list inside post/page content area. Exampl
 
 
 == Installation ==
+
 1. Upload zip to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Find W4 post list menu under Posts Menu. Add and manage post list from there.
-4. User shortcode [postlist] with id, or copy shortcode from the post list options page.
+4. User shortcode [postlist] with id, or copy shortcode from the config page.
 
-
-== Screenshots ==
-
-1. Config Panel
-
-2. Preview 1
-
-3. Preview 2
 
 
 == Frequently Asked Questions ==
@@ -109,8 +103,18 @@ Please ask question in the comments <a href="http://w4dev.com/w4-plugin/w4-post-
 
 
 
+== Screenshots ==
+
+1. Config Panel
+2. Preview 1
+3. Preview 2
+
+
+
 == Changelog ==
 
+= 1.6.7 =
+* New: Filter by post format
 = 1.6.6 =
 * New: Meta query feature. Do query by multiple meta key/value with comparement
 = 1.6.5 =
@@ -195,6 +199,9 @@ Please ask question in the comments <a href="http://w4dev.com/w4-plugin/w4-post-
 
 
 == Upgrade Notice ==
+
+= 1.6.7 =
+* New: Filter by post format
 = 1.6.6 =
 * New: Meta query feature. Do query by multiple meta key/value with comparement
 = 1.6.5 =
