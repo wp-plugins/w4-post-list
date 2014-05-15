@@ -5,9 +5,11 @@ class W4_Post_list
 	var $query 		= array();
 	var $wp_query 	= array();
 	var $options 	= array();
+	var $groups 	= array();
+
 	var $css		= '';
 	var $js			= '';
-	var $groups 	= array();
+	var $html		= '';
 
 
 	function __construct()
@@ -108,29 +110,6 @@ class W4_Post_list
 		}
 
 
-		// meta query
-		if( isset($this->options['meta_query']) && isset($this->options['meta_query']['key']) )
-		{
-			$this->query['meta_query'] = array();
-			foreach( $this->options['meta_query']['key'] as $index => $key )
-			{
-				$value = isset($this->options['meta_query']['value'][$index]) ? $this->options['meta_query']['value'][$index] : '';
-				$compare = isset($this->options['meta_query']['compare'][$index]) ? $this->options['meta_query']['compare'][$index] : '';
-				if( !empty($key) && !empty($compare) )
-				{
-					$this->query['meta_query'][] = array(
-						'key' 		=> $key,
-						'compare' 	=> $compare,
-						'value' 	=> $value
-					);
-				}
-			}
-			if( !empty($this->query['meta_query']) )
-			{
-				$this->query['meta_query']['relation'] = isset($this->options['meta_query']['relation']) ? $this->options['meta_query']['relation'] : 'OR';
-			}
-		}
-
 		#echo '<pre>'; print_r($this->query); echo '</pre>';
 
 
@@ -160,7 +139,10 @@ class W4_Post_list
 			'paged'			=> $paged
 		);
 
+
 		$this->query = wp_parse_args( $this->query, $defaults );
+
+
 
 		// while maximum limit is set, we only fetch till the maximum post
 		if( isset($this->options['limit']) && !empty($this->options['limit']) && $this->options['limit'] < ($this->options['posts_per_page'] * $paged) )
@@ -168,6 +150,13 @@ class W4_Post_list
 			$this->query['offset'] = (int) $this->options['offset'] + ($paged - 1) * $this->options['posts_per_page'];
 			$this->query['posts_per_page'] = $this->options['limit'] - ( $this->options['posts_per_page'] * ($paged-1) );
 		}
+
+
+		// let helper class extend/modify this class
+		do_action_ref_array( 'w4pl/parse_query', array( &$this ) );
+
+
+		#echo '<pre>'; print_r($this->query); echo '</pre>';
 
 
 		$this->wp_query = new WP_Query( $this->query );
@@ -274,38 +263,28 @@ class W4_Post_list
 		}
 
 
-		// unique list class
-		$class = trim('w4pl ' . $this->options['class']);
-
-		if( !empty($this->options['css']) )
-			$this->css .= str_replace( '[listid]', $this->id, $this->options['css'] );
-		if( !empty($this->options['js']) )
-			$this->js .= str_replace( '[listid]', $this->id, $this->options['js'] );
-
 		$return  = '';
-
-		// css push
-		if( !empty($this->css) )
-			$return .= '<style id="w4pl-css-'. $this->id .'" type="text/css">' . $this->css . '</style>' . "\n";
 
 
 		// main template
-		$return .= '<div id="w4pl-list-'. $this->id .'" class="'. $class .'"><div id="w4pl-inner-'. $this->id .'" class="w4pl-inner">';
+		$return .= '<div id="w4pl-list-'. $this->id .'"><div id="w4pl-inner-'. $this->id .'" class="w4pl-inner">';
 		$return .= $template;
 		$return .= '</div><!--#w4pl-inner-'. $this->id .'--></div><!--#w4pl-'. $this->id .'-->';
-
-
-		// js push
-		if( !empty($this->js) )
-			$return .= "\n" . '<script id="w4pl-js-'. $this->id .'" type="text/javascript">' . $this->js . '</script>' . "\n";
 
 
 		// reset postdata back to normal.
 		wp_reset_postdata();
 
 
+		$this->html = $return;
+
+
+		// let helper class extend/modify this class
+		do_action_ref_array( 'w4pl/parse_html', array( &$this ) );
+
+
 		// return the template
-		return "<!--W4_Post_list_{$this->id}-->\n" . $return . "\n\n";
+		return "<!--W4_Post_list_{$this->id}-->\n" . $this->html . "\n\n";
 	}
 
 
@@ -328,13 +307,9 @@ class W4_Post_list
 							'url' 	=> get_permalink($parent->ID)
 						);
 					}
-					if( !isset($this->groups[$parent->ID]['post_index']) ){
-						$this->groups[$parent->ID]['post_index'] = array();
-					}
 					if( !isset($this->groups[$parent->ID]['post_ids']) ){
 						$this->groups[$parent->ID]['post_ids'] = array();
 					}
-					$this->groups[$parent->ID]['post_index'][] = $index;
 					$this->groups[$parent->ID]['post_ids'][] = $post->ID;
 					}
 					else{
@@ -344,13 +319,9 @@ class W4_Post_list
 							'url' 	=> ''
 						);
 					}
-					if( !isset($this->groups[0]['post_index']) ){
-						$this->groups[0]['post_index'] = array();
-					}
 					if( !isset($this->groups[0]['post_ids']) ){
 						$this->groups[0]['post_ids'] = array();
 					}
-					$this->groups[0]['post_index'][] = $index;
 					$this->groups[0]['post_ids'][] = $post->ID;
 				}
 			}
@@ -373,13 +344,9 @@ class W4_Post_list
 							'url' 	=> get_term_link($term)
 						);
 					}
-					if( !isset($this->groups[$term->term_id]['post_index']) ){
-						$this->groups[$term->term_id]['post_index'] = array();
-					}
 					if( !isset($this->groups[$term->term_id]['post_ids']) ){
 						$this->groups[$term->term_id]['post_ids'] = array();
 					}
-					$this->groups[$term->term_id]['post_index'][] = $index;
 					$this->groups[$term->term_id]['post_ids'][] = $post->ID;
 					}
 					else{
@@ -389,13 +356,9 @@ class W4_Post_list
 							'url' 	=> ''
 						);
 					}
-					if( !isset($this->groups[0]['post_index']) ){
-						$this->groups[0]['post_index'] = array();
-					}
 					if( !isset($this->groups[0]['post_ids']) ){
 						$this->groups[0]['post_ids'] = array();
 					}
-					$this->groups[0]['post_index'][] = $index;
 					$this->groups[0]['post_ids'][] = $post->ID;
 				}
 			}
@@ -414,13 +377,9 @@ class W4_Post_list
 							'url' 	=> get_author_posts_url($parent->ID)
 						);
 					}
-					if( !isset($this->groups[$parent->ID]['post_index']) ){
-						$this->groups[$parent->ID]['post_index'] = array();
-					}
 					if( !isset($this->groups[$parent->ID]['post_ids']) ){
 						$this->groups[$parent->ID]['post_ids'] = array();
 					}
-					$this->groups[$parent->ID]['post_index'][] = $index;
 					$this->groups[$parent->ID]['post_ids'][] = $post->ID;
 				}
 				else{
@@ -430,13 +389,9 @@ class W4_Post_list
 							'url' 	=> ''
 						);
 					}
-					if( !isset($this->groups[0]['post_index']) ){
-						$this->groups[0]['post_index'] = array();
-					}
 					if( !isset($this->groups[0]['post_ids']) ){
 						$this->groups[0]['post_ids'] = array();
 					}
-					$this->groups[0]['post_index'][] = $index;
 					$this->groups[0]['post_ids'][] = $post->ID;
 				}
 			}
@@ -455,13 +410,9 @@ class W4_Post_list
 							'url' 	=> get_year_link($year)
 						);
 					}
-					if( !isset($this->groups[$year]['post_index']) ){
-						$this->groups[$year]['post_index'] = array();
-					}
 					if( !isset($this->groups[$year]['post_ids']) ){
 						$this->groups[$year]['post_ids'] = array();
 					}
-					$this->groups[$year]['post_index'][] = $index;
 					$this->groups[$year]['post_ids'][] = $post->ID;
 				}
 				else{
@@ -471,13 +422,9 @@ class W4_Post_list
 							'url' 	=> ''
 						);
 					}
-					if( !isset($this->groups[0]['post_index']) ){
-						$this->groups[0]['post_index'] = array();
-					}
 					if( !isset($this->groups[0]['post_ids']) ){
 						$this->groups[0]['post_ids'] = array();
 					}
-					$this->groups[0]['post_index'][] = $index;
 					$this->groups[0]['post_ids'][] = $post->ID;
 				}
 			}
@@ -500,13 +447,9 @@ class W4_Post_list
 							'url' 	=> get_month_link( $year, $month )
 						);
 					}
-					if( !isset($this->groups[$month]['post_index']) ){
-						$this->groups[$month]['post_index'] = array();
-					}
 					if( !isset($this->groups[$month]['post_ids']) ){
 						$this->groups[$month]['post_ids'] = array();
 					}
-					$this->groups[$month]['post_index'][] = $index;
 					$this->groups[$month]['post_ids'][] = $post->ID;
 				}
 				else{
@@ -516,13 +459,9 @@ class W4_Post_list
 							'url' 	=> ''
 						);
 					}
-					if( !isset($this->groups[0]['post_index']) ){
-						$this->groups[0]['post_index'] = array();
-					}
 					if( !isset($this->groups[0]['post_ids']) ){
 						$this->groups[0]['post_ids'] = array();
 					}
-					$this->groups[0]['post_index'][] = $index;
 					$this->groups[0]['post_ids'][] = $post->ID;
 				}
 			}
@@ -544,13 +483,9 @@ class W4_Post_list
 							'url' 	=> get_month_link( $year, $month )
 						);
 					}
-					if( !isset($this->groups[$year.$month]['post_index']) ){
-						$this->groups[$year.$month]['post_index'] = array();
-					}
 					if( !isset($this->groups[$year.$month]['post_ids']) ){
 						$this->groups[$year.$month]['post_ids'] = array();
 					}
-					$this->groups[$year.$month]['post_index'][] = $index;
 					$this->groups[$year.$month]['post_ids'][] = $post->ID;
 				}
 				else{
@@ -560,13 +495,9 @@ class W4_Post_list
 							'url' 	=> ''
 						);
 					}
-					if( !isset($this->groups[0]['post_index']) ){
-						$this->groups[0]['post_index'] = array();
-					}
 					if( !isset($this->groups[0]['post_ids']) ){
 						$this->groups[0]['post_ids'] = array();
 					}
-					$this->groups[0]['post_index'][] = $index;
 					$this->groups[0]['post_ids'][] = $post->ID;
 				}
 			}

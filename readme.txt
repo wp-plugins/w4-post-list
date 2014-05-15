@@ -71,10 +71,10 @@ The next thing is Templates. And that's the Prime Feature of this plugin. Templa
 * post meta value (multiple times, with multiple meta keys)
 
 
-To check a list of available shortcode available, visit the plugin website - <a href="http://w4dev.com/w4-plugin/w4-post-list">here</a>.
+Check a list of available shortcodes - visit <a href="http://w4dev.com/w4-plugin/w4-post-list">W4 Post List Plugin Page</a>.
 
 
-To check few example lists created with the plugin, visit the <a href="http://w4dev.com/wp/w4-post-list-examples">example page</a>.
+Check Few Example Lists Created with this plugin - <a href="http://w4dev.com/wp/w4-post-list-examples">W4 Post List Examples</a>.
 
 
 = What's new latest version (1.6 +) =
@@ -84,7 +84,8 @@ To check few example lists created with the plugin, visit the <a href="http://w4
 * Removed: Posts with categories, Only categories.
 
 
-If you find this plugin useful, please add your <a href="http://wordpress.org/support/view/plugin-reviews/w4-post-list">review</a>.
+Happy using this Plugin ? Please Vote !! Your vote really makes the difference.
+
 
 = Shortcode =
 Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
@@ -116,6 +117,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.6.8 =
+* Improved: Improved Meta Query, More Independence
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =
@@ -203,6 +206,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.6.8 =
+* Improved: Improved Meta Query, More Independence
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =

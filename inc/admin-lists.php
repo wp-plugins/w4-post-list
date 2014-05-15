@@ -3,23 +3,23 @@ class W4PL_Lists_Admin
 {
 	function __construct()
 	{
-		add_action( 'add_meta_boxes_'. W4PL_SLUG, 			array($this, 'add_meta_boxes') );
-		add_action( 'save_post_'. W4PL_SLUG,  				array($this, 'save_post'), 10, 3 );
+		add_action( 'add_meta_boxes_'. W4PL_SLUG, 					array($this, 'add_meta_boxes') );
+		add_action( 'save_post_'. W4PL_SLUG,  						array($this, 'save_post'), 10, 3 );
 
-		add_action( 'wp_ajax_w4pl_get_post_type_fields', 	array($this, 'get_post_type_fields_ajax') );
+		add_action( 'wp_ajax_w4pl_get_post_type_fields', 			array($this, 'get_post_type_fields_ajax') );
 
-		add_filter( 'w4pl/template_default',  				array($this, 'template_default') );
+		add_filter( 'w4pl/template_default',  						array($this, 'template_default') );
 
 
 		// set update message for our post type, you dont like to use - "post update" !
-		add_filter( 'post_updated_messages', 				array($this, 'post_updated_messages'));
+		add_filter( 'post_updated_messages', 						array($this, 'post_updated_messages'));
 
 		// additional column
 		add_filter( 'manage_'. W4PL_SLUG .'_posts_columns', 		array($this, 'manage_posts_columns') );
 		add_action( 'manage_'. W4PL_SLUG .'_posts_custom_column', 	array($this, 'manage_posts_custom_column'), 10, 2 );
 
 		// add lists link to plugin links, so one can navigate quickly
-		add_filter( 'plugin_action_links_' . W4PL_BASENAME, array($this, 'plugin_action_links') );
+		add_filter( 'plugin_action_links_' . W4PL_BASENAME, 		array($this, 'plugin_action_links') );
 	}
 
 	// Meta box
@@ -44,43 +44,18 @@ class W4PL_Lists_Admin
 		wp_enqueue_script( 'w4pl_form', W4PL_URL . 'assets/form.js', array( 'jquery', 'plupload-handlers', 'jquery-ui-autocomplete') );
 	}
 
+
 	public function admin_head()
 	{
 		?>
         <style>
-/*W4 post list admin*/
-#w4pl_template_before, #w4pl_template_after, #w4pl_template{
-	width:99%;
-	height:50px;
-	}
-#w4pl_template, #w4pl_css{
-	height:250px;
-	}
-#minor-publishing-actions, #misc-publishing-actions{
-	display:none;
-}
-#shortcode_hint_toggle{
-	position:relative;
-	margin:10px 0;
-	float:left;
-	clear:left;
-}
-.tax_query .wffew{
-	max-height:100px;
-	overflow:hidden;
-	overflow-y:auto;
-}
-.wffw{
-	margin:15px 0;
-	padding-top:15px;
-	padding-bottom:15px;
-	border-width: 0 0 0 5px;
-	box-shadow:0 0 1px #AAAAAA;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	overflow:hidden;
-}
+/*W4 Post List Admin*/
+#w4pl_template_before, #w4pl_template_after, #w4pl_template{width:99%;height:50px;}
+#w4pl_template{height:250px;}
+#minor-publishing-actions, #misc-publishing-actions{display:none;}
+#shortcode_hint_toggle{position:relative;margin:10px 0;float:left;clear:left;}
+.tax_query .wffew{max-height:100px;overflow:hidden;overflow-y:auto;}
+.wffw{margin:15px 0;padding-top:15px;padding-bottom:15px;border-width: 0 0 0 5px;box-shadow:0 0 1px #AAAAAA;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
 .wfflw, .wffdw {width:200px;float:left;clear:left;}
 .wffew {margin-left:220px;}
 .wffl{font-size:13px;}
@@ -89,9 +64,8 @@ class W4PL_Lists_Admin
 #w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .w4pl_button_group{ padding:0 0 10px;}
 .w4pl_button_group_title{ display:block;}
-#w4pl_meta_query_table th{ text-align:left; padding-left:8px;}
+<?php do_action( 'w4pl/admin_print_css' ); ?>
         </style>
-
 
 		<script type="text/javascript">
 (function($){
@@ -115,7 +89,7 @@ class W4PL_Lists_Admin
 		$('#w4pl_post_type').change(function(){
 			$('.wffwi_w4pl_post_type .spinner').css('display', 'inline-block');
 			$('#publish').hide();
-			
+
 			$.post(ajaxurl, 'action=w4pl_get_post_type_fields&post_id='+ $('#post_ID').val() +'&post_type='+ $(this).val(), function(r){
 				$('#w4pl_post_type_options').html(r);
 				$('.wffwi_w4pl_post_type .spinner').css('display', 'none');
@@ -129,20 +103,11 @@ class W4PL_Lists_Admin
 			insertAtCaret( 'w4pl_template', $(this).data('code') );
 			return false;
 		});
-
-		$('#w4pl_meta_query_add_btn').click(function(){
-			var htm = $('#w4pl_meta_query_clone tbody').html();
-			$('#w4pl_meta_query_table tbody').append(htm);
-			return false;
-		});
-		$('.w4pl_meta_query_remove_btn').live('click',function(){
-			$(this).parents('tr').remove();
-			return false;
-		});
-
-
 	});
 
+	<?php do_action( 'w4pl/admin_print_js' ); ?>
+
+})(jQuery);
 
 /*
  * Similar feature as tinymce quicktag button
@@ -182,7 +147,6 @@ function insertAtCaret(areaId,text) {
     }
     txtarea.scrollTop = scrollPos;
 }
-})(jQuery);
 		</script>
         <?php
 	}
@@ -206,6 +170,7 @@ function insertAtCaret(areaId,text) {
 
 		$fields = array();
 		$fields['post_type'] = array(
+			'position'		=> '5',
 			'before'		=> '<h2>Query</h2>',
 			'option_name' 	=> 'post_type',
 			'name' 			=> 'w4pl[post_type]',
@@ -215,6 +180,7 @@ function insertAtCaret(areaId,text) {
 			'input_after'	=> '<span class="spinner" style="position:relative; float:none; left:10px; top:5px; margin: 0; height:19px;"></span>'
 		);
 		$fields['post_status'] = array(
+			'position'		=> '10',
 			'option_name' 	=> 'post_status',
 			'name' 			=> 'w4pl[post_status]',
 			'label' 		=> 'Post Status',
@@ -222,12 +188,14 @@ function insertAtCaret(areaId,text) {
 			'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
 		);
 		$fields['before_post_type_options'] = array(
+			'position'		=> '15',
 			'type' 			=> 'html',
 			'html' 			=> '<div id="w4pl_post_type_options">'
 		);
 		// intialize post type fields
 		self::post_type_fields($fields, $post_data);
 		$fields['after_post_type_options'] = array(
+			'position'		=> '35',
 			'type' 			=> 'html',
 			'html' 			=> '</div><!--w4pl_post_type_options-->'
 		);
@@ -236,6 +204,7 @@ function insertAtCaret(areaId,text) {
 
 
 		$fields['post__in'] = array(
+			'position'		=> '40',
 			'option_name' 	=> 'post__in',
 			'name' 			=> 'w4pl[post__in]',
 			'label' 		=> 'Include post by ids',
@@ -243,6 +212,7 @@ function insertAtCaret(areaId,text) {
 			'desc' 			=> 'comma separated post id'
 		);
 		$fields['post__not_in'] = array(
+			'position'		=> '45',
 			'option_name' 	=> 'post__not_in',
 			'name' 			=> 'w4pl[post__not_in]',
 			'label' 		=> 'Exclude post by ids',
@@ -250,6 +220,7 @@ function insertAtCaret(areaId,text) {
 			'desc' 			=> 'comma separated post id'
 		);
 		$fields['post_parent__in'] = array(
+			'position'		=> '50',
 			'option_name' 	=> 'post_parent__in',
 			'name' 			=> 'w4pl[post_parent__in]',
 			'label' 		=> 'Post parent ids',
@@ -257,6 +228,7 @@ function insertAtCaret(areaId,text) {
 			'desc' 			=> 'comma separated post parent id'
 		);
 		$fields['author__in'] = array(
+			'position'		=> '55',
 			'option_name' 	=> 'author__in',
 			'name' 			=> 'w4pl[author__in]',
 			'label' 		=> 'Post author ids',
@@ -266,100 +238,9 @@ function insertAtCaret(areaId,text) {
 
 
 
-		/* Meta Query */
-
-		$html = '<h2>Meta Query</h2>';
-
-		$meta_query_relation = isset($post_data['meta_query']['relation']) ? $post_data['meta_query']['relation'] : '';
-		$html .= w4pl_form_field_html( array(
-			'name' 			=> 'w4pl[meta_query][relation]',
-			'label' 		=> 'Relation',
-			'type' 			=> 'radio',
-			'option' 		=> array('OR' => 'OR', 'AND' => 'AND'),
-			'value'			=> $meta_query_relation
-		));
-
-		$html .= '<div class="wffw">';
-		$html .= '<table id="w4pl_meta_query_table" class="widefat"><thead><tr><th>Key</th><th>Compare</th><th>Value</th><th>Action</th></tr></thead>
-		<tbody>';
-
-		if( isset($post_data['meta_query']) )
-		{
-			foreach( $post_data['meta_query']['key'] as $index => $key )
-			{
-				$compare = isset($post_data['meta_query']['compare'][$index]) ? $post_data['meta_query']['compare'][$index] : '';
-				$value = isset($post_data['meta_query']['value'][$index]) ? $post_data['meta_query']['value'][$index] : '';
-
-				if( empty($key) || empty($compare))
-					continue;
-
-				$html .= '
-				<tr><td>
-					'.
-					w4pl_form_child_field_html( array(
-						'id' 			=> 'w4pl_meta_query_key_'. $index,
-						'name' 			=> 'w4pl[meta_query][key][]',
-						'type' 			=> 'text',
-						'value'			=> $key
-					))
-					. '</td><td>' 
-					. w4pl_form_child_field_html( array(
-						'id' 			=> 'w4pl_meta_query_compare_'. $index,
-						'name' 			=> 'w4pl[meta_query][compare][]',
-						'type' 			=> 'select',
-						'option' 		=> self::meta_query_compare_options(),
-						'value'			=> $compare
-					))
-					. '</td><td>' 
-					. w4pl_form_child_field_html( array(
-						'id' 			=> 'w4pl_meta_query_value_'. $index,
-						'name' 			=> 'w4pl[meta_query][value][]',
-						'type' 			=> 'text',
-						'value'			=> $value
-					))
-					. '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
-					.'
-				</tr>';
-			}
-		}
-		$html .= '</tbody>
-			</table>';
-
-
-		$html .= '
-		<p style="text-align:right;"><a id="w4pl_meta_query_add_btn" href="#" class="button">+ Add</a></p>
-		<table id="w4pl_meta_query_clone" style="display:none;">
-		<tr><td>
-			'
-			. w4pl_form_child_field_html( array(
-				'name' 			=> 'w4pl[meta_query][key][]',
-				'type' 			=> 'text'
-			))
-			. '</td><td>' 
-			. w4pl_form_child_field_html( array(
-				'name' 			=> 'w4pl[meta_query][compare][]',
-				'type' 			=> 'select',
-				'option' 		=> self::meta_query_compare_options()
-			))
-			. '</td><td>' 
-			. w4pl_form_child_field_html( array(
-				'name' 			=> 'w4pl[meta_query][value][]',
-				'type' 			=> 'text'
-			))
-			. '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
-			.'
-		</tr></table>';
-		$html .= '</div>';
-
-		$fields['meta_query'] = array(
-			'type' 			=> 'html',
-			'html'			=> $html
-		);
-
-		/* ========================================= */
-
 
 		$fields['orderby'] = array(
+			'position'		=> '65',
 			'before'		=> '<h2>Order</h2>',
 			'option_name' 	=> 'orderby',
 			'name' 			=> 'w4pl[orderby]',
@@ -370,6 +251,7 @@ function insertAtCaret(areaId,text) {
 				. (isset($post_data['orderby_meta_key']) ? esc_attr($post_data['orderby_meta_key']) : '') .'" /></div>'
 		);
 		$fields['order'] = array(
+			'position'		=> '70',
 			'option_name' 	=> 'order',
 			'name' 			=> 'w4pl[order]',
 			'label' 		=> 'Order',
@@ -379,6 +261,7 @@ function insertAtCaret(areaId,text) {
 
 
 		$fields['posts_per_page'] = array(
+			'position'		=> '75',
 			'before'		=> '<h2>Limit</h2>',
 			'option_name' 	=> 'posts_per_page',
 			'name' 			=> 'w4pl[posts_per_page]',
@@ -387,6 +270,7 @@ function insertAtCaret(areaId,text) {
 			'desc' 			=> 'number of items to show per page'
 		);
 		$fields['limit'] = array(
+			'position'		=> '80',
 			'option_name' 	=> 'limit',
 			'name' 			=> 'w4pl[limit]',
 			'label' 		=> 'Maximum items to display',
@@ -394,6 +278,7 @@ function insertAtCaret(areaId,text) {
 			'desc' 			=> 'maximum results to display in total'
 		);
 		$fields['offset'] = array(
+			'position'		=> '95',
 			'option_name' 	=> 'offset',
 			'name' 			=> 'w4pl[offset]',
 			'label' 		=> 'Offset',
@@ -403,6 +288,7 @@ function insertAtCaret(areaId,text) {
 
 
 		$fields['template'] = array(
+			'position'		=> '100',
 			'before'		=> '<h2>Template</h2>',
 			'option_name' 	=> 'template',
 			'name' 			=> 'w4pl[template]',
@@ -477,39 +363,36 @@ function insertAtCaret(areaId,text) {
 		}
 
 
-		$fields['class'] = array(
-			'before'		=> '<h2>Style</h2>',
-			'option_name' 	=> 'class',
-			'name' 			=> 'w4pl[class]',
-			'label' 		=> 'List class',
-			'type' 			=> 'text',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'add html class to the list'
-		);
-		$fields['css'] = array(
-			'option_name' 	=> 'css',
-			'name' 			=> 'w4pl[css]',
-			'label' 		=> 'Custom css',
-			'type' 			=> 'textarea',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this css loaded just before the list template. to make the style unique just for this list, use <code>#w4pl-list-'. get_the_ID() . '</code> as parent selector. Alternatively, you can use <code>#w4pl-[listid]</code> which will do the same thing.'
-		);
-		$fields['js'] = array(
-			'option_name' 	=> 'js',
-			'name' 			=> 'w4pl[js]',
-			'label' 		=> 'JavaScript',
-			'type' 			=> 'textarea',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this js loaded just after the list template.'
 
-		);
+		# echo '<pre>'; print_r($fields); echo '</pre>';
+
 
 		$form_args = array(
 			'no_form' 		=> true,
 			'button_after' 	=> false
 		);
 
+
+		// let helper class extend/modify this class
+		$fields = apply_filters( 'w4pl/admin_list_fields', $fields, $post_data, $form_args );
+
+
+		// order by position
+		uasort( $fields, array($this, 'order_by_position') );
+
+
 		echo w4pl_form_fields( $fields, $post_data, $form_args );
+	}
+
+	public function order_by_position( $a, $b )
+	{
+		if( !isset($a['position']) || !isset($b['position']) )
+			return -1;
+
+		if( $a['position'] == $b['position'] )
+	        return 0;
+
+	    return ($a['position'] < $b['position']) ? -1 : 1;
 	}
 
 
@@ -550,6 +433,7 @@ function insertAtCaret(areaId,text) {
 		if( $mime_type_options = self::post_mime_type_options($post_type) )
 		{
 			$fields['post_mime_type'] = array(
+				'position' 		=> '20',
 				'option_name' 	=> 'post_mime_type',
 				'name' 			=> 'w4pl[post_mime_type]',
 				'label' 		=> 'Post Mime Type',
@@ -560,6 +444,7 @@ function insertAtCaret(areaId,text) {
 		}
 
 		$fields['groupby'] = array(
+			'position' 		=> '25',
 			'option_name' 	=> 'groupby',
 			'name' 			=> 'w4pl[groupby]',
 			'label' 		=> 'Group By',
@@ -567,6 +452,7 @@ function insertAtCaret(areaId,text) {
 			'option' 		=> self::post_groupby_options($post_type)
 		);
 		$fields['group_order'] = array(
+			'position' 		=> '26',
 			'option_name' 	=> 'group_order',
 			'name' 			=> 'w4pl[group_order]',
 			'label' 		=> 'Group Order',
@@ -595,8 +481,8 @@ function insertAtCaret(areaId,text) {
 					}
 				}
 
-
 				$fields['post_format'] = array(
+					'position' 		=> '32',
 					'option_name' 	=> 'post_format',
 					'name' 			=> 'w4pl[post_format]',
 					'label' 		=> 'Post Format',
@@ -607,11 +493,13 @@ function insertAtCaret(areaId,text) {
 		}
 
 
+		$index = 0;
 		foreach( self::post_type_taxonomies_options($post_type) as $taxonomy => $label )
 		{
 			if( $terms = get_terms( $taxonomy, array( 'fields' => 'id=>name', 'hide_empty' => false ) ) )
 			{
 				$fields['tax_query_' . $taxonomy] = array(
+					'position' 		=> '34.'. $index,
 					'option_name' 	=> 'tax_query_'. $taxonomy,
 					'name' 			=> 'w4pl[tax_query_'. $taxonomy .']',
 					'label' 		=> 'Taxonomy - ' . $label,
@@ -619,6 +507,7 @@ function insertAtCaret(areaId,text) {
 					'class' 		=> 'tax_query',
 					'option' 		=> $terms
 				);
+				++$index;
 			}
 		}
 
@@ -718,15 +607,6 @@ function insertAtCaret(areaId,text) {
 
 		return $return;
 	}
-
-	public function meta_query_compare_options()
-	{
-		$return = array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE','NOT EXISTS', 'REGEXP', 'NOT REGEXP', 'RLIKE');
-		$return = array_combine($return, $return);
-
-		return $return;
-	}
-
 
 	public static function post_type_taxonomies_options( $post_type )
 	{

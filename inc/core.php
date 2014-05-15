@@ -51,7 +51,7 @@ class W4PL_Core
 			'delete_with_user'		=> false,
 			'show_in_admin_bar'		=> false,
 			'supports' 				=> array('title' ),
-			'menu_icon'				=> W4PL_URL .'assets/menu.png'
+			'menu_icon'				=> 'dashicons-admin-generic'
 		));
 	}
 

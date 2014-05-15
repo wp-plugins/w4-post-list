@@ -31,7 +31,7 @@ class W4PL_Admin_Page_Docs
 	{ 
 	?>
 		<div class="wrap about-wrap">
-		<h1>W4 Post List Docs</h1>
+		<h1>W4 Post List (version: <?php echo W4PL_VERSION; ?>) Docs</h1>
         <div class="about-text"><?php _e('With the w4 post list plugin you can show a list of selected posts and custom post types on your WordPress site. Output template are created using shortcodes, so you can customize it as you like. Creating a post list won\'t take more than a minute.', W4PL_TXT_DOMAIN); ?></div>
 		<div class="has-right-sidebar"><div id="poststuff">
 
@@ -51,10 +51,10 @@ class W4PL_Admin_Page_Docs
 		<div class="inside">
         <ul class="w4outlinks">
 			<?php $siteurl = site_url('/'); ?>
-			<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/w4-plugin/w4-post-list' ); ?>" target="_blank">Visit Plugin Page</a></li>
-			<li><a href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/wp/w4-post-list-design-template/#examples' ); ?>" target="_blank">Designing Examples</a></li>
-			<li><a href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Read On WordPress</a></li>
-			<li><a href="mailto:sajib1223@gmail.com" target="_blank">Mailto:Author</a></li>
+			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/w4-plugin/w4-post-list' ); ?>" target="_blank">Visit Plugin Page</a></li>
+			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/wp/w4-post-list-examples/#examples' ); ?>" target="_blank">Designing Examples</a></li>
+			<li><a class="button" href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Read On WordPress</a></li>
+			<li>Contact Author - sajib1223@gmail.com</li>
 			</ul>
 		</div><!--inside-->
 		</div><!--postbox-->
@@ -66,27 +66,27 @@ class W4PL_Admin_Page_Docs
 		</div><!--postbox-->
 
 		<div class="postbox">
-		<h3><?php _e( 'Shortcode usage', W4PL_TXT_DOMAIN ); ?></h3>
-		<div class="inside"><?php _e( 'Use shortcode "postlist" with the list id to show a post list on a post or page content area.', W4PL_TXT_DOMAIN ); ?>	<?php _e( 'Example:', W4PL_TXT_DOMAIN); ?> <strong>[postlist 1]</strong>
+		<h3><?php _e( 'Usage', W4PL_TXT_DOMAIN ); ?></h3>
+		<div class="inside">
+			<strong>Shortcode</strong>
+			<p><?php 
+			_e( 'Use shortcode "postlist" with the list id to show a list on post/page content area.', W4PL_TXT_DOMAIN );
+			_e( 'ex:', W4PL_TXT_DOMAIN); ?> <code>[postlist 1]</code></p>
+			
+            <strong>Function</strong>
+	        <p><?php 
+			_e( 'Display list directly to your theme using do_shortcode function.', W4PL_TXT_DOMAIN ); ?>
+			<br /><code>do_shortcode('[postlist 1]')</code></p>
 		</div></div>
-	
-		<div class="postbox">
-		<h3><?php _e( 'PHP function:', W4PL_TXT_DOMAIN); ?></h3>
-		<div class="inside"><?php _e( 'Show a specific post list directly to your theme using do_shortcode function.', W4PL_TXT_DOMAIN ); ?>
-		<strong><?php _e( 'Example:', W4PL_TXT_DOMAIN); ?> </strong>
-		<br /><code>do_shortcode('[postlist 1]')</code>
-		</div><!--inside-->
-		</div><!--postbox-->
-	
+
 		</div><!--#side-info-column-->
 	
 		<div id="post-body"><div id="post-body-content">
-		<div class="postbox"><h3><?php _e( 'Designing', W4PL_TXT_DOMAIN); ?></h3>
+		<div class="postbox"><h3><?php _e( 'Template', W4PL_TXT_DOMAIN); ?></h3>
 		<div class="inside">
-		<h4 style="color:#FF0000;"><a target="_blank" class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/w4-plugin/w4-post-list#understanding_options' ); ?>">Learn about plugins basic options..</a></h4>
-	
-		<p><?php _e( 'Design your post list template to match your theme style. We have made <strong>teplate shortcodes</strong> for each element of a post list.<br />
-	<span style="color:#FF0000">Caution:</span> If you are not Expert Understanding Basic HTML, CSS and PHP Loop algorithm, just leave the post list Template field as it is by default.', W4PL_TXT_DOMAIN ); ?></p>
+
+		<p><?php 
+			_e( 'Design your post list template to match your theme style. Each element has a respective shortcode', W4PL_TXT_DOMAIN ); ?></p>
 		<p><?php _e( '<strong>Shortcodes</strong> are placed inside third braket <code>"[]"</code>, as like WordPress shortcodes. Each shortcodes has a repective value. Please make sure you understand them before you remove/add one', W4PL_TXT_DOMAIN ); ?></p>
 		</div><!--inside-->
 		</div><!--postbox-->
@@ -223,8 +223,6 @@ class W4PL_Admin_Page_Docs
 				$list_data['post__not_in'] = array_map('intval', $list_data['post__not_in']);
 				$list_data['post__in'] = array();
 			}
-
-
 
 			if( isset($wrapper) && !empty($wrapper) ){
 				$list_data['template'] = $wrapper;
