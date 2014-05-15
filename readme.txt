@@ -56,7 +56,7 @@ Enable pagination for your list. There three type of pagination -
 Ajax can be enabled for pagination to avoid page-loading.
 
 
-The next thing is Templates. And that's the Prime Feature of this plugin. Templates can be designed using Shortcodes and HTML codes. You can create a simple list just showing post title and linked to the post page, or you can display complex list using any of the information relating to post. Some of these are - 
+The next thing is Template. And that's the Prime Feature of this plugin. Template can be designed using Shortcodes and HTML codes. You can create a simple list just showing post title and linked to the post page, or you can display complex list using any of the information relating to post. Some of these are - 
 
 
 * post thumbnail
