@@ -74,7 +74,8 @@ The next thing is Template. And that's the Prime Feature of this plugin. Templat
 Check a list of available shortcodes - visit <a href="http://w4dev.com/w4-plugin/w4-post-list">W4 Post List Plugin Page</a>.
 
 
-Check Few Example Lists Created with this plugin - <a href="http://w4dev.com/wp/w4-post-list-examples">W4 Post List Examples</a>.
+= Example =
+Check Few Lists Created with this plugin - <a href="http://w4dev.com/wp/w4-post-list-examples">W4 Post List Examples</a>.
 
 
 = What's new latest version (1.6 +) =
