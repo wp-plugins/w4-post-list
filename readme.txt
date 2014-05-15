@@ -119,7 +119,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 == Changelog ==
 
 = 1.6.8 =
-* Improved: Improved Meta Query, More Independence
+* Improved: Meta Query selection has been improved, that means more Independence !!!
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =
@@ -208,7 +208,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 == Upgrade Notice ==
 
 = 1.6.8 =
-* Improved: Improved Meta Query, More Independence
+* Improved: * Improved: Meta Query selection has been improved, that means more Independence !!!
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =
