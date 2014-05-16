@@ -698,7 +698,7 @@ function insertAtCaret(areaId,text) {
 	public function manage_posts_custom_column( $column_name, $post_ID )
 	{
 		if( 'shortcode' == $column_name ){
-			printf( '<input value="[postlist %d]" type="text" size="9" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', $post_ID );
+			printf( '<input value="[postlist %d]" type="text" size="12" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', $post_ID );
 		}
 	}
 

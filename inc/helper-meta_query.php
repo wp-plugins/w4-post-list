@@ -32,7 +32,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		$html .= '<table id="w4pl_meta_query_table" class="widefat"><thead><tr><th>Key</th><th>Compare</th><th>Value</th><th>Action</th></tr></thead>
 		<tbody>';
 
-		if( isset($post_data['meta_query']) )
+		if( isset($post_data['meta_query']) && isset($post_data['meta_query']['key']) && is_array($post_data['meta_query']['key']) && !empty($post_data['meta_query']['key']) )
 		{
 			$index = 0;
 			foreach( $post_data['meta_query']['key'] as $i => $key )
