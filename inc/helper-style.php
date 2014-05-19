@@ -3,7 +3,7 @@ class W4PL_Helper_Style extends W4PL_Core
 {
 	function __construct()
 	{
-		add_filter( 'w4pl/admin_list_fields', array($this, 'admin_list_fields'), 10, 3 );
+		add_filter( 'w4pl/admin_list_fields', array($this, 'admin_list_fields'), 10, 2 );
 
 		add_action( 'w4pl/admin_print_css', array($this, 'admin_print_css'), 10 );
 
@@ -13,13 +13,15 @@ class W4PL_Helper_Style extends W4PL_Core
 	}
 
 	// Meta box
-	public function admin_list_fields( $fields, $post_data, $form_args )
+	public function admin_list_fields( $fields, $post_data )
 	{
 		/* Style */
-
+		$fields['before_field_group_style'] = array(
+			'position'		=> '165',
+			'html' 			=> '<div id="w4pl_field_group_style" class="w4pl_field_group"><div class="w4pl_group_title">Style</div><div class="w4pl_group_fields">'
+		);
 		$fields['class'] = array(
-			'position'		=> '120',
-			'before'		=> '<h2>Style</h2>',
+			'position'		=> '170',
 			'option_name' 	=> 'class',
 			'name' 			=> 'w4pl[class]',
 			'label' 		=> 'List class',
@@ -28,23 +30,27 @@ class W4PL_Helper_Style extends W4PL_Core
 			'desc' 			=> 'add html class to the list'
 		);
 		$fields['css'] = array(
-			'position'		=> '125',
+			'position'		=> '172',
 			'option_name' 	=> 'css',
 			'name' 			=> 'w4pl[css]',
 			'label' 		=> 'Custom css',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this css loaded just before the list template. to make the style unique just for this list, use <code>#w4pl-list-'. get_the_ID() . '</code> as parent selector. Alternatively, you can use <code>#w4pl-[listid]</code> which will do the same thing.'
+			'desc' 			=> 'this css loaded just before the list template. to make the style unique just for this list, use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector. Alternatively, you can use <code>#w4pl-[listid]</code> which will do the same thing.'
 		);
 		$fields['js'] = array(
-			'position'		=> '130',
+			'position'		=> '174',
 			'option_name' 	=> 'js',
 			'name' 			=> 'w4pl[js]',
 			'label' 		=> 'JavaScript',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this js loaded just after the list template.'
-
+			'desc' 			=> 'this js loaded just after the list template.',
+			'after'			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_style-->'
+		);
+		$fields['after_field_group_style'] = array(
+			'position'		=> '175',
+			'html' 			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_style-->'
 		);
 
 		/* ========================================= */

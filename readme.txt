@@ -118,10 +118,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7 =
+* Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
 = 1.6.9 =
-* Solved: Meta Query error issue solved
+* Improved: Tax Query selection has been improved, that means more Independence !!!
 = 1.6.8 =
-* Improved: Meta Query selection has been improved, that means more Independence !!!
+* Improved: Meta Query selection has been improved.
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =
@@ -208,11 +210,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
-
+= 1.7 =
+* Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
 = 1.6.9 =
-* Solved: Meta Query error issue solved
+* Improved: Tax Query selection has been improved, that means more Independence !!!
 = 1.6.8 =
-* Improved: * Improved: Meta Query selection has been improved, that means more Independence !!!
+* Improved: * Improved: Meta Query selection has been improved.
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =

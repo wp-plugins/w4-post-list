@@ -4,7 +4,7 @@
  * Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
  * Description: With the w4 post list plugin you can show a list of selected posts and custom post types on your WordPress site. 
    Template are created using shortcodes, so you can customize it as you like.
- * Version: 1.6.9
+ * Version: 1.7
  * Author: sajib1223, Shazzad Hossain Khan
  * Author URI: http://w4dev.com/about
 **/
@@ -34,7 +34,8 @@ define( 'W4PL_BASENAME', 		plugin_basename( __FILE__ ));
 
 define( 'W4PL_NAME', 			'W4 Post List' );
 define( 'W4PL_SLUG', 			'w4pl' );
-define( 'W4PL_VERSION', 		'1.6.9' );
+define( 'W4PL_VERSION', 		'1.7' );
+
 
 define( 'W4PL_INC', 			W4PL_DIR . 'inc' );
 define( 'W4PL_TXT_DOMAIN', 		'w4pl' );
@@ -45,16 +46,19 @@ include( W4PL_INC .'/core.php');
 include( W4PL_INC .'/postlist.php');
 include( W4PL_INC .'/widget.php');
 
-
 /* modules */
+include( W4PL_INC .'/helper-tax_query.php');
 include( W4PL_INC .'/helper-meta_query.php');
 include( W4PL_INC .'/helper-style.php');
 
+/* loads tinymce button */
+include( W4PL_INC .'/tinymice.php');
+
 
 /* admin required files */
-if( is_admin() ) :
+#if( is_admin() ) :
 	include( W4PL_INC .'/admin-forms.php');
 	include( W4PL_INC .'/admin-lists.php');
 	include( W4PL_INC .'/admin-docs.php');
-endif
+#endif
 ?>
