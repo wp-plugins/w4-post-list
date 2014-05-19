@@ -6,7 +6,7 @@ Tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-W4 Post List lets you create a list of posts and display them on front-end. You can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
+W4 Post List lets you create a list of posts and display them on front-end. You can chose which information to show and where to show it regarding post. The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
 
 
 
