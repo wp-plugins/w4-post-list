@@ -88,10 +88,6 @@ Check all of the available shortcodes on <a href="http://w4dev.com/w4-plugin/w4-
 Happy using this Plugin ? Please Vote !! Your vote really makes the difference.
 
 
-= Shortcode =
-Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
-
-
 == Installation ==
 
 1. Upload zip to the `/wp-content/plugins/` directory
