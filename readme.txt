@@ -12,10 +12,11 @@ W4 Post List lets you create a list of posts and display them. The extraordinary
 
 == Description ==
 
-Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. There's a page for creating or editing each list. The Option page let you set your desired posts query. Firstly, you use filters to chose desired set of posts, secondly, you the order in what posts will be sorted, thirdly you chose how many posts to display and if you need Multi-Page post list (using pagination), and lastly, you build the display template. So, you can do following -
+Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. You will find Tinymce button on post/page editor to quickly inset a list. Also, there's a separate page for creating or editing list. 
 
+Creating a list is just few steps.
 
-= Filter Posts by =
+= Build Query =
 * post type
 * post status
 * post mime type
@@ -25,8 +26,7 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * post authors
 * post meta ( meta_query )
 
-
-= Group Posts by =
+= Group Results by =
 * year
 * month
 * month year
@@ -34,8 +34,7 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * authors
 * parents
 
-
-= Order Posts by =
+= Order Results by =
 * post id
 * post title
 * post name
@@ -46,18 +45,15 @@ Display Posts inside Post/Page content or widget areas by Shortcodes. Select wha
 * meta value
 * or random
 
-
-Enable pagination for your list. There three type of pagination -
+= Multi-Page Pagination by =
 * Next / Previous links
 * Numeric navigation flat - Ex: 1, 2, 3.
 * Numeric navigation showing in unordered list. 
+* Enable/Disable pagination by ajax
 
 
-Ajax can be enabled for pagination to avoid page-loading.
-
-
-The next thing is Template. And that's the Prime Feature of this plugin. Template can be designed using Shortcodes and HTML codes. You can create a simple list just showing post title and linked to the post page, or you can display complex list using any of the information relating to post. Some of these are - 
-
+= Creating Template =
+Templates are designed using Shortcodes. You can create a simple list just showing post title and linked to the post page, or you can display complex list using any of the information relating to post. Some of the available shortcodes are - 
 
 * post thumbnail
 * post categories
@@ -69,16 +65,20 @@ The next thing is Template. And that's the Prime Feature of this plugin. Templat
 * post excerpt
 * post content
 * post meta value (multiple times, with multiple meta keys)
+* media thumbnail
 
 
-Check a list of available shortcodes - visit <a href="http://w4dev.com/w4-plugin/w4-post-list">W4 Post List Plugin Page</a>.
+Check all of the available shortcodes on <a href="http://w4dev.com/w4-plugin/w4-post-list">W4 Post List Plugin Page</a>.
 
 
-= Example =
-Check Few Lists Created with this plugin - <a href="http://w4dev.com/wp/w4-post-list-examples">W4 Post List Examples</a>.
+= Check Example =
+* <a href="http://w4dev.com/wp/w4-post-list-examples#w4pl-list-1381">Simple Posts List</a>
+* <a href="http://w4dev.com/wp/w4-post-list-examples#w4pl-list-1391">Media List</a>
+* <a href="http://w4dev.com/wp/w4-post-list-examples#w4pl-list-1401">Year/Month Archive</a>
 
 
 = What's new latest version (1.6 +) =
+* New: Tinymce button to create a list in seconds right from the post/page editor
 * New: Group posts by parent, author, categories, tags, year, month, year month.
 * New: Added loading state upon changing post type on options page
 * New: Option panel
@@ -86,10 +86,6 @@ Check Few Lists Created with this plugin - <a href="http://w4dev.com/wp/w4-post-
 
 
 Happy using this Plugin ? Please Vote !! Your vote really makes the difference.
-
-
-= Shortcode =
-Use shortcode "postlist" to show your list inside post/page content area. Example: <code>[postlist 1]</code> will show the list having id "1".
 
 
 == Installation ==
@@ -118,10 +114,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7 =
+* Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
 = 1.6.9 =
-* Solved: Meta Query error issue solved
+* Improved: Tax Query selection has been improved, that means more Independence !!!
 = 1.6.8 =
-* Improved: Meta Query selection has been improved, that means more Independence !!!
+* Improved: Meta Query selection has been improved.
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =
@@ -208,11 +206,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
-
+= 1.7 =
+* Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
 = 1.6.9 =
-* Solved: Meta Query error issue solved
+* Improved: Tax Query selection has been improved, that means more Independence !!!
 = 1.6.8 =
-* Improved: * Improved: Meta Query selection has been improved, that means more Independence !!!
+* Improved: * Improved: Meta Query selection has been improved.
 = 1.6.7 =
 * New: Filter by post format
 = 1.6.6 =

@@ -22,29 +22,27 @@ class W4_Post_list
 	}
 
 
-	function prepare( $list_id )
+	function prepare( $options )
 	{
+		/*
 		if( W4PL_SLUG != get_post_type($list_id) )
 			return new WP_Error( 'postlist_not_found', 
 			sprintf( __( 'List not found with id - %1$s', W4PL_TXT_DOMAIN ), $list_id ) );
-
 
 		static $w4pl_loaded;
 		if( !isset($w4pl_loaded) || !is_array($w4pl_loaded) )
 			$w4pl_loaded = array();
 
-
 		if( in_array($list_id, $w4pl_loaded) )
 			return new WP_Error('list_loaded', 'A list can load only one.');
 
-
 		$w4pl_loaded[] = $list_id;
+		*/
 
-
-		$this->id 				= $list_id;
+		$this->options 			= $options;
+		$this->id 				= isset($this->options['id']) ? $this->options['id'] : time();
 		$this->query 			= array();
 		$this->wp_query 		= '';
-		$this->options 			= get_post_meta( $list_id, '_w4pl', true );
 
 
 		if( isset($this->options['template_loop']) && !empty($this->options['template_loop']) ){
@@ -55,7 +53,7 @@ class W4_Post_list
 				$this->options['template'] = str_replace( $match[0], '[posts]'. $this->options['template_loop'] .'[/posts]', $this->options['template'] );
 				unset($this->options['template_loop']);
 
-				update_post_meta( $list_id, '_w4pl', $this->options );
+				# update_post_meta( $list_id, '_w4pl', $this->options );
 			}
 		}
 	}
@@ -69,8 +67,7 @@ class W4_Post_list
 			'orderby', 
 			'order', 
 			'offset',
-			'posts_per_page',
-			'post_format'
+			'posts_per_page'
 		) as $option_name )
 		{
 			if( !empty($this->options[$option_name]) )
@@ -110,10 +107,12 @@ class W4_Post_list
 		}
 
 
-		#echo '<pre>'; print_r($this->query); echo '</pre>';
+		#echo '<pre>'; print_r($this->options); echo '</pre>';
+		#return '';
 
 
 		// build taxonoomy query
+		/*
 		$this->query['tax_query'] = array();
 		foreach( $this->options as $option_name => $option_val )
 		{
@@ -127,6 +126,9 @@ class W4_Post_list
 				);
 			}
 		}
+		*/
+
+		#echo '<pre>'; print_r($this->options); echo '</pre>';
 
 		# print_r($this->query);
 

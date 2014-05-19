@@ -3,7 +3,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 {
 	function __construct()
 	{
-		add_filter( 'w4pl/admin_list_fields', array($this, 'admin_list_fields'), 10, 3 );
+		add_filter( 'w4pl/admin_list_fields', array($this, 'admin_list_fields'), 10, 2 );
 
 		add_action( 'w4pl/admin_print_css', array($this, 'admin_print_css'), 10 );
 
@@ -12,27 +12,31 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		add_filter( 'w4pl/parse_query', array($this, 'parse_query'), 10 );
 	}
 
-	// Meta box
-	public function admin_list_fields( $fields, $post_data, $form_args )
+	/* Meta box */
+	public function admin_list_fields( $fields, $post_data )
 	{
 		/* Meta Query */
-
-		$html = '<h2>Meta Query</h2>';
+		$html = '<div id="w4pl_field_group_meta_query" class="w4pl_field_group"><div class="w4pl_group_title">Meta Query</div><div class="w4pl_group_fields">';
 
 		$meta_query_relation = isset($post_data['meta_query']['relation']) && !empty($post_data['meta_query']['relation']) ? $post_data['meta_query']['relation'] : 'OR';
-		$html .= w4pl_form_field_html( array(
-			'name' 			=> 'w4pl[meta_query][relation]',
-			'label' 		=> 'Relation',
-			'type' 			=> 'radio',
-			'option' 		=> array('OR' => 'OR', 'AND' => 'AND'),
-			'value'			=> $meta_query_relation
-		));
 
 		$html .= '<div class="wffw">';
-		$html .= '<table id="w4pl_meta_query_table" class="widefat"><thead><tr><th>Key</th><th>Compare</th><th>Value</th><th>Action</th></tr></thead>
-		<tbody>';
+		$html .= '<table id="w4pl_meta_query_table" class="widefat">
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Compare</th>
+					<th>Value</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>';
 
-		if( isset($post_data['meta_query']) && isset($post_data['meta_query']['key']) && is_array($post_data['meta_query']['key']) && !empty($post_data['meta_query']['key']) )
+		if( isset($post_data['meta_query']) 
+			&& isset($post_data['meta_query']['key']) 
+			&& is_array($post_data['meta_query']['key']) 
+			&& !empty($post_data['meta_query']['key']) 
+		)
 		{
 			$index = 0;
 			foreach( $post_data['meta_query']['key'] as $i => $key )
@@ -118,7 +122,18 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 			. '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
 			.'
 		</tr></table>';
-		$html .= '</div>';
+
+		$html .= w4pl_form_field_html( array(
+			'field_wrap' 	=> false,
+			'name' 			=> 'w4pl[meta_query][relation]',
+			'label' 		=> 'Relation',
+			'type' 			=> 'radio',
+			'option' 		=> array('OR' => 'OR', 'AND' => 'AND'),
+			'value'			=> $meta_query_relation
+		));
+
+		$html .= '</div><!--.wffw-->';
+		$html .= '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_meta_query-->';
 
 		$fields['meta_query'] = array(
 			'position'		=> '60',
