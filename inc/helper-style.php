@@ -36,7 +36,9 @@ class W4PL_Helper_Style extends W4PL_Core
 			'label' 		=> 'Custom css',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this css loaded just before the list template. to make the style unique just for this list, use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector. Alternatively, you can use <code>#w4pl-[listid]</code> which will do the same thing.'
+			'desc' 			=> 'this css loads just before the list template on front-end. to apply these css just for current list, 
+								use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector. 
+								Alternatively, you can use <code>#w4pl-[listid]</code> which will do the same thing.'
 		);
 		$fields['js'] = array(
 			'position'		=> '174',
@@ -45,7 +47,7 @@ class W4PL_Helper_Style extends W4PL_Core
 			'label' 		=> 'JavaScript',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this js loaded just after the list template.',
+			'desc' 			=> 'JS loads just after the list template',
 			'after'			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_style-->'
 		);
 		$fields['after_field_group_style'] = array(

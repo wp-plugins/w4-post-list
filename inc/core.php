@@ -348,6 +348,7 @@ class W4PL_Core
 		}
 		elseif( isset($attr['id']) ){
 			$options = get_post_meta( $attr['id'], '_w4pl', true );
+			$options['id'] = $attr['id'];
 		}
 		else{
 			if( !is_array($attr) )
@@ -358,6 +359,7 @@ class W4PL_Core
 
 			if( $list_id ){
 				$options = get_post_meta( $list_id, '_w4pl', true );
+				$options['id'] = $list_id;
 			}
 		}
 
@@ -472,6 +474,7 @@ class W4PL_Core
 			'name' 			=> 'w4pl[post__in]',
 			'label' 		=> 'Include post by ids',
 			'type' 			=> 'text',
+			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated post id'
 		);
 		$fields['post__not_in'] = array(
@@ -480,6 +483,7 @@ class W4PL_Core
 			'name' 			=> 'w4pl[post__not_in]',
 			'label' 		=> 'Exclude post by ids',
 			'type' 			=> 'text',
+			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated post id'
 		);
 		$fields['post_parent__in'] = array(
@@ -488,6 +492,7 @@ class W4PL_Core
 			'name' 			=> 'w4pl[post_parent__in]',
 			'label' 		=> 'Post parent ids',
 			'type' 			=> 'text',
+			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated post parent id'
 		);
 		$fields['author__in'] = array(
@@ -496,6 +501,7 @@ class W4PL_Core
 			'name' 			=> 'w4pl[author__in]',
 			'label' 		=> 'Post author ids',
 			'type' 			=> 'text',
+			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated author id'
 		);
 
@@ -605,32 +611,19 @@ class W4PL_Core
 			'position'		=> '150',
 			'html' 			=> '<div id="w4pl_field_group_template" class="w4pl_field_group"><div class="w4pl_group_title">Template</div><div class="w4pl_group_fields">'
 		);
-		$fields['template'] = array(
-			'position'		=> '155',
-			'option_name' 	=> 'template',
-			'name' 			=> 'w4pl[template]',
-			'label' 		=> '',
-			'type' 			=> 'textarea',
-			'input_class' 	=> 'widefat',
-			'default' 		=> apply_filters('w4pl/template_default', ''),
-			'desc' 			=> 'top level shortcodes are [nav], [groups][/groups], [posts][/posts]. while using group by option, posts should be nested in groups tag. example:'
-			. "<pre style='width:auto'>
-[groups]
-  [group_title]
-  [posts]
-    [post_title]
-  [/posts]
-[/groups]
-[nav]
-</pre>"
-			. '<br />without group, a simple template should be like -'
-			. "<pre style='width:auto'>
-[posts]
-  [post_title]
-[/posts]
-[nav]
-</pre>"
-		);
+
+		$template_html = '<div class="wffw wffwi_w4pl_template wffwt_textarea">';
+
+		$template_html .= '<p style="margin-top:0px;">
+			<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_examples">Template Example</a>
+			<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_buttons">Shortcodes</a>
+		</p>';
+
+		$template_html .= '<div id="w4pl_template_examples" class="csshide">'
+		. "<pre style='width:auto'>\n[groups]\n\t[group_title]\n\t[posts]\n\t\t[post_title]\n\t[/posts]\n[/groups]\n[nav]</pre>"
+		. "<br />without group, a simple template should be like -"
+		. "<pre style='width:auto'>[posts]\n\t[post_title]\n[/posts]\n[nav]</pre>"
+		. '</div>';
 
 
 		$shortcodes = self::get_shortcodes();
@@ -639,31 +632,39 @@ class W4PL_Core
 			$group = $attr['group'];
 			if( !isset($shortcode_groups[$group]) || !is_array($shortcode_groups[$group]) )
 				$shortcode_groups[$group] = array();
-			#if( ! in_array($attr['group'], $shortcode_groups) )
 			$shortcode_groups[$group][] = $shortcode;
 		}
 
-		#print_r($shortcode_groups);
-
-
-		$input_before = '<div id="w4pl_template_buttons">';
+		$template_html .= '<div id="w4pl_template_buttons" class="csshide">';
 		foreach( $shortcode_groups as $shortcode_group => $scodes ){
-			$input_before .= sprintf(' <div class="w4pl_button_group"><span class="w4pl_button_group_title">%1$s</span>', $shortcode_group );
+			$template_html .= sprintf(' <div class="w4pl_button_group"><span class="w4pl_button_group_title">%1$s</span>', $shortcode_group );
 			foreach( $scodes as $shortcode ){
 				$attr = $shortcodes[$shortcode];
 				if( isset($attr['code']) )
 					$code = $attr['code'];
 				else
 					$code = '['. $shortcode . ']';
-				$input_before .= sprintf(' <a href="#%1$s" data-code="%2$s">%1$s</a>', $shortcode, esc_attr($code) );
+				$template_html .= sprintf(' <a href="#%1$s" data-code="%2$s">%1$s</a>', $shortcode, esc_attr($code) );
 			}
-			$input_before .= '</div>';
+			$template_html .= '</div>';
 		}
-		$input_before .= '</div>';
+		$template_html .= '</div>';
 
-		$fields['template']['input_before'] = $input_before;
-		$fields['template']['input_wrap_before'] = self::get_shortcode_hint_html();
 
+		$template_html .= w4pl_form_child_field_html( array(
+			'id' 			=> 'w4pl_template',
+			'name' 			=> 'w4pl[template]',
+			'input_class' 	=> 'wff wffi_w4pl_template wfft_textarea widefat',
+			'type' 			=> 'textarea',
+			'default' 		=> apply_filters('w4pl/template_default', ''),
+			'value'			=> isset($options['template']) ? $options['template'] : ''
+		));
+		$template_html .= '</div>';
+
+		$fields['template1'] = array(
+			'position'		=> '155',
+			'html' 			=> $template_html
+		);
 
 		$fields['after_field_group_template'] = array(
 			'position'		=> '160',
@@ -866,11 +867,11 @@ class W4PL_Core
 		?>
 		<style>
 /*W4 Post List Admin*/
-#w4pl_template_before, #w4pl_template_after, #w4pl_template{width:99%;height:50px;}
-#w4pl_template{height:250px;}
+#w4pl_template{height:350px;}
 #minor-publishing-actions, #misc-publishing-actions{display:none;}
+#w4pl_template_examples{ font-size:12px; color:#999999;}
 #shortcode_hint_toggle{position:relative;margin:10px 0;float:left;clear:left;}
-.wffw{margin:0;padding-top:15px;padding-bottom:15px;border-width: 0 0 1px 5px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
+.wffw{margin:0;padding-top:8px;padding-bottom:8px;border-width: 0 0 1px 5px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
 .wfflw, .wffdw {width:200px;float:left;clear:left;}
 .wffew {margin-left:220px;}
 .wffl{font-size:13px;}
@@ -880,20 +881,26 @@ class W4PL_Core
 .w4pl_button_group{ padding:0 0 10px;}
 .w4pl_button_group_title{ display:block;}
 
+#w4pl_list_options table.widefat th{ font-size:11px;}
+
 #w4pl_list_options{ position:relative;}
-.w4pl_group_title{margin:0; width:20%; padding:5px 10px;border-bottom:1px solid #D1E5EE; background-color:#FFF; font-size:16px; line-height:20px;
+.w4pl_group_title{margin:0; width:20%; padding:8px 10px;border-bottom:1px solid #D1E5EE; background-color:#FFF; font-size:16px; line-height:20px;
 box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box; font-weight:normal; cursor:pointer;}
 .w4pl_field_group:last-child .w4pl_group_title{ border-bottom:1px solid #D1E5EE;}
 .w4pl_field_group{}
 .w4pl_group_fields{ display:none; position:absolute; left:22%; top:0; width:78%;}
 .w4pl_active .w4pl_group_fields{ display:block;}
-.w4pl_active .w4pl_group_title, .w4pl_group_title:hover{ background-color:#D1E5EE;}
+.w4pl_active .w4pl_group_title, .w4pl_group_title:hover{ background-color:#D1E5EE; box-shadow:0 0 1px #666 inset;}
 <?php do_action( 'w4pl/admin_print_css' ); ?>
         </style>
 
 		<script type="text/javascript">
 (function($){
 	$(document).ready(function(){
+		$('.w4pl_toggler').click(function(){
+			$( $(this).data('target') ).toggle();
+			return false;
+		});
 		$('#shortcode_hint_toggle').click(function(){
 			$('#shortcode_hint').toggle();
 			return false;

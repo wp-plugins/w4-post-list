@@ -6,7 +6,7 @@ Tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-W4 Post List lets you create a list of posts and display them. The extraordinary feature is, one can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using shortcode tags and style it.
+W4 Post List lets you create a list of posts and display them on front-end. You can chose which information to show and where to show it regarding the post. The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
 
 
 
@@ -114,10 +114,13 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7.1 =
+* Fixed: Ajax pagination issue.
+* Improved: Template input field.
 = 1.7 =
 * Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
 = 1.6.9 =
-* Improved: Tax Query selection has been improved, that means more Independence !!!
+* Improved: Tax Query selection has been improved.
 = 1.6.8 =
 * Improved: Meta Query selection has been improved.
 = 1.6.7 =
@@ -206,6 +209,9 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.7.1 =
+* Fixed: Ajax pagination issue.
+* Improved: Template input field.
 = 1.7 =
 * Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
 = 1.6.9 =
