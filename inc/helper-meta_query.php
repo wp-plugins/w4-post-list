@@ -161,7 +161,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		#w4pl_meta_query_key_cell_head, .w4pl_meta_query_key_cell{ width: 200px;}
 		#w4pl_meta_query_compare_cell_head, .w4pl_meta_query_compare_cell{ width: 50px; padding-left:0 !important; text-align:left;}
 		#w4pl_meta_query_value_cell_head, .w4pl_meta_query_value_cell{ width: 260px; padding-left:0 !important; text-align:left;}
-		.w4pl_meta_query_value_cell .wfft_text{ width: 220px;}
+		.w4pl_meta_query_value_cell .wfft_text{ width: 205px;}
 		#w4pl_meta_query_action_cell_head, .w4pl_meta_query_action_cell{ width: 40px; padding-left:0 !important; text-align:left;}
 		a.w4pl_meta_query_value_add.button, a.w4pl_meta_query_value_del.button{ padding: 3px 5px 4px; height:20px; line-height:12px; margin:2px 0;}
 		a.w4pl_meta_query_remove_btn{ color:#D02A21;}
