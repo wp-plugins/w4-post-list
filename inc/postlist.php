@@ -823,6 +823,11 @@ class W4_Post_list
 
 	function post_meta($attr, $cont)
 	{
+		if( isset($attr) && !is_array($attr) && is_string($attr) ){
+			$meta_key = trim($attr);
+			$attr = array();
+		}
+
 		if( isset($attr['key']) ){
 			$meta_key = $attr['key'];
 		}
@@ -832,10 +837,7 @@ class W4_Post_list
 		if( ! $meta_key )
 			return;
 
-		$single = true;
-		if( array_key_exists('multiple', $attr) ){
-			$single = ! ( (bool) $attr['multiple'] );
-		}
+		$single = ! ( isset($attr) && is_array($attr) && array_key_exists('multiple', $attr) ?  (bool) $attr['multiple'] : true );
 
 		$sep = ', ';
 		if( isset($attr['sep']) ){
@@ -852,7 +854,7 @@ class W4_Post_list
 				}
 			}
 			if( $new )
-				$return = implode($sep, $new);
+				$return = implode( $sep, $new );
 			else
 				$return = '';
 		}

@@ -85,7 +85,7 @@ Check all of the available shortcodes on <a href="http://w4dev.com/w4-plugin/w4-
 * Removed: Posts with categories, Only categories.
 
 
-Happy using this Plugin ? Please Vote !! Your vote really makes the difference.
+Happy using this Plugin ? Please rate !!
 
 
 == Installation ==
@@ -114,6 +114,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7.2 =
+* Fixed: <a href="http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026">Post meta error</a> bug.
 = 1.7.1 =
 * Fixed: Ajax pagination issue.
 * Improved: Template input field.
@@ -209,6 +211,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.7.2 =
+* Fixed: <a href="http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026">Post meta error</a> bug.
 = 1.7.1 =
 * Fixed: Ajax pagination issue.
 * Improved: Template input field.
