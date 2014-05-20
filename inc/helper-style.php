@@ -9,6 +9,10 @@ class W4PL_Helper_Style extends W4PL_Core
 
 		add_action( 'w4pl/admin_print_js', array($this, 'admin_print_js'), 10 );
 
+		add_filter( 'w4pl/pre_save_options', array($this, 'pre_save_options') );
+
+		add_filter( 'w4pl/pre_get_options', array($this, 'pre_get_options') );
+
 		add_filter( 'w4pl/parse_html', array($this, 'parse_html'), 60 );
 	}
 
@@ -73,6 +77,38 @@ class W4PL_Helper_Style extends W4PL_Core
 		?>
         <?php
 	}
+
+	public function pre_save_options($options)
+	{
+		foreach( array(
+			'class'			=> '',
+			'js'			=> '',
+			'css'			=> ''
+		) as $k => $v )
+		{
+			if( array_key_exists($k , $options) && empty($options[$k ]) )
+				unset($options[$k]);
+		}
+
+		return $options;
+	}
+
+
+	public function pre_get_options($options)
+	{
+		foreach( array(
+			'class'			=> '',
+			'js'			=> '',
+			'css'			=> ''
+		) as $k => $v )
+		{
+			if( !isset($options[$k]) )
+				$options[$k] = '';
+		}
+
+		return $options;
+	}
+
 
 	public function parse_html( $obj )
 	{

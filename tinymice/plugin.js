@@ -7,7 +7,7 @@
 				ed.windowManager.open({
 					title : 'W4 Post List',
 					file : url + '/index.php',
-					width : 820 + parseInt(ed.getLang('w4pl.delta_width', 0)),
+					width : 840 + parseInt(ed.getLang('w4pl.delta_width', 0)),
 					height : 550 + parseInt(ed.getLang('w4pl.delta_height', 0)),
 					inline : 1
 				},{

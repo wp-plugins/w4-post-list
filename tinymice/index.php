@@ -48,13 +48,27 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 	$(document).ready(function(){
 		if ( win && win.tinymce ){
 			var selection = win.tinymce.activeEditor.selection.getContent({format:'text'});
-			if( selection ){
+			// if we have parse something
+			if( selection )
+			{
+				// hide the form
+				$('#w4pl_list_options_form').hide();
+
 				$.post( ajaxurl, {'action': 'w4pl_list_options_template', 'selection': selection }, function(r){
-					if( r != '' ){
+					if( r != '' )
+					{
 						$('#w4pl_list_options').replaceWith(r);
 
-						$('.w4pl_field_group:first').addClass('w4pl_active');
-						$('#w4pl_list_options').css('minHeight', $('.w4pl_field_group:first .w4pl_group_fields').outerHeight() );
+						// display the form
+						$('#w4pl_list_options_form').fadeIn('fast');
+
+						// adjust visible tab content height
+						$('#w4pl_list_options').css('minHeight', $('.w4pl_group_fields.w4pl_active').outerHeight() );
+					}
+					else{
+	
+						// display the form
+						$('#w4pl_list_options_form').fadeIn('fast');
 					}
 				});
 			}
@@ -77,13 +91,17 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 			return false;
 		})
 	});
-	function w4pl_get_shortcode( url, callback ){
-		$.post( ajaxurl,{'action': 'w4pl_get_shortcode', 'url': url}, callback);
+	function w4pl_generate_shortcodes( url, callback ){
+		$.post( ajaxurl,{'action': 'w4pl_generate_shortcodes', 'url': url}, callback);
 	}
 })(jQuery);
 </script>
 <style>
-#w4pl_list_options_form{padding:10px; max-width:820px; margin:0 auto;}
+#w4pl_list_options_form{
+	padding:10px;
+	margin:0 auto;
+	max-width:820px;
+}
 #submit{
 	background-color:#0b4a6d;
 	border:1px dashed #85a5b6;
@@ -100,7 +118,7 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 <body class="wp-core-ui">
 <div class="wrap">
 <form id="w4pl_list_options_form">
-	<input type="hidden" name="action" value="w4pl_get_shortcode" />
+	<input type="hidden" name="action" value="w4pl_generate_shortcodes" />
 	<?php do_action( 'w4pl/list_options_template', array() ); ?>
 	<p style="text-align:right;"><input type="submit" id="submit" value="Insert" /></p>
 </form>

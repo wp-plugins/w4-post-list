@@ -35,21 +35,29 @@ class W4PL_Lists_Admin extends W4PL_Core
 
 	public function admin_head()
 	{
-		do_action( 'w4pl/list_options_print_scripts' );
+		$options = get_post_meta( get_the_ID(), '_w4pl', true );
+		if( ! $options || !is_array($options) )
+			$options = array();
+
+		$options['id'] = get_the_ID();
+
+		do_action( 'w4pl/list_options_print_scripts', $options );
 	}
 
 
 	public function list_options_meta_box( $post )
 	{
-		$post_data = get_post_meta( $post->ID, '_w4pl', true );
-		if( ! $post_data || !is_array($post_data) )
-			$post_data = array();
+		$options = get_post_meta( $post->ID, '_w4pl', true );
+		if( ! $options || !is_array($options) )
+			$options = array();
 
-		$post_data['id'] = $post->ID;
+		$options['id'] = $post->ID;
 
-		do_action( 'w4pl/list_options_template', $post_data );
+		# echo '<pre>'; print_r($options); echo '</pre>';
+		# $options = apply_filters( 'w4pl/pre_get_options', $options );
+		# echo '<pre>'; print_r($options); echo '</pre>';
+		do_action( 'w4pl/list_options_template', $options );
 	}
-
 
 
 	public function save_post( $post_ID, $post, $update )
@@ -61,12 +69,11 @@ class W4PL_Lists_Admin extends W4PL_Core
 			return;
 
 		$options = stripslashes_deep($_POST['w4pl']);
-		#die( print_r($_POST) );
+		if( !isset($options['id']) )
+			$options['id'] = $post_ID;
 
-		if( isset($options) )
-		{
-			update_post_meta( $post_ID, '_w4pl', $options );
-		}
+		$options = apply_filters( 'w4pl/pre_save_options', $options );
+		update_post_meta( $post_ID, '_w4pl', $options );
 	}
 
 	// default templates

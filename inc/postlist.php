@@ -40,22 +40,12 @@ class W4_Post_list
 		*/
 
 		$this->options 			= $options;
-		$this->id 				= isset($this->options['id']) ? $this->options['id'] : time();
+		$this->id 				= isset($this->options['id']) ? $this->options['id'] : md5( microtime() . rand() );
 		$this->query 			= array();
 		$this->wp_query 		= '';
 
-
-		if( isset($this->options['template_loop']) && !empty($this->options['template_loop']) ){
-			if( isset($this->options['template']) 
-				&& ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $this->options['template']) 
-				&& preg_match('/\[loop\]/sm', $this->options['template'], $match ) 
-			){
-				$this->options['template'] = str_replace( $match[0], '[posts]'. $this->options['template_loop'] .'[/posts]', $this->options['template'] );
-				unset($this->options['template_loop']);
-
-				# update_post_meta( $list_id, '_w4pl', $this->options );
-			}
-		}
+		// let helper class extend/modify this class
+		do_action_ref_array( 'w4pl/pre_get_list', array( &$this ) );
 	}
 
 
@@ -107,7 +97,7 @@ class W4_Post_list
 		}
 
 
-		#echo '<pre>'; print_r($this->options); echo '</pre>';
+		##echo '<pre>'; print_r($this->options); echo '</pre>';
 		#return '';
 
 

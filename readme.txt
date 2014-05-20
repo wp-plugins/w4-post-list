@@ -6,7 +6,7 @@ Tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-W4 Post List lets you create a list of posts and put them on front-end. You can chose which information to show and where to show it regarding post. The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
+W4 Post List lets you create a list of posts and put them on front-end. You can chose which information to show and where to show it regarding posts. The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
 
 
 
@@ -114,8 +114,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7.3 =
+* Improved: List options page
+* Improved: List options shortcodes
 = 1.7.2 =
-* Fixed: <a href="http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026">Post meta error</a> bug.
+* Fixed: (Post meta error)[http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026] bug.
 = 1.7.1 =
 * Fixed: Ajax pagination issue.
 * Improved: Template input field.
@@ -211,8 +214,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.7.3 =
+* Improved: List options page
+* Improved: List options shortcodes
 = 1.7.2 =
-* Fixed: <a href="http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026">Post meta error</a> bug.
+* Fixed: (Post meta error)[http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026] bug.
 = 1.7.1 =
 * Fixed: Ajax pagination issue.
 * Improved: Template input field.

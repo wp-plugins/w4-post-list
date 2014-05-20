@@ -3,15 +3,15 @@ class W4PL_Core
 {
 	function __construct()
 	{
-		// register post list
+		// register lists post type (w4pl)
 		add_action( 'init', 									array($this, 'register_post_type'));
 
 
-		// add postlist shortcode
+		// register shortcode (postlist)
 		add_shortcode( 'postlist', 								array($this, 'shortcode'), 6 );
 
 
-		// register scripts
+		// register css/js
 		add_action( 'wp_enqueue_scripts', 						array($this, 'register_scripts'), 2 );
 		add_action( 'admin_enqueue_scripts', 					array($this, 'register_scripts'), 2 );
 
@@ -24,24 +24,35 @@ class W4PL_Core
 		add_filter( 'w4pl/get_shortcodes', 						array($this, 'get_shortcodes') );
 
 
-		// display list creation option page html
+		// display create list page template
 		add_filter( 'w4pl/list_options_template', 				array($this, 'list_options_template') );
+
+
+		// filter option before saving them
+		add_filter( 'w4pl/pre_save_options', 					array($this, 'pre_save_options') );
+
+
+		// filter list options
+		add_filter( 'w4pl/pre_get_list', 						array($this, 'pre_get_list') );
+
+
+		// filter list before getting them
+		add_filter( 'w4pl/pre_get_options', 					array($this, 'pre_get_options'), 5 );
 
 
 		// load list options template from posted data.
 		add_action( 'wp_ajax_w4pl_list_options_template', 		array($this, 'list_options_template_ajax') );
 
 
+		add_action( 'w4pl/list_options_template_html', 			array($this, 'list_options_template_html'), 5, 3 );
+
+
 		// display list creation option page scripts, scripts get loaded on the head tag of that page.
 		add_action( 'w4pl/list_options_print_scripts', 			array($this, 'list_options_print_scripts') );
 
 
-		// ouput fields template specific for selected post type
-		# add_action( 'wp_ajax_w4pl_post_type_fields_template', 	array($this, 'post_type_fields_template_ajax') ); // Lagbe na
-
-
 		// get shortcode from posted data
-		add_action( 'wp_ajax_w4pl_get_shortcode', 				array($this, 'w4pl_get_shortcode_ajax') );
+		add_action( 'wp_ajax_w4pl_generate_shortcodes', 		array($this, 'w4pl_generate_shortcodes_ajax') );
 	}
 
 
@@ -366,9 +377,12 @@ class W4PL_Core
 		if( empty($options) )
 			return '';
 
-		#print_r($options);
+		#echo '<pre>'; print_r($options); echo '</pre>';
 		#return '';
-
+		$options = apply_filters( 'w4pl/pre_get_options', $options );
+		#echo '<pre>'; print_r($options); echo '</pre>';
+		
+		
 		return self::the_list( $options );
 	}
 
@@ -404,14 +418,7 @@ class W4PL_Core
 
 	public static function list_options_template( $options )
 	{
-		if( !isset($options['id']) )
-			$options['id'] = md5( microtime() . rand() );
-
-		if( ! isset($options['post_type']) )
-			$options['post_type'] = 'post';
-
-		if( ! isset($options['post_status']) )
-			$options['post_status'] = 'publish';
+		$options = apply_filters( 'w4pl/pre_get_options', $options );
 
 		$fields = array();
 
@@ -421,9 +428,15 @@ class W4PL_Core
 			'html' 			=> '<div id="w4pl_list_options">'
 		);
 		$fields['id'] = array(
-			'position'		=> '1',
+			'position'		=> '1.1',
 			'option_name' 	=> 'id',
 			'name' 			=> 'w4pl[id]',
+			'type' 			=> 'hidden'
+		);
+		$fields['tab_id'] = array(
+			'position'		=> '1.2',
+			'option_name' 	=> 'tab_id',
+			'name' 			=> 'w4pl[tab_id]',
 			'type' 			=> 'hidden'
 		);
 
@@ -459,14 +472,17 @@ class W4PL_Core
 			);
 		}
 
-		$fields['post_status'] = array(
-			'position'		=> '10',
-			'option_name' 	=> 'post_status',
-			'name' 			=> 'w4pl[post_status]',
-			'label' 		=> 'Post Status',
-			'type' 			=> 'checkbox',
-			'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
-		);
+		if( 'attachment' != $options['post_type'] )
+		{
+			$fields['post_status'] = array(
+				'position'		=> '10',
+				'option_name' 	=> 'post_status',
+				'name' 			=> 'w4pl[post_status]',
+				'label' 		=> 'Post Status',
+				'type' 			=> 'checkbox',
+				'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
+			);
+		}
 
 		$fields['post__in'] = array(
 			'position'		=> '15',
@@ -708,10 +724,21 @@ class W4PL_Core
 
 		# echo '<pre>'; print_r($fields); echo '</pre>';
 
+		$output = w4pl_form_fields( $fields, $options, $form_args );
 
-		echo w4pl_form_fields( $fields, $options, $form_args );
+		// filter the output
+		$output = apply_filters( 'w4pl/list_options_template_html', $output, $fields, $options );
+
+		echo $output;
 	}
 
+	public static function list_options_template_html( $output, $fields, $options )
+	{
+		if( isset($options['tab_id']) )
+			$output = str_replace('id="'. $options['tab_id'] .'" class="', 'id="'. $options['tab_id'] .'" class="w4pl_active ', $output);
+
+		return $output;
+	}
 
 	public static function list_options_template_ajax()
 	{
@@ -725,8 +752,7 @@ class W4PL_Core
 				if( is_object($options) ){
 					$options = get_object_vars($options);
 				}
-				
-				
+
 				if( !empty($options) ){
 					do_action( 'w4pl/list_options_template', $options );
 				}
@@ -746,65 +772,90 @@ class W4PL_Core
 		die('');
 	}
 
-	/*
-	public static function post_type_fields_template_ajax()
+	public function pre_save_options($options)
 	{
-		$post_ID = isset($_POST['post_id']) ? $_POST['post_id'] : 0;
-		$options = get_post_meta( $post_ID, '_w4pl', true );
-		if( ! $options || !is_array($options) )
-			$options = array();
-
-		if( isset($_POST['post_type']) )
-			$options['post_type'] = $_POST['post_type'];
-
-		$fields = array();
-		self::post_type_fields( $fields, $options );
-
-		if( empty($fields) ){
-			die('');
+		foreach( array(
+			'tab_id' 			=> 'w4pl_field_group_query', 
+			'post_type' 		=> 'post', 
+			'post_status' 		=> array('publish'), 
+			'post__in' 			=> '', 
+			'post__not_in' 		=> '', 
+			'post_parent__in' 	=> '',
+			'author__in' 		=> '',
+			'posts_per_page'	=> '',
+			'limit'				=> '',
+			'offset'			=> '',
+			'groupby'			=> '',
+			'orderby'			=> 'date',
+			'order'				=> 'DESC',
+			'group_order'		=> ''
+		) as $k => $v )
+		{
+			if( empty($v) && empty($options[$k]) )
+				unset($options[$k]);
+			elseif( array_key_exists($k, $options) && $v == $options[$k] )
+				unset($options[$k]);
 		}
 
-		echo w4pl_form_fields( 
-			$fields, 
-			$options, 
-			array('no_form' => true, 'button_after' => false) 
-		);
-		die('');
+		if( 'attachment' == $options['post_type'] ){
+			unset( $options['post_status'] );
+		}
+
+		return $options;
 	}
 
-	public static function post_type_fields( &$fields, $options )
+
+	public function pre_get_options($options)
 	{
-		$post_type = $options['post_type'];
+		if( !isset($options) || !is_array($options) )
+			$options = array();
 
-		$fields['groupby'] = array(
-			'before'		=> '<div class="w4pl_group_title">Group</div>',
-			'position' 		=> '25',
-			'option_name' 	=> 'groupby',
-			'name' 			=> 'w4pl[groupby]',
-			'label' 		=> 'Group By',
-			'type' 			=> 'select',
-			'option' 		=> self::post_groupby_options($post_type)
-		);
-		$fields['group_order'] = array(
-			'position' 		=> '26',
-			'option_name' 	=> 'group_order',
-			'name' 			=> 'w4pl[group_order]',
-			'label' 		=> 'Group Order',
-			'type' 			=> 'radio',
-			'option' 		=> array('' => 'None', 'ASC' => 'ASC', 'DESC' => 'DESC')
-		);
+		if( isset($options['template_loop']) && !empty($options['template_loop']) ){
+			if( isset($options['template']) 
+				&& ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $options['template']) 
+				&& preg_match('/\[loop\]/sm', $options['template'], $match ) 
+			){
+				$options['template'] = str_replace( $match[0], '[posts]'. $options['template_loop'] .'[/posts]', $options['template'] );
+				unset($options['template_loop']);
+			}
+		}
 
-		$fields = apply_filters( 'w4pl/admin_list_post_type_fields', $fields, $options );
+		$options = wp_parse_args( $options, array(
+			'id' 				=> md5( microtime() . rand() ), 
+			'tab_id' 			=> 'w4pl_field_group_query', 
+			'post_type' 		=> 'post', 
+			'post_status' 		=> array('publish'), 
+			'post__in' 			=> '', 
+			'post__not_in' 		=> '', 
+			'post_parent__in' 	=> '',
+			'author__in' 		=> '',
+			'posts_per_page'	=> '',
+			'limit'				=> '',
+			'offset'			=> '',
+			'groupby'			=> '',
+			'orderby'			=> 'date',
+			'order'				=> 'DESC',
+			'group_order'		=> ''
+		));
 
-		return $fields;
+		if( 'attachment' == $options['post_type'] ){
+			$options['post_status'] = array('inherit');
+		}
+
+		return $options;
 	}
-	*/
+
+	public function pre_get_list($list)
+	{
+		return $list;
+	}
+
 
 	/*
 	 * Encoded Shortcode data
 	**/
 
-	public static function w4pl_get_shortcode_ajax()
+	public static function w4pl_generate_shortcodes_ajax()
 	{
 		$options = isset($_POST) ? stripslashes_deep($_POST) : array();
 		if( isset($options['w4pl']) )
@@ -813,34 +864,10 @@ class W4PL_Core
 		if( empty($options) )
 			die('');
 
-		/*
-		$r = '[postlist';
-		foreach( $options as $okey => $oval ){
-			if( empty($oval) ){
-				continue;
-			}
-			elseif( is_array($oval) ){
-				foreach( $oval as $ckey => $cval ){
-					if( empty($cval) ){
-						continue;
-					}
-					elseif( ! is_array($cval) ){
-						$r .= ' '. $okey .'.'. $ckey .'="'.htmlentities($cval).'"';
-					}
-				}
-			}
-			else{
-				$r .= ' '. $okey .'="'.htmlentities($oval).'"';
-			}
-		}
-		$r .= ']';
-		
-		echo maybe_serialize($options);
+		// filter options, remove default values
+		$options = apply_filters( 'w4pl/pre_save_options', $options );
 
-		echo $r;
-		die();
-		*/
-
+		// encode options, split string by 100 characters to avoid 
 		$encode = chunk_split( base64_encode( maybe_serialize($options) ), 100, ' ');
 
 		printf( '[postlist options="%s"]', trim($encode) );
@@ -859,8 +886,12 @@ class W4PL_Core
 	}
 
 
-	public static function list_options_print_scripts()
+	public static function list_options_print_scripts( $options )
 	{
+		$options = apply_filters( 'w4pl/pre_get_options', $options );
+
+		$tab_id = isset($options['tab_id']) ? '#'. $options['tab_id'] : '.w4pl_field_group:first';
+
 		wp_print_styles(  'w4pl_form' );
 		wp_print_scripts( 'w4pl_form' );
 
@@ -901,13 +932,8 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 			$( $(this).data('target') ).toggle();
 			return false;
 		});
-		$('#shortcode_hint_toggle').click(function(){
-			$('#shortcode_hint').toggle();
-			return false;
-		});
 
-		$('.w4pl_field_group:first').addClass('w4pl_active');
-		$('#w4pl_list_options').css('minHeight', $('.w4pl_field_group:first .w4pl_group_fields').outerHeight() );
+		$('#w4pl_list_options').css('minHeight', $('.w4pl_group_fields.w4pl_active').outerHeight() );
 
 		/* show/hide group options */
 		$('.w4pl_group_title').live('click', function(){
@@ -915,6 +941,8 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 
 			$('.w4pl_field_group').removeClass('w4pl_active');
 			$(this).parent('.w4pl_field_group').addClass('w4pl_active');
+
+			$('#w4pl_tab_id').val( $(this).parent('.w4pl_field_group').attr('id') );
 
 			var miHeight = $(this).parent('.w4pl_field_group').find('.w4pl_group_fields').outerHeight();
 			$('#w4pl_list_options').css('minHeight', miHeight);
@@ -1113,8 +1141,8 @@ function insertAtCaret(areaId,text) {
 	public static function get_shortcode_hint_html()
 	{
 		$shortcodes = W4PL_Core::get_shortcodes();
-		$return = '<a id="shortcode_hint_toggle" class="button">shortcodes details</a>';
-		$return .= '<table id="shortcode_hint" class="widefat" style="display:none;">';
+		$return = '<a target="#shortcode_hint" class="button w4pl_toggler">shortcodes details</a>';
+		$return .= '<table id="shortcode_hint" class="widefat csshide">';
 		$return .= '<thead><tr><th style="text-align: right;">Tag</th><th>Details</th></tr></thead><tbody>';
 		foreach( $shortcodes as $shortcode => $attr ){ 
 			$rc = isset($rc) && $rc == '' ? $rc = 'alt' : '';

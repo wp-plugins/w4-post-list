@@ -9,6 +9,10 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 
 		add_action( 'w4pl/admin_print_js', array($this, 'admin_print_js'), 10 );
 
+		add_filter( 'w4pl/pre_save_options', array($this, 'pre_save_options') );
+
+		add_filter( 'w4pl/pre_get_options', array($this, 'pre_get_options') );
+
 		add_filter( 'w4pl/parse_query', array($this, 'parse_query'), 10 );
 	}
 
@@ -24,10 +28,10 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		$html .= '<table id="w4pl_meta_query_table" class="widefat">
 			<thead>
 				<tr>
-					<th>Key</th>
-					<th>Compare</th>
-					<th>Value</th>
-					<th>Action</th>
+					<th id="w4pl_meta_query_key_cell_head">Key</th>
+					<th id="w4pl_meta_query_compare_cell_head">Compare</th>
+					<th id="w4pl_meta_query_value_cell_head">Value</th>
+					<th id="w4pl_meta_query_action_cell_head">Action</th>
 				</tr>
 			</thead>
 			<tbody>';
@@ -49,7 +53,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 
 
 				$html .= '
-				<tr><td>
+				<tr><td class="w4pl_meta_query_key_cell">
 					'.
 					w4pl_form_child_field_html( array(
 						'id' 			=> 'w4pl_meta_query_key_'. $index,
@@ -58,7 +62,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 						'type' 			=> 'text',
 						'value'			=> $key
 					))
-					. '</td><td>' 
+					. '</td><td class="w4pl_meta_query_compare_cell">' 
 					. w4pl_form_child_field_html( array(
 						'id' 			=> 'w4pl_meta_query_compare_'. $index,
 						'name' 			=> 'w4pl[meta_query][compare]['.$index.']',
@@ -67,7 +71,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 						'option' 		=> self::meta_query_compare_options(),
 						'value'			=> $compare
 					))
-					. '</td><td class="values" data-pos="'. $index .'">';
+					. '</td><td class="w4pl_meta_query_value_cell values" data-pos="'. $index .'">';
 
 					if( !is_array($value) )
 						$value = array($value);
@@ -83,7 +87,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 					</div>';
 					++ $cindex;
 				}
-				$html .= '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>
+				$html .= '</td><td class="w4pl_meta_query_action_cell"><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>
 				</tr>';
 
 				++$index;
@@ -104,22 +108,22 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		$html .= '
 		<p style="text-align:right;"><a id="w4pl_meta_query_add_btn" href="#" class="button">+ Add</a></p>
 		<table id="w4pl_meta_query_clone" style="display:none;">
-		<tr><td>
+		<tr><td class="w4pl_meta_query_key_cell">
 			<input type="text" class="wff wffi_w4pl_meta_query_key wfft_text">
-			</td><td>' 
+			</td><td class="w4pl_meta_query_compare_cell">' 
 			. w4pl_form_child_field_html( array(
 				'name' 			=> 'w4pl[meta_query][compare][]',
 				'input_class' 	=> 'w4pl_meta_query_compare',
 				'type' 			=> 'select',
 				'option' 		=> self::meta_query_compare_options()
 			))
-			. '</td><td class="values">' 
+			. '</td><td class="w4pl_meta_query_value_cell values">' 
 			. '<div class="item">
 				<input type="text" class="wff wfft_text wffi_w4pl_meta_query_value">
 				<a class="w4pl_meta_query_value_add button" href="#">+</a> 
 				<a class="w4pl_meta_query_value_del button" href="#">-</a>
 			</div>'
-			. '</td><td><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
+			. '</td><td class="w4pl_meta_query_action_cell"><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
 			.'
 		</tr></table>';
 
@@ -150,22 +154,31 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 	public function admin_print_css()
 	{
 		?>
-		#w4pl_meta_query_table th{ text-align:left; padding-left:8px;}
-        <?php
+		#w4pl_meta_query_table th{ text-align:left; font-weight:bold;}
+		#w4pl_meta_query_table th, #w4pl_meta_query_table td, #w4pl_meta_query_table input, #w4pl_meta_query_table select{ font-size:11px;}
+		#w4pl_meta_query_table .wfft_select, .w4pl_meta_query_key_cell .wfft_text{ width: 99%; margin-left:0px; margin-right:0px; height: auto; padding:2px}
+		#w4pl_meta_query_table .wfft_text{ margin-left:0px; padding:3px 5px; height: auto;}
+		#w4pl_meta_query_key_cell_head, .w4pl_meta_query_key_cell{ width: 200px;}
+		#w4pl_meta_query_compare_cell_head, .w4pl_meta_query_compare_cell{ width: 50px; padding-left:0 !important; text-align:left;}
+		#w4pl_meta_query_value_cell_head, .w4pl_meta_query_value_cell{ width: 260px; padding-left:0 !important; text-align:left;}
+		.w4pl_meta_query_value_cell .wfft_text{ width: 220px;}
+		#w4pl_meta_query_action_cell_head, .w4pl_meta_query_action_cell{ width: 40px; padding-left:0 !important; text-align:left;}
+		a.w4pl_meta_query_value_add.button, a.w4pl_meta_query_value_del.button{ padding: 3px 5px 4px; height:20px; line-height:12px; margin:2px 0;}
+		a.w4pl_meta_query_remove_btn{ color:#D02A21;}
+		<?php
 	}
 
 	public function admin_print_js()
 	{
 		?>
 	$(document).ready(function(){
-		$('#w4pl_meta_query_add_btn').click(function(){
+		$('#w4pl_meta_query_add_btn').live('click', function(){
 			var h = $( $('#w4pl_meta_query_clone tbody').html() );
 			h.appendTo( '#w4pl_meta_query_table tbody' );
 			reindex_meta_query();
 			return false;
 		});
-
-		$('.w4pl_meta_query_remove_btn').live('click',function(){
+		$('.w4pl_meta_query_remove_btn').live('click', function(){
 			$(this).parents('tr').remove();
 			reindex_meta_query();
 			return false;
@@ -249,8 +262,29 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 			});
 		}
 	});
-        <?php
+		<?php
 	}
+
+	public function pre_save_options($options)
+	{
+		if( isset($options['meta_query']) && 
+			( 
+				( array_key_exists('value', $options['meta_query']) && empty($options['meta_query']['value']) )
+				|| ! array_key_exists('value', $options['meta_query'])
+			)
+		)
+			unset($options['meta_query']);
+
+		return $options;
+	}
+
+	public function pre_get_options($options)
+	{
+		if( !isset($options['meta_query']) )
+			$options['meta_query'] = array();
+		return $options;
+	}
+
 
 	public function parse_query( $obj )
 	{
