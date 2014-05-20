@@ -68,13 +68,13 @@ Templates are designed using Shortcodes. You can create a simple list just showi
 * media thumbnail
 
 
-Check all of the available shortcodes on <a href="http://w4dev.com/w4-plugin/w4-post-list">W4 Post List Plugin Page</a>.
+Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev.com/w4-plugin/w4-post-list).
 
 
 = Check Example =
-* <a href="http://w4dev.com/wp/w4-post-list-examples#w4pl-list-1381">Simple Posts List</a>
-* <a href="http://w4dev.com/wp/w4-post-list-examples#w4pl-list-1391">Media List</a>
-* <a href="http://w4dev.com/wp/w4-post-list-examples#w4pl-list-1401">Year/Month Archive</a>
+* [Simple Posts List](http://w4dev.com/wp/w4-post-list-examples#example-1)
+* [Media List](http://w4dev.com/wp/w4-post-list-examples#example-2)
+* [Year/Month Archive](http://w4dev.com/wp/w4-post-list-examples#example-3)
 
 
 = What's new latest version (1.6 +) =
@@ -118,7 +118,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 * Improved: List options page
 * Improved: List options shortcodes
 = 1.7.2 =
-* Fixed: (Post meta error)[http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026] bug.
+* Fixed: [Post meta error](http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026) bug.
 = 1.7.1 =
 * Fixed: Ajax pagination issue.
 * Improved: Template input field.
@@ -171,7 +171,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 = 1.4 =
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
-* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-examples/">http://w4dev.com/wp/w4-post-list-examples/</a>
+* Shortcode Template. Design list using shortcodes and HTML. [Check examples here](http://w4dev.com/wp/w4-post-list-examples)
 = 1.3.6 =
 * List only posts by category.
 * Show/Not show future posts.
@@ -218,7 +218,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 * Improved: List options page
 * Improved: List options shortcodes
 = 1.7.2 =
-* Fixed: (Post meta error)[http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026] bug.
+* Fixed: [Post meta error](http://wordpress.org/support/topic/display-image-from-upload-metafield?replies=6#post-5599026) bug.
 = 1.7.1 =
 * Fixed: Ajax pagination issue.
 * Improved: Template input field.
@@ -273,7 +273,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 = 1.4 =
 * Its been a total change in this version. New Management page added for Admins to assign capability for creating/managing post list. If a user has role to only create and manage his own list, he won't be able to see/edit/delete the rest of post list option page.
 * Post list database management process. Admin can drop or install the plugin database on click. People are recommended to do removal and install old database once if they have upgraded to v.1.4 from a old once. When database table is dropped, plugin keeps the old data and prompt for synchronize it once after installation of plugin database table. Only admin can have this feature.
-* HTML Design template. You can design you list HTML template. For instruction, follow <a href="http://w4dev.com/wp/w4-post-list-examples/">http://w4dev.com/wp/w4-post-list-examples/</a>
+* Shortcode Template. Design list using shortcodes and HTML. [Check examples here](http://w4dev.com/wp/w4-post-list-examples)
 = 1.3.6 =
 * List only posts by category.
 * Show/Not show future posts.
