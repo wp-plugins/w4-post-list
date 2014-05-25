@@ -1,7 +1,9 @@
 <?php
 /**
  * @package W4 Post List
- */
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
 
 // load WP, go down till 6 dirs...
 $_abspath = "../../";
@@ -103,14 +105,18 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 	max-width:820px;
 }
 #submit{
+	width:20%;
+	color:#FFF;
+	float:left;
+	font-size:25px;
+	margin:20px 0;
+	cursor:pointer;
+	padding:10px 20px;
+	font-weight: normal;
 	background-color:#0b4a6d;
 	border:1px dashed #85a5b6;
-	font-family:Arial, Helvetica, sans-serif;
-	color:#FFF;
-	font-weight:700;
-	cursor:pointer;
-	margin:20px 0 50px;
-	padding:10px 20px;
+	border-left:none;
+	border-right:none;
 	}
 </style>
 <?php wp_admin_css( 'wp-admin', true ); ?>
@@ -120,7 +126,7 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 <form id="w4pl_list_options_form">
 	<input type="hidden" name="action" value="w4pl_generate_shortcodes" />
 	<?php do_action( 'w4pl/list_options_template', array() ); ?>
-	<p style="text-align:right;"><input type="submit" id="submit" value="Insert" /></p>
+	<input type="submit" id="submit" value="Insert" />
 </form>
 </div>
 </body>

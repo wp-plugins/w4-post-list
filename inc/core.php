@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Core 
 {
 	function __construct()
