@@ -17,12 +17,14 @@ class W4PL_Widget extends WP_Widget
 		global $w4_post_list;
 		extract( $args);
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$PL_ID = $instance['PL_ID'];
-		
+
+		$options = get_post_meta( $instance['PL_ID'], '_w4pl', true );
+		$options['id'] = $instance['PL_ID'];
+
 		echo $before_widget;
 		if( $title )
 			echo $before_title . $title . $after_title;
-		echo W4PL_Core::the_list( $PL_ID );
+		echo W4PL_Core::the_list( $options );
 		echo $after_widget;
 	}
 	function update( $new_instance, $old_instance ) {

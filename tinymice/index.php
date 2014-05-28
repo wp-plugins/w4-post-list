@@ -64,11 +64,11 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 						// display the form
 						$('#w4pl_list_options_form').fadeIn('fast');
 
-						// adjust visible tab content height
-						$('#w4pl_list_options').css('minHeight', $('.w4pl_group_fields.w4pl_active').outerHeight() );
+						// trigger form load
+						$(document).trigger('w4pl/form_loaded', $('#w4pl_list_options') );
 					}
-					else{
-	
+					else
+					{
 						// display the form
 						$('#w4pl_list_options_form').fadeIn('fast');
 					}

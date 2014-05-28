@@ -34,8 +34,8 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 			<thead>
 				<tr>
 					<th id="w4pl_tax_query_taxonomy_cell_head">Taxonomy</th>
-					<th id="w4pl_tax_query_field_cell_head">Field</th>
 					<th id="w4pl_tax_query_operator_cell_head">Operator</th>
+					<th id="w4pl_tax_query_field_cell_head">Field</th>
 					<th id="w4pl_tax_query_terms_cell_head">Terms</th>
 					<th id="w4pl_tax_query_action_cell_head">Action</th>
 				</tr>
@@ -66,15 +66,6 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 						'option' 		=> self::post_type_taxonomies_options( $post_type ),
 						'value'			=> $taxonomy
 					))
-					. '</td><td class="w4pl_tax_query_field_cell">' 
-					. w4pl_form_child_field_html( array(
-						'id' 			=> 'w4pl_tax_query_field_'. $index,
-						'name' 			=> 'w4pl[tax_query][field]['.$index.']',
-						'input_class' 	=> 'w4pl_tax_query_field',
-						'type' 			=> 'select',
-						'option' 		=> self::tax_query_field_options(),
-						'value'			=> $field
-					))
 					. '</td><td class="w4pl_tax_query_operator_cell">' 
 					. w4pl_form_child_field_html( array(
 						'id' 			=> 'w4pl_tax_query_operator_'. $index,
@@ -84,10 +75,25 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 						'option' 		=> self::tax_query_operator_options(),
 						'value'			=> $operator
 					))
+					. '</td><td class="w4pl_tax_query_field_cell">' 
+					. w4pl_form_child_field_html( array(
+						'id' 			=> 'w4pl_tax_query_field_'. $index,
+						'name' 			=> 'w4pl[tax_query][field]['.$index.']',
+						'input_class' 	=> 'w4pl_tax_query_field',
+						'type' 			=> 'select',
+						'option' 		=> self::tax_query_field_options(),
+						'value'			=> $field
+					))
 					. '</td><td class="w4pl_tax_query_terms_cell terms" data-pos="'. $index .'">';
 
 					if( !is_array($terms) )
 						$terms = array($terms);
+
+
+				$btn_class = '';
+				if( in_array($operator, array('IN', 'NOT IN') ) ){
+					$btn_class = 'csshide';
+				}
 
 				$cindex = 0;
 				foreach( $terms as $val )
@@ -128,19 +134,19 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 						'type' 			=> 'select',
 						'option' 		=> self::post_type_taxonomies_options( $post_type )
 					))
-					. '</td><td class="w4pl_tax_query_field_cell">' 
-					. w4pl_form_child_field_html( array(
-						'name' 			=> 'w4pl[tax_query][field][]',
-						'input_class' 	=> 'w4pl_tax_query_field',
-						'type' 			=> 'select',
-						'option' 		=> self::tax_query_field_options()
-					))
 					. '</td><td class="w4pl_tax_query_operator_cell">' 
 					. w4pl_form_child_field_html( array(
 						'name' 			=> 'w4pl[tax_query][operator][]',
 						'input_class' 	=> 'w4pl_tax_query_operator',
 						'type' 			=> 'select',
 						'option' 		=> self::tax_query_operator_options()
+					))
+					. '</td><td class="w4pl_tax_query_field_cell">' 
+					. w4pl_form_child_field_html( array(
+						'name' 			=> 'w4pl[tax_query][field][]',
+						'input_class' 	=> 'w4pl_tax_query_field',
+						'type' 			=> 'select',
+						'option' 		=> self::tax_query_field_options()
 					))
 			. '</td><td class="w4pl_tax_query_terms_cell terms">' 
 			. '<div class="item">
@@ -263,23 +269,24 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 		});
 
 		$('.w4pl_tax_query_operator').live('change', function(){
-			if( $.inArray( $(this).val(), ['IN', 'NOT IN']) != -1 ){
-				//console.log($(this).val());
+
+            if( $.inArray( $(this).val(), ['IN', 'NOT IN']) != -1 ){
+				console.log($(this).val());
 				$(this)
-					.parent('td').next('td').children('.item').show()
+					.parents('tr').find('.w4pl_tax_query_terms_cell').children('.item').show()
 					.children('.w4pl_tax_query_value_add, .w4pl_tax_query_value_del').show();
 			}
 			else
 			{
 				$(this)
-					.parent('td').next('td').children('.item').hide()
+					.parents('tr').find('.w4pl_tax_query_terms_cell .item').hide()
 					.children('.w4pl_tax_query_value_add, .w4pl_tax_query_value_del').hide();
-				
+
 				$(this)
-					.parent('td').next('td').find('.item:first').show();
+					.parents('tr').find('.w4pl_tax_query_terms_cell .item:first').show();
 			}
 		});
-		
+
 		$('.w4pl_tax_query_operator').each(function(i,elem){
 			$(this).trigger('change');
 		});

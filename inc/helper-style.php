@@ -31,7 +31,7 @@ class W4PL_Helper_Style extends W4PL_Core
 			'label' 		=> 'List class',
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'add html class to the list'
+			'desc' 			=> 'list html id is - <code>#w4pl-list-'. $post_data['id'] . '</code>'
 		);
 		$fields['css'] = array(
 			'position'		=> '172',
@@ -40,9 +40,8 @@ class W4PL_Helper_Style extends W4PL_Core
 			'label' 		=> 'Custom css',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this css loads just before the list template on front-end. to apply these css just for current list, 
-								use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector. 
-								Alternatively, you can use <code>#w4pl-[listid]</code> which will do the same thing.'
+			'desc' 			=> 'this css loads just before the list template on front-end. <br />to apply css just for current list, 
+								use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector or use - <code>#w4pl-[listid]</code>'
 		);
 		$fields['js'] = array(
 			'position'		=> '174',

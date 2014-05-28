@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Lists_Admin extends W4PL_Core
 {
 	function __construct()
@@ -88,18 +95,21 @@ class W4PL_Lists_Admin extends W4PL_Core
 	{
 		global $post_ID, $post;
 
-		$input_attr = 'type="text" size="9" onfocus="this.select();" onclick="this.select();" readonly="readonly"';
+		$input_attr = sprintf( 
+			'<input value="[postlist id=&quot;%d&quot;]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly />"', 
+			$post_ID 
+		);
 
 		$messages[W4PL_SLUG] = array(
-			 1 => sprintf( __('List updated. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			 1 => sprintf( __('List updated. Shortcode %2$s'), $post_ID, $input_attr ),
 			 2 => '',
 			 3 => '',
 			 4 => __('List updated.'),
 			 5 => '',
-			 6 => sprintf( __('List published. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			 6 => sprintf( __('List published. Shortcode %2$s"]" %2$s />'), $post_ID, $input_attr ),
 			 7 => __('List saved.'),
-			 8 => sprintf( __('List submitted. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
-			 9 => sprintf( __('List scheduled. Use Shortcode <input value="[postlist %1$d]" %2$s />'), $post_ID, $input_attr ),
+			 8 => sprintf( __('List submitted. Shortcode %2$s" %2$s />'), $post_ID, $input_attr ),
+			 9 => sprintf( __('List scheduled. Shortcode %2$s'), $post_ID, $input_attr ),
 			10 => ''
 		);
 		return $messages;
@@ -124,7 +134,10 @@ class W4PL_Lists_Admin extends W4PL_Core
 	public function manage_posts_custom_column( $column_name, $post_ID )
 	{
 		if( 'shortcode' == $column_name ){
-			printf( '<input value="[postlist %d]" type="text" size="9" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', $post_ID );
+			printf( 
+				'<input value="[postlist id=&quot;%d&quot;]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', 
+				$post_ID 
+			);
 		}
 	}
 

@@ -114,6 +114,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7.5 =
+* Improved: Options form
 = 1.7.4 =
 * Improved: Options form
 = 1.7.3 =
@@ -215,9 +217,10 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 = 1.0 =
 
 
-
 == Upgrade Notice ==
 
+= 1.7.5 =
+* Improved: Options form
 = 1.7.4 =
 * Improved: Options form
 = 1.7.3 =

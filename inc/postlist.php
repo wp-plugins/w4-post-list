@@ -1,17 +1,6 @@
 <?php
 class W4_Post_list
 {
-	var $id 		= array();
-	var $query 		= array();
-	var $wp_query 	= array();
-	var $options 	= array();
-	var $groups 	= array();
-
-	var $css		= '';
-	var $js			= '';
-	var $html		= '';
-
-
 	function __construct()
 	{
 		$shortcodes = apply_filters( 'w4pl/get_shortcodes', array() );
@@ -24,25 +13,26 @@ class W4_Post_list
 
 	function prepare( $options )
 	{
-		/*
-		if( W4PL_SLUG != get_post_type($list_id) )
-			return new WP_Error( 'postlist_not_found', 
-			sprintf( __( 'List not found with id - %1$s', W4PL_TXT_DOMAIN ), $list_id ) );
+		static $w4pl_lists;
+		if( !isset($w4pl_lists) || !is_array($w4pl_lists) )
+			$w4pl_lists = array();
 
-		static $w4pl_loaded;
-		if( !isset($w4pl_loaded) || !is_array($w4pl_loaded) )
-			$w4pl_loaded = array();
+		if( !isset($options['id']) )
+			return new WP_Error('error', 'Invalid list id');
 
-		if( in_array($list_id, $w4pl_loaded) )
+		if( in_array($options['id'], $w4pl_lists) )
 			return new WP_Error('list_loaded', 'A list can load only one.');
 
-		$w4pl_loaded[] = $list_id;
-		*/
+		$w4pl_lists[] = $options['id'];
 
 		$this->options 			= $options;
-		$this->id 				= isset($this->options['id']) ? $this->options['id'] : md5( microtime() . rand() );
+		$this->id 				= $this->options['id'];
 		$this->query 			= array();
-		$this->wp_query 		= '';
+		$this->wp_query 		= array();
+		$this->groups 			= array();
+		$this->css  			= '';
+		$this->js  				= '';
+		$this->html 			= '';
 
 		// let helper class extend/modify this class
 		do_action_ref_array( 'w4pl/pre_get_list', array( &$this ) );

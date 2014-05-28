@@ -305,47 +305,47 @@ class W4PL_Core
 			),
 
 			'title' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_title', 
 				'desc' => '<strong>Output</strong>: title template'
 			),
 			'meta' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_meta', 
 				'desc' => '<strong>Output</strong>: meta template'
 			),
 			'publish' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_date', 
 				'desc' => '<strong>Output</strong>: publish time template'
 			),
 			'date'				=> array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_date', 
 				'desc' => '<strong>Output</strong>: publish time template'
 			),
 			'modified' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_modified', 
 				'desc' => '<strong>Output</strong>: modified time template'
 			),
 			'author' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_author', 
 				'desc' => '<strong>Output</strong>: author template'
 			),
 			'excerpt' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_excerpt', 
 				'desc' => '<strong>Output</strong>: excerpt template'
 			),
 			'content' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_content', 
 				'desc' => '<strong>Output</strong>: content template'
 			),
 			'more' => array(
-				'group' => 'Template', 
+				'group' => 'Standard', 
 				'func' => 'template_more',
 				'desc' => '<strong>Output</strong>: more link template'
 			)
@@ -359,7 +359,7 @@ class W4PL_Core
 	 * @param (array)
 	 * @return (string)
 	*/
-	public function shortcode( $attr)
+	public function shortcode( $attr )
 	{
 		if( isset($attr['options']) ){
 			$options = maybe_unserialize( base64_decode( str_replace( ' ', '', $attr['options'] ) ) );
@@ -451,7 +451,7 @@ class W4PL_Core
 		$fields['before_field_group_query'] = array(
 			'position'		=> '5',
 			'html' 			=> '<div id="w4pl_field_group_query" class="w4pl_field_group">
-								<div class="w4pl_group_title">Query</div>
+								<div class="w4pl_group_title">Post Query</div>
 								<div class="w4pl_group_fields">'
 		);
 
@@ -491,11 +491,30 @@ class W4PL_Core
 			);
 		}
 
+		$fields['orderby'] = array(
+			'position'		=> '12',
+			'option_name' 	=> 'orderby',
+			'name' 			=> 'w4pl[orderby]',
+			'label' 		=> 'Orderby',
+			'type' 			=> 'select',
+			'option' 		=> self::post_orderby_options($options['post_type']),
+			'input_after'	=> '<div id="orderby_meta_key_wrap">Meta key: <input name="w4pl[orderby_meta_key]" type="text" value="'
+				. (isset($options['orderby_meta_key']) ? esc_attr($options['orderby_meta_key']) : '') .'" /></div>'
+		);
+		$fields['order'] = array(
+			'position'		=> '14',
+			'option_name' 	=> 'order',
+			'name' 			=> 'w4pl[order]',
+			'label' 		=> 'Order',
+			'type' 			=> 'radio',
+			'option' 		=> array('ASC' => 'ASC', 'DESC' => 'DESC')
+		);
+
 		$fields['post__in'] = array(
 			'position'		=> '15',
 			'option_name' 	=> 'post__in',
 			'name' 			=> 'w4pl[post__in]',
-			'label' 		=> 'Include post by ids',
+			'label' 		=> 'Include posts',
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated post id'
@@ -504,7 +523,7 @@ class W4PL_Core
 			'position'		=> '16',
 			'option_name' 	=> 'post__not_in',
 			'name' 			=> 'w4pl[post__not_in]',
-			'label' 		=> 'Exclude post by ids',
+			'label' 		=> 'Exclude posts',
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated post id'
@@ -513,19 +532,19 @@ class W4PL_Core
 			'position'		=> '20',
 			'option_name' 	=> 'post_parent__in',
 			'name' 			=> 'w4pl[post_parent__in]',
-			'label' 		=> 'Post parent ids',
+			'label' 		=> 'Post parent',
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'comma separated post parent id'
+			'desc' 			=> 'comma separated parent post ids'
 		);
 		$fields['author__in'] = array(
 			'position'		=> '25',
 			'option_name' 	=> 'author__in',
 			'name' 			=> 'w4pl[author__in]',
-			'label' 		=> 'Post author ids',
+			'label' 		=> 'Post author',
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'comma separated author id'
+			'desc' 			=> 'comma separated user/author ids'
 		);
 
 		$fields['after_field_group_query'] = array(
@@ -536,35 +555,7 @@ class W4PL_Core
 
 		/* GROUP 2 */
 		/* GROUP 3 */
-
 		/* GROUP 4 */
-		$fields['before_field_group_order'] = array(
-			'position'		=> '70',
-			'html' 			=> '<div id="w4pl_field_group_order" class="w4pl_field_group"><div class="w4pl_group_title">Order</div><div class="w4pl_group_fields">'
-		);
-		$fields['orderby'] = array(
-			'position'		=> '71',
-			'option_name' 	=> 'orderby',
-			'name' 			=> 'w4pl[orderby]',
-			'label' 		=> 'Orderby',
-			'type' 			=> 'select',
-			'option' 		=> self::post_orderby_options($options['post_type']),
-			'input_after'	=> '<div id="orderby_meta_key_wrap">Meta key: <input name="w4pl[orderby_meta_key]" type="text" value="'
-				. (isset($options['orderby_meta_key']) ? esc_attr($options['orderby_meta_key']) : '') .'" /></div>'
-		);
-		$fields['order'] = array(
-			'position'		=> '72',
-			'option_name' 	=> 'order',
-			'name' 			=> 'w4pl[order]',
-			'label' 		=> 'Order',
-			'type' 			=> 'radio',
-			'option' 		=> array('ASC' => 'ASC', 'DESC' => 'DESC')
-		);
-		$fields['after_field_group_order'] = array(
-			'position'		=> '73',
-			'html' 			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_order-->'
-		);
-
 
 
 		/* GROUP 5 */
@@ -674,6 +665,7 @@ class W4PL_Core
 		$template_html .= '</div>';
 
 
+		$template_html .= '<div class="wfflw wfflwi_w4pl_template wfflwt_textarea"><label for="w4pl_template" class="wffl wffli_w4pl_template wfflt_textarea">Template</label></div>';
 		$template_html .= w4pl_form_child_field_html( array(
 			'id' 			=> 'w4pl_template',
 			'name' 			=> 'w4pl[template]',
@@ -761,6 +753,26 @@ class W4PL_Core
 				}
 
 				if( !empty($options) ){
+					do_action( 'w4pl/list_options_template', $options );
+				}
+			}
+			elseif( preg_match( "/\[postlist id=[\"\'](.*?)[\"\']/sm", $selection, $selection_match) )
+			{
+				$list_id = preg_replace('/[^0-9]/', '', $selection_match['1']);
+				if( $list_id ){
+					$options = get_post_meta( $list_id, '_w4pl', true );
+					$options['id'] = $list_id;
+					$options = apply_filters( 'w4pl/pre_get_options', $options );
+					do_action( 'w4pl/list_options_template', $options );
+				}
+			}
+			elseif( preg_match( "/\[postlist (.*?)]/sm", $selection, $selection_match) )
+			{
+				$list_id = preg_replace('/[^0-9]/', '', $selection_match['1']);
+				if( $list_id ){
+					$options = get_post_meta( $list_id, '_w4pl', true );
+					$options['id'] = $list_id;
+					$options = apply_filters( 'w4pl/pre_get_options', $options );
 					do_action( 'w4pl/list_options_template', $options );
 				}
 			}
@@ -871,6 +883,15 @@ class W4PL_Core
 		if( empty($options) )
 			die('');
 
+		if( is_numeric($options['id']) && get_post($options['id']) )
+		{
+			$options = apply_filters( 'w4pl/pre_save_options', $options );
+			update_post_meta( $options['id'], '_w4pl', $options );
+
+			printf( '[postlist id="%d"]', $options['id']);
+			die('');
+		}
+
 		// filter options, remove default values
 		$options = apply_filters( 'w4pl/pre_save_options', $options );
 
@@ -918,7 +939,8 @@ class W4PL_Core
 #w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .w4pl_button_group{ padding:0 0 10px;}
 .w4pl_button_group_title{ display:block;}
-
+.wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none; width:auto;}
+.wffewi_w4pl_css, .wffewi_w4pl_js{ margin-left:0;}
 #w4pl_list_options table.widefat th{ font-size:11px;}
 
 #w4pl_list_options{ position:relative;}
@@ -934,32 +956,18 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 
 		<script type="text/javascript">
 (function($){
-	$(document).ready(function(){
-		$('.w4pl_toggler').click(function(){
+
+	$(document).on('w4pl/form_loaded', function(el){
+
+		console.log('w4pl/form_loaded');
+
+		//$('#w4pl_list_options').css('minHeight', $('.w4pl_group_fields.w4pl_active').outerHeight() );
+		w4pl_adjust_height();
+
+		$('.w4pl_toggler').live('click', function(){
 			$( $(this).data('target') ).toggle();
+			w4pl_adjust_height();
 			return false;
-		});
-
-		$('#w4pl_list_options').css('minHeight', $('.w4pl_group_fields.w4pl_active').outerHeight() );
-
-		/* show/hide group options */
-		$('.w4pl_group_title').live('click', function(){
-			$('#w4pl_list_options').height('auto');
-
-			$('.w4pl_field_group').removeClass('w4pl_active');
-			$(this).parent('.w4pl_field_group').addClass('w4pl_active');
-
-			$('#w4pl_tab_id').val( $(this).parent('.w4pl_field_group').attr('id') );
-
-			var miHeight = $(this).parent('.w4pl_field_group').find('.w4pl_group_fields').outerHeight();
-			$('#w4pl_list_options').css('minHeight', miHeight);
-
-			return false;
-		});
-
-		/* onchange post type, refresh the form */
-		$('#w4pl_post_type').live('change', function(){
-			w4pl_get_form();
 		});
 
 		$('#w4pl_orderby').live('change', function(){
@@ -973,14 +981,43 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 		$('#w4pl_orderby').trigger('change');
 
 
+		/* show/hide group options */
+		$('.w4pl_group_title').live('click', function(){
+			$('#w4pl_list_options').height('auto');
+
+			$('.w4pl_field_group').removeClass('w4pl_active');
+			$(this).parent('.w4pl_field_group').addClass('w4pl_active');
+
+			$('#w4pl_tab_id').val( $(this).parent('.w4pl_field_group').attr('id') );
+
+			w4pl_adjust_height();
+
+			return false;
+		});
+
+		/* onchange post type, refresh the form */
+		$('#w4pl_post_type').live('change', function(){
+			w4pl_get_form();
+		});
+
 		$('#w4pl_template_buttons a').live('click', function(e){
 			insertAtCaret( 'w4pl_template', $(this).data('code') );
 			return false;
 		});
 	});
 
+	$(document).ready(function(){
+		$(document).trigger('w4pl/form_loaded', $('#w4pl_list_options') );
+	});
 
-	function w4pl_get_form(data, showTab)
+	// Adjust form height
+	function w4pl_adjust_height()
+	{
+		var miHeight = $('.w4pl_active .w4pl_group_fields').outerHeight();
+		$('#w4pl_list_options').css('minHeight', miHeight);
+	}
+
+	function w4pl_get_form( data, showTab )
 	{
 		/* onchange post type, refresh the form */
 		$('.wffwi_w4pl_post_type .spinner').css('display', 'inline-block');
@@ -1001,55 +1038,55 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 
 			$('#'+ showTab).addClass('w4pl_active');
 
-			var miHeight = $('#'+ showTab).find('.w4pl_group_fields').outerHeight();
-			$('#w4pl_list_options').css('minHeight', miHeight);
+			w4pl_adjust_height();
 
 			return false;
 		})
+	}
+
+	/*
+	 * Similar feature as tinymce quicktag button
+	 * This function helps to place shortcode right at the cursor position
+	*/
+	function insertAtCaret(areaId,text) {
+		var txtarea = document.getElementById(areaId);
+		var scrollPos = txtarea.scrollTop;
+		var strPos = 0;
+		var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ? 
+			"ff" : (document.selection ? "ie" : false ) );
+		if (br == "ie") { 
+			txtarea.focus();
+			var range = document.selection.createRange();
+			range.moveStart ('character', -txtarea.value.length);
+			strPos = range.text.length;
+		}
+		else if (br == "ff") strPos = txtarea.selectionStart;
+	
+		var front = (txtarea.value).substring(0,strPos);  
+		var back = (txtarea.value).substring(strPos,txtarea.value.length); 
+		txtarea.value=front+text+back;
+		strPos = strPos + text.length;
+		if (br == "ie") { 
+			txtarea.focus();
+			var range = document.selection.createRange();
+			range.moveStart ('character', -txtarea.value.length);
+			range.moveStart ('character', strPos);
+			range.moveEnd ('character', 0);
+			range.select();
+		}
+		else if (br == "ff") {
+			txtarea.selectionStart = strPos;
+			txtarea.selectionEnd = strPos;
+			txtarea.focus();
+		}
+		txtarea.scrollTop = scrollPos;
 	}
 
 	<?php do_action( 'w4pl/admin_print_js' ); ?>
 
 })(jQuery);
 
-/*
- * Similar feature as tinymce quicktag button
- * This function helps to place shortcode right at the cursor position
-*/
 
-function insertAtCaret(areaId,text) {
-    var txtarea = document.getElementById(areaId);
-    var scrollPos = txtarea.scrollTop;
-    var strPos = 0;
-    var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ? 
-        "ff" : (document.selection ? "ie" : false ) );
-    if (br == "ie") { 
-        txtarea.focus();
-        var range = document.selection.createRange();
-        range.moveStart ('character', -txtarea.value.length);
-        strPos = range.text.length;
-    }
-    else if (br == "ff") strPos = txtarea.selectionStart;
-
-    var front = (txtarea.value).substring(0,strPos);  
-    var back = (txtarea.value).substring(strPos,txtarea.value.length); 
-    txtarea.value=front+text+back;
-    strPos = strPos + text.length;
-    if (br == "ie") { 
-        txtarea.focus();
-        var range = document.selection.createRange();
-        range.moveStart ('character', -txtarea.value.length);
-        range.moveStart ('character', strPos);
-        range.moveEnd ('character', 0);
-        range.select();
-    }
-    else if (br == "ff") {
-        txtarea.selectionStart = strPos;
-        txtarea.selectionEnd = strPos;
-        txtarea.focus();
-    }
-    txtarea.scrollTop = scrollPos;
-}
 		</script>
         <?php
 	}
