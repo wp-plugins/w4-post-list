@@ -461,8 +461,7 @@ class W4PL_Core
 			'name' 			=> 'w4pl[post_type]',
 			'label' 		=> 'Post Type',
 			'type' 			=> 'select',
-			'option' 		=> self::post_type_options(),
-			'input_after'	=> '<span class="spinner" style="position:relative; float:none; left:10px; top:5px; margin: 0; height:19px;"></span>'
+			'option' 		=> self::post_type_options()
 		);
 
 		// mime type field
@@ -951,6 +950,9 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 .w4pl_group_fields{ display:none; position:absolute; left:22%; top:0; width:78%;}
 .w4pl_active .w4pl_group_fields{ display:block;}
 .w4pl_active .w4pl_group_title, .w4pl_group_title:hover{ background-color:#D1E5EE; box-shadow:0 0 1px #666 inset;}
+
+#w4pl_lo{ width:100%; height:100%; position:absolute; top:0; left:0; background:url(<?php echo admin_url('images/spinner.gif'); ?>) no-repeat center rgba(255,255,255,0.5);}
+
 <?php do_action( 'w4pl/admin_print_css' ); ?>
         </style>
 
@@ -1022,25 +1024,25 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 	function w4pl_get_form( data, showTab )
 	{
 		/* onchange post type, refresh the form */
-		$('.wffwi_w4pl_post_type .spinner').css('display', 'inline-block');
 		$('#publish').hide();
 
-		if( showTab === undefined ){
+		if( showTab === null ){
 			showTab = 'w4pl_field_group_query';
 		}
-		if( data === undefined ){
+		if( data === null ){
 			var data = $('#w4pl_list_options :input').serialize() + '&action=w4pl_list_options_template';
 		}
+
+		$('#w4pl_list_options').append('<div id="w4pl_lo"></div>');
 
 		$.post( ajaxurl, data, function(r){
 			$('#w4pl_list_options').replaceWith(r);
 
-			$('.wffwi_w4pl_post_type .spinner').css('display', 'none');
-			$('#publish').show();
-
 			$('#'+ showTab).addClass('w4pl_active');
 
-			w4pl_adjust_height();
+			$(document).trigger('w4pl/form_loaded', $('#w4pl_list_options') );
+
+			$('#publish').show();
 
 			return false;
 		})
