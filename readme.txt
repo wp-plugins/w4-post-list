@@ -114,6 +114,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.7.7 =
+* Fixed: Multiple List Issue Bug Fixed
 = 1.7.5 =
 * Improved: Options form
 = 1.7.4 =
@@ -219,6 +221,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.7.7 =
+* Fixed: Multiple List Issue Bug Fixed
 = 1.7.5 =
 * Improved: Options form
 = 1.7.4 =

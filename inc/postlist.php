@@ -3,11 +3,13 @@ class W4_Post_list
 {
 	function __construct()
 	{
+		/*
 		$shortcodes = apply_filters( 'w4pl/get_shortcodes', array() );
 		foreach( $shortcodes as $tag => $attr ){
 			if( ! has_filter( 'w4pl/shortcode/'. $tag, array(&$this, $attr['func']) ) && method_exists($this, $attr['func']) )
 				add_filter( 'w4pl/shortcode/'. $tag, array(&$this, $attr['func']), 10, 2 );
 		}
+		*/
 	}
 
 
@@ -660,11 +662,15 @@ class W4_Post_list
 		}
 		$tag = $m[2];
 		$attr = shortcode_parse_atts( $m[3] );
-		if ( isset( $m[5] ) ){
-			return $m[1] . apply_filters( 'w4pl/shortcode/'. $tag, $attr, '', $m[5] ) . $m[6];
-		} else {
-			return $m[1] . apply_filters( 'w4pl/shortcode/'. $tag, $attr, '', null ) . $m[6];
-		}
+		$shortcodes = apply_filters( 'w4pl/get_shortcodes', array() );
+		$callback = $shortcodes[$tag]['func'];
+
+		$content = isset( $m[5] ) ? $m[5] : null;
+
+		if( !empty($callback) )
+			return $m[1] . call_user_func( array(&$this, $shortcodes[$tag]['func']), $attr, $content ) . $m[6];
+		else
+			return $m[1] . $content . $m[6];
 	}
 
 
