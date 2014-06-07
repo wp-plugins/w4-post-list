@@ -114,6 +114,12 @@ class W4PL_Core
 				'func' => '',
 				'desc' => '<strong>return</strong> the posts template'
 			),
+			'terms' => array(
+				'group' => 'Main', 
+				'code' => '[terms]'. "\n\n" .'[/terms]', 
+				'func' => '',
+				'desc' => '<strong>return</strong> the terms template'
+			),
 			'groups' => array(
 				'group' => 'Main', 
 				'code' => '[groups]'. "\n\n" .'[/groups]', 
@@ -279,7 +285,7 @@ class W4PL_Core
 				<br /><strong>sep</strong> = (string), separate array meta value into string'
 			),
 			'attachment_thumbnail' => array(
-				'group' => 'Media', 
+				'group' => 'Post', 
 				'code' => '[attachment_thumbnail size=""]', 
 				'func' => 'attachment_thumbnail', 
 				'desc' => '<strong>Output</strong>: if the post is an attachment, the attached image is displayed as thumbnail
@@ -289,10 +295,44 @@ class W4PL_Core
 				<br /><strong>height</strong> = (number), image height'
 			),
 			'attachment_url' => array(
-				'group' => 'Media', 
+				'group' => 'Post', 
 				'func' => 'attachment_url', 
 				'desc' => '<strong>Output</strong>:  if the post is an attachment, the attached image source is returned'
 			),
+
+
+			'term_id' => array(
+				'group' => 'Term', 
+				'func' => 'term_id', 
+				'desc' => '<strong>Output</strong>: term id'
+			),
+			'term_name' => array(
+				'group' => 'Term', 
+				'func' => 'term_name', 
+				'desc' => '<strong>Output</strong>: term name'
+			),
+			'term_slug' => array(
+				'group' => 'Term', 
+				'func' => 'term_slug', 
+				'desc' => '<strong>Output</strong>: term slug'
+			),
+			'term_link' => array(
+				'group' => 'Term', 
+				'func' => 'term_link', 
+				'desc' => '<strong>Output</strong>: term page link'
+			),
+			'term_count' => array(
+				'group' => 'Term', 
+				'func' => 'term_count', 
+				'desc' => '<strong>Output</strong>: term posts count'
+			),
+			'term_content' => array(
+				'group' => 'Term', 
+				'func' => 'term_content', 
+				'desc' => '<strong>Output</strong>: term description'
+			),
+
+
 			'group_title' => array(
 				'group' => 'Group', 
 				'func' => '', 
@@ -448,174 +488,24 @@ class W4PL_Core
 		);
 
 		/* GROUP 1 */
-		$fields['before_field_group_query'] = array(
-			'position'		=> '5',
-			'html' 			=> '<div id="w4pl_field_group_query" class="w4pl_field_group">
-								<div class="w4pl_group_title">Post Query</div>
+		$fields['before_field_group_type'] = array(
+			'position'		=> '2',
+			'html' 			=> '<div id="w4pl_field_group_type" class="w4pl_field_group">
+								<div class="w4pl_group_title">List Type</div>
 								<div class="w4pl_group_fields">'
 		);
-
-		$fields['post_type'] = array(
-			'position'		=> '6',
-			'option_name' 	=> 'post_type',
-			'name' 			=> 'w4pl[post_type]',
-			'label' 		=> 'Post Type',
-			'type' 			=> 'select',
-			'option' 		=> self::post_type_options()
-		);
-
-		// mime type field
-		if( $mime_type_options = self::post_mime_type_options($options['post_type']) )
-		{
-			$fields['post_mime_type'] = array(
-				'position' 		=> '8',
-				'option_name' 	=> 'post_mime_type',
-				'name' 			=> 'w4pl[post_mime_type]',
-				'label' 		=> 'Post Mime Type',
-				'type' 			=> 'checkbox',
-				'option' 		=> $mime_type_options,
-				'desc' 			=> 'if displaying attachment, choose mime type to restrcit result to specific file types.'
-			);
-		}
-
-		if( 'attachment' != $options['post_type'] )
-		{
-			$fields['post_status'] = array(
-				'position'		=> '10',
-				'option_name' 	=> 'post_status',
-				'name' 			=> 'w4pl[post_status]',
-				'label' 		=> 'Post Status',
-				'type' 			=> 'checkbox',
-				'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
-			);
-		}
-
-		$fields['orderby'] = array(
-			'position'		=> '12',
-			'option_name' 	=> 'orderby',
-			'name' 			=> 'w4pl[orderby]',
-			'label' 		=> 'Orderby',
-			'type' 			=> 'select',
-			'option' 		=> self::post_orderby_options($options['post_type']),
-			'input_after'	=> '<div id="orderby_meta_key_wrap">Meta key: <input name="w4pl[orderby_meta_key]" type="text" value="'
-				. (isset($options['orderby_meta_key']) ? esc_attr($options['orderby_meta_key']) : '') .'" /></div>'
-		);
-		$fields['order'] = array(
-			'position'		=> '14',
-			'option_name' 	=> 'order',
-			'name' 			=> 'w4pl[order]',
-			'label' 		=> 'Order',
+		$fields['list_type'] = array(
+			'position'		=> '3',
+			'option_name' 	=> 'list_type',
+			'name' 			=> 'w4pl[list_type]',
+			'label' 		=> 'List Type',
 			'type' 			=> 'radio',
-			'option' 		=> array('ASC' => 'ASC', 'DESC' => 'DESC')
+			'option' 		=> self::list_type_options(),
+			'input_class'	=> 'w4pl_onchange_lfr'
 		);
-
-		$fields['post__in'] = array(
-			'position'		=> '15',
-			'option_name' 	=> 'post__in',
-			'name' 			=> 'w4pl[post__in]',
-			'label' 		=> 'Include posts',
-			'type' 			=> 'text',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'comma separated post id'
-		);
-		$fields['post__not_in'] = array(
-			'position'		=> '16',
-			'option_name' 	=> 'post__not_in',
-			'name' 			=> 'w4pl[post__not_in]',
-			'label' 		=> 'Exclude posts',
-			'type' 			=> 'text',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'comma separated post id'
-		);
-		$fields['post_parent__in'] = array(
-			'position'		=> '20',
-			'option_name' 	=> 'post_parent__in',
-			'name' 			=> 'w4pl[post_parent__in]',
-			'label' 		=> 'Post parent',
-			'type' 			=> 'text',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'comma separated parent post ids'
-		);
-		$fields['author__in'] = array(
-			'position'		=> '25',
-			'option_name' 	=> 'author__in',
-			'name' 			=> 'w4pl[author__in]',
-			'label' 		=> 'Post author',
-			'type' 			=> 'text',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'comma separated user/author ids'
-		);
-
-		$fields['after_field_group_query'] = array(
-			'position'		=> '50',
-			'html' 			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_query-->'
-		);
-
-
-		/* GROUP 2 */
-		/* GROUP 3 */
-		/* GROUP 4 */
-
-
-		/* GROUP 5 */
-		$fields['before_field_group_limits'] = array(
-			'position'		=> '75',
-			'html' 			=> '<div id="w4pl_field_group_limits" class="w4pl_field_group"><div class="w4pl_group_title">Limit</div><div class="w4pl_group_fields">'
-		);
-		$fields['posts_per_page'] = array(
-			'position'		=> '80',
-			'option_name' 	=> 'posts_per_page',
-			'name' 			=> 'w4pl[posts_per_page]',
-			'label' 		=> 'Items per page',
-			'type' 			=> 'text',
-			'desc' 			=> 'number of items to show per page'
-		);
-		$fields['limit'] = array(
-			'position'		=> '85',
-			'option_name' 	=> 'limit',
-			'name' 			=> 'w4pl[limit]',
-			'label' 		=> 'Maximum items to display',
-			'type' 			=> 'text',
-			'desc' 			=> 'maximum results to display in total'
-		);
-		$fields['offset'] = array(
-			'position'		=> '90',
-			'option_name' 	=> 'offset',
-			'name' 			=> 'w4pl[offset]',
-			'label' 		=> 'Offset',
-			'type' 			=> 'text',
-			'desc' 			=> 'skip given number of posts from beginning'
-		);
-		$fields['after_field_group_limits'] = array(
-			'position'		=> '95',
-			'html' 			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_limits-->'
-		);
-
-
-		/* GROUP 5 */
-		$fields['before_field_group_groupby'] = array(
-			'position'		=> '100',
-			'html' 			=> '<div id="w4pl_field_group_groupby" class="w4pl_field_group"><div class="w4pl_group_title">Group</div><div class="w4pl_group_fields">'
-		);
-		$fields['groupby'] = array(
-			'position' 		=> '105',
-			'option_name' 	=> 'groupby',
-			'name' 			=> 'w4pl[groupby]',
-			'label' 		=> 'Group By',
-			'type' 			=> 'select',
-			'option' 		=> self::post_groupby_options($options['post_type'])
-		);
-		$fields['group_order'] = array(
-			'position' 		=> '106',
-			'option_name' 	=> 'group_order',
-			'name' 			=> 'w4pl[group_order]',
-			'label' 		=> 'Group Order',
-			'type' 			=> 'radio',
-			'option' 		=> array('' => 'None', 'ASC' => 'ASC', 'DESC' => 'DESC')
-		);
-		$fields['after_field_group_groupby'] = array(
-			'position'		=> '110',
-			'html' 			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_groupby-->'
+		$fields['after_field_group_type'] = array(
+			'position'		=> '4',
+			'html' 			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_type-->'
 		);
 
 
@@ -793,7 +683,7 @@ class W4PL_Core
 	public function pre_save_options($options)
 	{
 		foreach( array(
-			'tab_id' 			=> 'w4pl_field_group_query', 
+			'tab_id' 			=> 'w4pl_field_group_type', 
 			'post_type' 		=> 'post', 
 			'post_status' 		=> array('publish'), 
 			'post__in' 			=> '', 
@@ -828,6 +718,7 @@ class W4PL_Core
 		if( !isset($options) || !is_array($options) )
 			$options = array();
 
+		// old list compat
 		if( isset($options['template_loop']) && !empty($options['template_loop']) ){
 			if( isset($options['template']) 
 				&& ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $options['template']) 
@@ -836,11 +727,13 @@ class W4PL_Core
 				$options['template'] = str_replace( $match[0], '[posts]'. $options['template_loop'] .'[/posts]', $options['template'] );
 				unset($options['template_loop']);
 			}
-		}
+		}// end old list compat
+
 
 		$options = wp_parse_args( $options, array(
 			'id' 				=> md5( microtime() . rand() ), 
-			'tab_id' 			=> 'w4pl_field_group_query', 
+			'tab_id' 			=> 'w4pl_field_group_type', 
+			'list_type' 		=> 'posts', 
 			'post_type' 		=> 'post', 
 			'post_status' 		=> array('publish'), 
 			'post__in' 			=> '', 
@@ -870,7 +763,7 @@ class W4PL_Core
 
 
 	/*
-	 * Encoded Shortcode data
+	 * Display List Shortcode - Ajax
 	**/
 
 	public static function w4pl_generate_shortcodes_ajax()
@@ -882,25 +775,35 @@ class W4PL_Core
 		if( empty($options) )
 			die('');
 
+
+		// if a list exists, we save the data and return the short with id
 		if( is_numeric($options['id']) && get_post($options['id']) )
 		{
+			// pass options through callback
 			$options = apply_filters( 'w4pl/pre_save_options', $options );
+			// update into post meta
 			update_post_meta( $options['id'], '_w4pl', $options );
 
 			printf( '[postlist id="%d"]', $options['id']);
-			die('');
 		}
 
-		// filter options, remove default values
-		$options = apply_filters( 'w4pl/pre_save_options', $options );
+		else
+		{
+			// filter options, remove default values
+			$options = apply_filters( 'w4pl/pre_save_options', $options );
+			// encode options, split string by 100 characters to avoid 
+			$encode = chunk_split( base64_encode( maybe_serialize($options) ), 100, ' ');
+	
+			printf( '[postlist options="%s"]', trim($encode) );
+		}
 
-		// encode options, split string by 100 characters to avoid 
-		$encode = chunk_split( base64_encode( maybe_serialize($options) ), 100, ' ');
-
-		printf( '[postlist options="%s"]', trim($encode) );
 		die();
 	}
 
+
+	/*
+	 * Register Scripts
+	**/
 
 	public static function register_scripts()
 	{
@@ -913,11 +816,10 @@ class W4PL_Core
 	}
 
 
+
 	public static function list_options_print_scripts( $options )
 	{
 		$options = apply_filters( 'w4pl/pre_get_options', $options );
-
-		$tab_id = isset($options['tab_id']) ? '#'. $options['tab_id'] : '.w4pl_field_group:first';
 
 		wp_print_styles(  'w4pl_form' );
 		wp_print_scripts( 'w4pl_form' );
@@ -941,7 +843,7 @@ class W4PL_Core
 .wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none; width:auto;}
 .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-left:0;}
 #w4pl_list_options table.widefat th{ font-size:11px;}
-
+.wffewi_w4pl_list_type label, .wffwi_w4pl_terms_taxonomy label{display:block}
 #w4pl_list_options{ position:relative;}
 .w4pl_group_title{margin:0; width:20%; padding:8px 10px;border-bottom:1px solid #D1E5EE; background-color:#FFF; font-size:16px; line-height:20px;
 box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box; font-weight:normal; cursor:pointer;}
@@ -952,7 +854,6 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 .w4pl_active .w4pl_group_title, .w4pl_group_title:hover{ background-color:#D1E5EE; box-shadow:0 0 1px #666 inset;}
 
 #w4pl_lo{ width:100%; height:100%; position:absolute; top:0; left:0; background:url(<?php echo admin_url('images/spinner.gif'); ?>) no-repeat center rgba(255,255,255,0.5);}
-
 <?php do_action( 'w4pl/admin_print_css' ); ?>
         </style>
 
@@ -960,8 +861,7 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 (function($){
 
 	$(document).on('w4pl/form_loaded', function(el){
-		// console.log('w4pl/form_loaded');
-
+		//console.log('w4pl/form_loaded');
 		//$('#w4pl_list_options').css('minHeight', $('.w4pl_group_fields.w4pl_active').outerHeight() );
 		w4pl_adjust_height();
 
@@ -974,7 +874,7 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 
 
 	/* onchange post type, refresh the form */
-	$('#w4pl_post_type').live('change', function(){
+	$('.w4pl_onchange_lfr').live('change', function(){
 		var id = $(this).parents('.w4pl_field_group').attr('id');
 		// console.log( id );
 		w4pl_get_form(null, id );
@@ -1012,8 +912,6 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 		return false;
 	});
 
-
-
 	// Adjust form height
 	function w4pl_adjust_height()
 	{
@@ -1027,21 +925,24 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 		$('#publish').hide();
 
 		if( showTab === null ){
-			showTab = 'w4pl_field_group_query';
+			showTab = 'w4pl_field_group_type';
 		}
 		if( data === null ){
 			var data = $('#w4pl_list_options :input').serialize() + '&action=w4pl_list_options_template';
 		}
 
 		$('#w4pl_list_options').append('<div id="w4pl_lo"></div>');
+		//return false;
 
-		$.post( ajaxurl, data, function(r){
+		$.post( ajaxurl, data, function(r)
+		{
 			$('#w4pl_list_options').replaceWith(r);
 
 			$('#'+ showTab).addClass('w4pl_active');
 
 			$(document).trigger('w4pl/form_loaded', $('#w4pl_list_options') );
 
+			// $('.wffwi_w4pl_post_type .spinner').css('display', 'none');
 			$('#publish').show();
 
 			return false;
@@ -1095,6 +996,19 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
         <?php
 	}
 
+	public static function list_type_options()
+	{
+		$return = array(
+			'posts' 		=> 'Posts',
+			'terms' 		=> 'Terms',
+			/*'users' 		=> 'Users',*/
+			'terms.posts' 	=> 'Terms + Posts'
+			/*'users.posts' 	=> 'Users + Posts'*/
+		);
+	
+		return $return;
+	}
+
 
 	public static function post_type_options()
 	{
@@ -1133,7 +1047,6 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 	public static function post_status_options()
 	{
 		global $wp_post_statuses;
-
 
 		$return = array();
 		foreach( $wp_post_types as $post_type => $post_type_object ){
@@ -1202,6 +1115,7 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 		$return .= '</tbody></table>';
 		return $return;
 	}
+
 
 	/*
 	 * Order array elements by position

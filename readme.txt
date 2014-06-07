@@ -110,10 +110,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 2. Preview 1
 3. Preview 2
 
-
-
 == Changelog ==
 
+= 1.7.8 =
+* New: Category List
+* New: Category Posts List
+* Fixed: Post thumnail source using size - [post_thumbnail return="src" size="thumbnail"]
 = 1.7.7 =
 * Fixed: Multiple List Issue Bug Fixed
 = 1.7.5 =
@@ -221,6 +223,10 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.7.8 =
+* New: Category List
+* New: Category Posts List
+* Fixed: Post thumnail source using size - [post_thumbnail return="src" size="thumbnail"]
 = 1.7.7 =
 * Fixed: Multiple List Issue Bug Fixed
 = 1.7.5 =

@@ -19,13 +19,18 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 	// Meta box
 	public function admin_list_fields( $fields, $post_data )
 	{
+		$list_type = $post_data['list_type'];
+		if( ! in_array($list_type, array('posts') ) )
+			return $fields;
+
+
 		$post_type = $post_data['post_type'];
 		$taxonomies = self::post_type_taxonomies_options( $post_type );
 
 		if( empty($taxonomies) )
 			return $fields;
 
-		$html = '<div id="w4pl_field_group_tax_query" class="w4pl_field_group"><div class="w4pl_group_title">Tax Query</div><div class="w4pl_group_fields">';
+		$html = '<div id="w4pl_field_group_tax_query" class="w4pl_field_group"><div class="w4pl_group_title">Posts: Tax Query</div><div class="w4pl_group_fields">';
 
 		$tax_query_relation = isset($post_data['tax_query']['relation']) && !empty($post_data['tax_query']['relation']) ? $post_data['tax_query']['relation'] : 'OR';
 
@@ -173,7 +178,7 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 
 
 		$fields['tax_query'] = array(
-			'position'		=> '59',
+			'position'		=> '110',
 			'type' 			=> 'html',
 			'html'			=> $html
 		);

@@ -2,9 +2,8 @@
 /*
  * Plugin Name: W4 Post List
  * Plugin URI: http://w4dev.com/w4-plugin/w4-post-list
- * Description: With the w4 post list plugin you can show a list of selected posts and custom post types on your WordPress site. 
-   Template are created using shortcodes, so you can customize it as you like.
- * Version: 1.7.7
+ * Description: This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & raw HTML
+ * Version: 1.7.8
  * Author: Shazzad Hossain Khan
  * Author URI: http://w4dev.com/about
 **/
@@ -32,17 +31,20 @@ define( 'W4PL_URL', 			plugin_dir_url(__FILE__) );
 define( 'W4PL_BASENAME', 		plugin_basename( __FILE__ ));
 define( 'W4PL_NAME', 			'W4 Post List' );
 define( 'W4PL_SLUG', 			'w4pl' );
-define( 'W4PL_VERSION', 		'1.7.7' );
+define( 'W4PL_VERSION', 		'1.7.8' );
 define( 'W4PL_TXT_DOMAIN', 		'w4pl' );
 define( 'W4PL_INC', 			W4PL_DIR . 'inc' );
 
 
 /* must needed file */
 include( W4PL_INC .'/core.php');
+include( W4PL_INC .'/query.php');
 include( W4PL_INC .'/postlist.php');
 include( W4PL_INC .'/widget.php');
 
 /* modules */
+include( W4PL_INC .'/helper-posts.php');
+include( W4PL_INC .'/helper-terms.php');
 include( W4PL_INC .'/helper-tax_query.php');
 include( W4PL_INC .'/helper-meta_query.php');
 include( W4PL_INC .'/helper-style.php');

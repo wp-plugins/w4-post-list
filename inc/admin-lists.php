@@ -144,7 +144,7 @@ class W4PL_Lists_Admin extends W4PL_Core
 
 	public static function plugin_action_links( $links )
 	{
-		$readme_link['doc'] = '<a href="'. 'edit.php?post_type='. W4PL_SLUG . '-docs">' . __( 'Docs', W4PL_TXT_DOMAIN ). '</a>';
+		$readme_link['doc'] = '<a href="'. 'edit.php?post_type=w4pl&page=w4pl-docs">' . __( 'Documentation', W4PL_TXT_DOMAIN ). '</a>';
 		return array_merge( $links, $readme_link );
 	}
 

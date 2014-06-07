@@ -19,8 +19,13 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 	/* Meta box */
 	public function admin_list_fields( $fields, $post_data )
 	{
+		$list_type = $post_data['list_type'];
+		if( ! in_array($list_type, array('posts', 'terms.posts') ) )
+			return $fields;
+
+
 		/* Meta Query */
-		$html = '<div id="w4pl_field_group_meta_query" class="w4pl_field_group"><div class="w4pl_group_title">Meta Query</div><div class="w4pl_group_fields">';
+		$html = '<div id="w4pl_field_group_meta_query" class="w4pl_field_group"><div class="w4pl_group_title">Posts: Meta Query</div><div class="w4pl_group_fields">';
 
 		$meta_query_relation = isset($post_data['meta_query']['relation']) && !empty($post_data['meta_query']['relation']) ? $post_data['meta_query']['relation'] : 'OR';
 
@@ -140,7 +145,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		$html .= '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_meta_query-->';
 
 		$fields['meta_query'] = array(
-			'position'		=> '60',
+			'position'		=> '120',
 			'type' 			=> 'html',
 			'html'			=> $html
 		);
