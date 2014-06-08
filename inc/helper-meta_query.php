@@ -296,7 +296,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		// meta query
 		if( isset($obj->options['meta_query']) && isset($obj->options['meta_query']['key']) )
 		{
-			$obj->query['meta_query'] = array();
+			$obj->posts_args['meta_query'] = array();
 			foreach( $obj->options['meta_query']['key'] as $index => $key )
 			{
 				$value = isset($obj->options['meta_query']['value'][$index]) ? $obj->options['meta_query']['value'][$index] : '';
@@ -307,20 +307,20 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 					if( !in_array($compare, array('IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN') ) ) 
 						$value = array_shift($value);
 
-					$obj->query['meta_query'][] = array(
+					$obj->posts_args['meta_query'][] = array(
 						'key' 		=> $key,
 						'compare' 	=> $compare,
 						'value' 	=> $value
 					);
 				}
 			}
-			if( !empty($obj->query['meta_query']) )
+			if( !empty($obj->posts_args['meta_query']) )
 			{
-				$obj->query['meta_query']['relation'] = isset($obj->options['meta_query']['relation']) ? $obj->options['meta_query']['relation'] : 'OR';
+				$obj->posts_args['meta_query']['relation'] = isset($obj->options['meta_query']['relation']) ? $obj->options['meta_query']['relation'] : 'OR';
 			}
 		}
-		
-		#echo '<pre>'; print_r($obj->query); echo '</pre>';
+
+		#echo '<pre>'; print_r($obj->posts_args); echo '</pre>';
 	}
 
 

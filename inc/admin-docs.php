@@ -1,10 +1,17 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Admin_Page_Docs 
 {
 	function __construct()
 	{
 		add_action( 'admin_menu', array($this, 'admin_menu') );
-		#add_action( 'activate_'. W4PL_BASENAME,  			array($this, 'plugin_activated'), 10, 3 );
+		#add_action( 'activate_'. W4PL_BASENAME, array($this, 'plugin_activated'), 10, 3 );
 	}
 
 	public function plugin_activated()
@@ -173,9 +180,6 @@ class W4PL_Admin_Page_Docs
 		</div><!--wrap-->
 	<?php
 	}
-
-
-
 
 	public function load_page()
 	{

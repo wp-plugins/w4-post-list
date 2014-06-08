@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4_Post_list
 {
 	function __construct()
@@ -21,12 +28,11 @@ class W4_Post_list
 		}
 	}
 
-
 	function get_shortcode_regex()
 	{
 		$tagnames = array_keys( apply_filters( 'w4pl/get_shortcodes', array() ) );
 		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
-	
+
 		return
 			  '\\['                              // Opening bracket
 			. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
@@ -73,11 +79,10 @@ class W4_Post_list
 		$content = isset( $m[5] ) ? $m[5] : null;
 
 		if( !empty($callback) )
-			return $m[1] . call_user_func( array(&$this, $shortcodes[$tag]['func']), $attr, $content ) . $m[6];
+			return $m[1] . call_user_func( array(&$this, $shortcodes[$tag]['func']), $attr, $content, $this ) . $m[6];
 		else
 			return $m[1] . $content . $m[6];
 	}
-
 
 
 	function prepare( $options )
@@ -101,9 +106,8 @@ class W4_Post_list
 		$this->terms_query 		= array();
 		$this->current_term 	= '';
 
-
+		$this->posts_args 		= array();
 		$this->posts_query 		= array();
-		$this->posts 			= array();
 		$this->current_post		= '';
 
 		$this->wp_query 		= array();
@@ -168,7 +172,7 @@ class W4_Post_list
 			) as $option_name )
 			{
 				if( !empty($this->options[$option_name]) )
-					$this->posts_query[$option_name] = $this->options[$option_name];
+					$this->posts_args[$option_name] = $this->options[$option_name];
 			}
 
 			// array
@@ -178,7 +182,7 @@ class W4_Post_list
 			) as $option_name )
 			{
 				if( !empty($this->options[$option_name]) )
-					$this->posts_query[$option_name] = $this->options[$option_name];
+					$this->posts_args[$option_name] = $this->options[$option_name];
 			}
 
 
@@ -193,14 +197,14 @@ class W4_Post_list
 				if( !empty($this->options[$option_name]) ){
 					$opt = wp_parse_id_list($this->options[$option_name]);
 					if( !empty($opt) )
-						$this->posts_query[$option_name] = $opt;
+						$this->posts_args[$option_name] = $opt;
 				}
 			}
 
 			// orderby meta key/value
 			if( $this->options['orderby'] == 'meta_value' || $this->options['orderby'] == 'meta_value_num' )
 			{
-				$this->posts_query['meta_key'] = $this->options['orderby_meta_key'];
+				$this->posts_args['meta_key'] = $this->options['orderby_meta_key'];
 			}
 
 			// we catch paged query using a non-pretty query var
@@ -212,13 +216,13 @@ class W4_Post_list
 				'paged'			=> $paged
 			);
 
-			$this->posts_query = wp_parse_args( $this->posts_query, $defaults );
+			$this->posts_args = wp_parse_args( $this->posts_args, $defaults );
 
 			// while maximum limit is set, we only fetch till the maximum post
 			if( isset($this->options['limit']) && !empty($this->options['limit']) && $this->options['limit'] < ($this->options['posts_per_page'] * $paged) )
 			{
-				$this->posts_query['offset'] = (int) $this->options['offset'] + ($paged - 1) * $this->options['posts_per_page'];
-				$this->posts_query['posts_per_page'] = $this->options['limit'] - ( $this->options['posts_per_page'] * ($paged-1) );
+				$this->posts_args['offset'] = (int) $this->options['offset'] + ($paged - 1) * $this->options['posts_per_page'];
+				$this->posts_args['posts_per_page'] = $this->options['limit'] - ( $this->options['posts_per_page'] * ($paged-1) );
 			}
 		}
 		// ends post query
@@ -292,9 +296,9 @@ class W4_Post_list
 				// term posts
 				if( in_array($this->options['list_type'], array('terms.posts') ) )
 				{
-					$this->posts_query['paged'] = 1;
-					$this->posts_query['posts_per_page'] = isset($this->options['limit']) ? (int) $this->options['limit'] : -1;
-					$this->posts_query['tax_query'] = array(
+					$this->posts_args['paged'] = 1;
+					$this->posts_args['posts_per_page'] = isset($this->options['limit']) ? (int) $this->options['limit'] : -1;
+					$this->posts_args['tax_query'] = array(
 						'relation' => 'OR',
 						array(
 							'taxonomy' 	=> $this->options['terms_taxonomy'],
@@ -302,17 +306,17 @@ class W4_Post_list
 							'terms' 	=> $this->current_term->term_id,
 						)
 					);
-					$this->wp_query = new WP_Query( $this->posts_query );
+					$this->posts_query = new WP_Query( $this->posts_args );
 
-					#echo '<pre>'; print_r($this->posts_query); echo '</pre>';
+					#echo '<pre>'; print_r($this->posts_args); echo '</pre>';
 
 
 					// post loop
-					if( $this->wp_query->have_posts() )
+					if( $this->posts_query->have_posts() )
 					{
-						while( $this->wp_query->have_posts() )
+						while( $this->posts_query->have_posts() )
 						{
-							$this->wp_query->the_post();
+							$this->posts_query->the_post();
 							$term_posts_loop .= preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $posts_template );
 						}
 					}
@@ -355,12 +359,12 @@ class W4_Post_list
 			// let helper class extend/modify this class
 			do_action_ref_array( 'w4pl/parse_query', array( &$this ) );
 
-			#echo '<pre>'; print_r($template); echo '</pre>';
+			#echo '<pre>'; print_r($this->posts_args); echo '</pre>';
 
 
-			$this->wp_query = new WP_Query( $this->posts_query );
+			$this->posts_query = new WP_Query( $this->posts_args );
 
-			# echo '<pre>'; print_r($this->wp_query); echo '</pre>';
+			# echo '<pre>'; print_r($this->posts_query); echo '</pre>';
 
 			if( isset($this->options['groupby']) && !empty($this->options['groupby']) && !empty($groups_template) )
 			{
@@ -373,7 +377,7 @@ class W4_Post_list
 			}
 
 
-			if( $this->wp_query->have_posts() ):
+			if( $this->posts_query->have_posts() ):
 				if( !empty($this->groups) )
 				{
 					$groups_loop = '';
@@ -383,9 +387,9 @@ class W4_Post_list
 						$groups_template_clone = $groups_template; // clone the group template
 
 						// post loop
-						while( $this->wp_query->have_posts() )
+						while( $this->posts_query->have_posts() )
 						{
-							$this->wp_query->the_post();
+							$this->posts_query->the_post();
 							if( in_array( get_the_ID(), $group['post_ids']) ){
 								$group_posts_loop .= preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $posts_template );
 							}
@@ -408,9 +412,9 @@ class W4_Post_list
 				{
 					$posts_loop = '';
 					// post loop
-					while( $this->wp_query->have_posts() )
+					while( $this->posts_query->have_posts() )
 					{
-						$this->wp_query->the_post();
+						$this->posts_query->the_post();
 						$posts_loop .= preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $posts_template );
 					}
 
@@ -430,7 +434,7 @@ class W4_Post_list
 				if( isset($this->options['limit']) && !empty($this->options['limit']) && (int) $this->options['limit'] < ($this->options['posts_per_page'] * $paged) )
 					$max_num_pages = $paged;
 				else
-					$max_num_pages = $this->wp_query->max_num_pages;
+					$max_num_pages = $this->posts_query->max_num_pages;
 
 				$navigation = $this->navigation( $max_num_pages, $paged, '?page'. $this->id .'=%#%', shortcode_parse_atts($nav_match[1]) );
 				$template = str_replace( $nav_match[0], $navigation, $template );
@@ -515,7 +519,7 @@ class W4_Post_list
 		// post parent
 		if( 'parent' == $groupby )
 		{
-			foreach( $this->wp_query->posts as $index => $post )
+			foreach( $this->posts_query->posts as $index => $post )
 			{
 				if( $post->post_parent )
 				{
@@ -550,7 +554,7 @@ class W4_Post_list
 		elseif( 0 === strpos($groupby, 'tax_') )
 		{
 			$tax = str_replace('tax_', '', $groupby);
-			foreach( $this->wp_query->posts as $index => $post )
+			foreach( $this->posts_query->posts as $index => $post )
 			{
 				if( $terms = get_the_terms($post, $tax) )
 				{
@@ -585,7 +589,7 @@ class W4_Post_list
 
 		elseif( 'author' == $groupby )
 		{
-			foreach( $this->wp_query->posts as $index => $post )
+			foreach( $this->posts_query->posts as $index => $post )
 			{
 				if( $post->post_author )
 				{
@@ -619,7 +623,7 @@ class W4_Post_list
 		// year
 		elseif( 'year' == $groupby )
 		{
-			foreach( $this->wp_query->posts as $index => $post )
+			foreach( $this->posts_query->posts as $index => $post )
 			{
 				if( $year = mysql2date( 'Y', $post->post_date ) )
 				{
@@ -653,7 +657,7 @@ class W4_Post_list
 		// month
 		elseif( 'month' == $groupby )
 		{
-			foreach( $this->wp_query->posts as $index => $post )
+			foreach( $this->posts_query->posts as $index => $post )
 			{
 				$month = mysql2date( 'm', $post->post_date );
 				$year = mysql2date( 'Y', $post->post_date );
@@ -689,7 +693,7 @@ class W4_Post_list
 		// month
 		elseif( 'yearmonth' == $groupby )
 		{
-			foreach( $this->wp_query->posts as $index => $post )
+			foreach( $this->posts_query->posts as $index => $post )
 			{
 				$month = mysql2date( 'm', $post->post_date );
 				$year = mysql2date( 'Y', $post->post_date );
@@ -760,7 +764,7 @@ class W4_Post_list
 
 	// Callback Functions - Post
 	function post_id($attr, $cont){ return get_the_ID(); }
-	function post_number($attr, $cont){ return $this->wp_query->current_post + 1; }
+	function post_number($attr, $cont, $list){ return (int) ($list->posts_query->current_post + 1); }
 	function post_permalink($attr, $cont){ return get_permalink(); }
 	function post_class($attr, $cont){ return join( ' ', get_post_class() ); }
 	function post_title($attr, $cont)

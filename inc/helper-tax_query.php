@@ -338,7 +338,7 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 		// meta query
 		if( isset($obj->options['tax_query']) && isset($obj->options['tax_query']['taxonomy']) )
 		{
-			$obj->query['tax_query'] = array();
+			$obj->posts_args['tax_query'] = array();
 			foreach( $obj->options['tax_query']['taxonomy'] as $index => $taxonomy )
 			{
 				$field = isset($obj->options['tax_query']['field'][$index]) ? $obj->options['tax_query']['field'][$index] : 'term_id';
@@ -361,7 +361,7 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 						}
 					}
 
-					$obj->query['tax_query'][] = array(
+					$obj->posts_args['tax_query'][] = array(
 						'taxonomy' 	=> $taxonomy,
 						'terms' 	=> $terms,
 						'field' 	=> $field,
@@ -369,13 +369,13 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 					);
 				}
 			}
-			if( !empty($obj->query['tax_query']) )
+			if( !empty($obj->posts_args['tax_query']) )
 			{
-				$obj->query['tax_query']['relation'] = isset($obj->options['tax_query']['relation']) ? $obj->options['tax_query']['relation'] : 'OR';
+				$obj->posts_args['tax_query']['relation'] = isset($obj->options['tax_query']['relation']) ? $obj->options['tax_query']['relation'] : 'OR';
 			}
 		}
 
-		#echo '<pre>'; print_r($obj->query); echo '</pre>';
+		#echo '<pre>'; print_r($obj->posts_args); echo '</pre>';
 	}
 
 	public static function post_type_taxonomies_options( $post_type )
