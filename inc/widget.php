@@ -47,7 +47,7 @@ class W4PL_Widget extends WP_Widget
 		<p>
 			<strong><?php _e( 'Select list:', W4PL_TXT_DOMAIN); ?></strong>
             <br /><select id="<?php echo $this->get_field_id('PL_ID'); ?>" name="<?php echo $this->get_field_name('PL_ID'); ?>"><?php
-				$lists = get_posts('post_status=publish&post_type='. W4PL_SLUG);
+				$lists = get_posts('post_status=publish&post_type='. W4PL_SLUG . '&posts_per_page=-1');
 				$PL_ID = (int) $PL_ID;
 				foreach( $lists as $list ){
 					$sel = ( $PL_ID == $list->ID ) ? 'selected="selected"' : '';
