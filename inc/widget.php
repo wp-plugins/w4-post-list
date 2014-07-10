@@ -1,5 +1,11 @@
 <?php
-// W4 post list Widget
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Widget extends WP_Widget
 {
 	function W4PL_Widget()
@@ -14,12 +20,12 @@ class W4PL_Widget extends WP_Widget
 	}
 	function widget( $args, $instance)
 	{
-		global $w4_post_list;
 		extract( $args);
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
 		$options = get_post_meta( $instance['PL_ID'], '_w4pl', true );
 		$options['id'] = $instance['PL_ID'];
+		$options = apply_filters( 'w4pl/pre_get_options', $options );
 
 		echo $before_widget;
 		if( $title )
@@ -28,9 +34,9 @@ class W4PL_Widget extends WP_Widget
 		echo $after_widget;
 	}
 	function update( $new_instance, $old_instance ) {
-		$instance 								= $old_instance;
-		$instance['title'] 						= strip_tags( $new_instance['title']);
-		$instance['PL_ID']				 		= (int) $new_instance['PL_ID'];
+		$instance 					= $old_instance;
+		$instance['title'] 			= strip_tags( $new_instance['title']);
+		$instance['PL_ID']			= (int) $new_instance['PL_ID'];
 		return $instance;
 	}
 	function form( $instance )
@@ -47,7 +53,7 @@ class W4PL_Widget extends WP_Widget
 		<p>
 			<strong><?php _e( 'Select list:', W4PL_TXT_DOMAIN); ?></strong>
             <br /><select id="<?php echo $this->get_field_id('PL_ID'); ?>" name="<?php echo $this->get_field_name('PL_ID'); ?>"><?php
-				$lists = get_posts('post_status=publish&post_type='. W4PL_SLUG . '&posts_per_page=-1');
+				$lists = get_posts( 'post_status=publish&post_type='. W4PL_SLUG . '&posts_per_page=-1' );
 				$PL_ID = (int) $PL_ID;
 				foreach( $lists as $list ){
 					$sel = ( $PL_ID == $list->ID ) ? 'selected="selected"' : '';

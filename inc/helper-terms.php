@@ -1,16 +1,129 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Helper_Terms extends W4PL_Core
 {
 	function __construct()
 	{
-		add_filter( 'w4pl/admin_list_fields', 					array($this, 'admin_list_fields'), 10, 2 );
+		/* Register User Shortcodes */
+		add_filter( 'w4pl/get_shortcodes', 			array($this, 'get_shortcodes'), 21 );
 
-		// filter list before getting them
-		add_filter( 'w4pl/pre_get_options', 					array($this, 'pre_get_options') );
+		/* Filer Option */
+		add_filter( 'w4pl/pre_get_options', 		array($this, 'pre_get_options') );
+
+		/* Option Page Fields */
+		add_filter( 'w4pl/admin_list_fields', 		array($this, 'admin_list_fields'), 10, 2 );
+
+		/* Parse List Query Args */
+		add_filter( 'w4pl/parse_query_args', 		array($this, 'parse_query_args'), 15 );
 	}
 
 
-	/* Meta box */
+	/* Register User Shortcodes */
+
+	public static function get_shortcodes( $shortcodes )
+	{
+		$_shortcodes = array(
+			'term_id' => array(
+				'group' 	=> 'Term', 
+				'callback' 	=> array('W4PL_Helper_Terms', 'term_id'),
+				'desc' 		=> '<strong>Output</strong>: term id'
+			),
+			'term_name' => array(
+				'group' 	=> 'Term', 
+				'callback' 	=> array('W4PL_Helper_Terms', 'term_name'),
+				'desc' 		=> '<strong>Output</strong>: term name'
+			),
+			'term_slug' => array(
+				'group' 	=> 'Term', 
+				'callback' 	=> array('W4PL_Helper_Terms', 'term_slug'),
+				'desc' 		=> '<strong>Output</strong>: term slug'
+			),
+			'term_link' => array(
+				'group' 	=> 'Term', 
+				'callback' 	=> array('W4PL_Helper_Terms', 'term_link'),
+				'desc' 		=> '<strong>Output</strong>: term page link'
+			),
+			'term_count' => array(
+				'group' 	=> 'Term', 
+				'callback' 	=> array('W4PL_Helper_Terms', 'term_count'),
+				'desc' 		=> '<strong>Output</strong>: term posts count'
+			),
+			'term_content' => array(
+				'group' 	=> 'Term', 
+				'callback' 	=> array('W4PL_Helper_Terms', 'term_content'),
+				'desc' 		=> '<strong>Output</strong>: term description'
+			)
+		);
+
+		return array_merge( $shortcodes, $_shortcodes );
+	}
+
+
+	/* Term Shortcode Callbacks */
+
+	public static function term_id( $attr, $cont, $list )
+	{
+		return isset($list->current_term) ? $list->current_term->term_id : 0;
+	}
+	public static function term_name( $attr, $cont, $list )
+	{
+		return isset($list->current_term) ? $list->current_term->name : '';
+	}
+	public static function term_slug( $attr, $cont, $list )
+	{
+		return isset($list->current_term) ? $list->current_term->slug : '';
+	}
+	public static function term_link( $attr, $cont, $list )
+	{
+		return isset($list->current_term) ? get_term_link($list->current_term) : '';
+	}
+	public static function term_count( $attr, $cont, $list )
+	{
+		return isset($list->current_term) ? $list->current_term->count : 0;
+	}
+	public static function term_content( $attr, $cont, $list )
+	{
+		return isset($list->current_term) ? $list->current_term->description : '';
+	}
+
+
+	/* Filer Option */
+
+	public function pre_get_options($options)
+	{
+		if( !isset($options) || !is_array($options) )
+			$options = array();
+
+		if( isset($options['list_type']) && in_array($options['list_type'], array('terms', 'terms.posts') ) )
+		{
+			$options = wp_parse_args( $options, array(
+				'terms_taxonomy' 			=> 'category', 
+				'terms__in' 				=> '', 
+				'terms__not_in' 			=> '', 
+				'terms_name__like'			=> '',
+				'terms_slug__like'			=> '',
+				'terms_description__like'	=> '',
+				'terms_count__min'			=> '',
+				'terms_offset'				=> '',
+				'terms_limit'				=> '',
+				'terms_max'					=> '',
+				'terms_orderby'				=> 'count',
+				'terms_order'				=> 'DESC'
+			));
+		}
+
+		return $options;
+	}
+
+
+	/* Option Page Fields */
+
 	public function admin_list_fields( $fields, $options )
 	{
 		$list_type = $options['list_type'];
@@ -130,28 +243,59 @@ class W4PL_Helper_Terms extends W4PL_Core
 		return $fields;
 	}
 
-	public function pre_get_options($options)
+	/* Parse List Query Args */
+
+	public function parse_query_args( $list )
 	{
-		if( !isset($options) || !is_array($options) )
-			$options = array();
+		// terms
+		if( in_array($list->options['list_type'], array('terms', 'terms.posts') ) )
+		{
+			// push default options to query var
+			foreach( array(
+				'terms_count__min'			=> 'count__min',
+				'terms_name__like'			=> 'name__like',
+				'terms_slug__like'			=> 'slug__like',
+				'terms_description__like'	=> 'description__like',
+				'terms_offset'				=> 'offset',
+				'terms_limit'				=> 'limit',
+				'terms_orderby'				=> 'orderby',
+				'terms_order'				=> 'order'
+			) as $option => $name )
+			{
+				if( !empty($list->options[$option]) )
+					$list->terms_args[$name] = $list->options[$option];
+			}
+			#echo '<pre>'; print_r($list->options); echo '</pre>';
 
-		$options = wp_parse_args( $options, array(
-			'terms_taxonomy' 			=> 'category', 
-			'terms__in' 				=> '', 
-			'terms__not_in' 			=> '', 
-			'terms_name__like'			=> '',
-			'terms_slug__like'			=> '',
-			'terms_description__like'	=> '',
-			'terms_count__min'			=> '',
-			'terms_offset'				=> '',
-			'terms_limit'				=> '',
-			'terms_max'					=> '',
-			'terms_orderby'				=> 'count',
-			'terms_order'				=> 'DESC'
-		));
+			// comma separated ids
+			foreach( array(
+				'terms__in' 		=> 'term_id__in',
+				'terms__not_in' 	=> 'term_id__not_in'
+			) as $option => $name )
+			{
+				if( !empty($list->options[$option]) )
+				{
+					$opt = wp_parse_id_list( $list->options[$option] );
+					if( !empty($opt) )
+						$list->terms_args[$name] = $opt;
+				}
+			}
 
-		return $options;
+			$list->terms_args['taxonomy'] = $list->options['terms_taxonomy'];
+
+			$paged = isset($_REQUEST['page'. $list->id]) ? $_REQUEST['page'. $list->id] : 1;
+
+			if( !empty($list->options['terms_limit']) ){
+				$list->terms_args['offset'] = (int) $list->options['terms_offset'] + ($paged - 1) * $list->options['terms_limit'];
+			}
+			if( isset($list->options['terms_max']) && !empty($list->options['terms_max']) && $list->options['terms_max'] < ($list->options['terms_limit'] * $paged) )
+			{
+				$list->terms_args['limit'] = $list->options['terms_max'] - ( $list->options['terms_limit'] * ($paged-1) );
+			}
+			// terms query var ends
+		}
 	}
+
 
 	public static function taxonomies_options()
 	{
@@ -177,58 +321,6 @@ class W4PL_Helper_Terms extends W4PL_Core
 
 		return $return;
 	}
-
-
-	function get_shortcode_regex()
-	{
-		$tagnames = array_keys( apply_filters( 'w4pl/get_shortcodes', array() ) );
-		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
-	
-		return
-			  '\\['                              // Opening bracket
-			. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
-			. "($tagregexp)"                     // 2: Shortcode name
-			. '(?![\\w-])'                       // Not followed by word character or hyphen
-			. '('                                // 3: Unroll the loop: Inside the opening shortcode tag
-			.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
-			.     '(?:'
-			.         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
-			.         '[^\\]\\/]*'               // Not a closing bracket or forward slash
-			.     ')*?'
-			. ')'
-			. '(?:'
-			.     '(\\/)'                        // 4: Self closing tag ...
-			.     '\\]'                          // ... and closing bracket
-			. '|'
-			.     '\\]'                          // Closing bracket
-			.     '(?:'
-			.         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-			.             '[^\\[]*+'             // Not an opening bracket
-			.             '(?:'
-			.                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
-			.                 '[^\\[]*+'         // Not an opening bracket
-			.             ')*+'
-			.         ')'
-			.         '\\[\\/\\2\\]'             // Closing shortcode tag
-			.     ')?'
-			. ')'
-			. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
-	}
-
-	function do_shortcode_tag( $m )
-	{
-		if ( $m[1] == '[' && $m[6] == ']' ) {
-			return substr($m[0], 1, -1);
-		}
-		$tag = $m[2];
-		$attr = shortcode_parse_atts( $m[3] );
-		#if ( isset( $m[5] ) ){
-		#	return $m[1] . apply_filters( 'w4pl/shortcode/'. $tag, $attr, '', $m[5] ) . $m[6];
-		#} else {
-			return $m[1] . apply_filters( 'w4pl/shortcode/'. $tag, $attr, '', $this ) . $m[6];
-		#}
-	}
-
 }
 
 	new W4PL_Helper_Terms;

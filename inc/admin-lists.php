@@ -14,6 +14,7 @@ class W4PL_Lists_Admin extends W4PL_Core
 		add_action( 'save_post_'. W4PL_SLUG,  						array($this, 'save_post'), 10, 3 );
 
 		add_filter( 'w4pl/template_default',  						array($this, 'template_default') );
+		add_filter( 'w4pl/template',  								array($this, 'template'), 10, 2 );
 
 
 		// set update message for our post type, you dont like to use - "post update" !
@@ -84,8 +85,43 @@ class W4PL_Lists_Admin extends W4PL_Core
 	}
 
 	// default templates
-	public function template_default($r){
-		return '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[post_thumbnail]'. "\n" . '[excerpt]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
+	public function template_default($r)
+	{
+		return '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[excerpt wordlimit=20]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
+	}
+
+	// default templates
+	public function template( $template, $opt )
+	{
+		if( !isset($opt['list_type']) || empty($opt['list_type']) )
+			return $template;
+
+		$users 		= '<ul>[users]'. "\n" . '<li>'. "\n" . '<a href="[user_link]">[user_name]</a>' . "\n".'</li>'. "\n" . '[/users]</ul>';
+		$terms 		= '<ul>[terms]'. "\n" . '<li>'. "\n" . '<a href="[term_link]">[term_name]</a>' . "\n".'</li>'. "\n" . '[/terms]</ul>';
+		$posts 		= '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[excerpt wordlimit=20]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
+		$termsposts 	= '<ul>[terms]'. "\n" . '<li>'. "\n" . '<a href="[term_link]">[term_name]</a>' . "\n" . $posts . "\n" . '</li>'. "\n" . '[/terms]</ul>';
+		$usersposts 	= '<ul>[users]'. "\n" . '<li>'. "\n" . '<a href="[user_link]">[user_name]</a>' . "\n" . $posts . "\n" . '</li>'. "\n" . '[/users]</ul>';
+
+		$was_default = (bool) ( empty($template) || in_array($template, array($terms, $users, $posts, $termsposts, $usersposts) ) );
+		if( ! $was_default )
+			return $template;
+
+		if( 'terms' == $opt['list_type'] ){
+			$template = $terms;
+		}
+		elseif( 'users' == $opt['list_type'] ){
+			$template = $users;
+		}
+		elseif( 'posts' == $opt['list_type'] ){
+			$template = $posts;
+		}
+		elseif( 'terms.posts' == $opt['list_type'] ){
+			$template = $termsposts;
+		}
+		elseif( 'users.posts' == $opt['list_type'] ){
+			$template = $usersposts;
+		}
+		return $template;
 	}
 
 
@@ -141,14 +177,11 @@ class W4PL_Lists_Admin extends W4PL_Core
 		}
 	}
 
-
 	public static function plugin_action_links( $links )
 	{
 		$readme_link['doc'] = '<a href="'. 'edit.php?post_type=w4pl&page=w4pl-docs">' . __( 'Documentation', W4PL_TXT_DOMAIN ). '</a>';
 		return array_merge( $links, $readme_link );
 	}
-
-
 
 	public static function news_meta_box()
 	{
@@ -161,12 +194,12 @@ class W4PL_Lists_Admin extends W4PL_Core
 		$transient = 'w4pl_plugin_news';
 		$transient_old = $transient . '_old';
 		$expiration = 7200;
-	
+
 		$output = get_transient( $transient );
 
 		if( $refresh || !$output || empty( $output ))
 		{
-			$request = wp_remote_request('http://w4dev.com/wp-admin/admin-ajax.php?action=w4_ajax&action_call=plugin_news');
+			$request = wp_remote_request('http://w4dev.com/w4pl.txt');
 			$content = wp_remote_retrieve_body($request);
 
 			if( is_wp_error( $content ) ){

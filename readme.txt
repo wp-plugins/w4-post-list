@@ -112,8 +112,14 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
-= 1.7.9.1 =
-* Fixed: Widget Lists Dropdown limitation
+= 1.8 =
+* New: Users List
+* New: Users + Posts List
+* New: Exclude Current Post
+* New: Shortcode: [parent_link] Parent link of a post or media file
+* New: Shortcode: [post_the_date] Unique post date, ignored on current item if previous post date and curent post date is same
+* Fixed: Empty list display
+
 = 1.7.9 =
 * Fixed: Meta Query & tax query issue
 = 1.7.8 =
@@ -227,8 +233,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
-= 1.7.9.1 =
-* Fixed: Widget Lists Dropdown limitation
+= 1.8 =
+* New: Users List
+* New: User + Post List
+* New: Exclude Current Post
+* New: Shortcode: [parent_link] Parent link of a post or media file
+* Fixed: Empty list display
 = 1.7.9 =
 * Fixed: Meta Query & tax query issue
 = 1.7.8 =

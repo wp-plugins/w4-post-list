@@ -155,6 +155,31 @@ class W4PL_Admin_Page_Docs
 	&lt;/ul&gt;
 [/terms]</code></pre>
 
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A simple un-ordered Users list', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[users]
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;&lt;li&gt;
+	&lt;/ul&gt;
+[/users]</code></pre>
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Users Post list', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[users]
+	&lt;ul&gt;
+		&lt;li&gt;
+			&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;
+			[posts]
+				&lt;ol&gt;
+					&lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+				&lt;/ol&gt;
+			[/posts]
+		&lt;li&gt;
+	&lt;/ul&gt;
+[/users]</code></pre>
+
 		</div><!--inside-->
 		</div><!--postbox-->
 	

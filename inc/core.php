@@ -43,7 +43,7 @@ class W4PL_Core
 		add_filter( 'w4pl/pre_get_list', 						array($this, 'pre_get_list') );
 
 
-		// filter list before getting them
+		// filter list options at higher priority
 		add_filter( 'w4pl/pre_get_options', 					array($this, 'pre_get_options'), 5 );
 
 
@@ -61,7 +61,6 @@ class W4PL_Core
 		// get shortcode from posted data
 		add_action( 'wp_ajax_w4pl_generate_shortcodes', 		array($this, 'w4pl_generate_shortcodes_ajax') );
 	}
-
 
 
 	/*
@@ -99,297 +98,45 @@ class W4PL_Core
 	}
 
 
-
 	/*
-	 * Shortcodes
+	 * Shortcodes - Top Level ShortCodes
 	*/
 
-	public static function get_shortcodes()
+	public static function get_shortcodes( $shortcodes )
 	{
 		// Shortcodes
-		return array(
+		$core_shortcodes = array(
 			'posts' => array(
 				'group' => 'Main', 
 				'code' => '[posts]'. "\n\n" .'[/posts]', 
-				'func' => '',
 				'desc' => '<strong>return</strong> the posts template'
 			),
 			'terms' => array(
 				'group' => 'Main', 
 				'code' => '[terms]'. "\n\n" .'[/terms]', 
-				'func' => '',
 				'desc' => '<strong>return</strong> the terms template'
+			),
+			'users' => array(
+				'group' => 'Main', 
+				'code' => '[users]'. "\n\n" .'[/users]', 
+				'desc' => '<strong>return</strong> the users template'
 			),
 			'groups' => array(
 				'group' => 'Main', 
 				'code' => '[groups]'. "\n\n" .'[/groups]', 
-				'func' => '',
 				'desc' => '<strong>return</strong> the groups template'
 			),
 			'nav' => array(
 				'group' => 'Main', 
 				'code' => '[nav ajax=""]', 
-				'func' => '',
 				'desc' => '<strong>return</strong> pagination for the list
             <br><br><strong>Attributes</strong>:
             <br><strong>type</strong> = (text) allowed values  - plain, list, nav
             <br><strong>ajax</strong> = (0|1) use pagination with ajax'
 			),
-			'id' => array(
-				'group' => 'Post', 
-				'func' => 'post_id', 
-				'desc' => '<strong>Output</strong>: post id'
-			),
-			'ID' => array(
-				'group' => 'Post', 
-				'func' => 'post_id', 
-				'desc' => '<strong>Output</strong>: post id'
-			),
-			'post_id' => array(
-				'group' => 'Post', 
-				'func' => 'post_id', 
-				'desc' => '<strong>Output</strong>: post id'
-			),
-			'post_number' => array(
-				'group' => 'Post', 
-				'func' => 'post_number', 
-				'desc' => '<strong>Output</strong>: post item number, starting from 1'
-			),
-			'post_permalink' => array(
-				'group' => 'Post', 
-				'func' => 'post_permalink', 
-				'desc' => '<strong>Output</strong>: post url/link'
-			),
-			'post_class' => array(
-				'group' => 'Post', 
-				'func' => 'post_class', 
-				'desc' => '<strong>Output</strong>: post html classes'
-			),
-			'post_title' => array(
-				'group' => 'Post', 
-				'func' => 'post_title', 
-				'desc' => '<strong>Output</strong>: post title
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>wordlimit</strong> = (number), limit number of words to display'
-			),
-			'post_comment_url' => array(
-				'group' => 'Post', 
-				'func' => 'post_comment_url', 
-				'desc' => '<strong>Output</strong>: post comment form link/url'
-			),
-			'post_comment_count'=> array(
-				'group' => 'Post', 
-				'func' => 'post_comment_count', 
-				'desc' => '<strong>Output</strong>: (numeric) amount of approved comments'
-			),
-			'post_date' => array(
-				'group' => 'Post', 
-				'code' => '[post_date format="'. get_option('date_format') .'"]', 
-				'func' => 'post_date', 
-				'desc' => '<strong>Output</strong>: post date (date formatted)
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>format</strong> = php datetime format'
-			),
-			'post_time' => array(
-				'group' => 'Post', 
-				'code' => '[post_time format="'. get_option('time_format') .'"]', 
-				'func' => 'post_time', 
-				'desc' => '<strong>Output</strong>: post date (time formatted)
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>format</strong> = php datetime format'
-			),
-			'post_modified_date' => array(
-				'group' => 'Post', 
-				'code' => '[post_modified_date format="'. get_option('date_format') .'"]', 
-				'func' => 'post_modified_date', 
-				'desc' => '<strong>Output</strong>: post modified date (date formatted)
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>format</strong> = php datetime format'
-			),
-			'post_modified_time'=> array(
-				'group' => 'Post', 
-				'code' => '[post_modified_time format="'. get_option('time_format') .'"]', 
-				'func' => 'post_modified_time', 
-				'desc' => '<strong>Output</strong>: post modified date (time formatted)
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>format</strong> = php datetime format'
-			),
-			'post_author_name' => array(
-				'group' => 'Post', 
-				'func' => 'post_author_name', 
-				'desc' => '<strong>Output</strong>: post author name'
-			),
-			'post_author_url'	=> array(
-				'group' => 'Post', 
-				'func' => 'post_author_url', 
-				'desc' => '<strong>Output</strong>: post author name url'
-			),
-			'post_author_email'	=> array(
-				'group' => 'Post', 
-				'func' => 'post_author_email', 
-				'desc' => '<strong>Output</strong>: post author email address'
-			),
-			'post_author_avatar'=> array(
-				'group' => 'Post', 
-				'code' => '[post_author_avatar size=""]', 
-				'func' => 'post_author_avatar', 
-				'desc' => '<strong>Output</strong>: post author avatar
-				<br /><br /><strong>attributes:</strong>
-				<br /><strong>size</strong> = (number), avatar image size'
-			),
-			'post_excerpt' => array(
-				'group' => 'Post', 
-				'code' => '[post_excerpt wordlimit=""]', 
-				'func' => 'post_excerpt', 
-				'desc' => '<strong>Output</strong>: post excerpt/short description
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>wordlimit</strong> = (number), limit number of words to display'
-			),
-			'post_content'		=> array(
-				'group' => 'Post', 
-				'func' => 'post_content', 
-				'desc' => '<strong>Output</strong>: post content'
-			),
-			'post_thumbnail' => array(
-				'group' => 'Post', 
-				'code' => '[post_thumbnail size="" return=""]', 
-				'func' => 'post_thumbnail', 
-				'desc' => '<strong>Output</strong>: (text|number) based on the rerurn attribute & only if the post has a thumbnail assigned
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>return</strong> = (text|number), 
-				<br />----"src" - will return src of the image, 
-				<br />----"id" - will return id of the image, 
-				<br />----by default it will return image html
-				<br /><strong>size</strong> = (string), post_thumbnail size
-
-				<br /><strong>width</strong> = (number), post_thumbnail width
-				<br /><strong>height</strong> = (number), post_thumbnail height'
-			),
-			'post_meta' => array(
-				'group' => 'Post', 
-				'code' => '[post_meta key="" multiple="0"]', 
-				'func' => 'post_meta', 
-				'desc' => '<strong>Output</strong>: post meta value. if return value is an array, it will be migrated to string by using explode function
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>key</strong> = (text|number), meta key name
-				<br /><strong>multiple</strong> = (0|1), display meta value at multiple occurence
-				<br /><strong>sep</strong> = (text), separate array meta value into string'
-			),
-			'post_terms' => array(
-				'group' => 'Post', 
-				'code' => '[post_terms tax="category" sep=", "]', 
-				'func' => 'post_terms', 
-				'desc' => '<strong>Output</strong>: post type terms. if return value is an array, it will be migrated to string by using explode function
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>tax</strong> = (string), taxonomy name
-				<br /><strong>sep</strong> = (string), separate array meta value into string'
-			),
-			'attachment_thumbnail' => array(
-				'group' => 'Post', 
-				'code' => '[attachment_thumbnail size=""]', 
-				'func' => 'attachment_thumbnail', 
-				'desc' => '<strong>Output</strong>: if the post is an attachment, the attached image is displayed as thumbnail
-				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>size</strong> = (string), image size
-				<br /><strong>width</strong> = (number), image width
-				<br /><strong>height</strong> = (number), image height'
-			),
-			'attachment_url' => array(
-				'group' => 'Post', 
-				'func' => 'attachment_url', 
-				'desc' => '<strong>Output</strong>:  if the post is an attachment, the attached image source is returned'
-			),
-
-
-			'term_id' => array(
-				'group' => 'Term', 
-				'func' => 'term_id', 
-				'desc' => '<strong>Output</strong>: term id'
-			),
-			'term_name' => array(
-				'group' => 'Term', 
-				'func' => 'term_name', 
-				'desc' => '<strong>Output</strong>: term name'
-			),
-			'term_slug' => array(
-				'group' => 'Term', 
-				'func' => 'term_slug', 
-				'desc' => '<strong>Output</strong>: term slug'
-			),
-			'term_link' => array(
-				'group' => 'Term', 
-				'func' => 'term_link', 
-				'desc' => '<strong>Output</strong>: term page link'
-			),
-			'term_count' => array(
-				'group' => 'Term', 
-				'func' => 'term_count', 
-				'desc' => '<strong>Output</strong>: term posts count'
-			),
-			'term_content' => array(
-				'group' => 'Term', 
-				'func' => 'term_content', 
-				'desc' => '<strong>Output</strong>: term description'
-			),
-
-
-			'group_title' => array(
-				'group' => 'Group', 
-				'func' => '', 
-				'desc' => '<strong>Output</strong>: group name / title'
-			),
-			'group_url' => array(
-				'group' => 'Group', 
-				'func' => '', 
-				'desc' => '<strong>Output</strong>: group page link'
-			),
-
-			'title' => array(
-				'group' => 'Standard', 
-				'func' => 'template_title', 
-				'desc' => '<strong>Output</strong>: title template'
-			),
-			'meta' => array(
-				'group' => 'Standard', 
-				'func' => 'template_meta', 
-				'desc' => '<strong>Output</strong>: meta template'
-			),
-			'publish' => array(
-				'group' => 'Standard', 
-				'func' => 'template_date', 
-				'desc' => '<strong>Output</strong>: publish time template'
-			),
-			'date'				=> array(
-				'group' => 'Standard', 
-				'func' => 'template_date', 
-				'desc' => '<strong>Output</strong>: publish time template'
-			),
-			'modified' => array(
-				'group' => 'Standard', 
-				'func' => 'template_modified', 
-				'desc' => '<strong>Output</strong>: modified time template'
-			),
-			'author' => array(
-				'group' => 'Standard', 
-				'func' => 'template_author', 
-				'desc' => '<strong>Output</strong>: author template'
-			),
-			'excerpt' => array(
-				'group' => 'Standard', 
-				'func' => 'template_excerpt', 
-				'desc' => '<strong>Output</strong>: excerpt template'
-			),
-			'content' => array(
-				'group' => 'Standard', 
-				'func' => 'template_content', 
-				'desc' => '<strong>Output</strong>: content template'
-			),
-			'more' => array(
-				'group' => 'Standard', 
-				'func' => 'template_more',
-				'desc' => '<strong>Output</strong>: more link template'
-			)
 		);
+
+		return array_merge( $shortcodes, $core_shortcodes );
 	}
 
 
@@ -424,12 +171,8 @@ class W4PL_Core
 		if( empty($options) )
 			return '';
 
-		#echo '<pre>'; print_r($options); echo '</pre>';
-		#return '';
 		$options = apply_filters( 'w4pl/pre_get_options', $options );
-		#echo '<pre>'; print_r($options); echo '</pre>';
-		
-		
+
 		return self::the_list( $options );
 	}
 
@@ -451,8 +194,9 @@ class W4PL_Core
 					<br /><small>*** this error is only visible to admins and won\'t effect in search engine.</small>
 				</p>';
 			}
-			return '<!-- W4 post list Error: '. $list->get_error_message() .'-->';
+			return '<!--W4_Post_list_Error: '. $list->get_error_message() .'-->';
 		}
+
 		return "<!-- Post list Created by W4 post list WordPress Plugin @ http://w4dev.com/w4-plugin/w4-post-list -->\n" . $w4_post_list->display();
 	}
 
@@ -487,7 +231,8 @@ class W4PL_Core
 			'type' 			=> 'hidden'
 		);
 
-		/* GROUP 1 */
+
+		/* Field Group - List Type */
 		$fields['before_field_group_type'] = array(
 			'position'		=> '2',
 			'html' 			=> '<div id="w4pl_field_group_type" class="w4pl_field_group">
@@ -509,27 +254,26 @@ class W4PL_Core
 		);
 
 
-		/* GROUP 6 */
+		/* Field Group - Template */
 		$fields['before_field_group_template'] = array(
 			'position'		=> '150',
 			'html' 			=> '<div id="w4pl_field_group_template" class="w4pl_field_group"><div class="w4pl_group_title">Template</div><div class="w4pl_group_fields">'
 		);
 
-		$template_html = '<div class="wffw wffwi_w4pl_template wffwt_textarea">';
+		$template_html = '
+		<div class="wffw wffwi_w4pl_template wffwt_textarea">
+			<p style="margin-top:0px;">
+				<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_examples">Template Example</a>
+				<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_buttons">Shortcodes</a>
+			</p>
+			<div id="w4pl_template_examples" class="csshide">'
+			. "<pre style='width:auto'>\n[groups]\n\t[group_title]\n\t[posts]\n\t\t[post_title]\n\t[/posts]\n[/groups]\n[nav]</pre>"
+			. "<br />without group, a simple template should be like -"
+			. "<pre style='width:auto'>[posts]\n\t[post_title]\n[/posts]\n[nav]</pre>"
+			. '</div>';
 
-		$template_html .= '<p style="margin-top:0px;">
-			<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_examples">Template Example</a>
-			<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_buttons">Shortcodes</a>
-		</p>';
 
-		$template_html .= '<div id="w4pl_template_examples" class="csshide">'
-		. "<pre style='width:auto'>\n[groups]\n\t[group_title]\n\t[posts]\n\t\t[post_title]\n\t[/posts]\n[/groups]\n[nav]</pre>"
-		. "<br />without group, a simple template should be like -"
-		. "<pre style='width:auto'>[posts]\n\t[post_title]\n[/posts]\n[nav]</pre>"
-		. '</div>';
-
-
-		$shortcodes = self::get_shortcodes();
+		$shortcodes = apply_filters( 'w4pl/get_shortcodes', array() );
 		$shortcode_groups = array();
 		foreach( $shortcodes as $shortcode => $attr ){
 			$group = $attr['group'];
@@ -554,13 +298,16 @@ class W4PL_Core
 		$template_html .= '</div>';
 
 
-		$template_html .= '<div class="wfflw wfflwi_w4pl_template wfflwt_textarea"><label for="w4pl_template" class="wffl wffli_w4pl_template wfflt_textarea">Template</label></div>';
+		$template_html .= '
+		<div class="wfflw wfflwi_w4pl_template wfflwt_textarea">
+			<label for="w4pl_template" class="wffl wffli_w4pl_template wfflt_textarea">Template</label>
+		</div>';
 		$template_html .= w4pl_form_child_field_html( array(
 			'id' 			=> 'w4pl_template',
 			'name' 			=> 'w4pl[template]',
 			'input_class' 	=> 'wff wffi_w4pl_template wfft_textarea widefat',
 			'type' 			=> 'textarea',
-			'default' 		=> apply_filters('w4pl/template_default', ''),
+			'default' 		=> apply_filters('w4pl/template_default', '' ),
 			'value'			=> isset($options['template']) ? $options['template'] : ''
 		));
 		$template_html .= '</div>';
@@ -576,17 +323,6 @@ class W4PL_Core
 		);
 
 
-		/* Migration procedure */
-		if( isset($options['template_loop']) && !empty($options['template_loop']) )
-		{
-			$options['template'] = str_replace( '[loop]', '[posts]'. $options['template_loop'] .'[/posts]', $options['template'] );
-			unset($options['template_loop']);
-		}
-
-		if( isset($options['template']) && ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $options['template']) && preg_match('/\[loop\]/sm', $options['template'], $match ) )
-		{
-			$options['template'] = str_replace( $match[0], '[posts]'. $options['template_loop'] .'[/posts]', $options['template'] );
-		}
 
 		$fields['after_list_options'] = array(
 			'position'		=> '999',
@@ -680,33 +416,13 @@ class W4PL_Core
 		die('');
 	}
 
-	public function pre_save_options($options)
+	public function pre_save_options( $options )
 	{
-		foreach( array(
-			'tab_id' 			=> 'w4pl_field_group_type', 
-			'post_type' 		=> 'post', 
-			'post_status' 		=> array('publish'), 
-			'post__in' 			=> '', 
-			'post__not_in' 		=> '', 
-			'post_parent__in' 	=> '',
-			'author__in' 		=> '',
-			'posts_per_page'	=> '',
-			'limit'				=> '',
-			'offset'			=> '',
-			'groupby'			=> '',
-			'orderby'			=> 'date',
-			'order'				=> 'DESC',
-			'group_order'		=> ''
-		) as $k => $v )
-		{
-			if( empty($v) && empty($options[$k]) )
-				unset($options[$k]);
-			elseif( array_key_exists($k, $options) && $v == $options[$k] )
-				unset($options[$k]);
-		}
-
-		if( 'attachment' == $options['post_type'] ){
+		if( isset($options['post_type']) && 'attachment' == $options['post_type'] ){
 			unset( $options['post_status'] );
+		}
+		if( isset($options['template']) ){
+			$options['template'] = apply_filters('w4pl/template', $options['template'], $options );
 		}
 
 		return $options;
@@ -718,39 +434,32 @@ class W4PL_Core
 		if( !isset($options) || !is_array($options) )
 			$options = array();
 
-		// old list compat
+
+		/* Version 1.6.7 List Compat */
 		if( isset($options['template_loop']) && !empty($options['template_loop']) ){
 			if( isset($options['template']) 
 				&& ! preg_match('/\[posts\](.*?)\[\/posts\]/sm', $options['template']) 
 				&& preg_match('/\[loop\]/sm', $options['template'], $match ) 
 			){
 				$options['template'] = str_replace( $match[0], '[posts]'. $options['template_loop'] .'[/posts]', $options['template'] );
-				unset($options['template_loop']);
 			}
-		}// end old list compat
+			elseif( empty($options['template']) )
+			{
+				$options['template'] = str_replace( '[loop]', '[posts]'. $options['template_loop'] .'[/posts]', $options['template'] );
+			}
+
+			unset($options['template_loop']);
+		} // end
 
 
 		$options = wp_parse_args( $options, array(
 			'id' 				=> md5( microtime() . rand() ), 
 			'tab_id' 			=> 'w4pl_field_group_type', 
-			'list_type' 		=> 'posts', 
-			'post_type' 		=> 'post', 
-			'post_status' 		=> array('publish'), 
-			'post__in' 			=> '', 
-			'post__not_in' 		=> '', 
-			'post_parent__in' 	=> '',
-			'author__in' 		=> '',
-			'posts_per_page'	=> '',
-			'limit'				=> '',
-			'offset'			=> '',
-			'groupby'			=> '',
-			'orderby'			=> 'date',
-			'order'				=> 'DESC',
-			'group_order'		=> ''
+			'list_type' 		=> 'posts'
 		));
 
-		if( 'attachment' == $options['post_type'] ){
-			$options['post_status'] = array('inherit');
+		if( isset($options['template']) ){
+			$options['template'] = apply_filters( 'w4pl/template', $options['template'], $options );
 		}
 
 		return $options;
@@ -826,25 +535,25 @@ class W4PL_Core
 
 		?>
 		<style>
-/*W4 Post List Admin*/
+/* W4 Post List - Admin List Template CSS */
+#w4pl_list_options{ position:relative;}
+#w4pl_list_options table.widefat th{ font-size:11px;}
+#w4pl_list_options code{padding:1px 5px}
 #w4pl_template{height:350px;}
-#minor-publishing-actions, #misc-publishing-actions{display:none;}
 #w4pl_template_examples{ font-size:12px; color:#999999;}
 #shortcode_hint_toggle{position:relative;margin:10px 0;float:left;clear:left;}
-.wffw{margin:0;padding-top:8px;padding-bottom:8px;border-width: 0 0 1px 5px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
-.wfflw, .wffdw {width:200px;float:left;clear:left;}
-.wffew {margin-left:220px;}
-.wffl{font-size:13px;}
 #w4pl_post_type_options{position:relative;}
 #w4pl_post_type_options:after{ background:url(images/loading.gif) no-repeat; width:30px; height:30px; display:block;}
 #w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .w4pl_button_group{ padding:0 0 10px;}
 .w4pl_button_group_title{ display:block;}
+.wffw{margin:0;padding-top:8px;padding-bottom:8px;border-width: 0 0 1px 5px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
+.wfflw, .wffdw {width:200px;float:left;clear:left;}
+.wffew {margin-left:220px;}
+.wffl{font-size:13px;}
 .wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none; width:auto;}
 .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-left:0;}
-#w4pl_list_options table.widefat th{ font-size:11px;}
 .wffewi_w4pl_list_type label, .wffwi_w4pl_terms_taxonomy label{display:block}
-#w4pl_list_options{ position:relative;}
 .w4pl_group_title{margin:0; width:20%; padding:8px 10px;border-bottom:1px solid #D1E5EE; background-color:#FFF; font-size:16px; line-height:20px;
 box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box; font-weight:normal; cursor:pointer;}
 .w4pl_field_group:last-child .w4pl_group_title{ border-bottom:1px solid #D1E5EE;}
@@ -852,8 +561,8 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 .w4pl_group_fields{ display:none; position:absolute; left:22%; top:0; width:78%;}
 .w4pl_active .w4pl_group_fields{ display:block;}
 .w4pl_active .w4pl_group_title, .w4pl_group_title:hover{ background-color:#D1E5EE; box-shadow:0 0 1px #666 inset;}
-
 #w4pl_lo{ width:100%; height:100%; position:absolute; top:0; left:0; background:url(<?php echo admin_url('images/spinner.gif'); ?>) no-repeat center rgba(255,255,255,0.5);}
+#minor-publishing-actions, #misc-publishing-actions{display:none;}
 <?php do_action( 'w4pl/admin_print_css' ); ?>
         </style>
 
@@ -1001,9 +710,9 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 		$return = array(
 			'posts' 		=> 'Posts',
 			'terms' 		=> 'Terms',
-			/*'users' 		=> 'Users',*/
-			'terms.posts' 	=> 'Terms + Posts'
-			/*'users.posts' 	=> 'Users + Posts'*/
+			'users' 		=> 'Users',
+			'terms.posts' 	=> 'Terms + Posts',
+			'users.posts' 	=> 'Users + Posts'
 		);
 	
 		return $return;

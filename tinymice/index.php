@@ -5,6 +5,7 @@
  * @url http://w4dev.com/w4-plugin/w4-post-list
 **/
 
+
 // load WP, go down till 6 dirs...
 $_abspath = "../../";
 for ( $i = 0; $i < 3; $i++ ){
