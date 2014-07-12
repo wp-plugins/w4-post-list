@@ -264,17 +264,17 @@ class W4PL_Helper_Posts extends W4PL_Core
 
 			'group_id' => array(
 				'group' 	=> 'Group', 
-				'callback' 	=> array('W4_Post_list', 'post_group_id'),
+				'callback' 	=> array('W4PL_Helper_Posts', 'post_group_id'),
 				'desc' 		=> '<strong>Output</strong>: group name / title'
 			),
 			'group_title' => array(
 				'group' 	=> 'Group', 
-				'callback' 	=> array('W4_Post_list', 'post_group_title'),
+				'callback' 	=> array('W4PL_Helper_Posts', 'post_group_title'),
 				'desc' 		=> '<strong>Output</strong>: group name / title'
 			),
 			'group_url' => array(
 				'group' 	=> 'Group', 
-				'callback' 	=> array('W4_Post_list', 'post_group_url'),
+				'callback' 	=> array('W4PL_Helper_Posts', 'post_group_url'),
 				'desc' 		=> '<strong>Output</strong>: group page link'
 			)
 		);

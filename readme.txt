@@ -112,6 +112,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.8.1 =
+* Fixed: Template Error While using Post Group
 = 1.8 =
 * New: Users List
 * New: Users + Posts List
@@ -233,6 +235,8 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.8.1 =
+* Fixed: Template Error While using Post Group
 = 1.8 =
 * New: Users List
 * New: User + Post List
