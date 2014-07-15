@@ -297,19 +297,6 @@ class W4PL_Helper_Terms extends W4PL_Core
 	}
 
 
-	public static function taxonomies_options()
-	{
-		global $wp_taxonomies;
-		$return = array();
-		foreach( $wp_taxonomies as $t => $attr){
-			if( $attr->public )
-			{
-				$return[$t] = $attr->label;
-			}
-		}
-		return $return;
-	}
-
 	public static function terms_orderby_options($taxonomy)
 	{
 		$return = array(

@@ -297,11 +297,12 @@ class W4PL_Core
 		}
 		$template_html .= '</div>';
 
-
+		/*
 		$template_html .= '
 		<div class="wfflw wfflwi_w4pl_template wfflwt_textarea">
 			<label for="w4pl_template" class="wffl wffli_w4pl_template wfflt_textarea">Template</label>
 		</div>';
+		*/
 		$template_html .= w4pl_form_child_field_html( array(
 			'id' 			=> 'w4pl_template',
 			'name' 			=> 'w4pl[template]',
@@ -538,8 +539,8 @@ class W4PL_Core
 /* W4 Post List - Admin List Template CSS */
 #w4pl_list_options{ position:relative;}
 #w4pl_list_options table.widefat th{ font-size:11px;}
-#w4pl_list_options code{padding:1px 5px}
-#w4pl_template{height:350px;}
+#w4pl_list_options code{border: 1px solid #d1e5ee; color: #666; padding: 1px 5px; font-size:12px;}
+#w4pl_template{height:350px; font-size:14px; line-height:18px; color:#666; }
 #w4pl_template_examples{ font-size:12px; color:#999999;}
 #shortcode_hint_toggle{position:relative;margin:10px 0;float:left;clear:left;}
 #w4pl_post_type_options{position:relative;}
@@ -554,6 +555,7 @@ class W4PL_Core
 .wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none; width:auto;}
 .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-left:0;}
 .wffewi_w4pl_list_type label, .wffwi_w4pl_terms_taxonomy label{display:block}
+.wffewi_w4pl_list_type label small{ color:#999; text-transform:uppercase; font-weight:bold; }
 .w4pl_group_title{margin:0; width:20%; padding:8px 10px;border-bottom:1px solid #D1E5EE; background-color:#FFF; font-size:16px; line-height:20px;
 box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box; font-weight:normal; cursor:pointer;}
 .w4pl_field_group:last-child .w4pl_group_title{ border-bottom:1px solid #D1E5EE;}
@@ -631,7 +633,7 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 	function w4pl_get_form( data, showTab )
 	{
 		/* onchange post type, refresh the form */
-		$('#publish').hide();
+		$('#publish').addClass('disabled');
 
 		if( showTab === null ){
 			showTab = 'w4pl_field_group_type';
@@ -652,7 +654,7 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 			$(document).trigger('w4pl/form_loaded', $('#w4pl_list_options') );
 
 			// $('.wffwi_w4pl_post_type .spinner').css('display', 'none');
-			$('#publish').show();
+			$('#publish').removeClass('disabled');
 
 			return false;
 		})
@@ -708,8 +710,8 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 	public static function list_type_options()
 	{
 		$return = array(
-			'posts' 		=> 'Posts',
-			'terms' 		=> 'Terms',
+			'posts' 		=> 'Posts - <small>'. implode(', ', self::post_type_options()) .'</small>',
+			'terms' 		=> 'Terms - <small>'. implode(', ', self::taxonomies_options()) .'</small>',
 			'users' 		=> 'Users',
 			'terms.posts' 	=> 'Terms + Posts',
 			'users.posts' 	=> 'Users + Posts'
@@ -807,6 +809,21 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 
 		return $return;
 	}
+
+	public static function taxonomies_options()
+	{
+		global $wp_taxonomies;
+		$return = array();
+		foreach( $wp_taxonomies as $t => $attr){
+			if( $attr->public )
+			{
+				$return[$t] = $attr->label;
+			}
+		}
+		return $return;
+	}
+
+
 
 	public static function get_shortcode_hint_html()
 	{
