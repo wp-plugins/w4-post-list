@@ -365,11 +365,9 @@ class W4PL_Helper_Posts extends W4PL_Core
 		if ( '' == $excerpt )
 			$excerpt = $post->post_content;
 
-		$excerpt = wp_strip_all_tags( $excerpt );
-
 		if( isset($attr['wordlimit']) ){
 			$wordlimit = (int) $attr['wordlimit'];
-			$excerpt = wp_trim_words( $excerpt, $wordlimit );
+			$excerpt = wp_trim_words( wp_strip_all_tags($excerpt), $wordlimit );
 		}
 
 		return $excerpt;
