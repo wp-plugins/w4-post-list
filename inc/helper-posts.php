@@ -866,8 +866,8 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'post_type', 
 				'orderby', 
 				'order', 
-				'offset',
-				'posts_per_page'
+				'posts_per_page', 
+				'offset'
 			) as $option_name )
 			{
 				if( !empty($list->options[$option_name]) )
@@ -930,12 +930,25 @@ class W4PL_Helper_Posts extends W4PL_Core
 
 			$list->posts_args = wp_parse_args( $list->posts_args, $defaults );
 
-			// while maximum limit is set, we only fetch till the maximum post
-			if( isset($list->options['limit']) && !empty($list->options['limit']) && $list->options['limit'] < ($list->options['posts_per_page'] * $paged) )
-			{
-				$list->posts_args['offset'] = (int) $list->options['offset'] + ($paged - 1) * $list->options['posts_per_page'];
-				$list->posts_args['posts_per_page'] = $list->options['limit'] - ( $list->options['posts_per_page'] * ($paged-1) );
+
+			// set the posts per page
+			if( !isset($list->posts_args['posts_per_page']) || empty($list->posts_args['posts_per_page']) ){
+				$list->posts_args['posts_per_page'] = get_option('posts_per_page', 10);
 			}
+
+
+			// while maximum limit is set, we only fetch till the maximum post
+			if( !empty($list->options['limit']) && $list->options['limit'] < ($list->posts_args['posts_per_page'] * $paged) )
+			{
+				$list->posts_args['offset'] = (int) $list->options['offset'] + ( ($paged - 1) * $list->posts_args['posts_per_page'] );
+				$list->posts_args['posts_per_page'] = $list->options['limit'] - ( $list->posts_args['posts_per_page'] * ($paged-1) );
+			}
+			// while maximum limit is set, we only fetch till the maximum post
+			elseif( !empty($list->options['offset']) )
+			{
+				$list->posts_args['offset'] = (int) $list->options['offset'] + ($paged - 1) * $list->posts_args['posts_per_page'];
+			}
+
 		}
 		// ends post query
 	}

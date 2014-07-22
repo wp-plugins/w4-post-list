@@ -112,9 +112,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.8.4 =
+* Fix: Using offset and pagination on posts list
+
 = 1.8.3 =
 * Fix: Strip Tags only used on Post Excerpt upon exceeding limitation
-
 = 1.8.2 =
 * Improvement: Minor Improvement
 = 1.8.1 =
@@ -240,9 +242,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.8.4 =
+* Fix: Using offset and pagination on posts list
+
 = 1.8.3 =
 * Fix: Strip Tags only used on Post Excerpt upon exceeding limitation
-
 = 1.8.2 =
 * Improvement: Minor Improvement
 = 1.8.1 =

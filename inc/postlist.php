@@ -267,6 +267,8 @@ class W4_Post_list
 		// posts
 		if( in_array($this->options['list_type'], array('posts') ) && !empty($posts_match) )
 		{
+			# echo '<pre>'; print_r($this->posts_args); echo '</pre>';
+
 			// do query posts
 			$this->posts_query = new WP_Query( $this->posts_args );
 
