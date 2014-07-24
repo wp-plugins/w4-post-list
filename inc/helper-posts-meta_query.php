@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Helper_Meta_Query extends W4PL_Core
 {
 	function __construct()
@@ -13,8 +20,10 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 
 		add_filter( 'w4pl/pre_get_options', array($this, 'pre_get_options') );
 
-		add_filter( 'w4pl/parse_query', array($this, 'parse_query'), 10 );
+		add_filter( 'w4pl/parse_query_args', array($this, 'parse_query_args'), 18 );
 	}
+
+
 
 	/* Meta box */
 	public function admin_list_fields( $fields, $post_data )
@@ -291,7 +300,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 	}
 
 
-	public function parse_query( $obj )
+	public function parse_query_args( $obj )
 	{
 		// meta query
 		if( isset($obj->options['meta_query']) && isset($obj->options['meta_query']['key']) )

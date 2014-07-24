@@ -1,4 +1,10 @@
-jQuery(document).ready(function($){
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+(function($){
+$(document).ready(function(){
 
 	/* Limit number of checkbox checks */
 	$(".checkbox_limit2").each(function(item, i) {
@@ -169,3 +175,4 @@ jQuery(document).ready(function($){
 		return split( term ).pop();
 	}
 });
+})(jQuery);

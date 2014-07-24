@@ -14,6 +14,7 @@ class W4PL_Lists_Admin extends W4PL_Core
 		add_action( 'save_post_'. W4PL_SLUG,  						array($this, 'save_post'), 10, 3 );
 
 		add_filter( 'w4pl/template_default',  						array($this, 'template_default') );
+		add_filter( 'w4pl/template',  								array($this, 'template'), 10, 2 );
 
 
 		// set update message for our post type, you dont like to use - "post update" !
@@ -22,9 +23,6 @@ class W4PL_Lists_Admin extends W4PL_Core
 		// additional column
 		add_filter( 'manage_'. W4PL_SLUG .'_posts_columns', 		array($this, 'manage_posts_columns') );
 		add_action( 'manage_'. W4PL_SLUG .'_posts_custom_column', 	array($this, 'manage_posts_custom_column'), 10, 2 );
-
-		// add lists link to plugin links, so one can navigate quickly
-		add_filter( 'plugin_action_links_' . W4PL_BASENAME, 		array($this, 'plugin_action_links') );
 	}
 
 	// Meta box
@@ -84,8 +82,43 @@ class W4PL_Lists_Admin extends W4PL_Core
 	}
 
 	// default templates
-	public function template_default($r){
-		return '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[post_thumbnail]'. "\n" . '[excerpt]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
+	public function template_default($r)
+	{
+		return '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[excerpt wordlimit=20]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
+	}
+
+	// default templates
+	public function template( $template, $opt )
+	{
+		if( !isset($opt['list_type']) || empty($opt['list_type']) )
+			return $template;
+
+		$users 		= '<ul>[users]'. "\n" . '<li>'. "\n" . '<a href="[user_link]">[user_name]</a>' . "\n".'</li>'. "\n" . '[/users]</ul>';
+		$terms 		= '<ul>[terms]'. "\n" . '<li>'. "\n" . '<a href="[term_link]">[term_name]</a>' . "\n".'</li>'. "\n" . '[/terms]</ul>';
+		$posts 		= '<ul>[posts]'. "\n" . '<li>'. "\n" . '[title]'. "\n" . '[excerpt wordlimit=20]' . "\n" . '[more]' . "\n".'</li>'. "\n" . '[/posts]</ul>';
+		$termsposts 	= '<ul>[terms]'. "\n" . '<li>'. "\n" . '<a href="[term_link]">[term_name]</a>' . "\n" . $posts . "\n" . '</li>'. "\n" . '[/terms]</ul>';
+		$usersposts 	= '<ul>[users]'. "\n" . '<li>'. "\n" . '<a href="[user_link]">[user_name]</a>' . "\n" . $posts . "\n" . '</li>'. "\n" . '[/users]</ul>';
+
+		$was_default = (bool) ( empty($template) || in_array($template, array($terms, $users, $posts, $termsposts, $usersposts) ) );
+		if( ! $was_default )
+			return $template;
+
+		if( 'terms' == $opt['list_type'] ){
+			$template = $terms;
+		}
+		elseif( 'users' == $opt['list_type'] ){
+			$template = $users;
+		}
+		elseif( 'posts' == $opt['list_type'] ){
+			$template = $posts;
+		}
+		elseif( 'terms.posts' == $opt['list_type'] ){
+			$template = $termsposts;
+		}
+		elseif( 'users.posts' == $opt['list_type'] ){
+			$template = $usersposts;
+		}
+		return $template;
 	}
 
 
@@ -122,10 +155,12 @@ class W4PL_Lists_Admin extends W4PL_Core
 			$date = $columns['date'];
 			unset($columns['date']);
 		}
+
+		$columns['list_type'] = __('List Type');
 		$columns['shortcode'] = __('Shortcode');
 
 		if( $date ){
-			$columns['date'] = $date;
+			# $columns['date'] = $date;
 		}
 
 		return $columns;
@@ -133,7 +168,11 @@ class W4PL_Lists_Admin extends W4PL_Core
 
 	public function manage_posts_custom_column( $column_name, $post_ID )
 	{
-		if( 'shortcode' == $column_name ){
+		if( 'list_type' == $column_name )
+		{
+			echo self::list_type_label($post_ID);
+		}
+		else if( 'shortcode' == $column_name ){
 			printf( 
 				'<input value="[postlist id=&quot;%d&quot;]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', 
 				$post_ID 
@@ -141,13 +180,59 @@ class W4PL_Lists_Admin extends W4PL_Core
 		}
 	}
 
+	/**
+	 * Prints a friendly list type of a given post list
+	 * used on admin lists table
+	 */
 
-	public static function plugin_action_links( $links )
+	public function list_type_label( $post_ID )
 	{
-		$readme_link['doc'] = '<a href="'. 'edit.php?post_type='. W4PL_SLUG . '-docs">' . __( 'Docs', W4PL_TXT_DOMAIN ). '</a>';
-		return array_merge( $links, $readme_link );
-	}
+		// this is really odd to get information like this
+		$options = get_post_meta( $post_ID, '_w4pl', true );
+		$options['id'] = $post_ID;
+		$options = apply_filters( 'w4pl/pre_get_options', $options );
 
+		$lt = $options['list_type'];
+
+
+		$return = '';
+
+		if( 'terms.posts' == $lt )
+		{
+			$tax_obj = get_taxonomy($options['terms_taxonomy']);
+			$post_obj = get_post_type_object($options['post_type']);
+			$return = $tax_obj->label . ' & ' . $post_obj->labels->name;
+		}
+		else if( 'users.posts' == $lt )
+		{
+			$post_obj = get_post_type_object($options['post_type']);
+			$return = 'Users' . ' & ' . $post_obj->labels->name;
+		}
+		else if( 'posts' == $lt )
+		{
+			$post_obj = get_post_type_object($options['post_type']);
+			$return = $post_obj->labels->name;
+		}
+		else if( 'terms' == $lt )
+		{
+			$tax_obj = get_taxonomy($options['terms_taxonomy']);
+			$return = $tax_obj->label;
+		}
+		else if( 'users' == $lt )
+		{
+			$return = 'Users';
+		}
+
+		if( empty($return) ){
+			$lt_options = self::list_type_options();
+			if( !empty($lt) && isset($lt_options[$lt]) )
+				$return = $lt_options[$lt];
+			else
+				$return = '-';
+		}
+		
+		return $return;
+	}
 
 
 	public static function news_meta_box()
@@ -161,12 +246,12 @@ class W4PL_Lists_Admin extends W4PL_Core
 		$transient = 'w4pl_plugin_news';
 		$transient_old = $transient . '_old';
 		$expiration = 7200;
-	
+
 		$output = get_transient( $transient );
 
 		if( $refresh || !$output || empty( $output ))
 		{
-			$request = wp_remote_request('http://w4dev.com/wp-admin/admin-ajax.php?action=w4_ajax&action_call=plugin_news');
+			$request = wp_remote_request('http://w4dev.com/w4pl.txt');
 			$content = wp_remote_retrieve_body($request);
 
 			if( is_wp_error( $content ) ){

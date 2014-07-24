@@ -6,18 +6,18 @@ Tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-W4 Post List lets you create a list of posts and put them on front-end. You can chose which information to show and where to show it regarding posts. The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
-
+W4 Post List lets you create a list of posts, terms, users or a combined object. You can chose which information to show and where to show it The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
 
 
 == Description ==
 
-Display Posts inside Post/Page content or widget areas by Shortcodes. Select what to show and design how to show it. Using the plugin is really easy. You will find Tinymce button on post/page editor to quickly inset a list. Also, there's a separate page for creating or editing list. 
+Display Posts (any custom post type), Terms (any custom taxonomy), Users (any role) on Content or Widget Areas by placing a shortcode. Select what to show and design how to show it. Using the plugin is really easy. You will find Tinymce button on post/page editor to quickly inset a list. Also, there's a separate page for creating or editing list. 
 
-Creating a list is just few steps.
+
+Creating a list is just few steps. The following options are for `posts` list type. There are different option for different type of list.
 
 = Build Query =
-* post type
+* post type 
 * post status
 * post mime type
 * post taxonomy terms
@@ -25,6 +25,7 @@ Creating a list is just few steps.
 * post parents
 * post authors
 * post meta ( meta_query )
+
 
 = Group Results by =
 * year
@@ -75,14 +76,13 @@ Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev
 * [Simple Posts List](http://w4dev.com/wp/w4-post-list-examples#example-1)
 * [Media List](http://w4dev.com/wp/w4-post-list-examples#example-2)
 * [Year/Month Archive](http://w4dev.com/wp/w4-post-list-examples#example-3)
+* [List of Categories](http://w4dev.com/wp/w4-post-list-examples#example-4)
+* [List of Terms](http://w4dev.com/wp/w4-post-list-examples#example-5)
 
 
-= What's new latest version (1.6 +) =
-* New: Tinymce button to create a list in seconds right from the post/page editor
-* New: Group posts by parent, author, categories, tags, year, month, year month.
-* New: Added loading state upon changing post type on options page
-* New: Option panel
-* Removed: Posts with categories, Only categories.
+= What's new latest version (1.8 +) =
+* New: Terms List
+* New: Users List
 
 
 Happy using this Plugin ? Please rate !!
@@ -110,10 +110,34 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 2. Preview 1
 3. Preview 2
 
-
-
 == Changelog ==
 
+= 1.8.5 =
+* Improvement: Included List Type label on Admin List Table
+* Removed: List date from Admin List Table
+
+= 1.8.4 =
+* Fix: Using offset and pagination on posts list
+= 1.8.3 =
+* Fix: Strip Tags only used on Post Excerpt upon exceeding limitation
+= 1.8.2 =
+* Improvement: Minor Improvement
+= 1.8.1 =
+* Fixed: Template Error While using Post Group
+= 1.8 =
+* New: Users List
+* New: Users + Posts List
+* New: Exclude Current Post
+* New: Shortcode: [parent_link] Parent link of a post or media file
+* New: Shortcode: [post_the_date] Unique post date, ignored on current item if previous post date and curent post date is same
+* Fixed: Empty list display
+
+= 1.7.9 =
+* Fixed: Meta Query & tax query issue
+= 1.7.8 =
+* New: Category List
+* New: Category Posts List
+* Fixed: Post thumnail source using size - [post_thumbnail return="src" size="thumbnail"]
 = 1.7.7 =
 * Fixed: Multiple List Issue Bug Fixed
 = 1.7.5 =
@@ -221,6 +245,30 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.8.5 =
+* Improvement: Included List Type label on Admin List Table
+* Removed: List date from Admin List Table
+
+= 1.8.4 =
+* Fix: Using offset and pagination on posts list
+= 1.8.3 =
+* Fix: Strip Tags only used on Post Excerpt upon exceeding limitation
+= 1.8.2 =
+* Improvement: Minor Improvement
+= 1.8.1 =
+* Fixed: Template Error While using Post Group
+= 1.8 =
+* New: Users List
+* New: User + Post List
+* New: Exclude Current Post
+* New: Shortcode: [parent_link] Parent link of a post or media file
+* Fixed: Empty list display
+= 1.7.9 =
+* Fixed: Meta Query & tax query issue
+= 1.7.8 =
+* New: Category List
+* New: Category Posts List
+* Fixed: Post thumnail source using size - [post_thumbnail return="src" size="thumbnail"]
 = 1.7.7 =
 * Fixed: Multiple List Issue Bug Fixed
 = 1.7.5 =

@@ -220,7 +220,10 @@ function w4pl_form_field_html( $args = array()){
 
 
 		if( $type == 'text' ){
-			$html .= sprintf( '<input class="%1$s %5$s" id="%2$s" name="%3$s" value="%4$s" type="text" />', w4pl_form_pitc_class('wff', $id, $type), $id, $name, $value, $input_class );
+			$html .= sprintf( 
+				'<input class="%1$s %5$s" id="%2$s" name="%3$s" value="%4$s" type="text" />', 
+				w4pl_form_pitc_class('wff', $id, $type), $id, $name, $value, $input_class 
+			);
 		}
 
 		elseif( $type == 'textarea' ){
@@ -246,7 +249,9 @@ function w4pl_form_field_html( $args = array()){
 		elseif( $type == 'radio' ){
 			foreach( $option as $k => $l ){
 				$sel = $value == $k ? ' checked="checked"' : '';
-				$html .= sprintf( '<label><input id="%1$s_%2$s" name="%3$s" value="%2$s" type="radio"%4$s /> %5$s</label>', $id, $k, $name, $sel, $l );
+				$html .= sprintf( 
+					'<label><input id="%1$s_%2$s" class="%6$s" name="%3$s" value="%2$s" type="radio"%4$s /> %5$s</label>', $id, $k, $name, $sel, $l, $input_class 
+				);
 			}
 		}
 
