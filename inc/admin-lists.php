@@ -23,9 +23,6 @@ class W4PL_Lists_Admin extends W4PL_Core
 		// additional column
 		add_filter( 'manage_'. W4PL_SLUG .'_posts_columns', 		array($this, 'manage_posts_columns') );
 		add_action( 'manage_'. W4PL_SLUG .'_posts_custom_column', 	array($this, 'manage_posts_custom_column'), 10, 2 );
-
-		// add lists link to plugin links, so one can navigate quickly
-		add_filter( 'plugin_action_links_' . W4PL_BASENAME, 		array($this, 'plugin_action_links') );
 	}
 
 	// Meta box
@@ -158,10 +155,12 @@ class W4PL_Lists_Admin extends W4PL_Core
 			$date = $columns['date'];
 			unset($columns['date']);
 		}
+
+		$columns['list_type'] = __('List Type');
 		$columns['shortcode'] = __('Shortcode');
 
 		if( $date ){
-			$columns['date'] = $date;
+			# $columns['date'] = $date;
 		}
 
 		return $columns;
@@ -169,7 +168,11 @@ class W4PL_Lists_Admin extends W4PL_Core
 
 	public function manage_posts_custom_column( $column_name, $post_ID )
 	{
-		if( 'shortcode' == $column_name ){
+		if( 'list_type' == $column_name )
+		{
+			echo self::list_type_label($post_ID);
+		}
+		else if( 'shortcode' == $column_name ){
 			printf( 
 				'<input value="[postlist id=&quot;%d&quot;]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', 
 				$post_ID 
@@ -177,11 +180,60 @@ class W4PL_Lists_Admin extends W4PL_Core
 		}
 	}
 
-	public static function plugin_action_links( $links )
+	/**
+	 * Prints a friendly list type of a given post list
+	 * used on admin lists table
+	 */
+
+	public function list_type_label( $post_ID )
 	{
-		$readme_link['doc'] = '<a href="'. 'edit.php?post_type=w4pl&page=w4pl-docs">' . __( 'Documentation', W4PL_TXT_DOMAIN ). '</a>';
-		return array_merge( $links, $readme_link );
+		// this is really odd to get information like this
+		$options = get_post_meta( $post_ID, '_w4pl', true );
+		$options['id'] = $post_ID;
+		$options = apply_filters( 'w4pl/pre_get_options', $options );
+
+		$lt = $options['list_type'];
+
+
+		$return = '';
+
+		if( 'terms.posts' == $lt )
+		{
+			$tax_obj = get_taxonomy($options['terms_taxonomy']);
+			$post_obj = get_post_type_object($options['post_type']);
+			$return = $tax_obj->label . ' & ' . $post_obj->labels->name;
+		}
+		else if( 'users.posts' == $lt )
+		{
+			$post_obj = get_post_type_object($options['post_type']);
+			$return = 'Users' . ' & ' . $post_obj->labels->name;
+		}
+		else if( 'posts' == $lt )
+		{
+			$post_obj = get_post_type_object($options['post_type']);
+			$return = $post_obj->labels->name;
+		}
+		else if( 'terms' == $lt )
+		{
+			$tax_obj = get_taxonomy($options['terms_taxonomy']);
+			$return = $tax_obj->label;
+		}
+		else if( 'users' == $lt )
+		{
+			$return = 'Users';
+		}
+
+		if( empty($return) ){
+			$lt_options = self::list_type_options();
+			if( !empty($lt) && isset($lt_options[$lt]) )
+				$return = $lt_options[$lt];
+			else
+				$return = '-';
+		}
+		
+		return $return;
 	}
+
 
 	public static function news_meta_box()
 	{

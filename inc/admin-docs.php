@@ -12,13 +12,9 @@ class W4PL_Admin_Page_Docs
 	{
 		add_action( 'admin_menu', array($this, 'admin_menu') );
 		#add_action( 'activate_'. W4PL_BASENAME, array($this, 'plugin_activated'), 10, 3 );
-	}
 
-	public function plugin_activated()
-	{
-		global $wpdb;
-		self::import_old_data();
-		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}post_list" );
+		// add lists link to plugin links, so one can navigate quickly
+		add_filter( 'plugin_action_links_' . W4PL_BASENAME, 		array($this, 'plugin_action_links') );
 	}
 
 	public function admin_menu()
@@ -336,6 +332,19 @@ class W4PL_Admin_Page_Docs
 				update_post_meta( $post_ID, '_w4pl', $list_data );
 			}
 		}
+	}
+
+	public function plugin_activated()
+	{
+		global $wpdb;
+		self::import_old_data();
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}post_list" );
+	}
+
+	public static function plugin_action_links( $links )
+	{
+		$readme_link['doc'] = '<a href="'. 'edit.php?post_type=w4pl&page=w4pl-docs">' . __( 'Docs', W4PL_TXT_DOMAIN ). '</a>';
+		return array_merge( $links, $readme_link );
 	}
 
 	// Check our old plugin table exists or not
