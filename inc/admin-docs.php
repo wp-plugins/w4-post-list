@@ -33,9 +33,22 @@ class W4PL_Admin_Page_Docs
 	public function admin_page()
 	{ 
 	?>
-		<style>#wpbody code{ background:none; font-size:12px; } pre{background-color:#F5F5F5; padding:10px; border-left:5px solid #AAA;} #wpbody h2{font-size:16px; font-weight:bold; color:#999;}</style>
+		<style>
+		#wpbody code{ background:none; font-size:12px; } 
+		pre{background-color:#F5F5F5; padding:10px; border-left:5px solid #AAA;} 
+		#wpbody h2{font-size:16px; font-weight:bold; color:#999;}
+		.has-right-sidebar #post-body-content{ margin-right:320px;}
+		.inner-sidebar{ width:301px;}
+		#shortcode_hint{}
+		#shortcode_hint th, #shortcode_hint td{ border-bottom:1px solid #EEE; padding-top:3px; padding-bottom:3px;}
+		#shortcode_hint thead .tag_name{padding-right:10px;}
+		#shortcode_hint thead .tag_desc{padding-left:10px;}
+		#shortcode_hint .tag_name{text-align: right; width: 100px;}
+		#shortcode_hint .tag_desc{text-align: left; font-size:12px; line-height: 1.3em; padding-left:10px;}
+        </style>
+
 		<div class="wrap about-wrap">
-		<h1>W4 Post List (version: <?php echo W4PL_VERSION; ?>) Docs</h1>
+		<h1><strong>W4 Post List Docs</strong> - (Version: <strong><?php echo W4PL_VERSION; ?></strong>)</h1>
 		<div class="about-text"><?php _e('This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & raw HTML.', W4PL_TXT_DOMAIN); ?></div>
 		<div class="has-right-sidebar"><div id="poststuff">
 
@@ -50,6 +63,20 @@ class W4PL_Admin_Page_Docs
 		</div><!--inside-->
 		</div><!--postbox-->
 		<?php endif; ?>
+
+		<div class="postbox">
+		<h3><?php _e( 'Usage', W4PL_TXT_DOMAIN ); ?></h3>
+		<div class="inside">
+			<strong>Shortcode</strong>
+			<p><?php 
+			_e( 'Use shortcode "postlist" with the list id to show a list on post/page content area.', W4PL_TXT_DOMAIN );
+			_e( 'ex:', W4PL_TXT_DOMAIN); ?> <code>[postlist 1]</code></p>
+
+			<strong>Function</strong>
+			<p><?php 
+			_e( 'Display list directly to your theme using do_shortcode function.', W4PL_TXT_DOMAIN ); ?>
+			<br /><code>&lt;?php</code><br /><code>echo do_shortcode('[postlist id=1]');</code><br /><code>?&gt;</code></p>
+		</div></div><!--postbox-->
 
 		<div class="postbox"><h3><?php _e( 'Plugin links', W4PL_TXT_DOMAIN ); ?></h3>
 		<div class="inside">
@@ -69,111 +96,97 @@ class W4PL_Admin_Page_Docs
 		</div><!--inside-->
 		</div><!--postbox-->
 
-		<div class="postbox">
-		<h3><?php _e( 'Usage', W4PL_TXT_DOMAIN ); ?></h3>
-		<div class="inside">
-			<strong>Shortcode</strong>
-			<p><?php 
-			_e( 'Use shortcode "postlist" with the list id to show a list on post/page content area.', W4PL_TXT_DOMAIN );
-			_e( 'ex:', W4PL_TXT_DOMAIN); ?> <code>[postlist 1]</code></p>
-			
-			<strong>Function</strong>
-			<p><?php 
-			_e( 'Display list directly to your theme using do_shortcode function.', W4PL_TXT_DOMAIN ); ?>
-			<br /><code>do_shortcode('[postlist 1]')</code></p>
-		</div></div>
-
 		</div><!--#side-info-column-->
 
 		<div id="post-body"><div id="post-body-content">
 		<div class="postbox"><h3><?php _e( 'Template', W4PL_TXT_DOMAIN); ?></h3>
 		<div class="inside">
 
-		<p><?php _e( 'Template is the output of your list. It can be designed with shortcode and HTML.', W4PL_TXT_DOMAIN ); ?></p>
+		<p><?php _e( 'Template is the output of a list. It can be designed with shortcode and HTML. Find few examples below.', W4PL_TXT_DOMAIN ); ?></p>
 
 		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A simple un-ordered Post list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2 style="margin-bottom:-5px;"><?php _e( '<strong>Example</strong>: Simple Unordered Post List', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[posts]
-	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
-	&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+  &lt;/ul&gt;
 [/posts]</code></pre>
 
 		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list with excerpt limited to 20 words, using post class on post wrapper element', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list having excerpt limited to 20 words,<br />and using post class on post wrapper element', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[posts]
-	&lt;div class=&quot;[post_class]&quot;&gt;
-		&lt;h3&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;/h3&gt;
-		&lt;p&gt;[post_excerpt wordlimit=&quot;20&quot;]&lt;/p&gt;
-	&lt;/div&gt;
+  &lt;div class=&quot;[post_class]&quot;&gt;
+    &lt;h3&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;/h3&gt;
+    &lt;p&gt;[post_excerpt wordlimit=&quot;20&quot;]&lt;/p&gt;
+  &lt;/div&gt;
 [/posts]</code></pre>
 		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list group by Year', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list Group by Year (chose <em>Group By</em> option to Year while using this).', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[groups]
-	&lt;ul&gt;
-		&lt;li&gt;
-			&lt;a href=&quot;[group_link]&quot;&gt;[group_name]&lt;/a&gt;
-			[posts]
-				&lt;ol&gt;
-					&lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
-				&lt;/ol&gt;
-			[/posts]
-		&lt;li&gt;
-	&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;[group_link]&quot;&gt;[group_name]&lt;/a&gt;
+      [posts]
+        &lt;ol&gt;
+          &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+        &lt;/ol&gt;
+      [/posts]
+    &lt;li&gt;
+  &lt;/ul&gt;
 [/groups]</code></pre>
 
 
 		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A simple un-ordered Category list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A Simple Unordered Category list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[terms]
-	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;&lt;li&gt;
-	&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;&lt;li&gt;
+  &lt;/ul&gt;
 [/terms]</code></pre>
 
 		<hr />
 
 		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Category Post list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[terms]
-	&lt;ul&gt;
-		&lt;li&gt;
-			&lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;
-			[posts]
-				&lt;ol&gt;
-					&lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
-				&lt;/ol&gt;
-			[/posts]
-		&lt;li&gt;
-	&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;
+      [posts]
+        &lt;ol&gt;
+          &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+        &lt;/ol&gt;
+      [/posts]
+    &lt;li&gt;
+  &lt;/ul&gt;
 [/terms]</code></pre>
 
 		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A simple un-ordered Users list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A Simple Unordered Users list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[users]
-	&lt;ul&gt;
-		&lt;li&gt;&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;&lt;li&gt;
-	&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;&lt;li&gt;
+  &lt;/ul&gt;
 [/users]</code></pre>
 
 		<hr />
 
 		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Users Post list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[users]
-	&lt;ul&gt;
-		&lt;li&gt;
-			&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;
-			[posts]
-				&lt;ol&gt;
-					&lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
-				&lt;/ol&gt;
-			[/posts]
-		&lt;li&gt;
-	&lt;/ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;
+      [posts]
+        &lt;ol&gt;
+          &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+        &lt;/ol&gt;
+      [/posts]
+    &lt;li&gt;
+  &lt;/ul&gt;
 [/users]</code></pre>
 
 		</div><!--inside-->
@@ -181,12 +194,12 @@ class W4PL_Admin_Page_Docs
 	
 		<div class="postbox "><h3><?php _e( 'Available Shortcodes', W4PL_TXT_DOMAIN); ?></h3>
 		<div class="inside"><?php $shortcodes = apply_filters( 'w4pl/get_shortcodes', array() ); ?>
-		<table id="shortcode_hint" class="widefat">
-		<thead><tr><th style="text-align: right; width: 100px;">Tag</th><th>Details</th></tr></thead><tbody><?php
+		<table id="shortcode_hint" cellpadding="0" cellspacing="0">
+		<thead><tr><th class="tag_name">Tag</th><th style="text-align:left; padding-left:10px;" class="tag_desc">Details</th></tr></thead><tbody><?php
 		foreach( $shortcodes as $shortcode => $attr ){ $rc = isset($rc) && $rc == '' ? $rc = 'alt' : ''; ?>
 			<tr class="<?php echo $rc; ?>">
-			<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>[<?php echo $shortcode; ?>]</code></th>
-			<td style="font-size:12px; line-height: 1.3em;"><?php echo $attr['desc']; ?></td>
+			<th valign="top" class="tag_name"><code>[<?php echo $shortcode; ?>]</code></th>
+			<td class="tag_desc"><?php echo $attr['desc']; ?></td>
 			</tr>
 		<?php } ?>
 		</tbody></table>

@@ -6,7 +6,7 @@ Tested up to: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-W4 Post List lets you create a list of posts, terms, users or a combined object. You can chose which information to show and where to show it The plugin gives you total freedom to create your list template using Shortcode Tags and Style it.
+W4 Post List lets you create a list of posts, terms, users or a combined one. Decorate output using shortcodes. It's just easy and fun.
 
 
 == Description ==
@@ -112,10 +112,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.8.6 =
+* Improvement: Internal Fragement Update
+
 = 1.8.5 =
 * Improvement: Included List Type label on Admin List Table
 * Removed: List date from Admin List Table
-
 = 1.8.4 =
 * Fix: Using offset and pagination on posts list
 = 1.8.3 =
@@ -245,10 +247,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.8.6 =
+* Improvement: Internal Fragement Update
+
 = 1.8.5 =
 * Improvement: Included List Type label on Admin List Table
 * Removed: List date from Admin List Table
-
 = 1.8.4 =
 * Fix: Using offset and pagination on posts list
 = 1.8.3 =
