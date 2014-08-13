@@ -352,7 +352,6 @@ class W4_Post_list
 				$navigation = $this->navigation( $max_num_pages, $paged, '?page'. $this->id .'=%#%', shortcode_parse_atts($nav_match[1]) );
 				$template = str_replace( $nav_match[0], $navigation, $template );
 			}
-
 		} // end posts
 
 
@@ -361,9 +360,9 @@ class W4_Post_list
 
 
 		// main template
-		$return .= '<div id="w4pl-list-'. $this->id .'"><div id="w4pl-inner-'. $this->id .'" class="w4pl-inner">';
-		$return .= $template;
-		$return .= '</div><!--#w4pl-inner-'. $this->id .'--></div><!--#w4pl-'. $this->id .'-->';
+		$return .= '<div id="w4pl-list-'. $this->id .'">'. "\n\t" .'<div id="w4pl-inner-'. $this->id .'" class="w4pl-inner">';
+		$return .= "\n\t\t" . $template;
+		$return .= "\n\t" .'</div><!--#w4pl-inner-'. $this->id .'-->'. "\n" .'</div><!--#w4pl-'. $this->id .'-->';
 
 
 		$this->html = $return;
@@ -374,9 +373,20 @@ class W4_Post_list
 
 
 		// return the template
-		return "<!--W4_Post_list_{$this->id}-->\n" . $this->html . "\n\n";
+		return "<!--W4_Post_list_{$this->id}-->\n" . $this->html . "\n<!--END_W4_Post_list_{$this->id}-->\n";
 	}
 
+
+	/**
+	 * Create Navigation
+	 * @package w4-post-list
+
+	 * @param int $max_num_pages Maximum number of navigation pages
+	 * @param int $paged Current page
+	 * @param string $base Base url to build the page links
+	 * @param array $attr Mixed attributes
+	 * @return string The navigation HTML
+	**/
 
 	function navigation( $max_num_pages, $paged = 1, $base = '', $attr = array() )
 	{

@@ -49,7 +49,7 @@ class W4PL_Admin_Page_Docs
 
 		<div class="wrap about-wrap">
 		<h1><strong>W4 Post List Docs</strong> - (Version: <strong><?php echo W4PL_VERSION; ?></strong>)</h1>
-		<div class="about-text"><?php _e('This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & raw HTML.', W4PL_TXT_DOMAIN); ?></div>
+		<div class="about-text"><?php _e('This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & HTML.', W4PL_TXT_DOMAIN); ?></div>
 		<div class="has-right-sidebar"><div id="poststuff">
 
 		<div class="inner-sidebar" id="side-info-column">

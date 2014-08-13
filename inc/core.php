@@ -191,13 +191,13 @@ class W4PL_Core
 			if( is_user_logged_in() && current_user_can( 'delete_users') ){
 				return '<p>
 					<strong>W4 Post List Error:</strong> <span style="color:#FF0000">'. $list->get_error_message() .'</span>
-					<br /><small>*** this error is only visible to admins and won\'t effect in search engine.</small>
+					<br /><small>*** This error is only visible to admins and won\'t effect in search engine.</small>
 				</p>';
 			}
 			return '<!--W4_Post_list_Error: '. $list->get_error_message() .'-->';
 		}
 
-		return "<!-- Post list Created by W4 post list WordPress Plugin @ http://w4dev.com/w4-plugin/w4-post-list -->\n" . $w4_post_list->display();
+		return "\n<!--list Created by W4 Post List Ver ". W4PL_VERSION ."-->\n" . $w4_post_list->display();
 	}
 
 
