@@ -170,7 +170,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		?>
 		#w4pl_meta_query_table th{ text-align:left; font-weight:bold;}
 		#w4pl_meta_query_table th, #w4pl_meta_query_table td, #w4pl_meta_query_table input, #w4pl_meta_query_table select{ font-size:11px;}
-		#w4pl_meta_query_table .wfft_select, .w4pl_meta_query_key_cell .wfft_text{ width: 99%; margin-left:0px; margin-right:0px; height: auto; padding:2px}
+		#w4pl_meta_query_table .wfft_select, .w4pl_meta_query_key_cell .wfft_text{ width: 100%; margin-left:0px; margin-right:0px; height: auto; padding:2px;box-sizing:border-box;}
 		#w4pl_meta_query_table .wfft_text{ margin-left:0px; padding:3px 5px; height: auto;}
 		#w4pl_meta_query_key_cell_head, .w4pl_meta_query_key_cell{ width: 200px;}
 		#w4pl_meta_query_compare_cell_head, .w4pl_meta_query_compare_cell{ width: 50px; padding-left:0 !important; text-align:left;}

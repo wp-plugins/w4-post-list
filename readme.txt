@@ -112,9 +112,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Changelog ==
 
+= 1.8.8 =
+* Shortcode: New Shortcode included [post_author_meta] to display available meta information of post author.
+
 = 1.8.6 =
 * Improvement: Internal Fragement Update
-
 = 1.8.5 =
 * Improvement: Included List Type label on Admin List Table
 * Removed: List date from Admin List Table
@@ -247,9 +249,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 == Upgrade Notice ==
 
+= 1.8.8 =
+* Shortcode: New Shortcode included [post_author_meta] to display available meta information of post author.
+
 = 1.8.6 =
 * Improvement: Internal Fragement Update
-
 = 1.8.5 =
 * Improvement: Included List Type label on Admin List Table
 * Removed: List date from Admin List Table

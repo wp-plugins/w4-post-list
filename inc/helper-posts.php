@@ -118,6 +118,14 @@ class W4PL_Helper_Posts extends W4PL_Core
 				<br /><br /><strong>Attributes:</strong>
 				<br /><strong>format</strong> = php datetime format'
 			),
+			'post_author_meta' => array(
+				'group' 	=> 'Post', 
+				'code' 		=> '[post_author_meta name=""]', 
+				'callback' 	=> array('W4PL_Helper_Posts', 'post_author_meta'),
+				'desc' 		=> '<strong>Output</strong>: post author meta value
+				<br /><br /><strong>Attributes:</strong>
+				<br /><strong>name</strong> = ex: display_name, bio, user_email etc'
+			),
 			'post_author_name' => array(
 				'group' 	=> 'Post', 
 				'callback' 	=> array('W4PL_Helper_Posts', 'post_author_name'),
@@ -344,6 +352,20 @@ class W4PL_Helper_Posts extends W4PL_Core
 			$format = $attr['format'];
 		}
 		return get_post_modified_time($format);
+	}
+	public static function post_author_meta( $attr, $cont)
+	{
+		if( isset($attr) && !is_array($attr) && is_string($attr) ){
+			$name = trim($attr);
+			$attr = array();
+		}
+		elseif( isset($attr['name']) ){
+			$name = $attr['name'];
+		}
+		if( empty($name) || in_array($name, array('pass', 'user_pass')))
+			return;
+
+		return get_the_author_meta( $name, get_the_author_meta('ID') );
 	}
 
 	public static function post_author_name($attr, $cont){ return get_the_author_meta('display_name'); }

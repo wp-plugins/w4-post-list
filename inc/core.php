@@ -537,15 +537,20 @@ class W4PL_Core
 		?>
 		<style>
 /* W4 Post List - Admin List Template CSS */
-#w4pl_list_options{ position:relative;}
-#w4pl_list_options table.widefat th{ font-size:11px;}
+#titlediv{margin-bottom:30px;}
+#w4pl_list_options{ position:relative; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:normal;}
+table.widefat{ background-color:#FFF; box-shadow:0 1px 1px rgba(0, 0, 0, 0.04); border:1px solid #e5e5e5; border-spacing:0px; width:100%; clear:both;}
+table.widefat th{font-size:11px; padding:8px 10px; font-weight:400;}
+table.widefat td{font-size:11px; padding:8px 10px;}
+table.widefat thead th{ border-bottom:1px solid #e1e1e1;}
 #w4pl_list_options code{border: 1px solid #d1e5ee; color: #666; padding: 1px 5px; font-size:12px;}
-#w4pl_template{height:350px; font-size:14px; line-height:18px; color:#666; }
+#w4pl_template, #w4pl_css, #w4pl_js{height:350px; font-size:14px; line-height:18px; color:#666; width:100%; box-sizing:border-box;}
+#w4pl_js{height:150px;}
 #w4pl_template_examples{ font-size:12px; color:#999999;}
 #shortcode_hint_toggle{position:relative;margin:10px 0;float:left;clear:left;}
 #w4pl_post_type_options{position:relative;}
 #w4pl_post_type_options:after{ background:url(images/loading.gif) no-repeat; width:30px; height:30px; display:block;}
-#w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+#w4pl_template_buttons a{ padding:4px 8px; display:inline-block; border:1px solid #DDD; background-color:#EEE; line-height:12px; font-size:12px; margin:0 2px 2px 0; text-decoration:none; border-radius: 3px; -moz-border-radius:3px; -webkit-border-radius:3px; color:#0074a2;}
 .w4pl_button_group{ padding:0 0 10px;}
 .w4pl_button_group_title{ display:block;}
 .wffw{margin:0;padding-top:8px;padding-bottom:8px;border-width: 0 0 1px 5px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
