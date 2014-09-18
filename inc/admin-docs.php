@@ -39,8 +39,8 @@ class W4PL_Admin_Page_Docs
 		#wpbody h2{font-size:16px; font-weight:bold; color:#999;}
 		.has-right-sidebar #post-body-content{ margin-right:320px;}
 		.inner-sidebar{ width:301px;}
-		#shortcode_hint{}
-		#shortcode_hint th, #shortcode_hint td{ border-bottom:1px solid #EEE; padding-top:3px; padding-bottom:3px;}
+		#shortcode_hint th, #shortcode_hint td{ border-bottom:1px solid #D3D3D3; padding-top:10px; padding-bottom:10px;}
+		#shortcode_hint tbody th{ background-color:#EEE;}
 		#shortcode_hint thead .tag_name{padding-right:10px;}
 		#shortcode_hint thead .tag_desc{padding-left:10px;}
 		#shortcode_hint .tag_name{text-align: right; width: 100px;}

@@ -200,8 +200,10 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'group' 	=> 'Post', 
 				'code' 		=> '[attachment_thumbnail size=""]', 
 				'callback' 	=> array('W4PL_Helper_Posts', 'attachment_thumbnail'),
-				'desc' 		=> '<strong>Output</strong>: if the post is an attachment, the attached image is displayed as thumbnail
+				'desc' 		=> '<strong>Output</strong>: if the post type is attachment, the attached file thumb is displayed.
 				<br /><br /><strong>Attributes:</strong>
+				<br /><strong>id</strong> = (string), attachment id
+				<br /><strong>meta_key</strong> = (string), retrieve attachment id from meta value
 				<br /><strong>size</strong> = (string), image size
 				<br /><strong>width</strong> = (number), image width
 				<br /><strong>height</strong> = (number), image height'
@@ -539,24 +541,34 @@ class W4PL_Helper_Posts extends W4PL_Core
 			}
 			$size = array($width, $attr['height']);
 		}
-		else{
+		else
+		{
 			$size = 'post-thumbnail';
 		}
 
-		if( isset($attr['id']) )
-			$post_id = (int) $attr['id'];
-		else
-			$post_id = get_the_ID();
 
-		if( 'attachment' != get_post_type($post_id) )
+		if( isset($attr['id']) ){
+			$attachment_id = (int) $attr['id'];
+		}
+		elseif( isset($attr['meta_key']) ){
+			$attachment_id = get_post_meta(get_the_ID(), $attr['meta_key'], true);
+		}
+		else{
+			$attachment_id = get_the_ID();
+		}
+
+
+		if( 'attachment' != get_post_type($attachment_id) )
 			return '';
 
-		$icon = false;
-		if( ! wp_attachment_is_image($post_id) )
-			$icon = true;
 
-		if ( $post_id ) {
-			$html = wp_get_attachment_image( $post_id, $size, $icon );
+		$icon = false;
+		if( ! wp_attachment_is_image($attachment_id) ){
+			$icon = true;
+		}
+
+		if ( $attachment_id ) {
+			$html = wp_get_attachment_image( $attachment_id, $size, $icon );
 		} else {
 			$html = '';
 		}
