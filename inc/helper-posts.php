@@ -688,6 +688,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			$options = wp_parse_args( $options, array(
 				'post_type' 		=> 'post', 
 				'post_status' 		=> array('publish'), 
+				'post_s'			=> '',
 				'post__in' 			=> '', 
 				'post__not_in' 		=> '', 
 				'exclude_self'		=> '',
@@ -762,6 +763,15 @@ class W4PL_Helper_Posts extends W4PL_Core
 			);
 		}
 
+		$fields['post_s'] = array(
+			'position'		=> '64',
+			'option_name' 	=> 'post_s',
+			'name' 			=> 'w4pl[post_s]',
+			'label' 		=> 'Search posts',
+			'type' 			=> 'text',
+			'input_class' 	=> 'widefat',
+			'desc' 			=> 'search keyword'
+		);
 		$fields['post__in'] = array(
 			'position'		=> '65',
 			'option_name' 	=> 'post__in',
@@ -907,6 +917,9 @@ class W4PL_Helper_Posts extends W4PL_Core
 				if( !empty($list->options[$option_name]) )
 					$list->posts_args[$option_name] = $list->options[$option_name];
 			}
+
+			if( !empty($list->options['post_s']) )
+				$list->posts_args['s'] = $list->options['post_s'];
 
 			// array
 			foreach( array(

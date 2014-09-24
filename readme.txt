@@ -80,9 +80,8 @@ Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev
 * [List of Terms](http://w4dev.com/wp/w4-post-list-examples#example-5)
 
 
-= What's new latest version (1.8 +) =
-* New: Terms List
-* New: Users List
+= What's new latest version (1.9) =
+* New: Filter post by search keyword
 
 
 Happy using this Plugin ? Please rate !!
@@ -111,9 +110,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9 =
+* New: Filter Posts by Search Keyword
+
 = 1.8.9 =
 * Improvement: Use shortcode [attachment_thumbnail] to display thumbnail from post meta value. ex: [attachment_thumbnail meta_key='attachment_id']
-
 = 1.8.8 =
 * Shortcode: New Shortcode included [post_author_meta] to display available meta information of post author.
 = 1.8.6 =
@@ -249,9 +250,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9 =
+* New: Filter Posts by Search Keyword
+
 = 1.8.9 =
 * Improvement: Use shortcode [attachment_thumbnail] to display thumbnail from post meta value. ex: [attachment_thumbnail meta_key='attachment_id']
-
 = 1.8.8 =
 * Shortcode: New Shortcode included [post_author_meta] to display available meta information of post author.
 = 1.8.6 =
