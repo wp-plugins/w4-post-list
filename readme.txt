@@ -2,7 +2,7 @@
 Contributors: sajib1223
 Tags: post, post list, custom post list, custom post type, widget, shortcode, media
 Requires at least: 3.0
-Tested up to: 3.9
+Tested up to: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,9 +110,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.1 =
+* New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
+
 = 1.9 =
 * New: Filter Posts by Search Keyword
-
 = 1.8.9 =
 * Improvement: Use shortcode [attachment_thumbnail] to display thumbnail from post meta value. ex: [attachment_thumbnail meta_key='attachment_id']
 = 1.8.8 =
@@ -250,9 +252,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.1 =
+* New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
+
 = 1.9 =
 * New: Filter Posts by Search Keyword
-
 = 1.8.9 =
 * Improvement: Use shortcode [attachment_thumbnail] to display thumbnail from post meta value. ex: [attachment_thumbnail meta_key='attachment_id']
 = 1.8.8 =
