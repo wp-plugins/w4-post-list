@@ -557,7 +557,7 @@ table.widefat thead th{ border-bottom:1px solid #e1e1e1;}
 .wfflw, .wffdw {width:200px;float:left;clear:left;}
 .wffew {margin-left:220px;}
 .wffl{font-size:13px;}
-.wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none; width:auto;}
+.wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none !important; width:auto;}
 .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-left:0;}
 .wffewi_w4pl_list_type label, .wffwi_w4pl_terms_taxonomy label{display:block}
 .wffewi_w4pl_list_type label small{ color:#999; text-transform:uppercase; font-weight:bold; }
@@ -566,10 +566,17 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 .w4pl_field_group:last-child .w4pl_group_title{ border-bottom:1px solid #D1E5EE;}
 .w4pl_field_group{}
 .w4pl_group_fields{ display:none; position:absolute; left:22%; top:0; width:78%;}
+
 .w4pl_active .w4pl_group_fields{ display:block;}
 .w4pl_active .w4pl_group_title, .w4pl_group_title:hover{ background-color:#D1E5EE; box-shadow:0 0 1px #666 inset;}
 #w4pl_lo{ width:100%; height:100%; position:absolute; top:0; left:0; background:url(<?php echo admin_url('images/spinner.gif'); ?>) no-repeat center rgba(255,255,255,0.5);}
 #minor-publishing-actions, #misc-publishing-actions{display:none;}
+
+body.rtl .w4pl_group_fields{ left:0;}
+body.rtl .wffew{ margin-left:0; margin-right:220px;}
+body.rtl .wfflw, body.rtl .wffdw{ float:right; clear:right;}
+body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
+
 <?php do_action( 'w4pl/admin_print_css' ); ?>
         </style>
 
@@ -732,9 +739,6 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 
 		$return = array();
 		foreach( $wp_post_types as $post_type => $post_type_object ){
-			if(	!$post_type_object->public )
-				continue;
-
 			$return[$post_type] = $post_type_object->labels->name;
 		}
 	
@@ -820,10 +824,9 @@ box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-bo
 		global $wp_taxonomies;
 		$return = array();
 		foreach( $wp_taxonomies as $t => $attr){
-			if( $attr->public )
-			{
+			#if( $attr->public ){
 				$return[$t] = $attr->label;
-			}
+			#}
 		}
 		return $return;
 	}

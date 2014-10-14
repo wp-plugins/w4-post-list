@@ -204,6 +204,12 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
        	#w4pl_tax_query_action_cell_head, .w4pl_tax_query_action_cell{ width: 40px; padding-left:0 !important; text-align:left;}
       	a.w4pl_tax_query_value_add.button, a.w4pl_tax_query_value_del.button{ padding: 3px 5px 4px; height:20px; line-height:12px; margin:2px 0;}
        	a.w4pl_tax_query_remove_btn{ color:#D02A21; text-decoration: none;}
+
+        body.rtl #w4pl_tax_query_compare_cell_head, 
+        body.rtl .w4pl_tax_query_compare_cell, 
+        body.rtl .w4pl_tax_query_value_cell,
+        body.rtl #w4pl_tax_query_table th,
+        body.rtl .w4pl_tax_query_action_cell{text-align:right}
        <?php
 	}
 

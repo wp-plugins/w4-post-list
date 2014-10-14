@@ -110,9 +110,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.2 =
+* Fix: RTL language Control Panel Layout fixed.
+
 = 1.9.1 =
 * New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
-
 = 1.9 =
 * New: Filter Posts by Search Keyword
 = 1.8.9 =
@@ -252,9 +254,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.2 =
+* Fix: RTL language Control Panel Layout fixed.
+
 = 1.9.1 =
 * New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
-
 = 1.9 =
 * New: Filter Posts by Search Keyword
 = 1.8.9 =

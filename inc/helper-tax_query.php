@@ -381,10 +381,7 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 	public static function post_type_taxonomies_options( $post_type )
 	{
 		$return = array();
-		foreach( get_object_taxonomies($post_type, 'all') as $taxonomy => $taxonomy_object ){
-			if( ! $taxonomy_object->public )
-				continue;
-
+		foreach( get_object_taxonomies($post_type, 'objects') as $taxonomy => $taxonomy_object ){
 			$return[$taxonomy] = $taxonomy_object->labels->name;
 		}
 		return $return;
