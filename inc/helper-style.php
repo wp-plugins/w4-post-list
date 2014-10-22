@@ -28,20 +28,20 @@ class W4PL_Helper_Style extends W4PL_Core
 			'position'		=> '170',
 			'option_name' 	=> 'class',
 			'name' 			=> 'w4pl[class]',
-			'label' 		=> 'List class',
+			'label' 		=> 'HTML Class',
 			'type' 			=> 'text',
-			'input_class' 	=> 'widefat',
-			'desc' 			=> 'list html id is - <code>#w4pl-list-'. $post_data['id'] . '</code>'
+			'input_class' 	=> 'widefat'
 		);
 		$fields['css'] = array(
 			'position'		=> '172',
 			'option_name' 	=> 'css',
 			'name' 			=> 'w4pl[css]',
-			'label' 		=> 'Custom css',
+			'label' 		=> 'CSS',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'this css loads just before the list template on front-end. <br />to apply css just for current list, 
-								use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector or use - <code>#w4pl-[listid]</code>'
+			'desc' 			=> 'this css loads just before the list template on front-end (not in the HEAD tag, in BODY as inline css). 
+								<br />to apply css just for current list, use <code>#w4pl-list-'. $post_data['id'] . '</code> as parent selector, or 
+								<br />use <code>#w4pl-list-[listid]</code>, where you can port the style from one list to another by just copying'
 		);
 		$fields['js'] = array(
 			'position'		=> '174',
@@ -50,7 +50,7 @@ class W4PL_Helper_Style extends W4PL_Core
 			'label' 		=> 'JavaScript',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'JS loads just after the list template',
+			'desc' 			=> 'javascript loads right after template ends. don\'t use <code>&lt;script&gt;</code> tag',
 			'after'			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_style-->'
 		);
 		$fields['after_field_group_style'] = array(

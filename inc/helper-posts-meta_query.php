@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Helper_Meta_Query extends W4PL_Core
 {
 	function __construct()
@@ -13,8 +20,10 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 
 		add_filter( 'w4pl/pre_get_options', array($this, 'pre_get_options') );
 
-		add_filter( 'w4pl/parse_query', array($this, 'parse_query'), 10 );
+		add_filter( 'w4pl/parse_query_args', array($this, 'parse_query_args'), 18 );
 	}
+
+
 
 	/* Meta box */
 	public function admin_list_fields( $fields, $post_data )
@@ -161,7 +170,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		?>
 		#w4pl_meta_query_table th{ text-align:left; font-weight:bold;}
 		#w4pl_meta_query_table th, #w4pl_meta_query_table td, #w4pl_meta_query_table input, #w4pl_meta_query_table select{ font-size:11px;}
-		#w4pl_meta_query_table .wfft_select, .w4pl_meta_query_key_cell .wfft_text{ width: 99%; margin-left:0px; margin-right:0px; height: auto; padding:2px}
+		#w4pl_meta_query_table .wfft_select, .w4pl_meta_query_key_cell .wfft_text{ width: 100%; margin-left:0px; margin-right:0px; height: auto; padding:2px;box-sizing:border-box;}
 		#w4pl_meta_query_table .wfft_text{ margin-left:0px; padding:3px 5px; height: auto;}
 		#w4pl_meta_query_key_cell_head, .w4pl_meta_query_key_cell{ width: 200px;}
 		#w4pl_meta_query_compare_cell_head, .w4pl_meta_query_compare_cell{ width: 50px; padding-left:0 !important; text-align:left;}
@@ -170,6 +179,12 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		#w4pl_meta_query_action_cell_head, .w4pl_meta_query_action_cell{ width: 40px; padding-left:0 !important; text-align:left;}
 		a.w4pl_meta_query_value_add.button, a.w4pl_meta_query_value_del.button{ padding: 3px 5px 4px; height:20px; line-height:12px; margin:2px 0;}
 		a.w4pl_meta_query_remove_btn{ color:#D02A21;}
+        
+        body.rtl #w4pl_meta_query_compare_cell_head, 
+        body.rtl .w4pl_meta_query_compare_cell, 
+        body.rtl .w4pl_meta_query_value_cell,
+        body.rtl #w4pl_meta_query_table th,
+        body.rtl .w4pl_meta_query_action_cell{text-align:right}
 		<?php
 	}
 
@@ -291,7 +306,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 	}
 
 
-	public function parse_query( $obj )
+	public function parse_query_args( $obj )
 	{
 		// meta query
 		if( isset($obj->options['meta_query']) && isset($obj->options['meta_query']['key']) )

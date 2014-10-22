@@ -1,17 +1,20 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/w4-plugin/w4-post-list
+**/
+
+
 class W4PL_Admin_Page_Docs 
 {
 	function __construct()
 	{
 		add_action( 'admin_menu', array($this, 'admin_menu') );
-		#add_action( 'activate_'. W4PL_BASENAME,  			array($this, 'plugin_activated'), 10, 3 );
-	}
+		#add_action( 'activate_'. W4PL_BASENAME, array($this, 'plugin_activated'), 10, 3 );
 
-	public function plugin_activated()
-	{
-		global $wpdb;
-		self::import_old_data();
-		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}post_list" );
+		// add lists link to plugin links, so one can navigate quickly
+		add_filter( 'plugin_action_links_' . W4PL_BASENAME, 		array($this, 'plugin_action_links') );
 	}
 
 	public function admin_menu()
@@ -30,9 +33,23 @@ class W4PL_Admin_Page_Docs
 	public function admin_page()
 	{ 
 	?>
+		<style>
+		#wpbody code{ background:none; font-size:12px; } 
+		pre{background-color:#F5F5F5; padding:10px; border-left:5px solid #AAA;} 
+		#wpbody h2{font-size:16px; font-weight:bold; color:#999;}
+		.has-right-sidebar #post-body-content{ margin-right:320px;}
+		.inner-sidebar{ width:301px;}
+		#shortcode_hint th, #shortcode_hint td{ border-bottom:1px solid #D3D3D3; padding-top:10px; padding-bottom:10px;}
+		#shortcode_hint tbody th{ background-color:#EEE;}
+		#shortcode_hint thead .tag_name{padding-right:10px;}
+		#shortcode_hint thead .tag_desc{padding-left:10px;}
+		#shortcode_hint .tag_name{text-align: right; width: 100px;}
+		#shortcode_hint .tag_desc{text-align: left; font-size:12px; line-height: 1.3em; padding-left:10px;}
+        </style>
+
 		<div class="wrap about-wrap">
-		<h1>W4 Post List (version: <?php echo W4PL_VERSION; ?>) Docs</h1>
-        <div class="about-text"><?php _e('With the w4 post list plugin you can show a list of selected posts and custom post types on your WordPress site. Output template are created using shortcodes, so you can customize it as you like. Creating a post list won\'t take more than a minute.', W4PL_TXT_DOMAIN); ?></div>
+		<h1><strong>W4 Post List Docs</strong> - (Version: <strong><?php echo W4PL_VERSION; ?></strong>)</h1>
+		<div class="about-text"><?php _e('This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & HTML.', W4PL_TXT_DOMAIN); ?></div>
 		<div class="has-right-sidebar"><div id="poststuff">
 
 		<div class="inner-sidebar" id="side-info-column">
@@ -41,29 +58,11 @@ class W4PL_Admin_Page_Docs
 		<div class="postbox"><h3><?php _e( 'Migration', W4PL_TXT_DOMAIN ); ?></h3>
 		<div class="inside">
 			<?php _e('We have found a database table that were used by an older version of this plugin. We recommend you import the old list information, and delete the table.', W4PL_TXT_DOMAIN); ?>
-            <p><a href="<?php echo add_query_arg( array( 'action' => 'import_from_old' ) ); ?>" class="button"><?php _e('Import'); ?></a>
-             <a href="<?php echo add_query_arg( array( 'action' => 'delete_old_table' ) ); ?>" class="button"><?php _e('Delete Table'); ?></a></p>
+			<p><a href="<?php echo add_query_arg( array( 'action' => 'import_from_old' ) ); ?>" class="button"><?php _e('Import'); ?></a>
+			 <a href="<?php echo add_query_arg( array( 'action' => 'delete_old_table' ) ); ?>" class="button"><?php _e('Delete Table'); ?></a></p>
 		</div><!--inside-->
 		</div><!--postbox-->
-        <?php endif; ?>
-
-		<div class="postbox"><h3><?php _e( 'Plugin links', W4PL_TXT_DOMAIN ); ?></h3>
-		<div class="inside">
-        <ul class="w4outlinks">
-			<?php $siteurl = site_url('/'); ?>
-			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/w4-plugin/w4-post-list' ); ?>" target="_blank">Visit Plugin Page</a></li>
-			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/wp/w4-post-list-examples/#examples' ); ?>" target="_blank">Designing Examples</a></li>
-			<li><a class="button" href="http://wordpress.org/extend/plugins/w4-post-list/" target="_blank">Read On WordPress</a></li>
-			<li>Contact Author - sajib1223@gmail.com</li>
-			</ul>
-		</div><!--inside-->
-		</div><!--postbox-->
-
-		<div class="postbox"><h3><?php _e( 'Plugin Updates', W4PL_TXT_DOMAIN ); ?></h3>
-		<div class="inside">
-	       <?php W4PL_Lists_Admin::plugin_news(); ?>
-		</div><!--inside-->
-		</div><!--postbox-->
+		<?php endif; ?>
 
 		<div class="postbox">
 		<h3><?php _e( 'Usage', W4PL_TXT_DOMAIN ); ?></h3>
@@ -72,33 +71,135 @@ class W4PL_Admin_Page_Docs
 			<p><?php 
 			_e( 'Use shortcode "postlist" with the list id to show a list on post/page content area.', W4PL_TXT_DOMAIN );
 			_e( 'ex:', W4PL_TXT_DOMAIN); ?> <code>[postlist 1]</code></p>
-			
-            <strong>Function</strong>
-	        <p><?php 
+
+			<strong>Function</strong>
+			<p><?php 
 			_e( 'Display list directly to your theme using do_shortcode function.', W4PL_TXT_DOMAIN ); ?>
-			<br /><code>do_shortcode('[postlist 1]')</code></p>
-		</div></div>
+			<br /><code>&lt;?php</code><br /><code>echo do_shortcode('[postlist id=1]');</code><br /><code>?&gt;</code></p>
+		</div></div><!--postbox-->
+
+		<div class="postbox"><h3><?php _e( 'Plugin links', W4PL_TXT_DOMAIN ); ?></h3>
+		<div class="inside">
+		<ul class="w4outlinks">
+			<?php $siteurl = site_url('/'); ?>
+			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/w4-plugin/w4-post-list' ); ?>" target="_blank">Visit Plugin Page</a></li>
+			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/wp/w4-post-list-examples/#examples' ); ?>" target="_blank">Designing Examples</a></li>
+			<li><a class="button" href="http://wordpress.org/support/view/plugin-reviews/w4-post-list" target="_blank">Post a review</a></li>
+			<li>Contact Author - sajib1223@gmail.com</li>
+			</ul>
+		</div><!--inside-->
+		</div><!--postbox-->
+
+		<div class="postbox"><h3><?php _e( 'Plugin Updates', W4PL_TXT_DOMAIN ); ?></h3>
+		<div class="inside">
+		   <?php W4PL_Lists_Admin::plugin_news(); ?>
+		</div><!--inside-->
+		</div><!--postbox-->
 
 		</div><!--#side-info-column-->
-	
+
 		<div id="post-body"><div id="post-body-content">
 		<div class="postbox"><h3><?php _e( 'Template', W4PL_TXT_DOMAIN); ?></h3>
 		<div class="inside">
 
-		<p><?php 
-			_e( 'Design your post list template to match your theme style. Each element has a respective shortcode', W4PL_TXT_DOMAIN ); ?></p>
-		<p><?php _e( '<strong>Shortcodes</strong> are placed inside third braket <code>"[]"</code>, as like WordPress shortcodes. Each shortcodes has a repective value. Please make sure you understand them before you remove/add one', W4PL_TXT_DOMAIN ); ?></p>
+		<p><?php _e( 'Template is the output of a list. It can be designed with shortcode and HTML. Find few examples below.', W4PL_TXT_DOMAIN ); ?></p>
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( '<strong>Example</strong>: Simple Unordered Post List', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[posts]
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+  &lt;/ul&gt;
+[/posts]</code></pre>
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list having excerpt limited to 20 words,<br />and using post class on post wrapper element', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[posts]
+  &lt;div class=&quot;[post_class]&quot;&gt;
+    &lt;h3&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;/h3&gt;
+    &lt;p&gt;[post_excerpt wordlimit=&quot;20&quot;]&lt;/p&gt;
+  &lt;/div&gt;
+[/posts]</code></pre>
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list Group by Year (chose <em>Group By</em> option to Year while using this).', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[groups]
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;[group_link]&quot;&gt;[group_name]&lt;/a&gt;
+      [posts]
+        &lt;ol&gt;
+          &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+        &lt;/ol&gt;
+      [/posts]
+    &lt;li&gt;
+  &lt;/ul&gt;
+[/groups]</code></pre>
+
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A Simple Unordered Category list', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[terms]
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;&lt;li&gt;
+  &lt;/ul&gt;
+[/terms]</code></pre>
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Category Post list', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[terms]
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;
+      [posts]
+        &lt;ol&gt;
+          &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+        &lt;/ol&gt;
+      [/posts]
+    &lt;li&gt;
+  &lt;/ul&gt;
+[/terms]</code></pre>
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A Simple Unordered Users list', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[users]
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;&lt;li&gt;
+  &lt;/ul&gt;
+[/users]</code></pre>
+
+		<hr />
+
+		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Users Post list', W4PL_TXT_DOMAIN ); ?></h2>
+		<pre><code>[users]
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;
+      [posts]
+        &lt;ol&gt;
+          &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
+        &lt;/ol&gt;
+      [/posts]
+    &lt;li&gt;
+  &lt;/ul&gt;
+[/users]</code></pre>
+
 		</div><!--inside-->
 		</div><!--postbox-->
 	
-		<div class="postbox "><h3><?php _e( 'Shortcodes', W4PL_TXT_DOMAIN); ?></h3>
+		<div class="postbox "><h3><?php _e( 'Available Shortcodes', W4PL_TXT_DOMAIN); ?></h3>
 		<div class="inside"><?php $shortcodes = apply_filters( 'w4pl/get_shortcodes', array() ); ?>
-		<table id="shortcode_hint" class="widefat">
-		<thead><tr><th style="text-align: right; width: 100px;">Tag</th><th>Details</th></tr></thead><tbody><?php
+		<table id="shortcode_hint" cellpadding="0" cellspacing="0">
+		<thead><tr><th class="tag_name">Tag</th><th style="text-align:left; padding-left:10px;" class="tag_desc">Details</th></tr></thead><tbody><?php
 		foreach( $shortcodes as $shortcode => $attr ){ $rc = isset($rc) && $rc == '' ? $rc = 'alt' : ''; ?>
 			<tr class="<?php echo $rc; ?>">
-			<th valign="top" style="text-align: right; font-size:12px; line-height: 1.3em;"><code>[<?php echo $shortcode; ?>]</code></th>
-			<td style="font-size:12px; line-height: 1.3em;"><?php echo $attr['desc']; ?></td>
+			<th valign="top" class="tag_name"><code>[<?php echo $shortcode; ?>]</code></th>
+			<td class="tag_desc"><?php echo $attr['desc']; ?></td>
 			</tr>
 		<?php } ?>
 		</tbody></table>
@@ -108,14 +209,11 @@ class W4PL_Admin_Page_Docs
 		</div><!--#post-body-content--></div><!--#post-body-->
 
 
-        </div><!--has-right-sidebar-->
+		</div><!--has-right-sidebar-->
 		</div><!--#poststuff-->
 		</div><!--wrap-->
 	<?php
 	}
-
-
-
 
 	public function load_page()
 	{
@@ -247,6 +345,19 @@ class W4PL_Admin_Page_Docs
 				update_post_meta( $post_ID, '_w4pl', $list_data );
 			}
 		}
+	}
+
+	public function plugin_activated()
+	{
+		global $wpdb;
+		self::import_old_data();
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}post_list" );
+	}
+
+	public static function plugin_action_links( $links )
+	{
+		$readme_link['doc'] = '<a href="'. 'edit.php?post_type=w4pl&page=w4pl-docs">' . __( 'Docs', W4PL_TXT_DOMAIN ). '</a>';
+		return array_merge( $links, $readme_link );
 	}
 
 	// Check our old plugin table exists or not
