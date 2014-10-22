@@ -555,6 +555,7 @@ table.widefat thead th{ border-bottom:1px solid #e1e1e1;}
 .w4pl_button_group_title{ display:block;}
 .wffw{margin:0;padding-top:8px;padding-bottom:8px;border-width: 0 0 1px 5px;box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;overflow:hidden;}
 .wfflw, .wffdw {width:200px;float:left;clear:left;}
+.wffdw2{ margin-top:10px; margin-bottom:0;}
 .wffew {margin-left:220px;}
 .wffl{font-size:13px;}
 .wfflwi_w4pl_template, .wffdwi_w4pl_css, .wffdwi_w4pl_js{ float:none !important; width:auto;}
@@ -739,7 +740,10 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 
 		$return = array();
 		foreach( $wp_post_types as $post_type => $post_type_object ){
-			$return[$post_type] = $post_type_object->labels->name;
+			// exclude the list post type
+			if( !in_array($post_type, array(W4PL_SLUG, 'revision', 'nav_menu_item') ) ){
+				$return[$post_type] = $post_type_object->labels->name;
+			}
 		}
 	
 		return $return;

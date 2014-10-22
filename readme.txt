@@ -13,10 +13,15 @@ W4 Post List lets you create a list of posts, terms, users or a combined one. De
 
 Display Posts (any custom post type), Terms (any custom taxonomy), Users (any role) on Content or Widget Areas by placing a shortcode. Select what to show and design how to show it. Using the plugin is really easy. You will find Tinymce button on post/page editor to quickly inset a list. Also, there's a separate page for creating or editing list. 
 
+= List Types =
+* Posts 
+* Terms
+* Users
+* Terms & Posts
+* Users & Posts
 
-Creating a list is just few steps. The following options are for `posts` list type. There are different option for different type of list.
-
-= Build Query =
+Creating a list is just few steps. There are different sets option for different List Type, following options are available for List Type - `posts`. 
+= Posts =
 * post type 
 * post status
 * post mime type
@@ -25,7 +30,6 @@ Creating a list is just few steps. The following options are for `posts` list ty
 * post parents
 * post authors
 * post meta ( meta_query )
-
 
 = Group Results by =
 * year
@@ -82,6 +86,7 @@ Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev
 
 = What's new latest version (1.9) =
 * New: Filter post by search keyword
+* New: Use Preset to create list in seconds
 
 
 Happy using this Plugin ? Please rate !!
@@ -110,9 +115,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.3 =
+* New: Presets - Create list fast using a predefined options/template/style.
+
 = 1.9.2 =
 * Fix: RTL language Control Panel Layout fixed.
-
 = 1.9.1 =
 * New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
 = 1.9 =
@@ -254,9 +261,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.3 =
+* New: Presets - Create list fast using a predefined options/template/style.
+
 = 1.9.2 =
 * Fix: RTL language Control Panel Layout fixed.
-
 = 1.9.1 =
 * New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
 = 1.9 =

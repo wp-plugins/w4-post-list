@@ -123,9 +123,11 @@ function w4pl_form_field_html( $args = array()){
 		'name' 			=> '',
 		'type'			=> 'html',
 		'html'			=> '',
+		'placeholder'	=> '',
 		'input_html'	=> '',
 		'input_attr'	=> '',
 		'desc'			=> '',
+		'desc2'			=> '',
 		'default' 		=> '',
 		'value' 		=> '',
 		'required' 		=> 'n',
@@ -221,13 +223,16 @@ function w4pl_form_field_html( $args = array()){
 
 		if( $type == 'text' ){
 			$html .= sprintf( 
-				'<input class="%1$s %5$s" id="%2$s" name="%3$s" value="%4$s" type="text" />', 
-				w4pl_form_pitc_class('wff', $id, $type), $id, $name, $value, $input_class 
+				'<input class="%1$s %5$s" id="%2$s" name="%3$s" value="%4$s" type="text" placeholder="%6$s" />', 
+				w4pl_form_pitc_class('wff', $id, $type), $id, $name, $value, $input_class, $placeholder
 			);
 		}
 
 		elseif( $type == 'textarea' ){
-			$html .= sprintf( '<textarea class="%1$s %5$s" id="%2$s" name="%3$s">%4$s</textarea>', w4pl_form_pitc_class('wff', $id, $type), $id, $name, $value, $input_class );
+			$html .= sprintf( 
+				'<textarea class="%1$s %5$s" id="%2$s" name="%3$s" placeholder="%6$s">%4$s</textarea>', 
+				w4pl_form_pitc_class('wff', $id, $type), $id, $name, $value, $input_class, $placeholder
+			);
 		}
 
 		elseif( $type == 'select' ){
@@ -281,6 +286,12 @@ function w4pl_form_field_html( $args = array()){
 		if( $input_wrap ){
 			$html .= '</div>';
 		}
+
+		// description
+		if( !empty($desc2) ){
+			$html .= sprintf( '<div class="%1$s">%2$s</div>', w4pl_form_pitc_class('wffdw2', $id, $type), $desc2 );
+		}
+
 
 	break;
 

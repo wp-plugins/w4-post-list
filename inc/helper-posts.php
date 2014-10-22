@@ -919,7 +919,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'name' 			=> 'w4pl[limit]',
 			'label' 		=> 'Maximum items',
 			'type' 			=> 'text',
-			'desc' 			=> 'maximum results to display in total'
+			'desc2' 		=> 'maximum results to display in total, restrict number of items even while paginating'
 		);
 
 		if( 'posts' == $options['list_type'] )
@@ -930,7 +930,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'name' 			=> 'w4pl[offset]',
 				'label' 		=> 'Offset',
 				'type' 			=> 'text',
-				'desc' 			=> 'skip given number of posts from beginning'
+				'desc2' 		=> 'skip given number of posts from beginning. while building lists using the same filters but to display on separate places, use offset to skip the previously displayed amount of posts'
 			);
 			$fields['posts_per_page'] = array(
 				'position'		=> '75',
@@ -938,7 +938,9 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'name' 			=> 'w4pl[posts_per_page]',
 				'label' 		=> 'Items per page',
 				'type' 			=> 'text',
-				'desc' 			=> sprintf('number of items to show per page<br />use <strong>-1</strong> to display all, default <strong>%d</strong>', get_option('posts_per_page') )
+				'placeholder'	=> get_option('posts_per_page'),
+				'desc' 			=> 'number of items to show per page
+				<br />use <strong>-1</strong> to display all' 
 			);
 		}
 

@@ -122,14 +122,14 @@ class W4_Post_list
 				{
 					$terms_template_clone = $terms_template; // clone the group template
 					$term_posts_loop = '';
-	
+
 					$this->current_term = $term;
-	
+
 					// term posts
 					if( in_array($this->options['list_type'], array('terms.posts') ) )
 					{
 						$this->posts_args['paged'] = 1;
-						$this->posts_args['posts_per_page'] = isset($this->options['limit']) ? (int) $this->options['limit'] : -1;
+						$this->posts_args['posts_per_page'] = isset($this->options['limit']) && $this->options['limit'] ? (int) $this->options['limit'] : -1;
 						$this->posts_args['tax_query'] = array(
 							'relation' => 'OR',
 							array(

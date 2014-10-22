@@ -13,7 +13,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 
 		add_filter( 'w4pl/pre_get_options', array($this, 'pre_get_options') );
 
-		add_filter( 'w4pl/parse_query', array($this, 'parse_query'), 10 );
+		add_filter( 'w4pl/parse_query_args', array($this, 'parse_query_args'), 10 );
 	}
 
 	/* Meta box */
@@ -291,12 +291,14 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 	}
 
 
-	public function parse_query( $obj )
+	public function parse_query_args( $obj )
 	{
 		// meta query
 		if( isset($obj->options['meta_query']) && isset($obj->options['meta_query']['key']) )
 		{
-			$obj->posts_args['meta_query'] = array();
+			if( ! isset($obj->posts_args['meta_query']) || ! is_array($obj->posts_args['meta_query']) ){
+				$obj->posts_args['meta_query'] = array();
+			}
 			foreach( $obj->options['meta_query']['key'] as $index => $key )
 			{
 				$value = isset($obj->options['meta_query']['value'][$index]) ? $obj->options['meta_query']['value'][$index] : '';
