@@ -35,8 +35,8 @@ class W4PL_Admin_Page_Docs
 	?>
 		<style>
 		#wpbody code{ background:none; font-size:12px; } 
-		pre{background-color:#F5F5F5; padding:10px; border-left:5px solid #AAA;} 
-		#wpbody h2{font-size:16px; font-weight:bold; color:#999;}
+		pre{background-color:#F5F5F5; padding:10px; border:1px solid #DDD;} 
+		pre code{ padding-left:0;} 
 		.has-right-sidebar #post-body-content{ margin-right:320px;}
 		.inner-sidebar{ width:301px;}
 		#shortcode_hint th, #shortcode_hint td{ border-bottom:1px solid #D3D3D3; padding-top:10px; padding-bottom:10px;}
@@ -45,6 +45,10 @@ class W4PL_Admin_Page_Docs
 		#shortcode_hint thead .tag_desc{padding-left:10px;}
 		#shortcode_hint .tag_name{text-align: right; width: 100px;}
 		#shortcode_hint .tag_desc{text-align: left; font-size:12px; line-height: 1.3em; padding-left:10px;}
+		#wpbody h2{font-size:13px; line-height:14px!important; padding:8px 12px!important; margin:0!important; font-weight:bold; background-color:#666; border:1px solid #444;color:#FFF;}
+		#wpbody h2 + pre{ margin-top:0;}
+		hr{ margin:20px 0!important;}
+		#poststuff h3{ border-bottom:1px solid #DDD;}
         </style>
 
 		<div class="wrap about-wrap">
@@ -85,6 +89,7 @@ class W4PL_Admin_Page_Docs
 			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/w4-plugin/w4-post-list' ); ?>" target="_blank">Visit Plugin Page</a></li>
 			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://w4dev.com/wp/w4-post-list-examples/#examples' ); ?>" target="_blank">Designing Examples</a></li>
 			<li><a class="button" href="http://wordpress.org/support/view/plugin-reviews/w4-post-list" target="_blank">Post a review</a></li>
+			<li><a class="button" href="<?php echo add_query_arg( array( 'utm_source' => $siteurl, 'utm_medium' => 'w4%2Bplugin', 'utm_campaign' => W4PL_TXT_DOMAIN ), 'http://codecanyon.net/item/soccer-engine-wordpress-plugin/9070583' ); ?>" target="_blank">Do u need a Soccer/Football Plugin ?</a></li>
 			<li>Contact Author - sajib1223@gmail.com</li>
 			</ul>
 		</div><!--inside-->
@@ -104,27 +109,24 @@ class W4PL_Admin_Page_Docs
 
 		<p><?php _e( 'Template is the output of a list. It can be designed with shortcode and HTML. Find few examples below.', W4PL_TXT_DOMAIN ); ?></p>
 
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( '<strong>Example</strong>: Simple Unordered Post List', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( '<strong>Example</strong>: Simple Unordered Post List', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[posts]
   &lt;ul&gt;
     &lt;li&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;li&gt;
   &lt;/ul&gt;
 [/posts]</code></pre>
 
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list having excerpt limited to 20 words,<br />and using post class on post wrapper element', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Example: Post list having excerpt limited to 20 words, and using post class on post wrapper element', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[posts]
   &lt;div class=&quot;[post_class]&quot;&gt;
     &lt;h3&gt;&lt;a href=&quot;[post_link]&quot;&gt;[post_title]&lt;/a&gt;&lt;/h3&gt;
     &lt;p&gt;[post_excerpt wordlimit=&quot;20&quot;]&lt;/p&gt;
   &lt;/div&gt;
 [/posts]</code></pre>
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Post list Group by Year (chose <em>Group By</em> option to Year while using this).', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Example: Post list Group by Year (chose <em>Group By</em> option to Year while using this).', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[groups]
   &lt;ul&gt;
     &lt;li&gt;
@@ -139,18 +141,16 @@ class W4PL_Admin_Page_Docs
 [/groups]</code></pre>
 
 
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A Simple Unordered Category list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Example: A Simple Unordered Category list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[terms]
   &lt;ul&gt;
     &lt;li&gt;&lt;a href=&quot;[term_link]&quot;&gt;[term_name]&lt;/a&gt;&lt;li&gt;
   &lt;/ul&gt;
 [/terms]</code></pre>
 
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Category Post list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Example: Category Post list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[terms]
   &lt;ul&gt;
     &lt;li&gt;
@@ -164,18 +164,16 @@ class W4PL_Admin_Page_Docs
   &lt;/ul&gt;
 [/terms]</code></pre>
 
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: A Simple Unordered Users list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Example: A Simple Unordered Users list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[users]
   &lt;ul&gt;
     &lt;li&gt;&lt;a href=&quot;[user_link]&quot;&gt;[user_name]&lt;/a&gt;&lt;li&gt;
   &lt;/ul&gt;
 [/users]</code></pre>
 
-		<hr />
 
-		<h2 style="margin-bottom:-5px;"><?php _e( 'Example: Users Post list', W4PL_TXT_DOMAIN ); ?></h2>
+		<h2><?php _e( 'Example: Users Post list', W4PL_TXT_DOMAIN ); ?></h2>
 		<pre><code>[users]
   &lt;ul&gt;
     &lt;li&gt;

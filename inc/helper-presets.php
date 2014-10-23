@@ -106,6 +106,22 @@ class W4PL_Helper_Presets extends W4PL_Core
 				.w4pl_preset_post_with_thumbnail ul.posts-list li{list-style:none outside!important; margin:0 0 10px 0!important; padding:0!important;}
 				.w4pl_preset_post_with_thumbnail ul.posts-list li a{text-decoration: none;}';
 			}
+			elseif( 'users.posts' == $options['list_type'] )
+			{
+				$options['template'] = '<ul>[users]
+					<li class="user-item-[user_id]">
+						<a href="[user_link]">[user_name]</a>
+						<ul class="posts-list">[posts]
+							<li class="post-item-[post_id]"><a href="[post_permalink]">[post_title]<br />[post_thumbnail size="thumbnail"]</a></li>
+						[/posts]</ul>
+					</li>
+				[/users]</ul>';
+
+				$options['class'] = 'w4pl_preset_post_with_thumbnail';
+				$options['css'] = '
+				.w4pl_preset_post_with_thumbnail ul.posts-list li{list-style:none outside!important; margin:0 0 10px 0!important; padding:0!important;}
+				.w4pl_preset_post_with_thumbnail ul.posts-list li a{text-decoration: none;}';
+			}
 		}
 
 		return $options;

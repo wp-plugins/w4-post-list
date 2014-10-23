@@ -173,7 +173,8 @@ class W4_Post_list
 			}
 
 			// replace [nav]
-			if( !empty($template_nav) )
+			// template will be empty if there's no results
+			if( !empty($template_nav) && !empty($template) )
 			{
 				if( isset($this->options['terms_max']) && !empty($this->options['terms_max']) && $this->options['terms_max'] < ($this->options['terms_limit'] * $paged) )
 					$max_num_pages = $paged;
@@ -251,7 +252,8 @@ class W4_Post_list
 			}
 
 			// replace [nav]
-			if( !empty($template_nav) )
+			// template will be empty if there's no results
+			if( !empty($template_nav) && !empty($template) )
 			{
 				if( isset($this->options['users_max']) && !empty($this->options['users_max']) && $this->options['users_max'] < ($this->options['users_limit'] * $paged) )
 					$max_num_pages = $paged;
@@ -342,7 +344,8 @@ class W4_Post_list
 
 
 			// replace [nav]
-			if( !empty($template_nav) )
+			// template will be empty if there's no results
+			if( !empty($template_nav) && !empty($template) )
 			{
 				if( isset($this->options['limit']) && !empty($this->options['limit']) && (int) $this->options['limit'] < ($this->options['posts_per_page'] * $paged) )
 					$max_num_pages = $paged;
@@ -355,21 +358,18 @@ class W4_Post_list
 		} // end posts
 
 
+		$this->template = trim($template);
 
-		$return  = '';
-
-
-		// main template
-		$return .= '<div id="w4pl-list-'. $this->id .'">'. "\n\t" .'<div id="w4pl-inner-'. $this->id .'" class="w4pl-inner">';
-		$return .= "\n\t\t" . $template;
-		$return .= "\n\t" .'</div><!--#w4pl-inner-'. $this->id .'-->'. "\n" .'</div><!--#w4pl-'. $this->id .'-->';
-
-
-		$this->html = $return;
+		// html
+		$this->html  = '';
+		$this->html .= '<div id="w4pl-list-'. $this->id .'">'. "\n\t" .'<div id="w4pl-inner-'. $this->id .'" class="w4pl-inner">';
+		if( !empty($this->template) )
+		{ $this->html .= "\n\t\t" . $this->template . "\n\t"; }
+		$this->html .= '</div><!--#w4pl-inner-'. $this->id .'-->'. "\n" .'</div><!--#w4pl-'. $this->id .'-->';
 
 
-		// let helper class extend/modify this class
-		do_action_ref_array( 'w4pl/parse_html', array( &$this ) );
+		// let helper classes extend or modify this class
+		do_action_ref_array( 'w4pl/parse_html', array(&$this) );
 
 
 		// return the template

@@ -23,13 +23,17 @@ Display Posts (any custom post type), Terms (any custom taxonomy), Users (any ro
 Creating a list is just few steps. There are different sets option for different List Type, following options are available for List Type - `posts`. 
 = Posts =
 * post type 
-* post status
 * post mime type
-* post taxonomy terms
-* post ids
-* post parents
-* post authors
-* post meta ( meta_query )
+* post status
+* post search keyword
+* include post by ids
+* exclude post by ids
+* exclude current post
+* posts per page - while using pagination
+* post by parent ids
+* post by author ids
+* post by terms ( tax_query )
+* post by meta ( meta_query )
 
 = Group Results by =
 * year
@@ -115,9 +119,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.4 =
+* New: No items found - Display text when not posts/terms/users are found by the query
+
 = 1.9.3 =
 * New: Presets - Create list fast using a predefined options/template/style.
-
 = 1.9.2 =
 * Fix: RTL language Control Panel Layout fixed.
 = 1.9.1 =
@@ -261,9 +267,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.4 =
+* New: No items found - Display text when not posts/terms/users are found by the query
+
 = 1.9.3 =
 * New: Presets - Create list fast using a predefined options/template/style.
-
 = 1.9.2 =
 * Fix: RTL language Control Panel Layout fixed.
 = 1.9.1 =
