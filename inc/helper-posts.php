@@ -64,7 +64,8 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'callback' 	=> array('W4PL_Helper_Posts', 'post_title'),
 				'desc' 		=> '<strong>Output</strong>: post title
 				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>wordlimit</strong> = (number), limit number of words to display'
+				<br /><strong>wordlimit</strong> = (number), limit number of words to display
+				<br /><strong>charlimit</strong> = (number), limit number of characters to display'
 			),
 			'post_comment_url' => array(
 				'group' 	=> 'Post', 
@@ -317,6 +318,10 @@ class W4PL_Helper_Posts extends W4PL_Core
 		if( isset($attr['wordlimit']) ){
 			$wordlimit = $attr['wordlimit'];
 			$return = wp_trim_words( $return, $wordlimit );
+		}
+		elseif( isset($attr['charlimit']) ){
+			$charlimit = $attr['charlimit'];
+			$return = substr($return, 0, $charlimit );
 		}
 		return $return;
 	}
