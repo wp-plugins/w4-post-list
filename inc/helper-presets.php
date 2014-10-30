@@ -128,9 +128,7 @@ class W4PL_Helper_Presets extends W4PL_Core
 	}
 
 
-
 	/* Option Page Fields */
-
 	public function admin_list_fields( $fields, $options )
 	{
 		$fields['preset'] = array(
@@ -140,7 +138,8 @@ class W4PL_Helper_Presets extends W4PL_Core
 			'label' 		=> 'Preset',
 			'type' 			=> 'select',
 			'option' 		=> self::preset_options($options),
-			'input_class'	=> 'w4pl_onchange_lfr'
+			'input_class'	=> 'w4pl_onchange_lfr',
+			'desc'			=> 'preset is predefined templates'
 		);
 
 		if( isset($options['preset']) && !empty($options['preset']) )

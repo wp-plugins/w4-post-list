@@ -119,9 +119,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
-= 1.9.5 =
-* Improvement: Included character limit for post title, ex: [post_title charlimit=10] will output only the 10 characters of post title
+= 1.9.6 =
+* Improvement: Set Previous and Next button text for pagination, ex: [nav prev_text="Before" next_text="After"] change the button text with Before & After.
 
+= 1.9.5 =
+* Improvement: Included characters limit for post title, ex: [post_title charlimit=10] will output only the 10 characters of post title
 = 1.9.4 =
 * New: No items found - Display text when not posts/terms/users are found by the query
 = 1.9.3 =
@@ -269,9 +271,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
-= 1.9.5 =
-* Improvement: Included character limit for post title, ex: [post_title charlimit=10] will output only the 10 characters of post title
+= 1.9.6 =
+* Improvement: Set Previous and Next button text for pagination, ex: [nav prev_text="Before" next_text="After"] change the button text with Before & After.
 
+= 1.9.5 =
+* Improvement: Included characters limit for post title, ex: [post_title charlimit=10] will output only the 10 characters of post title
 = 1.9.4 =
 * New: No items found - Display text when not posts/terms/users are found by the query
 = 1.9.3 =

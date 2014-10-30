@@ -394,6 +394,9 @@ class W4_Post_list
 		$use_ajax = isset($attr['ajax']) ? (bool) $attr['ajax'] : false;
 		$nav_type = isset($attr['type']) ? $attr['type'] : '';
 
+		$prev_text = isset($attr['prev_text']) && !empty($attr['prev_text']) ? $attr['prev_text'] : __('Previous');
+		$next_text = isset($attr['next_text']) && !empty($attr['next_text']) ? $attr['next_text'] : __('Next');
+
 		$return = '';
 
 		if( in_array( $nav_type, array('plain', 'list') ) ){
@@ -406,18 +409,18 @@ class W4_Post_list
 				'total' 	=> $max_num_pages,
 				'end_size' 	=> 2,
 				'mid_size' 	=> 2,
-				'prev_text' => 'Previous',
-				'next_text' => 'Next'
+				'prev_text' => $prev_text,
+				'next_text' => $next_text
 			));
 		}
 		else
 		{
 			if( $paged == 2 )
-				$return .= '<a href="'. remove_query_arg( array($pageq_var) ) .'" class="prev page-numbers">Prev</a>';
+				$return .= '<a href="'. remove_query_arg( array($pageq_var) ) .'" class="prev page-numbers prev_text">'. $prev_text . '</a>';
 			elseif( $paged > 2 )
-				$return .= '<a href="'. add_query_arg( $pageq_var, ($paged - 1) ) .'" class="prev page-numbers">Prev</a>';
+				$return .= '<a href="'. add_query_arg( $pageq_var, ($paged - 1) ) .'" class="prev page-numbers prev_text">'. $prev_text . '</a>';
 			if( $max_num_pages > $paged )
-				$return .= '<a href="'. add_query_arg( $pageq_var, ($paged + 1) ) .'" class="next page-numbers">Next</a>';
+				$return .= '<a href="'. add_query_arg( $pageq_var, ($paged + 1) ) .'" class="next page-numbers next_text">'. $next_text . '</a>';
 		}
 
 		if( !empty($return) )

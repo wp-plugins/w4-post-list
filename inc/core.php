@@ -128,11 +128,13 @@ class W4PL_Core
 			),
 			'nav' => array(
 				'group' => 'Main', 
-				'code' => '[nav ajax=""]', 
+				'code' => '[nav ajax="0" prev_text="" next_text=""]', 
 				'desc' => '<strong>return</strong> pagination for the list
             <br><br><strong>Attributes</strong>:
             <br><strong>type</strong> = (text) allowed values  - plain, list, nav
-            <br><strong>ajax</strong> = (0|1) use pagination with ajax'
+            <br><strong>ajax</strong> = (0|1) use pagination with ajax
+            <br><strong>prev_text</strong> = pagination next button text
+            <br><strong>next_text</strong> = pagination prev button text'
 			),
 		);
 
