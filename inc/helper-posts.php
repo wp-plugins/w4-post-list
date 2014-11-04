@@ -693,7 +693,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 	}
 	public static function template_meta($attr, $cont){
 		return sprintf( 
-			__("Posted on:", W4PL_TXT_DOMAIN). ' <abbr class="published post-date" title="%1$s">%2$s</abbr> <span class="post_author">by %3$s</span>', 
+			__("Posted on:", W4PL_TD). ' <abbr class="published post-date" title="%1$s">%2$s</abbr> <span class="post_author">by %3$s</span>', 
 			get_the_time( get_option('time_format') ), 
 			get_the_time( get_option('date_format') ), 
 			get_the_author()
@@ -701,14 +701,14 @@ class W4PL_Helper_Posts extends W4PL_Core
 	}
 	public static function template_date($attr, $cont){
 		return sprintf( 
-			'<abbr class="published post-date" title="%1$s"><strong>' . __(" Published:", W4PL_TXT_DOMAIN).'</strong> %2$s</abbr>',
+			'<abbr class="published post-date" title="%1$s"><strong>' . __(" Published:", W4PL_TD).'</strong> %2$s</abbr>',
 			get_the_time( get_option('time_format') ), 
 			get_the_time( get_option('date_format') )
 		);
 	}
 	public static function template_modified($attr, $cont){
 		return sprintf( 
-			'<abbr class="modified post-modified" title="%1$s"><strong>' . __( "Updated:", W4PL_TXT_DOMAIN ) . '</strong> %2$s</abbr>',
+			'<abbr class="modified post-modified" title="%1$s"><strong>' . __( "Updated:", W4PL_TD ) . '</strong> %2$s</abbr>',
 			get_post_modified_time( get_option('time_format')), 
 			get_post_modified_time( get_option('date_format'))
 		);
@@ -733,7 +733,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 		);
 	}
 	public static function template_more($attr, $cont){
-		$read_more = !empty( $attr['text'] ) ? $attr['text'] : __( 'Continue reading &raquo;', W4PL_TXT_DOMAIN );
+		$read_more = !empty( $attr['text'] ) ? $attr['text'] : __( 'Continue reading &raquo;', W4PL_TD );
 		return sprintf( 
 			'<a class="read_more" href="%1$s" title="%3$s %2$s">%3$s</a>', 
 			get_permalink(), 

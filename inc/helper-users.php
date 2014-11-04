@@ -319,12 +319,12 @@ class W4PL_Helper_Users extends W4PL_Core
 	public static function users_orderby_options()
 	{
 		$return = array(
-			'ID'				=> __( 'ID', 					W4PL_TXT_DOMAIN),
-			'user_login'		=> __( 'Username', 				W4PL_TXT_DOMAIN),
-			'user_nicename'		=> __( 'Nicename', 				W4PL_TXT_DOMAIN),
-			'user_email'		=> __( 'Email', 				W4PL_TXT_DOMAIN),
-			'user_registered'	=> __( 'Registration time', 	W4PL_TXT_DOMAIN),
-			'display_name'		=> __( 'Display name', 	W4PL_TXT_DOMAIN)
+			'ID'				=> __( 'ID', 					W4PL_TD),
+			'user_login'		=> __( 'Username', 				W4PL_TD),
+			'user_nicename'		=> __( 'Nicename', 				W4PL_TD),
+			'user_email'		=> __( 'Email', 				W4PL_TD),
+			'user_registered'	=> __( 'Registration time', 	W4PL_TD),
+			'display_name'		=> __( 'Display name', 	W4PL_TD)
 		);
 
 		return $return;

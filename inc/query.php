@@ -135,7 +135,8 @@ class W4PL_Terms_Query extends W4PL_Query
 		}
 
 		$this->parse_interger_fields( array(
-			'term_id__in' => 'TB.term_id'
+			'term_id__in' 		=> 'TB.term_id',
+			'term_parent__in' 	=> 'TT1.parent'
 		));
 		$this->parse_interger_fields( array(
 			'term_id__not_in' => 'TB.term_id'

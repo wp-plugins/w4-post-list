@@ -30,7 +30,7 @@ class W4PL_Helper_No_Items extends W4PL_Core
 			'label' 		=> 'No items text',
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> __('displayed when no items found by this filter or pagination', W4PL_TXT_DOMAIN)
+			'desc' 			=> __('displayed when no items found by this filter or pagination', W4PL_TD)
 		);
 		/* ========================================= */
 

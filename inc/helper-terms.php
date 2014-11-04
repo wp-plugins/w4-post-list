@@ -106,6 +106,7 @@ class W4PL_Helper_Terms extends W4PL_Core
 				'terms_taxonomy' 			=> 'category', 
 				'terms__in' 				=> '', 
 				'terms__not_in' 			=> '', 
+				'terms_parent__in' 			=> '', 
 				'terms_name__like'			=> '',
 				'terms_slug__like'			=> '',
 				'terms_description__like'	=> '',
@@ -157,6 +158,15 @@ class W4PL_Helper_Terms extends W4PL_Core
 			'option_name' 	=> 'terms__not_in',
 			'name' 			=> 'w4pl[terms__not_in]',
 			'label' 		=> 'Exclude terms',
+			'type' 			=> 'text',
+			'input_class' 	=> 'widefat',
+			'desc' 			=> 'comma separated term id'
+		);
+		$fields['terms_parent__in'] = array(
+			'position'		=> '13',
+			'option_name' 	=> 'terms_parent__in',
+			'name' 			=> 'w4pl[terms_parent__in]',
+			'label' 		=> 'Parents',
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated term id'
@@ -270,7 +280,8 @@ class W4PL_Helper_Terms extends W4PL_Core
 			// comma separated ids
 			foreach( array(
 				'terms__in' 		=> 'term_id__in',
-				'terms__not_in' 	=> 'term_id__not_in'
+				'terms__not_in' 	=> 'term_id__not_in',
+				'terms_parent__in' 	=> 'term_parent__in'
 			) as $option => $name )
 			{
 				if( !empty($list->options[$option]) )
@@ -300,10 +311,10 @@ class W4PL_Helper_Terms extends W4PL_Core
 	public static function terms_orderby_options($taxonomy)
 	{
 		$return = array(
-			'term_id'			=> __( 'ID', 					W4PL_TXT_DOMAIN),
-			'name'				=> __( 'Name', 					W4PL_TXT_DOMAIN),
-			'slug'				=> __( 'Slug', 					W4PL_TXT_DOMAIN),
-			'count'				=> __( 'Count', 				W4PL_TXT_DOMAIN)
+			'term_id'			=> __( 'ID', 					W4PL_TD),
+			'name'				=> __( 'Name', 					W4PL_TD),
+			'slug'				=> __( 'Slug', 					W4PL_TD),
+			'count'				=> __( 'Count', 				W4PL_TD)
 		);
 
 		return $return;

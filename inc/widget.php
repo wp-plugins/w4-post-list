@@ -12,7 +12,7 @@ class W4PL_Widget extends WP_Widget
 	{
 		$widget_ops = array(
 			'classname' 	=> 'w4_post_list_widget',
-			'description' 	=> __( 'List your posts completely customized', W4PL_TXT_DOMAIN )
+			'description' 	=> __( 'List your posts completely customized', W4PL_TD )
 		);
 		$control_ops = array( 'width' => 200, 'height' => 400);
 		$this->WP_Widget( 'w4_post_list', 'W4 Post List', $widget_ops, $control_ops );
@@ -41,17 +41,17 @@ class W4PL_Widget extends WP_Widget
 	}
 	function form( $instance )
 	{
-		$title 						= isset($instance['title']) ? esc_attr($instance['title']) : '';
-		$PL_ID				 		= isset($instance['PL_ID']) ? (int)($instance['PL_ID']) : 0;
+		$title = isset($instance['title']) ? esc_attr($instance['title']) : '';
+		$PL_ID = isset($instance['PL_ID']) ? (int)($instance['PL_ID']) : 0;
 
 		?>
 		<p>
-			<strong><?php _e( 'Title:', W4PL_TXT_DOMAIN); ?></strong>
+			<strong><?php _e( 'Title:', W4PL_TD); ?></strong>
             <br /><input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" 
 			value="<?php echo $title; ?>" />
 		</p>
 		<p>
-			<strong><?php _e( 'Select list:', W4PL_TXT_DOMAIN); ?></strong>
+			<strong><?php _e( 'Select list:', W4PL_TD); ?></strong>
             <br /><select id="<?php echo $this->get_field_id('PL_ID'); ?>" name="<?php echo $this->get_field_name('PL_ID'); ?>"><?php
 				$lists = get_posts( 'post_status=publish&post_type='. W4PL_SLUG . '&posts_per_page=-1' );
 				$PL_ID = (int) $PL_ID;
@@ -67,7 +67,7 @@ class W4PL_Widget extends WP_Widget
 	}
 }
 
-//load Widget==============================
+// Register Widget ==============================
 add_action('widgets_init', 'W4PL_Widget_Init');
 function W4PL_Widget_Init(){
 	register_widget( 'W4PL_Widget' );

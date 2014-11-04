@@ -76,7 +76,7 @@ class W4PL_Core
 				'name' 					=> _x('Lists', 'post type general name'),
 				'singular_name' 		=> _x('List', 'post type singular name'),
 				'menu_name'				=> W4PL_NAME,
-				'all_items'				=> __('All Lists', W4PL_TXT_DOMAIN),
+				'all_items'				=> __('All Lists', W4PL_TD),
 				'add_new' 				=> _x('Add New', 'note item'),
 				'add_new_item' 			=> __('New List'),
 				'edit_item' 			=> __('Edit List'),
@@ -808,19 +808,19 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 	public static function post_orderby_options( $post_type )
 	{
 		$return = array(
-			'ID'				=> __( 'ID', 					W4PL_TXT_DOMAIN),
-			'title'				=> __( 'Title', 				W4PL_TXT_DOMAIN),
-			'name'				=> __( 'Name', 					W4PL_TXT_DOMAIN),
-			'date'				=> __( 'Publish Date', 			W4PL_TXT_DOMAIN),
-			'modified'			=> __( 'Modified Date', 		W4PL_TXT_DOMAIN),
-			'menu_order'		=> __( 'Menu Order', 			W4PL_TXT_DOMAIN),
-			'meta_value'		=> __( 'Meta value', 			W4PL_TXT_DOMAIN),
-			'meta_value_num'	=> __( 'Meta numeric value', 	W4PL_TXT_DOMAIN),
-			'rand'				=> __( 'Random', 				W4PL_TXT_DOMAIN),
+			'ID'				=> __( 'ID', 					W4PL_TD),
+			'title'				=> __( 'Title', 				W4PL_TD),
+			'name'				=> __( 'Name', 					W4PL_TD),
+			'date'				=> __( 'Publish Date', 			W4PL_TD),
+			'modified'			=> __( 'Modified Date', 		W4PL_TD),
+			'menu_order'		=> __( 'Menu Order', 			W4PL_TD),
+			'meta_value'		=> __( 'Meta value', 			W4PL_TD),
+			'meta_value_num'	=> __( 'Meta numeric value', 	W4PL_TD),
+			'rand'				=> __( 'Random', 				W4PL_TD),
 		);
 
 		if( post_type_supports($post_type, 'comments') )
-			$return['comment_count'] = __( 'Comment Count',W4PL_TXT_DOMAIN);
+			$return['comment_count'] = __( 'Comment Count',W4PL_TD);
 
 		return $return;
 	}
