@@ -275,7 +275,7 @@ class W4PL_Helper_Terms extends W4PL_Core
 				if( !empty($list->options[$option]) )
 					$list->terms_args[$name] = $list->options[$option];
 			}
-			#echo '<pre>'; print_r($list->options); echo '</pre>';
+			# echo '<pre>'; print_r($list->options); echo '</pre>';
 
 			// comma separated ids
 			foreach( array(
@@ -290,6 +290,11 @@ class W4PL_Helper_Terms extends W4PL_Core
 					if( !empty($opt) )
 						$list->terms_args[$name] = $opt;
 				}
+			}
+
+			// when term ids are provided, order by ids
+			if( isset($list->terms_args['term_id__in']) && !empty($list->terms_args['term_id__in']) ){
+				$list->terms_args['orderby'] = 'term_id__in';
 			}
 
 			$list->terms_args['taxonomy'] = $list->options['terms_taxonomy'];

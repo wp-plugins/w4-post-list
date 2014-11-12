@@ -125,7 +125,7 @@ class W4PL_Terms_Query extends W4PL_Query
 		if( '' != $this->get( 'taxonomy' ) )
 		{
 			$this->_fields .= ", TT1.*";
-			$this->_join .= " INNER JOIN {$wpdb->term_taxonomy} TT1 ON (TT1.term_id = TB.term_id AND TT1.taxonomy = '". $this->get( 'taxonomy' ) ."')";
+			$this->_join .= " INNER JOIN {$wpdb->term_taxonomy} TT1 ON (TT1.term_id = TB.term_id AND TT1.taxonomy = '". $this->get('taxonomy') ."')";
 		}
 
 		$count__min = (int) $this->get('count__min');
@@ -154,9 +154,16 @@ class W4PL_Terms_Query extends W4PL_Query
 
 		if( '' != $this->get('orderby') )
 		{
-			$order = $this->get( 'order' );
-			$orderby = $this->get( 'orderby' );
-			$this->_order .= " ORDER BY $orderby $order";
+			$order = $this->get('order');
+			$orderby = $this->get('orderby');
+
+			if( 'term_id__in' == $orderby ){
+				$term_id__in = implode( ',', array_map('absint', $this->get('term_id__in') ) );
+				$this->_order .= " ORDER BY FIELD( TB.term_id, $term_id__in )";
+			}
+			else{
+				$this->_order .= " ORDER BY $orderby $order";
+			}
 		}
 
 		if( '' != $this->limit )

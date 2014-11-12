@@ -119,9 +119,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.8 =
+* Fixed: Terms will be ordered by the provided term ids if exists
+
 = 1.9.7 =
 * New: Filter terms by parents
-
 = 1.9.6 =
 * Improvement: Set Previous and Next button text for pagination, ex: [nav prev_text="Before" next_text="After"] change the button text with Before & After.
 = 1.9.5 =
@@ -273,9 +275,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.8 =
+* Fixed: Terms will be ordered by the provided term ids if exists
+
 = 1.9.7 =
 * New: Filter terms by parents
-
 = 1.9.6 =
 * Improvement: Set Previous and Next button text for pagination, ex: [nav prev_text="Before" next_text="After"] change the button text with Before & After.
 = 1.9.5 =
