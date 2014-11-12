@@ -162,7 +162,10 @@ class W4PL_Terms_Query extends W4PL_Query
 				$this->_order .= " ORDER BY FIELD( TB.term_id, $term_id__in )";
 			}
 			else{
-				$this->_order .= " ORDER BY $orderby $order";
+				if( 'term_id' == $orderby ){
+					$orderby = "TB.{$orderby}";
+				}
+				$this->_order .= " ORDER BY {$orderby} $order";
 			}
 		}
 
