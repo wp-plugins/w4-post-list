@@ -2,7 +2,7 @@
 /**
  * @package W4 Post List
  * @author Shazzad Hossain Khan
- * @url http://w4dev.com/w4-plugin/w4-post-list
+ * @url http://w4dev.com/plugins/w4-post-list
 **/
 
 

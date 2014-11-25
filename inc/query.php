@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/plugins/w4-post-list
+**/
+
+
 class W4PL_Users_Query extends W4PL_Query
 {
 	function __construct( $query_args )

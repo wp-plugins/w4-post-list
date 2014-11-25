@@ -2,7 +2,7 @@
 /**
  * @package W4 Post List
  * @author Shazzad Hossain Khan
- * @url http://w4dev.com/w4-plugin/w4-post-list
+ * @url http://w4dev.com/plugins/w4-post-list
 **/
 
 
@@ -767,7 +767,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 		if( isset($options['list_type']) && in_array($options['list_type'], array('posts', 'terms.posts', 'users.posts') ) )
 		{
 			$options = wp_parse_args( $options, array(
-				'post_type' 		=> 'post', 
+				'post_type' 		=> array('post'), 
 				'post_status' 		=> array('publish'), 
 				'post_s'			=> '',
 				'post__in' 			=> '', 
@@ -784,8 +784,8 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'group_order'		=> ''
 			));
 
-			if( 'attachment' == $options['post_type'] )
-				$options['post_status'] = array('inherit');
+			#if( 'attachment' == $options['post_type'] )
+			#	$options['post_status'] = array('inherit');
 		}
 
 		return $options;
@@ -813,7 +813,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'option_name' 	=> 'post_type',
 			'name' 			=> 'w4pl[post_type]',
 			'label' 		=> 'Post Type',
-			'type' 			=> 'select',
+			'type' 			=> 'checkbox',
 			'option' 		=> self::post_type_options(),
 			'input_class'	=> 'w4pl_onchange_lfr'
 		);
@@ -832,17 +832,14 @@ class W4PL_Helper_Posts extends W4PL_Core
 			);
 		}
 
-		if( 'attachment' != $options['post_type'] )
-		{
-			$fields['post_status'] = array(
-				'position'		=> '60',
-				'option_name' 	=> 'post_status',
-				'name' 			=> 'w4pl[post_status]',
-				'label' 		=> 'Post Status',
-				'type' 			=> 'checkbox',
-				'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
-			);
-		}
+		$fields['post_status'] = array(
+			'position'		=> '60',
+			'option_name' 	=> 'post_status',
+			'name' 			=> 'w4pl[post_status]',
+			'label' 		=> 'Post Status',
+			'type' 			=> 'checkbox',
+			'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
+		);
 
 		$fields['post_s'] = array(
 			'position'		=> '64',
@@ -990,7 +987,6 @@ class W4PL_Helper_Posts extends W4PL_Core
 
 			// push default options to query var
 			foreach( array(
-				'post_type', 
 				'orderby', 
 				'order', 
 				'posts_per_page', 
@@ -1007,6 +1003,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			// array
 			foreach( array(
 				'post_mime_type', 
+				'post_type', 
 				'post_status'
 			) as $option_name )
 			{

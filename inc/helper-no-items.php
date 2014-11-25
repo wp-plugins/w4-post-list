@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package W4 Post List
+ * @author Shazzad Hossain Khan
+ * @url http://w4dev.com/plugins/w4-post-list
+**/
+
+
 class W4PL_Helper_No_Items extends W4PL_Core
 {
 	function __construct()

@@ -2,7 +2,7 @@
 Contributors: sajib1223
 Tags: post, post list, custom post list, custom post type, widget, shortcode, media
 Requires at least: 3.0
-Tested up to: 4.0
+Tested up to: 4.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,7 +77,7 @@ Templates are designed using Shortcodes. You can create a simple list just showi
 * media thumbnail
 
 
-Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev.com/w4-plugin/w4-post-list).
+Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev.com/plugins/w4-post-list).
 
 
 = Check Example =
@@ -119,9 +119,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9 =
+* New: Select multiple post types at once.
+
 = 1.9.8 =
 * Fixed: Terms will be ordered by the provided term ids if exists
-
 = 1.9.7 =
 * New: Filter terms by parents
 = 1.9.6 =
@@ -275,9 +277,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9 =
+* New: Select multiple post types at once.
+
 = 1.9.8 =
 * Fixed: Terms will be ordered by the provided term ids if exists
-
 = 1.9.7 =
 * New: Filter terms by parents
 = 1.9.6 =

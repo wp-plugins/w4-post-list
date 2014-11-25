@@ -23,7 +23,7 @@
 				longname : 'W4 Post List',
 				author : 'Shazzad Hossain Khan',
 				authorurl : 'http://w4dev.com/about',
-				infourl : 'http://w4dev.com/w4-plugin/w4-post-list',
+				infourl : 'http://w4dev.com/plugins/w4-post-list',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}

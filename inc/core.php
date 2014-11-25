@@ -2,7 +2,7 @@
 /**
  * @package W4 Post List
  * @author Shazzad Hossain Khan
- * @url http://w4dev.com/w4-plugin/w4-post-list
+ * @url http://w4dev.com/plugins/w4-post-list
 **/
 
 
@@ -521,9 +521,6 @@ class W4PL_Core
 	{
 		wp_register_style(  'w4pl_form', 				W4PL_URL . 'assets/form/form.css' );
 		wp_register_script( 'w4pl_form', 				W4PL_URL . 'assets/form/form.js', array('jquery', 'jquery-ui-core') );
-
-		wp_register_style(  'w4pl_jquery_ui_custom', 	W4PL_URL . 'assets/jquery/jquery-ui-1.9.2.custom.css' );
-		wp_register_script( 'w4pl_colorpicker', 		W4PL_URL . 'assets/colorpicker/jscolor.js' );
 		wp_register_script( 'w4pl_tinymce_popup', 		W4PL_URL . 'assets/tinymce/tinymce_popup.js' );
 	}
 
@@ -751,12 +748,19 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 		return $return;
 	}
 
-	public static function post_mime_type_options($post_type = 'post')
+	public static function post_mime_type_options($post_types = '')
 	{
 		global $wpdb;
-		$mime_types = $wpdb->get_col( $wpdb->prepare( 
-			"SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_status != 'trash' AND post_type=%s AND post_mime_type <> ''", $post_type
-		));
+		if( empty($post_types) ){
+			$post_types = array('post');
+		}
+		elseif( ! is_array($post_types) ){
+			$post_types = array($post_types);
+		}
+
+		$mime_types = $wpdb->get_col(
+			"SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_status != 'trash' AND post_type IN ('" . implode("','", $post_types) ."') AND post_mime_type <> ''"
+		);
 
 		if( !empty($mime_types) )
 		{
@@ -785,8 +789,7 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 		return $return;
 	}
 
-
-	public static function post_groupby_options( $post_type )
+	public static function post_groupby_options( $post_types = array() )
 	{
 		$return = array(
 			'' 			=> 'None',
@@ -796,16 +799,23 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 			'author' 	=> 'Author',
 			'parent' 	=> 'Parent'
 		);
-		foreach( get_object_taxonomies($post_type, 'all') as $taxonomy => $taxonomy_object ){
-			if( $taxonomy == 'post_format' || !$taxonomy_object->public )
-				continue;
-			$return['tax_'. $taxonomy] = $taxonomy_object->labels->name;
+		if( ! is_array($post_types) ){
+			$post_types = array($post_types);
+		}
+		if( ! empty($post_types) && is_array($post_types) ){
+			foreach( $post_types as $post_type ){
+				foreach( get_object_taxonomies($post_type, 'all') as $taxonomy => $taxonomy_object ){
+					if( $taxonomy == 'post_format' || !$taxonomy_object->public )
+						continue;
+					$return['tax_'. $taxonomy] = $taxonomy_object->labels->name;
+				}
+			}
 		}
 
 		return $return;
 	}
 
-	public static function post_orderby_options( $post_type )
+	public static function post_orderby_options( $post_types = array() )
 	{
 		$return = array(
 			'ID'				=> __( 'ID', 					W4PL_TD),
@@ -819,8 +829,8 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 			'rand'				=> __( 'Random', 				W4PL_TD),
 		);
 
-		if( post_type_supports($post_type, 'comments') )
-			$return['comment_count'] = __( 'Comment Count',W4PL_TD);
+		# if( post_type_supports($post_type, 'comments') )
+		$return['comment_count'] = __( 'Comment Count',W4PL_TD);
 
 		return $return;
 	}

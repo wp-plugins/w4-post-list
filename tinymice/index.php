@@ -2,7 +2,7 @@
 /**
  * @package W4 Post List
  * @author Shazzad Hossain Khan
- * @url http://w4dev.com/w4-plugin/w4-post-list
+ * @url http://w4dev.com/plugins/w4-post-list
 **/
 
 
@@ -18,9 +18,9 @@ for ( $i = 0; $i < 3; $i++ ){
 unset( $_abspath );
 
 
-if( !defined('ABSPATH') )
-	die( '<p>Someting went wrong. We could not connect to the server.</p>' );
-
+if( !defined('ABSPATH') ){
+	die( '<p>Someting Went Wrong. We could not connect to the server.</p>' );
+}
 ?>
 <?php
 header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
@@ -35,7 +35,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 	</script>
 	<?php do_action( 'wp_enqueue_scripts' ); ?>
 	<?php do_action( 'w4pl/list_options_print_scripts' ); ?>
-	<?php wp_print_styles( array('w4pl_jquery_ui_custom', 'w4pl_colorpicker', 'buttons') ); ?>
+	<?php wp_print_styles( array('buttons') ); ?>
 
 	<?php 
 	// if direct request, hide tinymce
