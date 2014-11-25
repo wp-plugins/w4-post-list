@@ -784,8 +784,8 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'group_order'		=> ''
 			));
 
-			#if( 'attachment' == $options['post_type'] )
-			#	$options['post_status'] = array('inherit');
+			if( !empty($options['post_type']) && !is_array($options['post_type']) )
+				$options['post_type'] = array($options['post_type']);
 		}
 
 		return $options;
