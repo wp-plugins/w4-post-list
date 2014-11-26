@@ -884,6 +884,11 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 
 	    return ($a['position'] < $b['position']) ? -1 : 1;
 	}
+
+	public static function p($a)
+	{
+		echo '<pre>'; print_r($a); echo '</pre>';
+	}
 }
 
 	new W4PL_Core;

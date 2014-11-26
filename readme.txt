@@ -119,9 +119,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.2 =
+* Fixed: Admin error.
+
 = 1.9.9 =
 * New: Select multiple post types at once.
-
 = 1.9.8 =
 * Fixed: Terms will be ordered by the provided term ids if exists
 = 1.9.7 =
@@ -277,9 +279,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.2 =
+* Fixed: Admin error.
+
 = 1.9.9 =
 * New: Select multiple post types at once.
-
 = 1.9.8 =
 * Fixed: Terms will be ordered by the provided term ids if exists
 = 1.9.7 =

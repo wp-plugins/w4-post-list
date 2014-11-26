@@ -194,24 +194,22 @@ class W4PL_Lists_Admin extends W4PL_Core
 
 		$lt = $options['list_type'];
 
+		global $wp_post_types;
 
 		$return = '';
 
 		if( 'terms.posts' == $lt )
 		{
 			$tax_obj = get_taxonomy($options['terms_taxonomy']);
-			$post_obj = get_post_type_object($options['post_type']);
-			$return = $tax_obj->label . ' & ' . $post_obj->labels->name;
+			$return = $tax_obj->label . ' & ' . self::post_types_label($options['post_type']);
 		}
 		else if( 'users.posts' == $lt )
 		{
-			$post_obj = get_post_type_object($options['post_type']);
-			$return = 'Users' . ' & ' . $post_obj->labels->name;
+			$return = 'Users' . ' & ' . self::post_types_label($options['post_type']);
 		}
 		else if( 'posts' == $lt )
 		{
-			$post_obj = get_post_type_object($options['post_type']);
-			$return = $post_obj->labels->name;
+			$return = self::post_types_label($options['post_type']);
 		}
 		else if( 'terms' == $lt )
 		{
@@ -234,6 +232,15 @@ class W4PL_Lists_Admin extends W4PL_Core
 		return $return;
 	}
 
+	public function post_types_label( $post_types )
+	{
+		global $wp_post_types;
+		$post_labels = array();
+		foreach( $post_types as $post_type ){
+			$post_labels[] = $wp_post_types[$post_type]->label;
+		}
+		return implode(', ', $post_labels);
+	}
 
 	public static function news_meta_box()
 	{
