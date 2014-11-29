@@ -169,27 +169,29 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'callback' 	=> array('W4PL_Helper_Posts', 'post_thumbnail'),
 				'desc' 		=> '<strong>Output</strong>: (text|number) based on the rerurn attribute & only if the post has a thumbnail assigned
 				<br /><br /><strong>Attributes:</strong>
-				<br /><strong>return</strong> = (text|number), 
+				<br /><strong>return</strong> = (id|src|html), 
 				<br />----"src" - will return src of the image, 
 				<br />----"id" - will return id of the image, 
 				<br />----by default it will return image html
+				<br /><strong>class</strong> = (string), class name for the image (&lt;img /&gt;) tag
 				<br /><strong>size</strong> = (string), post_thumbnail size
-
 				<br /><strong>width</strong> = (number), post_thumbnail width
 				<br /><strong>height</strong> = (number), post_thumbnail height'
 			),
 			'post_image' => array(
 				'group' 	=> 'Post', 
-				'code' 		=> '[post_image pos=""]', 
+				'code' 		=> '[post_image use_fallback="1"]', 
 				'callback' 	=> array('W4PL_Helper_Posts', 'post_image'),
-				'desc' 		=> '<strong>Output</strong>: 1st or last image url from post content
+				'desc' 		=> '<strong>Output</strong>: <strong>first</strong> or <strong>last</strong> image source (src="") from post content
 				<br /><br /><strong>Attributes:</strong>
 				<br /><strong>position</strong> = (first|last)
 				<br /><strong>return</strong> = (text|number), 
 				<br />----"src" - will return src of the image, 
 				<br />----by default it will return image html
+				<br /><strong>class</strong> = (string), class name for the image (&lt;img /&gt;) tag
 				<br /><strong>width</strong> = (number), set image width attr (image scaling, not resizing)
-				<br /><strong>height</strong> = (number), set image height attr (image scaling, not resizing)'
+				<br /><strong>height</strong> = (number), set image height attr (image scaling, not resizing)
+				<br /><strong>use_fallback</strong> = (true|false), set 1 to use <code>[post_thumbnail]</code> shortcode as fallback while post content dont have any images. '
 			),
 			'post_meta' => array(
 				'group' 	=> 'Post', 
@@ -219,6 +221,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 				<br /><strong>id</strong> = (string), attachment id
 				<br /><strong>meta_key</strong> = (string), retrieve attachment id from meta value
 				<br /><strong>size</strong> = (string), image size
+				<br /><strong>class</strong> = (string), class name for the image (&lt;img /&gt;) tag
 				<br /><strong>width</strong> = (number), image width
 				<br /><strong>height</strong> = (number), image height'
 			),
@@ -424,32 +427,27 @@ class W4PL_Helper_Posts extends W4PL_Core
 	}
 	public static function post_thumbnail($attr, $cont)
 	{
-		if( isset($attr['size']) ){
-			$size = $attr['size'];
-		}
+		if( isset($attr['size']) )
+		{ $size = $attr['size']; }
+
 		elseif( isset($attr['width']) ){
-			if( isset($attr['height']) ){
-				$height = $attr['height'];
-			}
-			else{
-				$height = 9999;
-			}
+			if( isset($attr['height']) )
+			{ $height = $attr['height']; }
+			else
+			{ $height = 9999; }
 			$size = array($attr['width'], $height);
 		}
+
 		elseif( isset($attr['height']) )
 		{
-			if( isset($attr['width']) ){
-				$width = $attr['width'];
-			}
-			else{
-				$width = 9999;
-			}
+			if( isset($attr['width']) )
+			{ $width = $attr['width']; }
+			else
+			{ $width = 9999; }
 			$size = array($width, $attr['height']);
 		}
 		else
-		{
-			$size = 'post-thumbnail';
-		}
+		{ $size = 'post-thumbnail'; }
 
 
 		$post_id = get_the_ID();
@@ -457,18 +455,15 @@ class W4PL_Helper_Posts extends W4PL_Core
 
 
 		if( isset($attr['return']) && 'id' == $attr['return'] )
-		{
-			return $post_thumbnail_id;
-		}
+		{ return $post_thumbnail_id; }
+
 		elseif( isset($attr['return']) && 'src' == $attr['return'] )
 		{
 			$img = wp_get_attachment_image_src( $post_thumbnail_id, $size );
 			return isset($img[0]) ? $img[0] : '';
 		}
 		elseif ( $post_thumbnail_id )
-		{
-			return wp_get_attachment_image( $post_thumbnail_id, $size );
-		}
+		{ return wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr ); }
 
 		return '';
 	}
@@ -479,60 +474,50 @@ class W4PL_Helper_Posts extends W4PL_Core
 	 * @since 1.9.1
 	**/
 
-	public static function post_image($attr, $cont)
+	public static function post_image( $attr, $cont )
 	{
 		global $post;
 
 		$return = '';
-		if( ! isset($post) || ! isset($post->post_content) || empty($post->post_content) ){
-			return $return;
-		}
+		if( ! isset($post) || ! isset($post->post_content) || empty($post->post_content) )
+		{ return $return; }
+		
 
 		$position = '';
-		if( isset($attr['position']) ){
-			$position = $attr['position'];
-		}
+		if( isset($attr['position']) )
+		{ $position = $attr['position']; }
 
 		preg_match_all( "/<img[^>]*src\s*=\s*[\'\"]([+:%\/\?~=&;\\\(\),._a-zA-Z0-9-]*)[\'\" ]?/i", $post->post_content, $images, PREG_SET_ORDER );
 		if( !empty($images) )
 		{
 			$image = $position == 'last' ? array_pop( $images ) : array_shift( $images );
-			if( !isset($image['1']) || empty($image['1']) ){
-				return $return;
-			}
+			if( !isset($image['1']) || empty($image['1']) )
+			{ return $return; }
 
 			$attrs = array('src' => $image['1']);
-			if( isset($attr['height']) ){
-				$attrs['height'] = $attr['height'];
-			}
-			if( isset($attr['width']) ){
-				$attrs['width'] = $attr['width'];
+			foreach( array('width', 'height', 'class') as $a ){
+				if( isset($attr[$a]) )
+				{ $attrs[$a] = $attr[$a]; }
 			}
 
 			$return = rtrim("<img");
-			foreach ( $attrs as $name => $value ) {
-				$return .= " $name=" . '"' . $value . '"';
-			}
+			foreach ( $attrs as $name => $value )
+			{ $return .= " $name=" . '"' . $value . '"'; }
 			$return .= ' />';
 		}
 
-		return $return;
-	}
-
-
-	// Grab Image From HTML content
-	function image_src_from_html( $html, $position = '' ){
-		$source = '';
-		if( empty( $html ))
-			return $source;
-
-		preg_match_all( "/<img[^>]*src\s*=\s*[\'\"]([+:%\/\?~=&;\\\(\),._a-zA-Z0-9-]*)[\'\" ]?/i", $html, $images, PREG_SET_ORDER );
-		if( !empty($images) )
+		// if no images were found & use_fallback is set to true(bool)
+		elseif( isset($attr['use_fallback']) && !empty($attr['use_fallback']) )
 		{
-			$image = $position == 'last' ? array_pop( $images ) : array_shift( $images );
-			$source = isset( $image['1'] ) ? $image['1'] : "";
+			// use post thumbnail as fallback, $attr is already similar for both methods
+			$return = self::post_thumbnail( $attr, $cont );
+
+			// @ attachment_thumbnail
+			if( empty($return) )
+			{ $return = self::attachment_thumbnail( $attr, $cont ); }
 		}
-		return $source;
+
+		return $return;
 	}
 
 
@@ -544,7 +529,6 @@ class W4PL_Helper_Posts extends W4PL_Core
 		}
 
 		if( isset($attr['key']) ){
-
 			$meta_key = $attr['key'];
 		}
 		elseif( isset($attr['meta_key']) ){
@@ -600,59 +584,48 @@ class W4PL_Helper_Posts extends W4PL_Core
 	// Attachment
 	public static function attachment_thumbnail($attr, $cont)
 	{
-		if( isset($attr['size']) ){
-			$size = $attr['size'];
-		}
+		if( isset($attr['size']) )
+		{ $size = $attr['size']; }
+
 		elseif( isset($attr['width']) ){
-			if( isset($attr['height']) ){
-				$height = $attr['height'];
-			}
-			else{
-				$height = 9999;
-			}
+			if( isset($attr['height']) )
+			{ $height = $attr['height']; }
+			else
+			{ $height = 9999; }
 			$size = array($attr['width'], $height);
 		}
+
 		elseif( isset($attr['height']) )
 		{
-			if( isset($attr['width']) ){
-				$width = $attr['width'];
-			}
-			else{
-				$width = 9999;
-			}
+			if( isset($attr['width']) )
+			{ $width = $attr['width']; }
+			else
+			{ $width = 9999; }
 			$size = array($width, $attr['height']);
 		}
 		else
-		{
-			$size = 'post-thumbnail';
-		}
+		{ $size = 'post-thumbnail'; }
 
 
-		if( isset($attr['id']) ){
-			$attachment_id = (int) $attr['id'];
-		}
-		elseif( isset($attr['meta_key']) ){
-			$attachment_id = get_post_meta(get_the_ID(), $attr['meta_key'], true);
-		}
-		else{
-			$attachment_id = get_the_ID();
-		}
+		if( isset($attr['id']) )
+		{ $attachment_id = (int) $attr['id']; }
+		elseif( isset($attr['meta_key']) )
+		{ $attachment_id = get_post_meta(get_the_ID(), $attr['meta_key'], true); }
+		else
+		{ $attachment_id = get_the_ID(); }
 
 
 		if( 'attachment' != get_post_type($attachment_id) )
-			return '';
-
+		{ return ''; }
 
 		$icon = false;
-		if( ! wp_attachment_is_image($attachment_id) ){
-			$icon = true;
-		}
+		if( ! wp_attachment_is_image($attachment_id) )
+		{ $icon = true; }
 
-		if ( $attachment_id ) {
-			$html = wp_get_attachment_image( $attachment_id, $size, $icon );
-		} else {
-			$html = '';
-		}
+		if ( $attachment_id )
+		{ $html = wp_get_attachment_image( $attachment_id, $size, $icon, $attr ); } 
+		else
+		{ $html = ''; }
 
 		return $html;
 	}

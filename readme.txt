@@ -119,9 +119,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.3 =
+* New: class attribute for [post_thumbnail], [post_image] & [attachment_thumbnail] shortcodes
+* New: use [post_thumbnail] & [attachment_thumbnail] shortcode as a fallback for the [post_image] shortcode, use [post_image use_fallbacks=1] to activate
+
 = 1.9.9.2 =
 * Fixed: Admin error.
-
 = 1.9.9 =
 * New: Select multiple post types at once.
 = 1.9.8 =
@@ -279,9 +282,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.3 =
+* New: class attribute for [post_thumbnail], [post_image] & [attachment_thumbnail] shortcodes
+* New: use [post_thumbnail] & [attachment_thumbnail] shortcode as a fallback for the [post_image] shortcode, use [post_image use_fallbacks=1] to activate
+
 = 1.9.9.2 =
 * Fixed: Admin error.
-
 = 1.9.9 =
 * New: Select multiple post types at once.
 = 1.9.8 =
