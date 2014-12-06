@@ -3,7 +3,7 @@
  * Plugin Name: W4 Post List
  * Plugin URI: http://w4dev.com/plugins/w4-post-list
  * Description: This plugin lets you create a list of - Posts, Terms, Users, Terms + Posts and Users + Posts. Outputs are completely customizable using Shortcode, HTML & CSS. Read Documentation if having issue understanding plugin usage.
- * Version: 1.9.9.3
+ * Version: 1.9.9.4
  * Author: Shazzad Hossain Khan
  * Author URI: http://w4dev.com/about
 **/
@@ -33,7 +33,7 @@ define( 'W4PL_URL', 			plugin_dir_url(__FILE__) );
 define( 'W4PL_BASENAME', 		plugin_basename( __FILE__ ));
 define( 'W4PL_NAME', 			'W4 Post List' );
 define( 'W4PL_SLUG', 			'w4pl' );
-define( 'W4PL_VERSION', 		'1.9.9.3' );
+define( 'W4PL_VERSION', 		'1.9.9.4' );
 define( 'W4PL_TD', 				'w4pl' );
 define( 'W4PL_INC', 			W4PL_DIR . 'inc' );
 
@@ -45,12 +45,12 @@ include( W4PL_INC .'/postlist.php');
 include( W4PL_INC .'/widget.php');
 
 
-
 /* Modules */
 /* posts */
 include( W4PL_INC .'/helper-posts.php');
 include( W4PL_INC .'/helper-posts-tax_query.php');
 include( W4PL_INC .'/helper-posts-meta_query.php');
+include( W4PL_INC .'/helper-posts-date_query.php');
 /* terms */
 include( W4PL_INC .'/helper-terms.php');
 /* users */
@@ -77,4 +77,5 @@ include( W4PL_DIR .'/tinymice/tinymice.php');
 
 /* on-unload */
 do_action( 'w4pl/loaded' );
+
 ?>

@@ -785,7 +785,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'position'		=> '55',
 			'option_name' 	=> 'post_type',
 			'name' 			=> 'w4pl[post_type]',
-			'label' 		=> 'Post Type',
+			'label' 		=> 'Post type',
 			'type' 			=> 'checkbox',
 			'option' 		=> self::post_type_options(),
 			'input_class'	=> 'w4pl_onchange_lfr'
@@ -798,7 +798,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'position' 		=> '56',
 				'option_name' 	=> 'post_mime_type',
 				'name' 			=> 'w4pl[post_mime_type]',
-				'label' 		=> 'Post Mime Type',
+				'label' 		=> 'Post mime type',
 				'type' 			=> 'checkbox',
 				'option' 		=> $mime_type_options,
 				'desc' 			=> 'if displaying attachment, choose mime type to restrcit result to specific file types.'
@@ -809,7 +809,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'position'		=> '60',
 			'option_name' 	=> 'post_status',
 			'name' 			=> 'w4pl[post_status]',
-			'label' 		=> 'Post Status',
+			'label' 		=> 'Post status',
 			'type' 			=> 'checkbox',
 			'option' 		=> array('any' => 'Any', 'publish' => 'Publish', 'pending' => 'Pending', 'future' => 'Future', 'inherit' => 'Inherit')
 		);

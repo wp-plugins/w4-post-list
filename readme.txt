@@ -34,6 +34,7 @@ Creating a list is just few steps. There are different sets option for different
 * post by author ids
 * post by terms ( tax_query )
 * post by meta ( meta_query )
+* post by year, month, day ( date_query )
 
 = Group Results by =
 * year
@@ -81,6 +82,8 @@ Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev
 
 
 = Check Example =
+* [Football Team Showcase](http://w4dev.com/wp/w4-post-list#w4pl-list-07081c7dd0982d2f4a7de78ce2398e8b)
+* [Posts in Table](http://w4dev.com/wp/w4-post-list#w4pl-list-a4aad4240af859f0fb3c8b2bfaf56806)
 * [Simple Posts List](http://w4dev.com/wp/w4-post-list-examples#example-1)
 * [Media List](http://w4dev.com/wp/w4-post-list-examples#example-2)
 * [Year/Month Archive](http://w4dev.com/wp/w4-post-list-examples#example-3)
@@ -119,10 +122,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.4 =
+* New: Implemented Date Query. Now you can filter posts by year, month and date
+
 = 1.9.9.3 =
 * New: class attribute for [post_thumbnail], [post_image] & [attachment_thumbnail] shortcodes
 * New: use [post_thumbnail] & [attachment_thumbnail] shortcode as a fallback for the [post_image] shortcode, use [post_image use_fallbacks=1] to activate
-
 = 1.9.9.2 =
 * Fixed: Admin error.
 = 1.9.9 =
@@ -282,10 +287,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.4 =
+* New: Implemented Date Query. Now you can filter posts by year, month and date
+
 = 1.9.9.3 =
 * New: class attribute for [post_thumbnail], [post_image] & [attachment_thumbnail] shortcodes
 * New: use [post_thumbnail] & [attachment_thumbnail] shortcode as a fallback for the [post_image] shortcode, use [post_image use_fallbacks=1] to activate
-
 = 1.9.9.2 =
 * Fixed: Admin error.
 = 1.9.9 =

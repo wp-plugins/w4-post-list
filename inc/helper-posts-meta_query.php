@@ -1,6 +1,8 @@
 <?php
 /**
- * @package W4 Post List
+ * Meta Query Implementation
+ * @package WordPress
+ * @subpackage W4 Post List
  * @author Shazzad Hossain Khan
  * @url http://w4dev.com/plugins/w4-post-list
 **/
