@@ -122,9 +122,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.5 =
+* Improved: if meta value is an array/object, display specific value by using a sub_key. ex: [post_meta meta_key="_wp_attachment_metadata" sub_key="file"]
+
 = 1.9.9.4 =
 * New: Implemented Date Query. Now you can filter posts by year, month and date
-
 = 1.9.9.3 =
 * New: class attribute for [post_thumbnail], [post_image] & [attachment_thumbnail] shortcodes
 * New: use [post_thumbnail] & [attachment_thumbnail] shortcode as a fallback for the [post_image] shortcode, use [post_image use_fallbacks=1] to activate
@@ -287,9 +289,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.5 =
+* Improved: if meta value is an array/object, display specific value by using a sub_key. ex: [post_meta meta_key="_wp_attachment_metadata" sub_key="file"]
+
 = 1.9.9.4 =
 * New: Implemented Date Query. Now you can filter posts by year, month and date
-
 = 1.9.9.3 =
 * New: class attribute for [post_thumbnail], [post_image] & [attachment_thumbnail] shortcodes
 * New: use [post_thumbnail] & [attachment_thumbnail] shortcode as a fallback for the [post_image] shortcode, use [post_image use_fallbacks=1] to activate

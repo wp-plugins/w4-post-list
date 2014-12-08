@@ -200,6 +200,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'desc' 		=> '<strong>Output</strong>: post meta value. if return value is an array, it will be migrated to string by using explode function
 				<br /><br /><strong>Attributes:</strong>
 				<br /><strong>key</strong> = (text|number), meta key name
+				<br /><strong>sub_key</strong> = (text|number), if meta value is array|object, display a specific value by it\'s key
 				<br /><strong>multiple</strong> = (0|1), display meta value at multiple occurence
 				<br /><strong>sep</strong> = (text), separate array meta value into string'
 			),
@@ -537,29 +538,46 @@ class W4PL_Helper_Posts extends W4PL_Core
 		if( ! $meta_key )
 			return;
 
-		$single = ! ( isset($attr) && is_array($attr) && array_key_exists('multiple', $attr) ?  (bool) $attr['multiple'] : true );
+		$single = ! ( isset($attr) && is_array($attr) && array_key_exists('multiple', $attr) ?  (bool) $attr['multiple'] : false );
 
 		$sep = ', ';
 		if( isset($attr['sep']) ){
 			$sep = $attr['sep'];
 		}
 
-		$return = get_post_meta( get_the_ID(), $meta_key, $single );
+		$meta_value = get_post_meta( get_the_ID(), $meta_key, $single );
 
-		if( is_array($return) ){
-			$new = array();
-			foreach( $return as $r => $d ){
-				if( !is_array($d) ){
-					$new[] = $d;
+		// end the game here if the value is string
+		if( ! is_object($meta_value) && ! is_array($meta_value) )
+		{ return $meta_value; }
+
+
+		$return = '';
+		if( is_object($meta_value) )
+		{ $meta_value = get_object_vars($meta_value); }
+
+
+		if( is_array($meta_value) && !empty($meta_value) )
+		{
+			// when meta value is serialized array, return specific array value by using subkey
+			if( isset($attr['sub_key']) && !empty($attr['sub_key']) ){
+				if( array_key_exists($attr['sub_key'], $meta_value) ){
+					return $meta_value[ $attr['sub_key'] ];
 				}
 			}
-			if( $new )
-				$return = implode( $sep, $new );
-			else
-				$return = '';
+			else{
+				$values = array();
+				foreach( $meta_value as $r => $d ){
+					if( ! is_array($d) )
+					{ $values[] = $d; }
+				}
+
+				if( $values )
+				{ return implode( $sep, $values ); }
+			}
 		}
 
-		return $return;
+		return '';
 	}
 	public static function post_terms($attr, $cont)
 	{
