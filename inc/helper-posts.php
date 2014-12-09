@@ -769,14 +769,15 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'posts_per_page'	=> '',
 				'limit'				=> '',
 				'offset'			=> '',
-				'groupby'			=> '',
 				'orderby'			=> 'date',
 				'order'				=> 'DESC',
+				'groupby'			=> '',
+				'groupby_time'		=> '',
 				'group_order'		=> ''
 			));
 
 			if( !empty($options['post_type']) && !is_array($options['post_type']) )
-				$options['post_type'] = array($options['post_type']);
+			{ $options['post_type'] = array($options['post_type']); }
 		}
 
 		return $options;
@@ -943,10 +944,25 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'position' 		=> '95',
 				'option_name' 	=> 'groupby',
 				'name' 			=> 'w4pl[groupby]',
-				'label' 		=> 'Group By',
+				'label' 		=> 'Group by',
 				'type' 			=> 'select',
-				'option' 		=> self::post_groupby_options($options['post_type'])
+				'option' 		=> self::post_groupby_options($options['post_type']),
+				'input_class'	=> 'w4pl_onchange_lfr'
 			);
+
+			if( in_array($options['groupby'], array('year', 'month', 'yearmonth') ) )
+			{
+				$fields['groupby_time'] = array(
+					'position' 		=> '95.5',
+					'option_name' 	=> 'groupby_time',
+					'name' 			=> 'w4pl[groupby_time]',
+					'label' 		=> 'Group by Date',
+					'type' 			=> 'radio',
+					'option' 		=> array('post_date' => 'Publish date', 'post_modified' => 'Modified date'),
+					'desc2' 		=> 'which date we will use to caculate the group time'
+				);
+			}
+
 			$fields['group_order'] = array(
 				'position' 		=> '96',
 				'option_name' 	=> 'group_order',
@@ -1066,7 +1082,6 @@ class W4PL_Helper_Posts extends W4PL_Core
 			{
 				$list->posts_args['offset'] = (int) $list->options['offset'] + ($paged - 1) * $list->posts_args['posts_per_page'];
 			}
-
 		}
 		// ends post query
 	}

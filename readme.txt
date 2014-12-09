@@ -122,9 +122,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.6 =
+* New: Now you can group post by modified (year/month) time
+
 = 1.9.9.5 =
 * Improved: if meta value is an array/object, display specific value by using a sub_key. ex: [post_meta meta_key="_wp_attachment_metadata" sub_key="file"]
-
 = 1.9.9.4 =
 * New: Implemented Date Query. Now you can filter posts by year, month and date
 = 1.9.9.3 =
@@ -152,6 +154,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 * New: Use shortcode [post_image] to display image from post content. ex: [post_image position='last'] to display the last image.
 = 1.9 =
 * New: Filter Posts by Search Keyword
+
 = 1.8.9 =
 * Improvement: Use shortcode [attachment_thumbnail] to display thumbnail from post meta value. ex: [attachment_thumbnail meta_key='attachment_id']
 = 1.8.8 =
@@ -199,6 +202,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 * Improved: Template input field.
 = 1.7 =
 * Introducing: Tinymce button. Now, create a post list right from the post/page edit screen. That means more Independence !!!
+
 = 1.6.9 =
 * Improved: Tax Query selection has been improved.
 = 1.6.8 =
@@ -289,9 +293,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.6 =
+* New: Now you can group post by modified (year/month) time
+
 = 1.9.9.5 =
 * Improved: if meta value is an array/object, display specific value by using a sub_key. ex: [post_meta meta_key="_wp_attachment_metadata" sub_key="file"]
-
 = 1.9.9.4 =
 * New: Implemented Date Query. Now you can filter posts by year, month and date
 = 1.9.9.3 =

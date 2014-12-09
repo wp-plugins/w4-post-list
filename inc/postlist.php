@@ -446,6 +446,12 @@ class W4_Post_list
 		$groupby = $this->options['groupby'];
 		$this->groups = array();
 
+		// new @ 1.9.9.6
+		// allow group using modified date
+		if( in_array($groupby, array('year', 'month', 'yearmonth') ) && !in_array($this->options['groupby_time'], array('post_date', 'post_modified')) )
+		{ $groupby_time = 'post_date'; }
+		else
+		{ $groupby_time = $this->options['groupby_time']; }
 
 		// post parent
 		if( 'parent' == $groupby )
@@ -560,7 +566,7 @@ class W4_Post_list
 		{
 			foreach( $this->posts_query->posts as $index => $post )
 			{
-				if( $year = mysql2date( 'Y', $post->post_date ) )
+				if( $year = mysql2date( 'Y', $post->{$groupby_time} ) )
 				{
 					$group_id = $year;
 					if( !isset($this->groups[$group_id]) ){
@@ -596,8 +602,8 @@ class W4_Post_list
 		{
 			foreach( $this->posts_query->posts as $index => $post )
 			{
-				$month = mysql2date( 'm', $post->post_date );
-				$year = mysql2date( 'Y', $post->post_date );
+				$month = mysql2date( 'm', $post->{$groupby_time} );
+				$year = mysql2date( 'Y', $post->{$groupby_time} );
 
 				if( $month && $year )
 				{
@@ -605,7 +611,7 @@ class W4_Post_list
 					if( !isset($this->groups[$group_id]) ){
 						$this->groups[$group_id] = array(
 							'id' 	=> $group_id,
-							'title' => mysql2date( 'F', $post->post_date ),
+							'title' => mysql2date( 'F', $post->{$groupby_time} ),
 							'url' 	=> get_month_link( $year, $month )
 						);
 					}
@@ -634,8 +640,8 @@ class W4_Post_list
 		{
 			foreach( $this->posts_query->posts as $index => $post )
 			{
-				$month = mysql2date( 'm', $post->post_date );
-				$year = mysql2date( 'Y', $post->post_date );
+				$month = mysql2date( 'm', $post->{$groupby_time} );
+				$year = mysql2date( 'Y', $post->{$groupby_time} );
 
 				if( $year && $month )
 				{
@@ -643,7 +649,7 @@ class W4_Post_list
 					if( !isset($this->groups[$group_id]) ){
 						$this->groups[$group_id] = array(
 							'id' 	=> $group_id,
-							'title' => mysql2date( 'Y, F', $post->post_date ),
+							'title' => mysql2date( 'Y, F', $post->{$groupby_time} ),
 							'url' 	=> get_month_link( $year, $month )
 						);
 					}
