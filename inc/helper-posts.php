@@ -773,6 +773,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'order'				=> 'DESC',
 				'groupby'			=> '',
 				'groupby_time'		=> '',
+				'groupby_meta_key'	=> '',
 				'group_order'		=> ''
 			));
 
@@ -960,6 +961,16 @@ class W4PL_Helper_Posts extends W4PL_Core
 					'type' 			=> 'radio',
 					'option' 		=> array('post_date' => 'Publish date', 'post_modified' => 'Modified date'),
 					'desc2' 		=> 'which date we will use to caculate the group time'
+				);
+			}
+			elseif( in_array($options['groupby'], array('meta_value') ) )
+			{
+				$fields['groupby_meta_key'] = array(
+					'position' 		=> '95.5',
+					'option_name' 	=> 'groupby_meta_key',
+					'name' 			=> 'w4pl[groupby_meta_key]',
+					'label' 		=> 'Group by "Custom field" name',
+					'type' 			=> 'text'
 				);
 			}
 

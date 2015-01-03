@@ -324,11 +324,15 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 					if( !in_array($compare, array('IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN') ) ) 
 						$value = array_shift($value);
 
-					$obj->posts_args['meta_query'][] = array(
+					$meta_qyery = array(
 						'key' 		=> $key,
-						'compare' 	=> $compare,
-						'value' 	=> $value
+						'compare' 	=> $compare
 					);
+
+					if( '' != $value )
+					{ $meta_qyery['value'] = $value; }
+
+					$obj->posts_args['meta_query'][] = $meta_qyery;
 				}
 			}
 			if( !empty($obj->posts_args['meta_query']) )
@@ -337,7 +341,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 			}
 		}
 
-		#echo '<pre>'; print_r($obj->posts_args); echo '</pre>';
+		# echo '<pre>'; print_r($obj->posts_args); echo '</pre>';
 	}
 
 

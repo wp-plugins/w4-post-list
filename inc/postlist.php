@@ -674,6 +674,42 @@ class W4_Post_list
 		}
 
 
+		// meta_value
+		elseif( 'meta_value' == $groupby )
+		{
+			$groupby_meta_key = $this->options['groupby_meta_key'];
+			foreach( $this->posts_query->posts as $index => $post )
+			{
+				if( $value = get_post_meta($post->ID, $groupby_meta_key, true) )
+				{
+					$group_id = $value;
+					if( !isset($this->groups[$group_id]) ){
+						$this->groups[$group_id] = array(
+							'id' 	=> $group_id,
+							'title' => $value,
+							'url' 	=> ''
+						);
+					}
+				}
+				else
+				{
+					$group_id = 0;
+					if( !isset($this->groups[$group_id]) ){
+						$this->groups[$group_id] = array(
+							'id' 	=> $group_id,
+							'title' => 'Unknown',
+							'url' 	=> ''
+						);
+					}
+				}
+
+				if( !isset($this->groups[$group_id]['post_ids']) )
+					$this->groups[$group_id]['post_ids'] = array();
+
+				$this->groups[$group_id]['post_ids'][] = $post->ID;
+			}
+		}
+
 		#print_r( $this->options['group_order'] );
 
 		if( isset($this->options['group_order']) && !empty($this->options['group_order']) )

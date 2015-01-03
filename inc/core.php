@@ -792,13 +792,15 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 	public static function post_groupby_options( $post_types = array() )
 	{
 		$return = array(
-			'' 			=> 'None',
-			'year' 		=> 'Year',
-			'month' 	=> 'Month',
-			'yearmonth' => 'Year Months',
-			'author' 	=> 'Author',
-			'parent' 	=> 'Parent'
+			'' 				=> 'None',
+			'year' 			=> 'Year',
+			'month' 		=> 'Month',
+			'yearmonth' 	=> 'Year Months',
+			'author' 		=> 'Author',
+			'parent' 		=> 'Parent',
+			'meta_value'	=> 'Custom field'
 		);
+
 		if( ! is_array($post_types) ){
 			$post_types = array($post_types);
 		}
