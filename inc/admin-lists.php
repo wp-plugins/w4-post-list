@@ -129,20 +129,20 @@ class W4PL_Lists_Admin extends W4PL_Core
 		global $post_ID, $post;
 
 		$input_attr = sprintf( 
-			'<input value="[postlist id=&quot;%d&quot;]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly />"', 
+			'<input value="[postlist id=%d]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly />"', 
 			$post_ID 
 		);
 
 		$messages[W4PL_SLUG] = array(
-			 1 => sprintf( __('List updated. Shortcode %2$s'), $post_ID, $input_attr ),
+			 1 => sprintf( __('List updated. Shortcode %s', W4PL_TD), $input_attr ),
 			 2 => '',
 			 3 => '',
 			 4 => __('List updated.'),
 			 5 => '',
-			 6 => sprintf( __('List published. Shortcode %2$s"]" %2$s />'), $post_ID, $input_attr ),
+			 6 => sprintf( __('List published. Shortcode %s', W4PL_TD), $input_attr ),
 			 7 => __('List saved.'),
-			 8 => sprintf( __('List submitted. Shortcode %2$s" %2$s />'), $post_ID, $input_attr ),
-			 9 => sprintf( __('List scheduled. Shortcode %2$s'), $post_ID, $input_attr ),
+			 8 => sprintf( __('List submitted. Shortcode %s', W4PL_TD), $input_attr ),
+			 9 => sprintf( __('List scheduled. Shortcode %s', W4PL_TD), $input_attr ),
 			10 => ''
 		);
 		return $messages;
@@ -174,7 +174,7 @@ class W4PL_Lists_Admin extends W4PL_Core
 		}
 		else if( 'shortcode' == $column_name ){
 			printf( 
-				'<input value="[postlist id=&quot;%d&quot;]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', 
+				'<input value="[postlist id=%d]" type="text" size="20" onfocus="this.select();" onclick="this.select();" readonly="readonly" />', 
 				$post_ID 
 			);
 		}

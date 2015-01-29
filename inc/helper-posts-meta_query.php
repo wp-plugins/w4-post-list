@@ -36,7 +36,9 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 
 
 		/* Meta Query */
-		$html = '<div id="w4pl_field_group_meta_query" class="w4pl_field_group"><div class="w4pl_group_title">Posts: Meta Query</div><div class="w4pl_group_fields">';
+		$html = '<div id="w4pl_field_group_meta_query" class="w4pl_field_group">
+			<div class="w4pl_group_title">'. __('Posts: Meta Query', W4PL_TD) .'</div>
+			<div class="w4pl_group_fields">';
 
 		$meta_query_relation = isset($post_data['meta_query']['relation']) && !empty($post_data['meta_query']['relation']) ? $post_data['meta_query']['relation'] : 'OR';
 
@@ -44,10 +46,10 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		$html .= '<table id="w4pl_meta_query_table" class="widefat">
 			<thead>
 				<tr>
-					<th id="w4pl_meta_query_key_cell_head">Key</th>
-					<th id="w4pl_meta_query_compare_cell_head">Compare</th>
-					<th id="w4pl_meta_query_value_cell_head">Value</th>
-					<th id="w4pl_meta_query_action_cell_head">Action</th>
+					<th id="w4pl_meta_query_key_cell_head">'. __('Key', W4PL_TD) .'</th>
+					<th id="w4pl_meta_query_compare_cell_head">'. __('Compare', W4PL_TD) .'</th>
+					<th id="w4pl_meta_query_value_cell_head">'. __('Value', W4PL_TD) .'</th>
+					<th id="w4pl_meta_query_action_cell_head">'. __('Action', W4PL_TD) .'</th>
 				</tr>
 			</thead>
 			<tbody>';
@@ -103,7 +105,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 					</div>';
 					++ $cindex;
 				}
-				$html .= '</td><td class="w4pl_meta_query_action_cell"><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>
+				$html .= '</td><td class="w4pl_meta_query_action_cell"><a class="w4pl_meta_query_remove_btn" href="#" class="button">'. __('Remove', W4PL_TD) .'</a></td>
 				</tr>';
 
 				++$index;
@@ -122,7 +124,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 		</div>';
 
 		$html .= '
-		<p style="text-align:right;"><a id="w4pl_meta_query_add_btn" href="#" class="button">+ Add</a></p>
+		<p style="text-align:right;"><a id="w4pl_meta_query_add_btn" href="#" class="button">'. __('+ Add', W4PL_TD) .'</a></p>
 		<table id="w4pl_meta_query_clone" style="display:none;">
 		<tr><td class="w4pl_meta_query_key_cell">
 			<input type="text" class="wff wffi_w4pl_meta_query_key wfft_text">
@@ -139,16 +141,16 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 				<a class="w4pl_meta_query_value_add button" href="#">+</a> 
 				<a class="w4pl_meta_query_value_del button" href="#">-</a>
 			</div>'
-			. '</td><td class="w4pl_meta_query_action_cell"><a class="w4pl_meta_query_remove_btn" href="#" class="button">Remove</a></td>'
+			. '</td><td class="w4pl_meta_query_action_cell"><a class="w4pl_meta_query_remove_btn" href="#" class="button">'. __('Remove', W4PL_TD) .'</a></td>'
 			.'
 		</tr></table>';
 
 		$html .= w4pl_form_field_html( array(
 			'field_wrap' 	=> false,
 			'name' 			=> 'w4pl[meta_query][relation]',
-			'label' 		=> 'Relation',
+			'label' 		=> __('Relation', W4PL_TD),
 			'type' 			=> 'radio',
-			'option' 		=> array('OR' => 'OR', 'AND' => 'AND'),
+			'option' 		=> array('OR' => __('OR', W4PL_TD), 'AND' => __('AND', W4PL_TD)),
 			'value'			=> $meta_query_relation
 		));
 

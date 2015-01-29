@@ -174,7 +174,7 @@ class W4PL_Helper_Tax_Query extends W4PL_Core
 		$html .= w4pl_form_field_html( array(
 			'field_wrap' 	=> false,
 			'name' 			=> 'w4pl[tax_query][relation]',
-			'label' 		=> 'Relation',
+			'label' 		=> __('Relation', W4PL_TD),
 			'type' 			=> 'radio',
 			'option' 		=> array('OR' => 'OR', 'AND' => 'AND'),
 			'value'			=> $tax_query_relation

@@ -10,6 +10,9 @@ class W4PL_Core
 {
 	function __construct()
 	{
+		add_action( 'plugins_loaded', 							array($this, 'load_plugin_textdomain') );
+
+
 		// register lists post type (w4pl)
 		add_action( 'init', 									array($this, 'register_post_type'));
 
@@ -62,6 +65,10 @@ class W4PL_Core
 		add_action( 'wp_ajax_w4pl_generate_shortcodes', 		array($this, 'w4pl_generate_shortcodes_ajax') );
 	}
 
+	public function load_plugin_textdomain()
+	{
+		load_plugin_textdomain( W4PL_TD, false, basename(dirname(dirname( __FILE__ ))) . '/languages'  );
+	}
 
 	/*
 	 * Register List Post Type
@@ -238,14 +245,14 @@ class W4PL_Core
 		$fields['before_field_group_type'] = array(
 			'position'		=> '2',
 			'html' 			=> '<div id="w4pl_field_group_type" class="w4pl_field_group">
-								<div class="w4pl_group_title">List Type</div>
+								<div class="w4pl_group_title">'. __('List Type', W4PL_TD) .'</div>
 								<div class="w4pl_group_fields">'
 		);
 		$fields['list_type'] = array(
 			'position'		=> '3',
 			'option_name' 	=> 'list_type',
 			'name' 			=> 'w4pl[list_type]',
-			'label' 		=> 'List Type',
+			'label' 		=> __('List Type', W4PL_TD),
 			'type' 			=> 'radio',
 			'option' 		=> self::list_type_options(),
 			'input_class'	=> 'w4pl_onchange_lfr'
@@ -259,14 +266,16 @@ class W4PL_Core
 		/* Field Group - Template */
 		$fields['before_field_group_template'] = array(
 			'position'		=> '150',
-			'html' 			=> '<div id="w4pl_field_group_template" class="w4pl_field_group"><div class="w4pl_group_title">Template</div><div class="w4pl_group_fields">'
+			'html' 			=> '<div id="w4pl_field_group_template" class="w4pl_field_group">
+				<div class="w4pl_group_title">'. __('Template', W4PL_TD) .'</div>
+				<div class="w4pl_group_fields">'
 		);
 
 		$template_html = '
 		<div class="wffw wffwi_w4pl_template wffwt_textarea">
 			<p style="margin-top:0px;">
-				<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_examples">Template Example</a>
-				<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_buttons">Shortcodes</a>
+				<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_examples">'. __('Template Example', W4PL_TD) .'</a>
+				<a href="#" class="button w4pl_toggler" data-target="#w4pl_template_buttons">'. __('Shortcodes', W4PL_TD) .'</a>
 			</p>
 			<div id="w4pl_template_examples" class="csshide">'
 			. "<pre style='width:auto'>\n[groups]\n\t[group_title]\n\t[posts]\n\t\t[post_title]\n\t[/posts]\n[/groups]\n[nav]</pre>"
@@ -713,8 +722,6 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 	<?php do_action( 'w4pl/admin_print_js' ); ?>
 
 })(jQuery);
-
-
 		</script>
         <?php
 	}
@@ -722,13 +729,13 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 	public static function list_type_options()
 	{
 		$return = array(
-			'posts' 		=> 'Posts - <small>'. implode(', ', self::post_type_options()) .'</small>',
-			'terms' 		=> 'Terms - <small>'. implode(', ', self::taxonomies_options()) .'</small>',
-			'users' 		=> 'Users',
-			'terms.posts' 	=> 'Terms + Posts',
-			'users.posts' 	=> 'Users + Posts'
+			'posts' 		=> __('Posts', W4PL_TD) .' - <small>'. implode(', ', self::post_type_options()) .'</small>',
+			'terms' 		=> __('Terms', W4PL_TD) .' - <small>'. implode(', ', self::taxonomies_options()) .'</small>',
+			'users' 		=> __('Users', W4PL_TD),
+			'terms.posts' 	=> __('Terms + Posts', W4PL_TD),
+			'users.posts' 	=> __('Users + Posts', W4PL_TD)
 		);
-	
+
 		return $return;
 	}
 
@@ -792,13 +799,13 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 	public static function post_groupby_options( $post_types = array() )
 	{
 		$return = array(
-			'' 				=> 'None',
-			'year' 			=> 'Year',
-			'month' 		=> 'Month',
-			'yearmonth' 	=> 'Year Months',
-			'author' 		=> 'Author',
-			'parent' 		=> 'Parent',
-			'meta_value'	=> 'Custom field'
+			'' 				=> __('None', 			W4PL_TD),
+			'year' 			=> __('Year', 			W4PL_TD),
+			'month' 		=> __('Month', 			W4PL_TD),
+			'yearmonth' 	=> __('Year Months', 	W4PL_TD),
+			'author' 		=> __('Author',			W4PL_TD),
+			'parent' 		=> __('Parent', 		W4PL_TD),
+			'meta_value'	=> __('Custom field', 	W4PL_TD)
 		);
 
 		if( ! is_array($post_types) ){

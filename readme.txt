@@ -122,9 +122,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.8 =
+* New: Implementing Translations
+
 = 1.9.9.7 =
 * New: Now you can group posts by custom field (meta_value).
-
 = 1.9.9.6 =
 * New: Now you can group posts by modified (year/month) time
 = 1.9.9.5 =
@@ -295,9 +297,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.8 =
+* New: Implementing Translations
+
 = 1.9.9.7 =
 * New: Now you can group posts by custom field (meta_value).
-
 = 1.9.9.6 =
 * New: Now you can group posts by modified (year/month) time
 = 1.9.9.5 =

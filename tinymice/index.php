@@ -78,9 +78,8 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 		}
 
 		$("#w4pl_list_options_form").submit(function(){
-			var form = $(this);
-			var errors = [];
-			var data = form.serialize();
+			var $form = $(this);
+			var data  = $form.serialize();
 
 			$.post( ajaxurl, data, function(r){
 				if( typeof(tinyMCEPopup) === 'object' ){
@@ -123,12 +122,12 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 <?php wp_admin_css( 'wp-admin', true ); ?>
 </head>
 <body class="wp-core-ui">
-<div class="wrap">
-<form id="w4pl_list_options_form">
-	<input type="hidden" name="action" value="w4pl_generate_shortcodes" />
-	<?php do_action( 'w4pl/list_options_template', array() ); ?>
-	<input type="submit" id="submit" value="Insert" />
-</form>
-</div>
+    <div class="wrap">
+        <form id="w4pl_list_options_form">
+            <input type="hidden" name="action" value="w4pl_generate_shortcodes" />
+            <?php do_action( 'w4pl/list_options_template', array() ); ?>
+            <input type="submit" id="submit" value="Insert" />
+        </form>
+    </div>
 </body>
 </html>

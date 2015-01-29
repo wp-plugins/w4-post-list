@@ -29,13 +29,15 @@ class W4PL_Helper_Style extends W4PL_Core
 		/* Style */
 		$fields['before_field_group_style'] = array(
 			'position'		=> '165',
-			'html' 			=> '<div id="w4pl_field_group_style" class="w4pl_field_group"><div class="w4pl_group_title">Style</div><div class="w4pl_group_fields">'
+			'html' 			=> '<div id="w4pl_field_group_style" class="w4pl_field_group">
+				<div class="w4pl_group_title">'. __('Style', W4PL_TD) .'</div>
+				<div class="w4pl_group_fields">'
 		);
 		$fields['class'] = array(
 			'position'		=> '170',
 			'option_name' 	=> 'class',
 			'name' 			=> 'w4pl[class]',
-			'label' 		=> 'HTML Class',
+			'label' 		=> __('HTML class name', W4PL_TD),
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat'
 		);
@@ -43,7 +45,7 @@ class W4PL_Helper_Style extends W4PL_Core
 			'position'		=> '172',
 			'option_name' 	=> 'css',
 			'name' 			=> 'w4pl[css]',
-			'label' 		=> 'CSS',
+			'label' 		=> __('CSS', W4PL_TD),
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
 			'desc2' 		=> 'this css loads just before the list template on front-end (not in the HEAD tag, in BODY as inline css). 
@@ -54,7 +56,7 @@ class W4PL_Helper_Style extends W4PL_Core
 			'position'		=> '174',
 			'option_name' 	=> 'js',
 			'name' 			=> 'w4pl[js]',
-			'label' 		=> 'JavaScript',
+			'label' 		=> __('JavaScript', W4PL_TD),
 			'type' 			=> 'textarea',
 			'input_class' 	=> 'widefat',
 			'desc2' 		=> 'javascript loads right after template ends. don\'t use <code>&lt;script&gt;</code> tag',

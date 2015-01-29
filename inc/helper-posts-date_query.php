@@ -43,7 +43,7 @@ class W4PL_Helper_Date_Query extends W4PL_Core
 			'position'		=> '132',
 			'option_name' 	=> 'year',
 			'name' 			=> 'w4pl[year]',
-			'label' 		=> 'Year',
+			'label' 		=> __('Year', W4PL_TD),
 			'type' 			=> 'text',
 			'desc' 			=> '4 digit year'
 		);
@@ -51,7 +51,7 @@ class W4PL_Helper_Date_Query extends W4PL_Core
 			'position'		=> '134',
 			'option_name' 	=> 'monthnum',
 			'name' 			=> 'w4pl[monthnum]',
-			'label' 		=> 'Month',
+			'label' 		=> __('Month', W4PL_TD),
 			'type' 			=> 'text',
 			'desc' 			=> 'numeric representation of months. ex: 5 for may, 11 for november.'
 		);
@@ -59,7 +59,7 @@ class W4PL_Helper_Date_Query extends W4PL_Core
 			'position'		=> '136',
 			'option_name' 	=> 'day',
 			'name' 			=> 'w4pl[day]',
-			'label' 		=> 'Day',
+			'label' 		=> __('Day', W4PL_TD),
 			'type' 			=> 'text'
 		);
 
