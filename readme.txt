@@ -91,9 +91,8 @@ Check all of the available shortcodes on [W4 Post List Plugin Page](http://w4dev
 * [List of Terms](http://w4dev.com/wp/w4-post-list-examples#example-5)
 
 
-= What's new latest version (1.9) =
-* New: Filter post by search keyword
-* New: Use Preset to create list in seconds
+= Translations =
+* Serbian by [Ogi Djuraskovic](http://firstsiteguide.com/)
 
 
 Happy using this Plugin ? Please rate !!
@@ -122,9 +121,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 1.9.9.9 =
+* New: Serbian Language
+
 = 1.9.9.8 =
 * New: Implementing Translations
-
 = 1.9.9.7 =
 * New: Now you can group posts by custom field (meta_value).
 = 1.9.9.6 =
@@ -297,9 +298,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 1.9.9.9 =
+* New: Serbian Language
+
 = 1.9.9.8 =
 * New: Implementing Translations
-
 = 1.9.9.7 =
 * New: Now you can group posts by custom field (meta_value).
 = 1.9.9.6 =
