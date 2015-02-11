@@ -121,9 +121,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 2.0 =
+* New: Display child post associated with current post
+
 = 1.9.9.9 =
 * New: Serbian Language
-
 = 1.9.9.8 =
 * New: Implementing Translations
 = 1.9.9.7 =
@@ -298,9 +300,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 2.0 =
+* New: Display child post associated with current post
+
 = 1.9.9.9 =
 * New: Serbian Language
-
 = 1.9.9.8 =
 * New: Implementing Translations
 = 1.9.9.7 =

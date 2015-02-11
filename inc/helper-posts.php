@@ -763,9 +763,12 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'post_s'			=> '',
 				'post__in' 			=> '', 
 				'post__not_in' 		=> '', 
-				'exclude_self'		=> '',
 				'post_parent__in' 	=> '',
 				'author__in' 		=> '',
+
+				'exclude_self'		=> '',
+				'child_of_self'		=> '',
+
 				'posts_per_page'	=> '',
 				'limit'				=> '',
 				'offset'			=> '',
@@ -844,10 +847,10 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'position'		=> '64',
 			'option_name' 	=> 'post_s',
 			'name' 			=> 'w4pl[post_s]',
-			'label' 		=> __('Search posts', W4PL_TD),
+			'label' 		=> __('Search keywords', W4PL_TD),
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'search keyword'
+			'desc' 			=> 'search posts'
 		);
 		$fields['post__in'] = array(
 			'position'		=> '65',
@@ -867,14 +870,6 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated post id'
 		);
-		$fields['exclude_self'] = array(
-			'position'		=> '66.5',
-			'option_name' 	=> 'exclude_self',
-			'name' 			=> 'w4pl[exclude_self]',
-			'label' 		=> __('Exclude self', W4PL_TD),
-			'type' 			=> 'radio',
-			'option' 		=> array('' => 'No', 'yes' => 'Yes')
-		);
 		$fields['post_parent__in'] = array(
 			'position'		=> '67',
 			'option_name' 	=> 'post_parent__in',
@@ -882,7 +877,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'label' 		=> __('Post parent', W4PL_TD),
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
-			'desc' 			=> 'display child posts of given parent items. comma separated parent post ids'
+			'desc' 			=> 'display child posts. comma separated parent post ids'
 		);
 		$fields['author__in'] = array(
 			'position'		=> '68',
@@ -892,6 +887,24 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'type' 			=> 'text',
 			'input_class' 	=> 'widefat',
 			'desc' 			=> 'comma separated user/author ids'
+		);
+
+		$fields['exclude_self'] = array(
+			'position'		=> '69',
+			'option_name' 	=> 'exclude_self',
+			'name' 			=> 'w4pl[exclude_self]',
+			'label' 		=> __('Exclude self', W4PL_TD),
+			'type' 			=> 'radio',
+			'option' 		=> array('' => 'No', 'yes' => 'Yes')
+		);
+		$fields['child_of_self'] = array(
+			'position'		=> '69.1',
+			'option_name' 	=> 'child_of_self',
+			'name' 			=> 'w4pl[child_of_self]',
+			'label' 		=> __('Child of self', W4PL_TD),
+			'type' 			=> 'radio',
+			'option' 		=> array('' => 'No', 'yes' => 'Yes'),
+			'desc' 			=> 'use current post as parent'
 		);
 
 		$fields['orderby'] = array(
@@ -1005,10 +1018,6 @@ class W4PL_Helper_Posts extends W4PL_Core
 	{
 		if( in_array($list->options['list_type'], array('posts', 'terms.posts', 'users.posts') ) )
 		{
-			#echo '<pre>';
-			#print_r($list->options);
-			#echo '</pre>';
-
 			// push default options to query var
 			foreach( array(
 				'orderby', 
@@ -1044,23 +1053,36 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'author__in',
 			) as $option_name )
 			{
-				if( !empty($list->options[$option_name]) ){
-					$opt = wp_parse_id_list($list->options[$option_name]);
-					if( !empty($opt) )
+				if( !empty($list->options[$option_name]) )
+				{
+					$opt = wp_parse_id_list( $list->options[$option_name] );
+					if( !empty($opt) ){
 						$list->posts_args[$option_name] = $opt;
+					}
 				}
 			}
 
+			# self::p($list->posts_args);
+
 			// exclude current post
-			if( is_singular() && isset($list->options['exclude_self']) && 'yes' == $list->options['exclude_self'] ){
-				if( !isset($list->posts_args['post__not_in']) ){
-					$list->posts_args['post__not_in'] = array( get_the_ID() );
+			if( is_singular() && get_the_ID() )
+			{
+				if( isset($list->options['exclude_self']) && 'yes' == $list->options['exclude_self'] ){
+					if( !isset($list->posts_args['post__not_in']) || empty($list->posts_args['post__not_in']) ){
+						$list->posts_args['post__not_in'] = array( get_the_ID() );
+					}
+					elseif( is_array($list->posts_args['post__not_in']) ){
+						$list->posts_args['post__not_in'][] = get_the_ID();
+					}
 				}
-				elseif( is_array($list->posts_args['post__not_in']) ){
-					$list->posts_args['post__not_in'][] = get_the_ID();
-				}
-				elseif( empty($list->posts_args['post__not_in']) ){
-					$list->posts_args['post__not_in'] = array( get_the_ID() );
+
+				if( isset($list->options['child_of_self']) && 'yes' == $list->options['child_of_self'] ){
+					if( !isset($list->posts_args['post_parent__in']) || empty($list->posts_args['post_parent__in']) ){
+						$list->posts_args['post_parent__in'] = array( get_the_ID() );
+					}
+					elseif( is_array($list->posts_args['post_parent__in']) ){
+						$list->posts_args['post_parent__in'][] = get_the_ID();
+					}
 				}
 			}
 
