@@ -401,7 +401,7 @@ class W4_Post_list
 
 		if( in_array( $nav_type, array('plain', 'list') ) ){
 			$big = 10;
-			$return = paginate_links( array(
+			$pag_args = array(
 				'type' 		=> $nav_type,
 				'base' 		=> $base,
 				'format' 	=> $base,
@@ -411,7 +411,12 @@ class W4_Post_list
 				'mid_size' 	=> 2,
 				'prev_text' => $prev_text,
 				'next_text' => $next_text
-			));
+			);
+			if( is_multisite() ){
+				$pag_args['add_args'] = false;
+			}
+
+			$return = paginate_links( $pag_args );
 		}
 		else
 		{

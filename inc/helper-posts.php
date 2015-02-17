@@ -913,7 +913,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 			'name' 			=> 'w4pl[orderby]',
 			'label' 		=> __('Orderby', W4PL_TD),
 			'type' 			=> 'select',
-			'option' 		=> self::post_orderby_options($options['post_type']),
+			'option' 		=> self::post_orderby_options( $options['post_type'] ),
 			'input_after'	=> '<div id="orderby_meta_key_wrap">Meta key: <input name="w4pl[orderby_meta_key]" type="text" value="'
 				. (isset($options['orderby_meta_key']) ? esc_attr($options['orderby_meta_key']) : '') .'" /></div>'
 		);

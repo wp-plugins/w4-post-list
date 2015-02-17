@@ -1,10 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: W4 Post List\n"
-"POT-Creation-Date: 2015-01-29 20:30+0600\n"
-"PO-Revision-Date: 2015-02-03 17:31+0600\n"
+"POT-Creation-Date: 2015-02-17 07:38+0600\n"
+"PO-Revision-Date: 2015-02-17 07:39+0600\n"
 "Last-Translator: Shazzad Hossain <sajib1223@gmail.com>\n"
 "Language-Team: \n"
+"Language: sr_RS\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +13,6 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n:1,2\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"Language: sr_RS\n"
 "X-Poedit-SearchPath-0: D:\\server\\www\\envato\\wp-content\\plugins\\w4-post-"
 "list\n"
 
@@ -262,6 +262,7 @@ msgid "Users + Posts"
 msgstr "Korisnici + Postovi"
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/core.php:802
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/core.php:840
 msgid "None"
 msgstr "Nijedan"
 
@@ -327,12 +328,17 @@ msgid "Meta numeric value"
 msgstr "Meta numerička vrednost"
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/core.php:838
+msgid "Comment Count"
+msgstr "Broj komentara"
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/core.php:839
 msgid "Random"
 msgstr "Nasumičan"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/core.php:842
-msgid "Comment Count"
-msgstr "Broj komentara"
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/core.php:841
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:859
+msgid "Include posts"
+msgstr "Obuhvati postove"
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-no-items.php:40
 msgid "displayed when no items found by this filter or pagination"
@@ -385,113 +391,177 @@ msgstr "ILI"
 msgid "AND"
 msgstr "I"
 
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:35
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:40
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:45
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:50
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:55
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:60
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:65
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:73
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:78
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:84
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:94
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:102
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:110
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:118
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:126
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:133
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:138
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:143
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:149
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:157
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:164
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:170
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:185
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:200
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:211
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:220
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:232
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:239
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:247
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:252
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:257
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:262
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:267
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:272
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:277
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:282
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:288
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:296
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:301
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:306
+msgid "Output"
+msgstr ""
+
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:687
-msgid "Posted on:"
-msgstr "Postavljen na:"
+msgid "Posted on"
+msgstr "Postavljen na"
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:687
+msgid "by"
+msgstr ""
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:695
-msgid " Published:"
-msgstr "Objavljen:"
+msgid "Published"
+msgstr "Objavljen"
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:702
-msgid "Updated:"
-msgstr "Ažuriran:"
+msgid "Updated"
+msgstr "Ažuriran"
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:727
 msgid "Continue reading &raquo;"
 msgstr "Nastavi čitanje &raquo;"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:808
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:811
 msgid "Post type"
 msgstr "Tip posta"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:821
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:824
 msgid "Post mime type"
 msgstr "Vrsta mime posta"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:832
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:835
 msgid "Post status"
 msgstr "Status posta"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:835
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:838
 msgid "Any"
 msgstr "Bilo koji"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:836
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:839
 msgid "Publish"
 msgstr "Objavi"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:837
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:840
 msgid "Pending"
 msgstr "Na čekanju"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:838
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:841
 msgid "Future"
 msgstr "Budući"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:839
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:842
 msgid "Inherit"
 msgstr "Nasledi"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:847
-msgid "Search posts"
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:850
+#, fuzzy
+msgid "Search keywords"
 msgstr "Pretraži postove"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:856
-msgid "Include posts"
-msgstr "Obuhvati postove"
-
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:865
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:868
 msgid "Exclude posts"
 msgstr "Izuzmi postove"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:874
-msgid "Exclude self"
-msgstr "Izuzmi sebe"
-
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:882
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:877
 msgid "Post parent"
 msgstr "Nadređeni post"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:891
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:886
 msgid "Post author"
 msgstr "Autor posta"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:901
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:896
+msgid "Exclude self"
+msgstr "Izuzmi sebe"
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:904
+msgid "Child of self"
+msgstr ""
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:914
 msgid "Orderby"
 msgstr "Poređaj prema"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:911
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:924
 msgid "Order"
 msgstr "Redosled"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:921
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:934
 msgid "Maximum items"
 msgstr "Maksimalno stavki"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:932
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:945
 msgid "Offset"
 msgstr "Offset"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:940
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:953
 msgid "Items per page"
 msgstr "Stavki po stranici"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:954
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:967
 msgid "Group by"
 msgstr "Grupiši po"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:966
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:979
 msgid "Group by Date"
 msgstr "Grupiši po datumu"
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:978
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:991
 msgid "Group by \"Custom field\" name"
 msgstr "Grupiši po nazivu \"Prilagođenog polja\"  "
 
-#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:987
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-posts.php:1000
 msgid "Group Order"
 msgstr "Redosled grupe"
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-style.php:33
+msgid "Style"
+msgstr ""
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-style.php:40
+msgid "CSS"
+msgstr ""
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-style.php:51
+msgid "JavaScript"
+msgstr ""
+
+#: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-style.php:61
+msgid "HTML class name"
+msgstr ""
 
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/helper-terms.php:326
 msgid "Slug"
@@ -544,3 +614,7 @@ msgstr "Naslov:"
 #: D:\server\www\envato\wp-content\plugins\w4-post-list/inc/widget.php:55
 msgid "Select list:"
 msgstr "Odaberi listu:"
+
+#, fuzzy
+#~ msgid "\"Include posts\""
+#~ msgstr "Obuhvati postove"

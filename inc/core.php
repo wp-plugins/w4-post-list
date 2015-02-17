@@ -546,7 +546,7 @@ class W4PL_Core
 		<style>
 /* W4 Post List - Admin List Template CSS */
 #titlediv{margin-bottom:30px;}
-#w4pl_list_options{ position:relative; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:normal;}
+#w4pl_list_options{ position:relative; font-size:13px; line-height:normal;}
 table.widefat{ background-color:#FFF; box-shadow:0 1px 1px rgba(0, 0, 0, 0.04); border:1px solid #e5e5e5; border-spacing:0px; width:100%; clear:both;}
 table.widefat th{font-size:11px; padding:8px 10px; font-weight:400;}
 table.widefat td{font-size:11px; padding:8px 10px;}
@@ -835,11 +835,11 @@ body.rtl .wffewi_w4pl_css, .wffewi_w4pl_js{ margin-right:0 !important;}
 			'menu_order'		=> __( 'Menu Order', 			W4PL_TD),
 			'meta_value'		=> __( 'Meta value', 			W4PL_TD),
 			'meta_value_num'	=> __( 'Meta numeric value', 	W4PL_TD),
+			'comment_count'		=> __( 'Comment Count', 		W4PL_TD),
 			'rand'				=> __( 'Random', 				W4PL_TD),
+			'none'				=> __( 'None', 					W4PL_TD),
+			'post__in'			=> __( 'Include posts', 	W4PL_TD),
 		);
-
-		# if( post_type_supports($post_type, 'comments') )
-		$return['comment_count'] = __( 'Comment Count',W4PL_TD);
 
 		return $return;
 	}

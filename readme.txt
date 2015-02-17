@@ -121,9 +121,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 2.0.1 =
+* New: Order posts by provided post ids
+* Fix: Multisite pagination issue fixed (https://wordpress.org/support/topic/nav-typeplain-not-working-in-multisite)
+
 = 2.0 =
 * New: Display child post associated with current post
-
 = 1.9.9.9 =
 * New: Serbian Language
 = 1.9.9.8 =
@@ -300,9 +303,12 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 2.0.1 =
+* New: Order posts by provided post ids
+* Fix: Multisite pagination issue fixed (https://wordpress.org/support/topic/nav-typeplain-not-working-in-multisite)
+
 = 2.0 =
 * New: Display child post associated with current post
-
 = 1.9.9.9 =
 * New: Serbian Language
 = 1.9.9.8 =

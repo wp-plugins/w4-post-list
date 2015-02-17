@@ -33,16 +33,8 @@ class W4PL_Helper_Style extends W4PL_Core
 				<div class="w4pl_group_title">'. __('Style', W4PL_TD) .'</div>
 				<div class="w4pl_group_fields">'
 		);
-		$fields['class'] = array(
-			'position'		=> '170',
-			'option_name' 	=> 'class',
-			'name' 			=> 'w4pl[class]',
-			'label' 		=> __('HTML class name', W4PL_TD),
-			'type' 			=> 'text',
-			'input_class' 	=> 'widefat'
-		);
 		$fields['css'] = array(
-			'position'		=> '172',
+			'position'		=> '170',
 			'option_name' 	=> 'css',
 			'name' 			=> 'w4pl[css]',
 			'label' 		=> __('CSS', W4PL_TD),
@@ -53,7 +45,7 @@ class W4PL_Helper_Style extends W4PL_Core
 								<br />use <code>#w4pl-list-[listid]</code>, where you can port the style from one list to another by just copying'
 		);
 		$fields['js'] = array(
-			'position'		=> '174',
+			'position'		=> '172',
 			'option_name' 	=> 'js',
 			'name' 			=> 'w4pl[js]',
 			'label' 		=> __('JavaScript', W4PL_TD),
@@ -61,6 +53,15 @@ class W4PL_Helper_Style extends W4PL_Core
 			'input_class' 	=> 'widefat',
 			'desc2' 		=> 'javascript loads right after template ends. don\'t use <code>&lt;script&gt;</code> tag',
 			'after'			=> '</div><!--.w4pl_group_fields--></div><!--#w4pl_field_group_style-->'
+		);
+		$fields['class'] = array(
+			'position'		=> '174',
+			'option_name' 	=> 'class',
+			'name' 			=> 'w4pl[class]',
+			'label' 		=> __('HTML class name', W4PL_TD),
+			'type' 			=> 'text',
+			'desc' 			=> 'applied on the wrapper html DIV tag',
+			'input_class' 	=> 'widefat'
 		);
 		$fields['after_field_group_style'] = array(
 			'position'		=> '175',
