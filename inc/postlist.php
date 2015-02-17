@@ -164,10 +164,9 @@ class W4_Post_list
 						$terms_template_clone = str_replace( $posts_match['0'], $term_posts_loop, $terms_template_clone );
 					}
 	
-	
 					$terms_loop .= preg_replace_callback( "/$pattern/s", array(&$this, 'do_shortcode_tag'), $terms_template_clone );
 				}
-	
+
 				// replace [terms]
 				$template = str_replace( $terms_match[0], $terms_loop, $template );
 			}
@@ -181,7 +180,7 @@ class W4_Post_list
 				else
 					$max_num_pages = $this->terms_query->max_num_pages;
 
-				$navigation = $this->navigation( $max_num_pages, $paged, '?page'. $this->id .'=%#%', shortcode_parse_atts($nav_match[1]) );
+				$navigation = $this->navigation( $max_num_pages, $paged, shortcode_parse_atts($nav_match[1]) );
 				$template = str_replace( $nav_match[0], $navigation, $template );
 			}
 		}
@@ -260,7 +259,7 @@ class W4_Post_list
 				else
 					$max_num_pages = $this->users_query->max_num_pages;
 
-				$navigation = $this->navigation( $max_num_pages, $paged, '?page'. $this->id .'=%#%', shortcode_parse_atts($nav_match[1]) );
+				$navigation = $this->navigation( $max_num_pages, $paged, shortcode_parse_atts($nav_match[1]) );
 				$template = str_replace( $nav_match[0], $navigation, $template );
 			}
 		}
@@ -352,7 +351,7 @@ class W4_Post_list
 				else
 					$max_num_pages = $this->posts_query->max_num_pages;
 
-				$navigation = $this->navigation( $max_num_pages, $paged, '?page'. $this->id .'=%#%', shortcode_parse_atts($nav_match[1]) );
+				$navigation = $this->navigation( $max_num_pages, $paged, shortcode_parse_atts($nav_match[1]) );
 				$template = str_replace( $nav_match[0], $navigation, $template );
 			}
 		} // end posts
@@ -383,54 +382,62 @@ class W4_Post_list
 
 	 * @param int $max_num_pages Maximum number of navigation pages
 	 * @param int $paged Current page
-	 * @param string $base Base url to build the page links
 	 * @param array $attr Mixed attributes
 	 * @return string The navigation HTML
 	**/
 
-	function navigation( $max_num_pages, $paged = 1, $base = '', $attr = array() )
+	function navigation( $max_num_pages, $paged = 1, $attr = array() )
 	{
-		$pageq_var = 'page'. $this->id;
-		$use_ajax = isset($attr['ajax']) ? (bool) $attr['ajax'] : false;
 		$nav_type = isset($attr['type']) ? $attr['type'] : '';
-
 		$prev_text = isset($attr['prev_text']) && !empty($attr['prev_text']) ? $attr['prev_text'] : __('Previous');
 		$next_text = isset($attr['next_text']) && !empty($attr['next_text']) ? $attr['next_text'] : __('Next');
 
 		$return = '';
 
-		if( in_array( $nav_type, array('plain', 'list') ) ){
+
+		$paged_qp = 'page'. $this->id; // the query parameter for pagination
+		$base = remove_query_arg($paged_qp, get_pagenum_link()) . '%_%'; // remove current lists query parameter from base, other lists qr will be kept
+		// if base already have a query parameter, use &.
+		if( strpos($base, '?' ) )
+		{ $format = '&'. $paged_qp . '=%#%'; }
+		else
+		{ $format = '?'. $paged_qp . '=%#%'; }
+
+
+		if( in_array( $nav_type, array('plain', 'list') ) )
+		{
 			$big = 10;
 			$pag_args = array(
 				'type' 		=> $nav_type,
 				'base' 		=> $base,
-				'format' 	=> $base,
+				'format' 	=> $format,
 				'current' 	=> $paged,
 				'total' 	=> $max_num_pages,
 				'end_size' 	=> 2,
 				'mid_size' 	=> 2,
 				'prev_text' => $prev_text,
-				'next_text' => $next_text
+				'next_text' => $next_text,
+				'add_args'	=> false // stop wp to add query arguments
 			);
-			if( is_multisite() ){
-				$pag_args['add_args'] = false;
-			}
 
 			$return = paginate_links( $pag_args );
 		}
+
+		// default navigation
 		else
 		{
 			if( $paged == 2 )
-				$return .= '<a href="'. remove_query_arg( array($pageq_var) ) .'" class="prev page-numbers prev_text">'. $prev_text . '</a>';
+				$return .= '<a href="'. remove_query_arg( $paged_qp ) .'" class="prev page-numbers prev_text">'. $prev_text . '</a>';
 			elseif( $paged > 2 )
-				$return .= '<a href="'. add_query_arg( $pageq_var, ($paged - 1) ) .'" class="prev page-numbers prev_text">'. $prev_text . '</a>';
+				$return .= '<a href="'. add_query_arg( $paged_qp, ($paged - 1) ) .'" class="prev page-numbers prev_text">'. $prev_text . '</a>';
 			if( $max_num_pages > $paged )
-				$return .= '<a href="'. add_query_arg( $pageq_var, ($paged + 1) ) .'" class="next page-numbers next_text">'. $next_text . '</a>';
+				$return .= '<a href="'. add_query_arg( $paged_qp, ($paged + 1) ) .'" class="next page-numbers next_text">'. $next_text . '</a>';
 		}
 
 		if( !empty($return) )
 		{
 			$class = 'navigation';
+			$use_ajax = isset($attr['ajax']) ? (bool) $attr['ajax'] : false;
 			if( $use_ajax )
 			{
 				$class .= ' ajax-navigation';
@@ -441,7 +448,7 @@ class W4_Post_list
 
 			$return = '<div class="'. $class .'">'. $return . '</div>';
 		}
-
+		
 		return $return;
 	}
 

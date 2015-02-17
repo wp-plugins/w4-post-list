@@ -160,7 +160,7 @@ class W4PL_Lists_Admin extends W4PL_Core
 		$columns['shortcode'] = __('Shortcode');
 
 		if( $date ){
-			# $columns['date'] = $date;
+			$columns['date'] = $date;
 		}
 
 		return $columns;

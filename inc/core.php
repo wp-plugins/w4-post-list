@@ -135,7 +135,7 @@ class W4PL_Core
 			),
 			'nav' => array(
 				'group' => 'Main', 
-				'code' => '[nav ajax="0" prev_text="" next_text=""]', 
+				'code' => '[nav type="plain" ajax="1" prev_text="" next_text=""]', 
 				'desc' => '<strong>return</strong> pagination for the list
             <br><br><strong>Attributes</strong>:
             <br><strong>type</strong> = (text) allowed values  - plain, list, nav
