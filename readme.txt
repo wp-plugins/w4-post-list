@@ -121,9 +121,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
+= 2.0.3 =
+* New: Meta Query with dynamic DATE value (https://wordpress.org/support/topic/meta-query-need-help-with-dynamic-value)
+
 = 2.0.2 =
 * Fix: Finally the pagination issue is fixed.
-
 = 2.0.1 =
 * New: Order posts by provided post ids
 * Fix: Multisite pagination issue fixed (https://wordpress.org/support/topic/nav-typeplain-not-working-in-multisite)

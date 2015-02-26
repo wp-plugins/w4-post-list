@@ -273,6 +273,7 @@ class W4_Post_list
 			// do query posts
 			$this->posts_query = new WP_Query( $this->posts_args );
 
+			# echo '<pre>'; print_r($this->posts_query); echo '</pre>';
 
 			// if using groups
 			if( isset($this->options['groupby']) && !empty($this->options['groupby']) && !empty($groups_template) ) :
