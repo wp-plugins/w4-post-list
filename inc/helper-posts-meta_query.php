@@ -327,6 +327,7 @@ class W4PL_Helper_Meta_Query extends W4PL_Core
 				$value = isset($obj->options['meta_query']['value'][$index]) ? $obj->options['meta_query']['value'][$index] : '';
 				$compare = isset($obj->options['meta_query']['compare'][$index]) ? $obj->options['meta_query']['compare'][$index] : '';
 
+				// parse shortcode from meta values, this allows to use dynamic values
 				if( is_array($value) ){
 					$value = array_map('do_shortcode', $value);
 				}

@@ -211,7 +211,8 @@ class W4PL_Helper_Posts extends W4PL_Core
 				'desc' 		=> '<strong>'. __('Output', W4PL_TD) .'</strong>: post type terms. if return value is an array, it will be migrated to string by using explode function
 				<br /><br /><strong>Attributes:</strong>
 				<br /><strong>tax</strong> = (string), taxonomy name
-				<br /><strong>sep</strong> = (string), separate array meta value into string'
+				<br /><strong>sep</strong> = (string), separate array meta value into string
+				<br /><strong>return</strong> = (name|slug), return plain name or slug'
 			),
 			'attachment_thumbnail' => array(
 				'group' 	=> 'Post', 
@@ -595,7 +596,18 @@ class W4PL_Helper_Posts extends W4PL_Core
 			$sep = $attr['sep'];
 		}
 
-		return get_the_term_list( get_the_ID(), $taxonomy, '', $sep );
+		// New code
+		if( isset($attr['return']) && in_array($attr['return'], array('name', 'slug') ) )
+		{
+			$terms = get_the_terms( get_the_ID(), $taxonomy );
+			$names = wp_list_pluck( $terms, $attr['return'] );
+
+			return implode( $sep, $names );
+		}
+		else
+		{
+			return get_the_term_list( get_the_ID(), $taxonomy, '', $sep );
+		}
 	}
 
 
