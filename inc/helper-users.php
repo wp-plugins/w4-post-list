@@ -64,12 +64,19 @@ class W4PL_Helper_Users extends W4PL_Core
 			'user_meta' => array(
 				'group' 	=> 'User', 
 				'code' 		=> '[user_meta key="" multiple="0"]', 
-				'callback' 	=> array('W4PL_Helper_Users', 'post_meta'),
+				'callback' 	=> array('W4PL_Helper_Users', 'user_meta'),
 				'desc' 		=> '<strong>Output</strong>: user meta value. if return value is an array, it will be migrated to string by using explode function
 				<br /><br /><strong>Attributes:</strong>
 				<br /><strong>key</strong> = (text|number), meta key name
 				<br /><strong>multiple</strong> = (0|1), display meta value at multiple occurence
 				<br /><strong>sep</strong> = (text), separate array meta value into string'
+			),
+			'user_avatar' => array(
+				'group' 	=> 'User', 
+				'callback' 	=> array('W4PL_Helper_Users', 'user_avatar'),
+				'desc' 		=> '<strong>Output</strong>: user avatar
+				<br /><br /><strong>Attributes:</strong>
+				<br /><strong>size</strong> = (number), avatar image size, ex: 32, 64, 128'
 			)
 		);
 
@@ -143,6 +150,11 @@ class W4PL_Helper_Users extends W4PL_Core
 		return $return;
 	}
 
+	public static function user_avatar( $attr, $cont, $list )
+	{
+		$size = isset($attr['size']) ? $attr['size'] : '96';
+		return get_avatar( $list->current_user->ID, $size );
+	}
 
 
 	/* Option Page Fields */

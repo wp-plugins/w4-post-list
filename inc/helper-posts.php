@@ -225,7 +225,12 @@ class W4PL_Helper_Posts extends W4PL_Core
 				<br /><strong>size</strong> = (string), image size
 				<br /><strong>class</strong> = (string), class name for the image (&lt;img /&gt;) tag
 				<br /><strong>width</strong> = (number), image width
-				<br /><strong>height</strong> = (number), image height'
+				<br /><strong>height</strong> = (number), image height
+				<br /><strong>return</strong> = (text|number), 
+				<br />----"src" - will return src of the attachment, 
+				<br />----"id" - will return id of the attachment, 
+				<br />----by default it will return image html
+				'
 			),
 			'attachment_url' => array(
 				'group' 	=> 'Post', 
@@ -648,10 +653,25 @@ class W4PL_Helper_Posts extends W4PL_Core
 		if( 'attachment' != get_post_type($attachment_id) )
 		{ return ''; }
 
-		$icon = false;
-		if( ! wp_attachment_is_image($attachment_id) )
-		{ $icon = true; }
 
+		// if attachment is an image, then we have something more to return
+		if( wp_attachment_is_image($attachment_id) )
+		{
+			if( isset($attr['return']) && 'id' == $attr['return'] )
+			{ return $attachment_id; }
+	
+			elseif( isset($attr['return']) && 'src' == $attr['return'] )
+			{
+				$img = wp_get_attachment_image_src( $attachment_id, $size );
+				return isset($img[0]) ? $img[0] : '';
+			}
+			elseif ( $attachment_id )
+			{ return wp_get_attachment_image( $attachment_id, $size, false, $attr ); }
+
+			return '';
+		}
+
+		$icon = true;
 		if ( $attachment_id )
 		{ $html = wp_get_attachment_image( $attachment_id, $size, $icon, $attr ); } 
 		else
