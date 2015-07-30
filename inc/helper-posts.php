@@ -780,7 +780,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 	{
 		return isset($list->current_group) ? $list->current_group['title'] : '';
 	}
-	public static function post_group_link( $attr, $cont, $list )
+	public static function post_group_url( $attr, $cont, $list )
 	{
 		return isset($list->current_group) ? $list->current_group['url'] : '';
 	}
