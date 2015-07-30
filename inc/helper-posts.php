@@ -5,7 +5,6 @@
  * @url http://w4dev.com/plugins/w4-post-list
 **/
 
-
 class W4PL_Helper_Posts extends W4PL_Core
 {
 	function __construct()
@@ -174,9 +173,10 @@ class W4PL_Helper_Posts extends W4PL_Core
 				<br />----"id" - will return id of the image, 
 				<br />----by default it will return image html
 				<br /><strong>class</strong> = (string), class name for the image (&lt;img /&gt;) tag
-				<br /><strong>size</strong> = (string), post_thumbnail size
-				<br /><strong>width</strong> = (number), post_thumbnail width
-				<br /><strong>height</strong> = (number), post_thumbnail height'
+				<br /><strong>size</strong> = (string), thumbnail size
+				<br /><strong>width</strong> = (number), thumbnail width
+				<br /><strong>height</strong> = (number), thumbnail height
+				<br /><strong>placeholder</strong> = (text), default placeholder text if post thumbnail no found'
 			),
 			'post_image' => array(
 				'group' 	=> 'Post', 
@@ -470,7 +470,13 @@ class W4PL_Helper_Posts extends W4PL_Core
 			return isset($img[0]) ? $img[0] : '';
 		}
 		elseif ( $post_thumbnail_id )
-		{ return wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr ); }
+		{
+			return wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
+		}
+		elseif ( !empty($attr['placeholder']) )
+		{
+			return $attr['placeholder'];
+		}
 
 		return '';
 	}

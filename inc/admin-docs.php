@@ -49,11 +49,13 @@ class W4PL_Admin_Page_Docs
 		#wpbody h2 + pre{ margin-top:0;}
 		hr{ margin:20px 0!important;}
 		#poststuff h3{ border-bottom:1px solid #DDD;}
+		#wpbody .about-text code{ font-size:19px;}
         </style>
 
 		<div class="wrap about-wrap">
 		<h1><strong>W4 Post List Docs</strong> - (<?php _e('Version', W4PL_TD); ?>: <strong><?php echo W4PL_VERSION; ?></strong>)</h1>
-		<div class="about-text"><?php _e('This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & HTML', W4PL_TD); ?></div>
+		<!--<div class="about-text"><?php _e('This plugin lets you create a list of Posts (including pages & custom post type), Terms (category, tag & custom taxonomy) or Terms + Posts Combo template. Outputs are completely customizable using Shortcode & HTML', W4PL_TD); ?></div>-->
+        <div class="about-text">As like id (<code>[postlist id=1]</code>), a list can also be called using slug or title.<br /><strong>Ex</strong>: <code>[postlist slug='my-list']</code>, <code>[postlist Title='My List']</code></div>
 		<div class="has-right-sidebar"><div id="poststuff">
 
 		<div class="inner-sidebar" id="side-info-column">

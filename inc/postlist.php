@@ -96,8 +96,6 @@ class W4_Post_list
 		do_action_ref_array( 'w4pl/parse_query_args', array( &$this ) );
 
 
-
-
 		$paged = isset($_REQUEST['page'. $this->id]) ? $_REQUEST['page'. $this->id] : 1;
 
 
@@ -139,10 +137,10 @@ class W4_Post_list
 							)
 						);
 						$this->posts_query = new WP_Query( $this->posts_args );
-	
+
 						#echo '<pre>'; print_r($this->posts_args); echo '</pre>';
-	
-	
+
+
 						// post loop
 						if( $this->posts_query->have_posts() )
 						{

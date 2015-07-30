@@ -149,7 +149,6 @@ class W4PL_Core
 	}
 
 
-
 	/*
 	 * Display List Using Shortcode
 	 * @param (array)
@@ -163,6 +162,22 @@ class W4PL_Core
 		elseif( isset($attr['id']) ){
 			$options = get_post_meta( $attr['id'], '_w4pl', true );
 			$options['id'] = $attr['id'];
+		}
+		elseif( isset($attr['slug']) ){
+			global $wpdb;
+			$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_name = %s AND post_type = %s", $attr['slug'], W4PL_SLUG ));
+			if( $post ){
+				$options = get_post_meta( $post->ID, '_w4pl', true );
+				$options['id'] = $post->ID;
+			}
+		}
+		elseif( isset($attr['title']) ){
+			global $wpdb;
+			$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_title = %s AND post_type = %s", $attr['title'], W4PL_SLUG ));
+			if( $post ){
+				$options = get_post_meta( $post->ID, '_w4pl', true );
+				$options['id'] = $post->ID;
+			}
 		}
 		else{
 			if( !is_array($attr) )
@@ -378,10 +393,10 @@ class W4PL_Core
 
 	public static function list_options_template_ajax()
 	{
-		// parsing from tinymce input
-		if( isset($_POST['selection']) )
+		// if any selection data is passed, we will try to parse the data to get a list
+		if( isset($_POST['selection']) && !empty($_POST['selection']) )
 		{
-			$selection = isset($_POST['selection']) ? stripslashes($_POST['selection']) : '';
+			$selection = wp_unslash( $_POST['selection'] );
 			if( preg_match( "/\[postlist options=[\"\'](.*?)[\"\']/sm", $selection, $selection_match) )
 			{
 				$options = maybe_unserialize( base64_decode( str_replace( ' ', '', $selection_match['1']) ) );
@@ -393,23 +408,48 @@ class W4PL_Core
 					do_action( 'w4pl/list_options_template', $options );
 				}
 			}
-			elseif( preg_match( "/\[postlist id=[\"\'](.*?)[\"\']/sm", $selection, $selection_match) )
+			elseif( preg_match( "/\[postlist (id|title|slug)=[\"\'](.*?)[\"\']/sm", $selection, $selection_match) )
 			{
-				$list_id = preg_replace('/[^0-9]/', '', $selection_match['1']);
-				if( $list_id ){
+				if( 'id' == $selection_match['1'] ){
+					$list_id = preg_replace( '/[^0-9]/', '', $selection_match['2'] );
+				}
+				elseif( 'slug' == $selection_match['1'] )
+				{
+					global $wpdb;
+					$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_name = %s AND post_type = %s", trim($selection_match['2']), W4PL_SLUG ));
+					if( $post ){
+						$list_id = $post->ID;
+					}
+				}
+				elseif( 'title' == $selection_match['1'] )
+				{
+					global $wpdb;
+					$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_title = %s AND post_type = %s", trim($selection_match['2']), W4PL_SLUG ));
+					if( $post ){
+						$list_id = $post->ID;
+					}
+				}
+
+				if( $list_id )
+				{
 					$options = get_post_meta( $list_id, '_w4pl', true );
 					$options['id'] = $list_id;
+
 					$options = apply_filters( 'w4pl/pre_get_options', $options );
+
 					do_action( 'w4pl/list_options_template', $options );
 				}
 			}
+
 			elseif( preg_match( "/\[postlist (.*?)]/sm", $selection, $selection_match) )
 			{
 				$list_id = preg_replace('/[^0-9]/', '', $selection_match['1']);
 				if( $list_id ){
 					$options = get_post_meta( $list_id, '_w4pl', true );
 					$options['id'] = $list_id;
+
 					$options = apply_filters( 'w4pl/pre_get_options', $options );
+
 					do_action( 'w4pl/list_options_template', $options );
 				}
 			}
@@ -496,7 +536,6 @@ class W4PL_Core
 		if( empty($options) )
 			die('');
 
-
 		// if a list exists, we save the data and return the short with id
 		if( is_numeric($options['id']) && get_post($options['id']) )
 		{
@@ -505,7 +544,8 @@ class W4PL_Core
 			// update into post meta
 			update_post_meta( $options['id'], '_w4pl', $options );
 
-			printf( '[postlist id="%d"]', $options['id']);
+			// the parsed shortcode doesn't need to be updated if we have found the list id, as user might have used slug/title as the [postlist] parameter.
+			# printf( '[postlist id="%d"]', $options['id']);
 		}
 
 		else

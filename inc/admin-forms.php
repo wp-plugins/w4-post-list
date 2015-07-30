@@ -273,7 +273,7 @@ function w4pl_form_field_html( $args = array()){
 				}
 
 				$html .= $before;
-				$html .= sprintf( '<label><input id="%1$s_%2$s" name="%3$s[]" value="%2$s" type="checkbox"%4$s /> %5$s</label>', $id, $k, $name, $sel, $l );
+				$html .= sprintf( '<label><input id="%1$s_%2$s" name="%3$s[]" value="%2$s" type="checkbox"%4$s class="%6$s" /> %5$s</label>', $id, $k, $name, $sel, $l, $input_class );
 			}
 		}
 

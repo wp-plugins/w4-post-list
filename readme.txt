@@ -125,6 +125,11 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 * New: Use shortcode [user_avatar] to display users avatar.
 * Fix: User meta wasn't working at all earlier, just made it to work.
 
+= 2.0.6 =
+* New: Now shortcode can be used with list slug (post_name) or list title (post_title). [postlist slug="a-slug"]
+* New: Shortcode [post_thumbnail] has new attribute to allow placeholder image if thumbnail wasn't set for a post.
+= 2.0.5 =
+* Fix: User meta wasn't working at all earlier, just made it to work.
 = 2.0.4 =
 * New: Display Post term names or slugs in plain text mode rather than link (https://wordpress.org/support/topic/feature-request-289)
 = 2.0.3 =
@@ -312,6 +317,9 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 
 
 == Upgrade Notice ==
+= 2.0.6 =
+* New: Now shortcode can be used with list slug (post_name) or list title (post_title). [postlist slug="a-slug"]
+* New: Shortcode [post_thumbnail] has new attribute to allow placeholder image if thumbnail wasn't set for a post.
 = 2.0.5 =
 * Fix: User meta wasn't working at all earlier, just made it to work.
 = 2.0.2 =

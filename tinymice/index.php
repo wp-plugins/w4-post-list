@@ -83,7 +83,9 @@ if ( win && win.tinymce && win.tinymce.isMac ) {
 
 			$.post( ajaxurl, data, function(r){
 				if( typeof(tinyMCEPopup) === 'object' ){
-					tinyMCEPopup.execCommand( 'mceReplaceContent', false, r );
+					if( '' != r ){
+						tinyMCEPopup.execCommand( 'mceReplaceContent', false, r );
+					}
 					tinyMCEPopup.close();
 				}
 				else{
