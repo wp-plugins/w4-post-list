@@ -1,24 +1,26 @@
 <?php
 /**
+ * Widget Registration
  * @package WordPress
  * @subpackage W4 Post List
  * @author Shazzad Hossain Khan
  * @url http://w4dev.com/plugins/w4-post-list
+ * @since 1.0
 **/
 
 
 class W4PL_Widget extends WP_Widget
 {
-	function W4PL_Widget()
+	function __construct()
 	{
 		$widget_ops = array(
 			'classname' 	=> 'w4_post_list_widget',
-			'description' 	=> __( 'List your posts completely customized', W4PL_TD )
+			'description' 	=> __( 'Display lists created with W4 Post List', W4PL_TD )
 		);
 		$control_ops = array( 'width' => 200, 'height' => 400);
-		$this->WP_Widget( 'w4_post_list', 'W4 Post List', $widget_ops, $control_ops );
-		$this->alt_option_name = 'w4_post_list';
+		parent::__construct( 'w4_post_list', 'W4 Post List', $widget_ops, $control_ops );
 	}
+
 	function widget( $args, $instance)
 	{
 		extract( $args);

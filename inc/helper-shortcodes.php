@@ -1,6 +1,6 @@
 <?php
 /**
- * Static Shortcodes for parsing dynamic attributes
+ * Static Shortcodes for generating dynamic comparison values
  * @package WordPress
  * @subpackage W4 Post List
  * @author Shazzad Hossain Khan

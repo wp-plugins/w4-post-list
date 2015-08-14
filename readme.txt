@@ -1,8 +1,8 @@
 === W4 Post List ===
 Contributors: sajib1223
 Tags: post, post list, custom post list, custom post type, widget, shortcode, media
-Requires at least: 3.0
-Tested up to: 4.0.1
+Requires at least: 4.0
+Tested up to: 4.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,14 +121,13 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 3. Preview 2
 
 == Changelog ==
-= 2.0.5 =
-* New: Use shortcode [user_avatar] to display users avatar.
-* Fix: User meta wasn't working at all earlier, just made it to work.
-
+= 2.0.7 =
+* Fixes: PHP5 compatibility
 = 2.0.6 =
 * New: Now shortcode can be used with list slug (post_name) or list title (post_title). [postlist slug="a-slug"]
 * New: Shortcode [post_thumbnail] has new attribute to allow placeholder image if thumbnail wasn't set for a post.
 = 2.0.5 =
+* New: Use shortcode [user_avatar] to display users avatar.
 * Fix: User meta wasn't working at all earlier, just made it to work.
 = 2.0.4 =
 * New: Display Post term names or slugs in plain text mode rather than link (https://wordpress.org/support/topic/feature-request-289)
