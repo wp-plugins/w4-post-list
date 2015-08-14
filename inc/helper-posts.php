@@ -66,6 +66,11 @@ class W4PL_Helper_Posts extends W4PL_Core
 				<br /><strong>wordlimit</strong> = (number), limit number of words to display
 				<br /><strong>charlimit</strong> = (number), limit number of characters to display'
 			),
+			'post_name' => array(
+				'group' 	=> 'Post', 
+				'callback' 	=> array('W4PL_Helper_Posts', 'post_name'),
+				'desc' 		=> '<strong>'. __('Output', W4PL_TD) .'</strong>: post name'
+			),
 			'post_comment_url' => array(
 				'group' 	=> 'Post', 
 				'callback' 	=> array('W4PL_Helper_Posts', 'post_comment_url'),
@@ -335,7 +340,7 @@ class W4PL_Helper_Posts extends W4PL_Core
 		}
 		return $return;
 	}
-
+	public static function post_name($attr, $cont){ global $post; return $post->post_name; }
 	public static function post_comment_url($attr, $cont){ return get_permalink() . "#comments"; }
 	public static function post_comment_count($attr, $cont){ global $post; return (int) $post->comment_count; }
 
