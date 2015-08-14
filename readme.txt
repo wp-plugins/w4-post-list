@@ -123,6 +123,7 @@ If you find this plugin useful, please add your <a href="http://wordpress.org/su
 == Changelog ==
 = 2.0.7 =
 * Fixes: PHP5 compatibility
+* New: Shortcode [post_name] - strange, it wasn't there already.
 = 2.0.6 =
 * New: Now shortcode can be used with list slug (post_name) or list title (post_title). [postlist slug="a-slug"]
 * New: Shortcode [post_thumbnail] has new attribute to allow placeholder image if thumbnail wasn't set for a post.
